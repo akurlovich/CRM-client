@@ -9,9 +9,10 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 // import navigationBarReducer from './reducers/NavigationBarReducer/NavigationBarSlice';
 
 // import cartReducer from "./reducers/CartReducer/CartSlice";
-// import colorsReducer from './reducers/ColorReducer/ColorSlice';
+import dimensionReducer from './reducers/DimensionReducer/DimensionSlice';
 
 const rootReducer = combineReducers({
+  dimensionReducer,
   // userReducer,
   // authReducer,
   // // bookReducer,

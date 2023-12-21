@@ -1,12 +1,30 @@
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { getAllDimensions } from "../../store/reducers/DimensionReducer/DimensionActionCreaters";
 import './home.scss';
 
-const Home: FC = () => {
+const HomeInner: FC = () => {
+  const { dimensionAll } = useAppSelector(state => state.dimensionReducer);
+  const dispatch = useAppDispatch();
+  const onclickbutton = () => {
+    console.log(dimensionAll)
+  }
+
+  useEffect(() => {
+    (async () => {
+      await dispatch(getAllDimensions());
+    })();
+ 
+  }, []);
+
   return (
     <main className="main__wrapper">
-      <div className="div">HI</div>
+      <button 
+        onClick={onclickbutton}
+        className="div">HI!!!!!!!!!!!!!!!!!
+      </button>
     </main>
   );
 };
 
-export default Home;
+export const Home = React.memo(HomeInner);
