@@ -1,6 +1,6 @@
 import React, { FC, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { getAllDimensions } from "../../store/reducers/DimensionReducer/DimensionActionCreaters";
+import { addDimension, getAllDimensions } from "../../store/reducers/DimensionReducer/DimensionActionCreaters";
 import './home.scss';
 
 const HomeInner: FC = () => {
@@ -8,6 +8,9 @@ const HomeInner: FC = () => {
   const dispatch = useAppDispatch();
   const onclickbutton = () => {
     console.log(dimensionAll)
+  }
+  const onclickbutton2 = () => {
+    // dispatch(addDimension('кг'))
   }
 
   useEffect(() => {
@@ -22,6 +25,10 @@ const HomeInner: FC = () => {
       <button 
         onClick={onclickbutton}
         className="div">HI!!!!!!!!!!!!!!!!!
+      </button>
+      <button 
+        onClick={onclickbutton2}
+        className="div">HHHHHHHHHHHI!!!!!!!!!!!!!!!!!
       </button>
     </main>
   );

@@ -6,7 +6,7 @@ interface IDimensionState {
   dimension: IDimension,
   dimensionAll: IDimension[],
   isLoading: boolean,
-  error: any,
+  error: string,
 };
 
 const initialState: IDimensionState = {
@@ -21,40 +21,32 @@ const dimensionSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(addDimension.pending, (state) => {
-      state.isLoading = true;
-    });
-    builder.addCase(addDimension.fulfilled, (state, action: PayloadAction<IDimension>) => {
-      state.isLoading = false;
-      state.dimension = action.payload;
-    });
-    builder.addCase(addDimension.rejected, (state, action) => {
-      state.isLoading = false;
-      state.error = action.payload;
-    });
-    builder.addCase(getAllDimensions.pending, (state) => {
-      state.isLoading = true;
-    });
-    builder.addCase(getAllDimensions.fulfilled, (state, action: PayloadAction<IDimension[]>) => {
-      state.isLoading = false;
-      state.dimensionAll = action.payload;
-    });
-    builder.addCase(getAllDimensions.rejected, (state, action) => {
-      state.isLoading = false;
-      console.log('action', action.payload)
-      state.error = action.payload;
-    });
+    builder
+      .addCase(addDimension.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(addDimension.fulfilled, (state, action: PayloadAction<IDimension>) => {
+        state.isLoading = false;
+        state.dimension = action.payload;
+      })
+      .addCase(addDimension.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload as string;
+      });
+    builder
+      .addCase(getAllDimensions.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getAllDimensions.fulfilled, (state, action: PayloadAction<IDimension[]>) => {
+        state.isLoading = false;
+        state.dimensionAll = action.payload;
+      })
+      .addCase(getAllDimensions.rejected, (state, action) => {
+        state.isLoading = false;
+        console.log('action', action)
+        state.error = action.payload as string;
+      });
   },
-})
-
-// export const dimensionSlice = createSlice({
-//   name: 'DIMENSION',
-//   initialState,
-//   reducers: {},
-//   extraReducers: {
-    
-    
-//   }
-// });
+});
 
 export default dimensionSlice.reducer;
