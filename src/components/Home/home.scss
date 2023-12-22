@@ -1,9 +1,10 @@
 .main {
+  background-image: url('../../assets/main-bg.png') ;
+  width: 100%;
+  flex: 1 1 auto;
 
   &__wrapper {
-    width: 100%;
-    flex: 1 1 auto;
     // height: 68vh;
-    background: rgba(255,255,255, 0.4);
+    // background: rgba(255,255,255, 0.4);
   }
 }

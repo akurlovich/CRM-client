@@ -21,15 +21,15 @@ const HomeInner: FC = () => {
   }, []);
 
   return (
-    <main className="main__wrapper">
-      <button 
+    <main className="main">
+      {/* <button 
         onClick={onclickbutton}
         className="div">HI!!!!!!!!!!!!!!!!!
       </button>
       <button 
         onClick={onclickbutton2}
         className="div">HHHHHHHHHHHI!!!!!!!!!!!!!!!!!
-      </button>
+      </button> */}
     </main>
   );
 };
