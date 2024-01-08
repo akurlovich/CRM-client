@@ -1,10 +1,13 @@
 .footer {
   width: 100%;
+  position: fixed;
+  left: 0px;
+  bottom: 0px;
 
   &__wrapper {
     display: flex;
-    background: url(../../assets/img/footer.png) center bottom no-repeat;
-    background-size: cover;
+    // background: url(../../assets/img/footer.png) center bottom no-repeat;
+    // background-size: cover;
     width: 100%;
     padding: 32px;
     flex-wrap: wrap;

@@ -49,10 +49,22 @@ const HomeInner: FC = () => {
       <div className="main__wrapper">
         <BaseBlock/>
         <BaseBlockSmall/>
+        {/* <BaseBlock/>
+        <BaseBlockSmall/>
+        <BaseBlock/>
+        <BaseBlockSmall/>
         <BaseBlock/>
         <BaseBlockSmall/>
         <BaseBlock/>
         <BaseBlockSmall/>
+        <BaseBlock/>
+        <BaseBlockSmall/>
+        <BaseBlock/>
+        <BaseBlockSmall/>
+        <BaseBlock/>
+        <BaseBlockSmall/>
+        <BaseBlock/>
+        <BaseBlockSmall/> */}
       </div>
       {/* <button 
         onClick={onclickbutton}
