@@ -14,7 +14,7 @@ export const Header: FC = () => {
         <nav className="header__nav">
           <ul>
             <li>Сотрудники</li>
-            <li>Клиенты</li>
+            <li className="active">Клиенты</li>
             <li>Дела</li>
             <li>Сделки</li>
             <li>Документы</li>

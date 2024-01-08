@@ -2,9 +2,57 @@
   background-image: url('../../assets/main-bg.png') ;
   width: 100%;
   flex: 1 1 auto;
+  padding: 12px 10px 38px 24px;
+
+  &__header {
+
+    &__title {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+
+      & > .avatar {
+        width: 48px;
+        height: 48px;
+        border-radius: 100%;
+        background-color: var(--avatar-main);
+        display: flex;
+        align-items: center;
+        text-align: center;
+        justify-content: center;
+        color: var(--icon-light);
+        // margin-right: 6px;
+      }
+
+      & > .title {
+        font-size: 32px;
+        font-weight: 300;
+        line-height: 1.4;
+
+      }
+
+      
+    }
+
+    &__links {
+      display: flex;
+      padding: 20px 0px;
+      gap: 30px;
+      color: var(--text-color-default);
+
+      & > .active {
+        color: var(--link-active);
+        border-bottom: 2px solid var(--link-active);
+        padding-bottom: 5px;
+      }
+    }
+  }
 
   &__wrapper {
     // height: 68vh;
     // background: rgba(255,255,255, 0.4);
+    display: flex;
+    flex-wrap: wrap;
   }
+
 }
