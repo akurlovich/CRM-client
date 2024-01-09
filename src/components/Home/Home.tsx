@@ -10,6 +10,7 @@ import { IoEllipsisVerticalOutline } from "@react-icons/all-files/io5/IoEllipsis
 import { BaseBlockNarrow } from "../BaseBlock/BaseBlockNarrow";
 import { BaseBlockSmall } from "../BaseBlock/BaseBlockSmall";
 import { BaseBlockContacts } from "../BaseBlock/BaseBlockContacts";
+import { Comments } from "../Comments/Comments";
 
 const HomeInner: FC = () => {
   const { dimensionAll } = useAppSelector(state => state.dimensionReducer);
@@ -49,11 +50,16 @@ const HomeInner: FC = () => {
         </div>
       </header>
       <div className="main__wrapper">
-        <BaseBlock/>
-        <BaseBlockNarrow/>
-        <BaseBlockSmall deal="Задачи"/>
-        <BaseBlockContacts/>
-        <BaseBlockSmall deal="Процесссы"/>
+        <div className="left">
+          <BaseBlock/>
+          <BaseBlockSmall deal="Задачи"/>
+          <BaseBlockSmall deal="Процесссы"/>
+          <Comments/>
+        </div>
+        <div className="right">
+          <BaseBlockNarrow/>
+          <BaseBlockContacts/>
+        </div>
         {/* <BaseBlock/>
         <BaseBlockSmall/>
         <BaseBlock/>

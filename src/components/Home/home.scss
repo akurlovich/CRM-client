@@ -54,6 +54,18 @@
     display: flex;
     flex-wrap: wrap;
     gap: 3px;
+    width: 100%;
+
+    & > .left {
+      max-width: 100%;
+      flex-basis: 60%;
+      flex-grow: 1;
+      flex-shrink: 0;
+    }
+
+    & > .right {
+      flex-basis: 34%;
+    }
   }
 
 }
