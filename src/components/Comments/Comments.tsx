@@ -9,7 +9,7 @@ const CommentsInner: FC = () => {
     <section className='baseblock'>
       <div className="comments">
         <div className="comments__inputblock">
-          <IoDocumentAttachOutline size={25}/>
+          <IoDocumentAttachOutline size={25} color={'#972f2f'}/>
           <input className="comments__input" type="text" value="" placeholder='Оставить комментарий'/>
           <IoSendSharp size={25} color={'#8598ff'}/>
         </div>
