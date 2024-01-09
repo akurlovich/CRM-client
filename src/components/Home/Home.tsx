@@ -7,7 +7,9 @@ import { IoNewspaper } from "@react-icons/all-files/io5/IoNewspaper";
 import { IoStarOutline } from "@react-icons/all-files/io5/IoStarOutline";
 import { IoPricetagOutline } from "@react-icons/all-files/io5/IoPricetagOutline";
 import { IoEllipsisVerticalOutline } from "@react-icons/all-files/io5/IoEllipsisVerticalOutline";
+import { BaseBlockNarrow } from "../BaseBlock/BaseBlockNarrow";
 import { BaseBlockSmall } from "../BaseBlock/BaseBlockSmall";
+import { BaseBlockContacts } from "../BaseBlock/BaseBlockContacts";
 
 const HomeInner: FC = () => {
   const { dimensionAll } = useAppSelector(state => state.dimensionReducer);
@@ -48,7 +50,10 @@ const HomeInner: FC = () => {
       </header>
       <div className="main__wrapper">
         <BaseBlock/>
-        <BaseBlockSmall/>
+        <BaseBlockNarrow/>
+        <BaseBlockSmall deal="Задачи"/>
+        <BaseBlockContacts/>
+        <BaseBlockSmall deal="Процесссы"/>
         {/* <BaseBlock/>
         <BaseBlockSmall/>
         <BaseBlock/>
