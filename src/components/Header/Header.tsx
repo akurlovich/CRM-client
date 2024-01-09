@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { NavLink } from "react-router-dom";
 import "./header.scss";
 
 export const Header: FC = () => {
@@ -12,13 +13,38 @@ export const Header: FC = () => {
           </div>
         </div>
         <nav className="header__nav">
-          <ul>
+          <NavLink
+            to='/'
+            className={({ isActive }) => isActive ? 'header__nav__item active' : 'header__nav__item'}>
+            Сотрудники
+          </NavLink>
+          <NavLink
+            to='/all'
+            className={({ isActive }) => isActive ? 'header__nav__item active' : 'header__nav__item'}>
+            Клиенты
+          </NavLink>
+          <NavLink
+            to='/deals'
+            className={({ isActive }) => isActive ? 'header__nav__item active' : 'header__nav__item'}>
+            Дела
+          </NavLink>
+          <NavLink
+            to='/sdelki'
+            className={({ isActive }) => isActive ? 'header__nav__item active' : 'header__nav__item'}>
+            Сделки
+          </NavLink>
+          <NavLink
+            to='/documents'
+            className={({ isActive }) => isActive ? 'header__nav__item active' : 'header__nav__item'}>
+            Документы
+          </NavLink>
+          {/* <ul>
             <li>Сотрудники</li>
             <li className="active">Клиенты</li>
             <li>Дела</li>
             <li>Сделки</li>
             <li>Документы</li>
-          </ul>
+          </ul> */}
         </nav>  
         <div className="header__user">
           <div className="logo">

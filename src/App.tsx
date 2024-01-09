@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import { Route, Routes } from 'react-router-dom';
+import { Company } from './components/CompanyPage/Company';
 import { Home } from './components/Home/Home';
 import MainLayout from './components/RoutersComponents/MainLayout/MainLayout';
 import './scss/app.scss';
@@ -10,8 +11,8 @@ const App: FC = () => {
     <Routes>
       <Route path="/" element={<MainLayout />}>
         <Route index element={<Home />}/>
-        {/* <Route path="cart" element={<ProductsCart />}/>
-        <Route path='admin' element={
+        <Route path="all" element={<Company />}/>
+        {/* <Route path='admin' element={
           <AdminAuthRouter>
             <AddProduct/>
           </AdminAuthRouter> */}
