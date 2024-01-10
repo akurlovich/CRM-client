@@ -50,6 +50,11 @@
       border-radius: 2px;
       padding: 6px 16px 4px;
       font-size: 12px;
+      transition: all 0.3s;
+
+      &:hover {
+        background-color: var(--btn-default-hover);
+      }
     }
   }
 
