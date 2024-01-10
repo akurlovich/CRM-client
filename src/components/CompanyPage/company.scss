@@ -1,0 +1,122 @@
+.company {
+  background-image: url('../../assets/main-bg.png') ;
+  width: 100%;
+  flex: 1 1 auto;
+  padding: 12px 25px 38px 24px;
+  display: flex;
+  
+
+  &__filters {
+    max-width: 100%;
+    flex-basis: 15%;
+    flex-grow: 1;
+    flex-shrink: 0;
+
+  }
+
+  &__container {
+    max-width: 100%;
+    flex-basis: 80%;
+    flex-grow: 1;
+    flex-shrink: 0;
+
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+
+    &__title {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+
+      & > .title {
+        font-size: 32px;
+
+      }
+
+      & > .icons {
+        display: flex;
+        gap: 10px;
+        align-items: flex-end;
+      }
+    }
+
+    &__btn {
+      background-color: var(--btn-default);
+      color: white;
+      text-transform: uppercase;
+      border-radius: 2px;
+      padding: 6px 16px 4px;
+      font-size: 12px;
+    }
+  }
+
+  &__main {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    padding-left: 5px;
+    border-radius: 2px;
+    background-color: white;
+    box-shadow: 0 0 2px 0 rgba(0,0,0,.1), 0 2px 2px 0 rgba(0,0,0,.2);
+
+    &__row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text-color-secondary-light);
+      
+      &.first_row {
+        border-bottom: 1px solid var(--border-1);
+
+        & > .cell {
+          &:hover {
+            background-color: var(--bg-color-hover);
+            cursor: pointer;
+          }
+        }
+      }
+
+      & > .cell {
+        flex: 1;
+        max-width: 250px;
+        // padding: 8px;
+        // border: 1px solid #ccc;
+        // text-align: center;
+        padding: 8px 20px 8px 8px;
+
+        &.data {
+          color: var(--text-color-default);
+          cursor: default;
+
+          &.user {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+
+          & span:nth-child(1) {
+            width: 30px;
+            height: 30px;
+            border-radius: 100%;
+            background-color: lightgreen;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            justify-content: center;
+          }
+
+          & span:nth-child(2) {
+            // color: var(--text-color-secondary-light);
+            // font-size: 12px;
+            color: var(--text-color-default);
+            cursor: default;
+          }
+          }
+        }
+      }
+    }
+  }
+
+}
