@@ -47,12 +47,14 @@ export const Header: FC = () => {
           </ul> */}
         </nav>  
         <div className="header__user">
-          <div className="logo">
+          <span>КА</span>
+          <span>Курлович Артем</span>
+          {/* <div className="logo">
 
           </div>
           <div className="name">
             Артём
-          </div>
+          </div> */}
         </div>
       </div>
     </header>

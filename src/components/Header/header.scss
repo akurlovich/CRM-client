@@ -1,7 +1,7 @@
 .header {
   width: 100%;
   max-width: 1950px;
-  padding: 0 10px;
+  padding: 0 5%;
   border-bottom: 4px solid rgb(97, 117, 225);
 
   &__wrapper {
@@ -60,15 +60,33 @@
     align-items: center;
     gap: 10px;
 
-    & > .logo {
-      width: 20px;
-      height: 20px;
-      border: 2px solid black;
-      border-radius: 50%;
+    & span:nth-child(1) {
+      width: 30px;
+      height: 30px;
+      border-radius: 100%;
+      background-color: lightgreen;
+      display: flex;
+      align-items: center;
+      text-align: center;
+      justify-content: center;
     }
 
-    & > .name {
-      
+    & span:nth-child(2) {
+      // color: var(--text-color-secondary-light);
+      // font-size: 12px;
+      color: var(--text-color-default);
+      cursor: pointer;
     }
+
+    // & > .logo {
+    //   width: 20px;
+    //   height: 20px;
+    //   border: 2px solid black;
+    //   border-radius: 50%;
+    // }
+
+    // & > .name {
+      
+    // }
   }
 }
