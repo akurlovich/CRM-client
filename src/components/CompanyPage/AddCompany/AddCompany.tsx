@@ -1,13 +1,28 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import './addcompany.scss';
-import { IoDocumentOutline } from "@react-icons/all-files/io5/IoDocumentOutline";
-import { IoExitOutline } from "@react-icons/all-files/io5/IoExitOutline";
-import { IoFilterOutline } from "@react-icons/all-files/io5/IoFilterOutline";
-import { IoDuplicateOutline } from "@react-icons/all-files/io5/IoDuplicateOutline";
-import { IoSquareOutline } from "@react-icons/all-files/io5/IoSquareOutline";
 
-const AddCompanyInner: FC = () => {
-  return (
+interface IProps {
+  isVisible: boolean;
+  onClose: () => void;
+}
+
+const AddCompanyInner: FC<IProps> = ({isVisible = false, onClose}) => {
+
+  const keydownHandler = ({ key }: {key: string}) => {
+    switch (key) {
+      case 'Escape':
+        onClose();
+        break;
+      default:
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('keydown', keydownHandler);
+    return () => document.removeEventListener('keydown', keydownHandler);
+  });
+
+  return isVisible ? (
     <div className="add-company">
       <div className="add-company__dialog">
         <div className="add-company__header">
@@ -35,11 +50,11 @@ const AddCompanyInner: FC = () => {
         </form>
         <div className="add-company__footer">
           <button type="submit">Добавить</button>
-          <button>Отмена</button>
+          <button onClick={onClose}>Отмена</button>
         </div>
       </div>
     </div>
-  )
+  ) : null;
 }
 
 export const AddCompany = React.memo(AddCompanyInner);

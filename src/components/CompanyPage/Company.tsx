@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import './company.scss';
 import { IoDocumentOutline } from "@react-icons/all-files/io5/IoDocumentOutline";
 import { IoExitOutline } from "@react-icons/all-files/io5/IoExitOutline";
@@ -8,9 +8,10 @@ import { IoSquareOutline } from "@react-icons/all-files/io5/IoSquareOutline";
 import { AddCompany } from './AddCompany/AddCompany';
 
 const CompanyInner: FC = () => {
+  const [isModal, setIsModal] = useState<boolean>(false);
   return (
     <>
-      <AddCompany/>
+      <AddCompany isVisible={isModal} onClose={() => setIsModal(false)}/>
       <section className='company'>
         <div className="company__filters">
           filter
@@ -27,7 +28,9 @@ const CompanyInner: FC = () => {
                 <IoFilterOutline size={25}/>
               </div>
             </div>
-            <button className="company__header__btn">
+            <button 
+              onClick={() => setIsModal(true)}
+              className="company__header__btn">
               Добавить клиента
             </button>
           </div>
