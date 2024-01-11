@@ -17,7 +17,7 @@ const AddOrderInner: FC = () => {
           <div className="add-order__header">
             <div className="add-order__header__title">
               <div className="title">
-                <span>Заказ</span>
+                <span>Новая сделка</span>
               </div>
               <div className="icons">
                 <IoDocumentOutline size={20}/>

@@ -12,6 +12,7 @@ import { BaseBlockSmall } from "../BaseBlock/BaseBlockSmall";
 import { BaseBlockContacts } from "../BaseBlock/BaseBlockContacts";
 import { Comments } from "../Comments/Comments";
 import { AddOrder } from "../OrdersPage/AddOrder/AddOrder";
+import { OrdersInCompany } from "../OrdersPage/OrdersInCompany/OrdersInCompany";
 
 const HomeInner: FC = () => {
   const { dimensionAll } = useAppSelector(state => state.dimensionReducer);
@@ -55,6 +56,7 @@ const HomeInner: FC = () => {
           <BaseBlock/>
           <BaseBlockSmall deal="Задачи"/>
           {/* <BaseBlockSmall deal="Процесссы"/> */}
+          <OrdersInCompany/>
           <AddOrder/>
           <Comments/>
         </div>
