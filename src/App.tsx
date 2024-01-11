@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { Company } from './components/CompanyPage/Company';
 import { Home } from './components/Home/Home';
+import { PageNotFound } from './components/PageNotFound/PageNotFound';
 import MainLayout from './components/RoutersComponents/MainLayout/MainLayout';
 import './scss/app.scss';
 
@@ -23,8 +24,8 @@ const App: FC = () => {
         <Route path="polikarbonat/:id" element={<ProductInfo/>}/>
         <Route path="shtaketnik" element={<PicketFenceBlock/>}/>
         <Route path="shtaketnik/:id" element={<PicketFenceInfo/>}/>
-        <Route path="about" element={<About/>}/>
-        <Route path="*" element={<PageNotFound/>}/> */}
+        <Route path="about" element={<About/>}/> */}
+        <Route path="*" element={<PageNotFound/>}/>
       </Route>
     </Routes>
   );
