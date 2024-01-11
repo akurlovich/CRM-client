@@ -9,7 +9,9 @@ export const Header: FC = () => {
       <div className="header__wrapper">
         <div className="header__logo">
           <div className="container">
-            CRM Skrama 24
+            <span>CRM</span>
+            <span>skrama</span>
+            <span>24</span>
           </div>
         </div>
         <nav className="header__nav">

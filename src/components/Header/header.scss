@@ -14,6 +14,24 @@
 
   &__logo {
 
+    & .container {
+      text-align: center;
+      font-size: 24px;
+      font-weight: 600;
+
+      & span:nth-child(1) {
+        color: #34AD54;
+      }
+
+      & span:nth-child(2) {
+        color: #f93
+      }
+
+      & span:nth-child(3) {
+        color: #34AD54;
+      }
+    }
+
   }
 
   &__nav {
