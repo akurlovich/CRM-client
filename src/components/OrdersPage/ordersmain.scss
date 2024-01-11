@@ -130,6 +130,10 @@
             color: rgb(227, 219, 71);
             font-weight: 500;
           }
+
+          &.total {
+            text-align: end;
+          }
         }
       }
     }

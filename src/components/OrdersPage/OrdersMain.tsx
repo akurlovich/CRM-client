@@ -47,7 +47,7 @@ const OrdersPageInner: FC = () => {
               <IoSquareOutline width={25}/>
               <span className='cell data count'>1478</span>
               <span className='cell data'>ОАО Петровичи</span>
-              <span className='cell data'>125 879,24 руб</span>
+              <span className='cell data total'>125 879,24 руб</span>
               <div className='cell data user'>
                 <span>КА</span>
                 <span>Курлович Артем</span>
