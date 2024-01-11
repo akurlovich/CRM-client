@@ -11,6 +11,7 @@ import { BaseBlockNarrow } from "../BaseBlock/BaseBlockNarrow";
 import { BaseBlockSmall } from "../BaseBlock/BaseBlockSmall";
 import { BaseBlockContacts } from "../BaseBlock/BaseBlockContacts";
 import { Comments } from "../Comments/Comments";
+import { AddOrder } from "../OrdersPage/AddOrder/AddOrder";
 
 const HomeInner: FC = () => {
   const { dimensionAll } = useAppSelector(state => state.dimensionReducer);
@@ -53,7 +54,8 @@ const HomeInner: FC = () => {
         <div className="left">
           <BaseBlock/>
           <BaseBlockSmall deal="Задачи"/>
-          <BaseBlockSmall deal="Процесссы"/>
+          {/* <BaseBlockSmall deal="Процесссы"/> */}
+          <AddOrder/>
           <Comments/>
         </div>
         <div className="right">
