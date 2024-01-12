@@ -1,6 +1,8 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect, useState } from 'react';
+import { UNSAFE_useRouteId } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
-import { getAllCompanies } from '../../../store/reducers/CompanyReducer/CompanyActionCreaters';
+import { addCompany, getAllCompanies } from '../../../store/reducers/CompanyReducer/CompanyActionCreaters';
+import { ICompanyNew } from '../../../types/ICompany';
 import './addcompany.scss';
 
 interface IProps {
@@ -12,6 +14,19 @@ const AddCompanyInner: FC<IProps> = ({isVisible = false, onClose}) => {
 
   const { companies } = useAppSelector(state => state.companyReducer);
   const dispatch = useAppDispatch();
+
+  const [newCompany, setNewCompany] = useState<ICompanyNew>({title: '', usersID: ['657bf93c2f7bf96da48e91cc'] as string[]} as ICompanyNew);
+  // setNewCompany(prev => ({...prev, title: 'new'}));
+
+  const addNewCompanyHandler = async () => {
+    // const newUser = [...newCompany.usersID, '657bf93c2f7bf96da48e91cc'];
+    // setNewCompany(prev => ({...prev, usersID: ['657bf93c2f7bf96da48e91cc']}));
+    // setNewCompany(prev => ({...prev, usersID: ['657bf93c2f7bf96da48e91cc']}));
+    // setNewCompany(newCompany.usersID.push(''));
+    // console.log(newCompany);
+    await dispatch(addCompany(newCompany));
+
+  };
 
 
   const keydownHandler = ({ key }: {key: string}) => {
@@ -25,9 +40,15 @@ const AddCompanyInner: FC<IProps> = ({isVisible = false, onClose}) => {
 
   useEffect(() => {
     dispatch(getAllCompanies());
+    console.log('show');
     document.addEventListener('keydown', keydownHandler);
     return () => document.removeEventListener('keydown', keydownHandler);
-  });
+  }, []);
+
+  useEffect(() => {
+    console.log('show', companies);
+   
+  }, [companies]);
 
   return isVisible ? (
     <div className="add-company">
@@ -38,7 +59,11 @@ const AddCompanyInner: FC<IProps> = ({isVisible = false, onClose}) => {
         <form className="add-company__body">
           <div className="add-company__input">
             <span className='required'>Название</span>
-            <input type="text" name="" id="" placeholder='ООО "Моя компания'/>
+            <input 
+              value={newCompany.title}
+              onChange={(e: React.FocusEvent<HTMLInputElement>) => setNewCompany(prev => ({...prev, title: e.target.value}))}
+              type="text"
+              placeholder='ООО "Моя компания'/>
           </div>
           <div className="add-company__input">
             <span>Телефон</span>
@@ -57,8 +82,8 @@ const AddCompanyInner: FC<IProps> = ({isVisible = false, onClose}) => {
         </form>
         <div className="add-company__footer">
           <button 
-            onClick={() => console.log(companies)}
-            // type="submit"
+            onClick={addNewCompanyHandler}
+            type="submit"
             >
             Добавить
           </button>

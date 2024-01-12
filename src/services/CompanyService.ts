@@ -4,6 +4,7 @@ import { ICompany, ICompanyNew } from "../types/ICompany";
 
 export default class CompanyService {
   static async addCompany(company: ICompanyNew): Promise<AxiosResponse<ICompany>> {
+    console.log('company client', company);
     return serverApi.post<ICompany>('/company/add', company);
   };
 
