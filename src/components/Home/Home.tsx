@@ -57,7 +57,7 @@ const HomeInner: FC = () => {
           <BaseBlock/>
           <BaseBlockSmall deal="Задачи"/>
           {/* <BaseBlockSmall deal="Процесссы"/> */}
-          {showAddOrder && <AddOrder/>}
+          <AddOrder isVisible={showAddOrder}/>
           {/* <AddOrder/> */}
           <OrdersInCompany showAddOrder={(() => setShowAddOrder(true))}/>
           <Comments/>

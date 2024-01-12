@@ -7,9 +7,14 @@ import { IoDuplicateOutline } from "@react-icons/all-files/io5/IoDuplicateOutlin
 import { IoSquareOutline } from "@react-icons/all-files/io5/IoSquareOutline";
 // import { IoDocumentOutline } from "@react-icons/all-files/io5/IoDocumentOutline";
 
-const AddOrderInner: FC = () => {
+interface IProps {
+  isVisible: boolean;
+  showAddOrder?: () => void;
+}
+
+const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
   const [isModal, setIsModal] = useState<boolean>(false);
-  return (
+  return isVisible ? (
     <>
       {/* <AddCompany isVisible={isModal} onClose={() => setIsModal(false)}/> */}
       <section className='add-order'>
@@ -64,7 +69,7 @@ const AddOrderInner: FC = () => {
       </section>
 
     </>
-  )
+  ) : null;
 }
 
 export const AddOrder = React.memo(AddOrderInner);

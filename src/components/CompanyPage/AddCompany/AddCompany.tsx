@@ -1,4 +1,6 @@
 import React, { FC, useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
+import { getAllCompanies } from '../../../store/reducers/CompanyReducer/CompanyActionCreaters';
 import './addcompany.scss';
 
 interface IProps {
@@ -7,6 +9,10 @@ interface IProps {
 }
 
 const AddCompanyInner: FC<IProps> = ({isVisible = false, onClose}) => {
+
+  const { companies } = useAppSelector(state => state.companyReducer);
+  const dispatch = useAppDispatch();
+
 
   const keydownHandler = ({ key }: {key: string}) => {
     switch (key) {
@@ -18,6 +24,7 @@ const AddCompanyInner: FC<IProps> = ({isVisible = false, onClose}) => {
   };
 
   useEffect(() => {
+    dispatch(getAllCompanies());
     document.addEventListener('keydown', keydownHandler);
     return () => document.removeEventListener('keydown', keydownHandler);
   });
@@ -49,7 +56,12 @@ const AddCompanyInner: FC<IProps> = ({isVisible = false, onClose}) => {
           </div>
         </form>
         <div className="add-company__footer">
-          <button type="submit">Добавить</button>
+          <button 
+            onClick={() => console.log(companies)}
+            // type="submit"
+            >
+            Добавить
+          </button>
           <button onClick={onClose}>Отмена</button>
         </div>
       </div>
