@@ -2,6 +2,7 @@ import React, { FC, useEffect, useState } from 'react';
 import { UNSAFE_useRouteId } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { addCompany, getAllCompanies } from '../../../store/reducers/CompanyReducer/CompanyActionCreaters';
+import { getAllUsers } from '../../../store/reducers/UserReducer/UserActionCreators';
 import { ICompanyNew } from '../../../types/ICompany';
 import './addcompany.scss';
 
@@ -13,6 +14,7 @@ interface IProps {
 const AddCompanyInner: FC<IProps> = ({isVisible = false, onClose}) => {
 
   const { companies } = useAppSelector(state => state.companyReducer);
+  const { users } = useAppSelector(state => state.userReducer);
   const dispatch = useAppDispatch();
 
   const [newCompany, setNewCompany] = useState<ICompanyNew>({title: '', usersID: ['657bf93c2f7bf96da48e91cc'] as string[]} as ICompanyNew);
@@ -40,15 +42,17 @@ const AddCompanyInner: FC<IProps> = ({isVisible = false, onClose}) => {
 
   useEffect(() => {
     dispatch(getAllCompanies());
-    console.log('show');
+    dispatch(getAllUsers());
+    // console.log('show');
     document.addEventListener('keydown', keydownHandler);
     return () => document.removeEventListener('keydown', keydownHandler);
   }, []);
 
-  useEffect(() => {
-    console.log('show', companies);
+  // useEffect(() => {
+  //   console.log('companies', companies);
+  //   console.log('users', users);
    
-  }, [companies]);
+  // }, [companies, users]);
 
   return isVisible ? (
     <div className="add-company">

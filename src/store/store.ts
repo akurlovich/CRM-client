@@ -11,11 +11,12 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 // import cartReducer from "./reducers/CartReducer/CartSlice";
 import dimensionReducer from './reducers/DimensionReducer/DimensionSlice';
 import companyReducer from './reducers/CompanyReducer/CompanySlice';
+import userReducer from './reducers/UserReducer/UserSlice';
 
 const rootReducer = combineReducers({
   dimensionReducer,
   companyReducer,
-  // userReducer,
+  userReducer,
   // authReducer,
   // // bookReducer,
   // // bookedReducer,
