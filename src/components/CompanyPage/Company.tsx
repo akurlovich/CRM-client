@@ -8,22 +8,36 @@ import { IoSquareOutline } from "@react-icons/all-files/io5/IoSquareOutline";
 import { AddCompany } from './AddCompany/AddCompany';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { getAllCompanies } from '../../store/reducers/CompanyReducer/CompanyActionCreaters';
-import { getAllUsers } from '../../store/reducers/UserReducer/UserActionCreators';
+import { getAllUsers, getUserByID } from '../../store/reducers/UserReducer/UserActionCreators';
 import { Loader } from '../UI/Loader/Loader';
+
+interface ICompanyItem {
+  title: string,
+  user: string,
+  district: string,
+  lastCommentDate: string,
+  nextCommentDate: string,
+}
 
 const CompanyInner: FC = () => {
   const { companies, isLoading } = useAppSelector(state => state.companyReducer);
-  const { users } = useAppSelector(state => state.userReducer);
+  const { users, user } = useAppSelector(state => state.userReducer);
 
   const dispatch = useAppDispatch();
   
   const [isModal, setIsModal] = useState<boolean>(false);
+  const [companiesArray, setCompaniesArray] = useState<ICompanyItem[]>([]);
 
   useEffect(() => {
     dispatch(getAllCompanies());
     dispatch(getAllUsers());
    
   }, []);
+
+  useEffect(() => {
+    dispatch(getUserByID(companies[0]?.usersID[0]));
+   
+  }, [companies]);
 
   return (
     <>
@@ -64,8 +78,8 @@ const CompanyInner: FC = () => {
               <IoSquareOutline width={25}/>
               <span className='cell data'>{companies[0]?.title}</span>
               <div className='cell data user'>
-                <span>КА</span>
-                <span>Курлович Артем</span>
+                <span>{`КА`}</span>
+                <span>{`${user?.lastname} ${user?.firstname}`}</span>
               </div>
               <span className='cell data'>05 октябрь 2023г.</span>
               <span className='cell data'>31 августа 2024г.</span>
