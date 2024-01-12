@@ -12,12 +12,12 @@ interface IProps {
 }
 
 const AddCompanyInner: FC<IProps> = ({isVisible = false, onClose}) => {
+  //!----берет данные из компанента Company------
+  // const { companies } = useAppSelector(state => state.companyReducer);
+  // const { users } = useAppSelector(state => state.userReducer);
+  // const dispatch = useAppDispatch();
 
-  const { companies } = useAppSelector(state => state.companyReducer);
-  const { users } = useAppSelector(state => state.userReducer);
-  const dispatch = useAppDispatch();
-
-  const [newCompany, setNewCompany] = useState<ICompanyNew>({title: '', usersID: ['657bf93c2f7bf96da48e91cc'] as string[]} as ICompanyNew);
+  const [newCompany, setNewCompany] = useState<ICompanyNew>({title: '', usersID: ['65a112acc11882f036f9cf74'] as string[]} as ICompanyNew);
   // setNewCompany(prev => ({...prev, title: 'new'}));
 
   const addNewCompanyHandler = async () => {
@@ -26,7 +26,8 @@ const AddCompanyInner: FC<IProps> = ({isVisible = false, onClose}) => {
     // setNewCompany(prev => ({...prev, usersID: ['657bf93c2f7bf96da48e91cc']}));
     // setNewCompany(newCompany.usersID.push(''));
     // console.log(newCompany);
-    await dispatch(addCompany(newCompany));
+    alert('отключена отправка')
+    // await dispatch(addCompany(newCompany));
 
   };
 
@@ -41,8 +42,8 @@ const AddCompanyInner: FC<IProps> = ({isVisible = false, onClose}) => {
   };
 
   useEffect(() => {
-    dispatch(getAllCompanies());
-    dispatch(getAllUsers());
+    // dispatch(getAllCompanies());
+    // dispatch(getAllUsers());
     // console.log('show');
     document.addEventListener('keydown', keydownHandler);
     return () => document.removeEventListener('keydown', keydownHandler);

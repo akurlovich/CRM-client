@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import './company.scss';
 import { IoDocumentOutline } from "@react-icons/all-files/io5/IoDocumentOutline";
 import { IoExitOutline } from "@react-icons/all-files/io5/IoExitOutline";
@@ -6,11 +6,28 @@ import { IoFilterOutline } from "@react-icons/all-files/io5/IoFilterOutline";
 import { IoDuplicateOutline } from "@react-icons/all-files/io5/IoDuplicateOutline";
 import { IoSquareOutline } from "@react-icons/all-files/io5/IoSquareOutline";
 import { AddCompany } from './AddCompany/AddCompany';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { getAllCompanies } from '../../store/reducers/CompanyReducer/CompanyActionCreaters';
+import { getAllUsers } from '../../store/reducers/UserReducer/UserActionCreators';
+import { Loader } from '../UI/Loader/Loader';
 
 const CompanyInner: FC = () => {
+  const { companies, isLoading } = useAppSelector(state => state.companyReducer);
+  const { users } = useAppSelector(state => state.userReducer);
+
+  const dispatch = useAppDispatch();
+  
   const [isModal, setIsModal] = useState<boolean>(false);
+
+  useEffect(() => {
+    dispatch(getAllCompanies());
+    dispatch(getAllUsers());
+   
+  }, []);
+
   return (
     <>
+      {isLoading && <Loader/>}
       <AddCompany isVisible={isModal} onClose={() => setIsModal(false)}/>
       <section className='company'>
         <div className="company__filters">
@@ -45,7 +62,7 @@ const CompanyInner: FC = () => {
             </div>
             <div className="company__main__row">
               <IoSquareOutline width={25}/>
-              <span className='cell data'>ОАО Петровичи</span>
+              <span className='cell data'>{companies[0]?.title}</span>
               <div className='cell data user'>
                 <span>КА</span>
                 <span>Курлович Артем</span>
