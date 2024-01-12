@@ -7,8 +7,12 @@ import { IoDuplicateOutline } from "@react-icons/all-files/io5/IoDuplicateOutlin
 import { IoSquareOutline } from "@react-icons/all-files/io5/IoSquareOutline";
 // import { IoDocumentOutline } from "@react-icons/all-files/io5/IoDocumentOutline";
 
-const OrdersInCompanyInner: FC = () => {
-  const [isModal, setIsModal] = useState<boolean>(false);
+interface IProps {
+  showAddOrder: () => void;
+}
+
+const OrdersInCompanyInner: FC<IProps> = ({showAddOrder}) => {
+  // const [isModal, setIsModal] = useState<boolean>(false);
   return (
     <>
       {/* <AddCompany isVisible={isModal} onClose={() => setIsModal(false)}/> */}
@@ -22,7 +26,7 @@ const OrdersInCompanyInner: FC = () => {
               
             </div>
             <button 
-              onClick={() => setIsModal(true)}
+              onClick={showAddOrder}
               className="orders-in-company__header__btn">
               <IoAddCircleOutline size={25}/>
             </button>

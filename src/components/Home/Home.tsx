@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { addDimension, getAllDimensions } from "../../store/reducers/DimensionReducer/DimensionActionCreaters";
 import { BaseBlock } from "../BaseBlock/BaseBlock";
@@ -17,6 +17,7 @@ import { OrdersInCompany } from "../OrdersPage/OrdersInCompany/OrdersInCompany";
 const HomeInner: FC = () => {
   const { dimensionAll } = useAppSelector(state => state.dimensionReducer);
   const dispatch = useAppDispatch();
+  const [showAddOrder, setShowAddOrder] = useState<boolean>(false);
   const onclickbutton = () => {
     console.log(dimensionAll)
   }
@@ -56,8 +57,9 @@ const HomeInner: FC = () => {
           <BaseBlock/>
           <BaseBlockSmall deal="Задачи"/>
           {/* <BaseBlockSmall deal="Процесссы"/> */}
-          <OrdersInCompany/>
-          <AddOrder/>
+          {showAddOrder && <AddOrder/>}
+          {/* <AddOrder/> */}
+          <OrdersInCompany showAddOrder={(() => setShowAddOrder(true))}/>
           <Comments/>
         </div>
         <div className="right">

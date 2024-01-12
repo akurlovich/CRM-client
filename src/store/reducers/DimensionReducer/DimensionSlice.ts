@@ -43,7 +43,6 @@ const dimensionSlice = createSlice({
       })
       .addCase(getAllDimensions.rejected, (state, action) => {
         state.isLoading = false;
-        console.log('action', action)
         state.error = action.payload as string;
       });
   },

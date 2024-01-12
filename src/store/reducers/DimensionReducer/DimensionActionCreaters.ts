@@ -13,7 +13,7 @@ export const addDimension = createAsyncThunk(
 );
 
 export const getDimensionByID = createAsyncThunk(
-  'DIMENSION/getDimensionsByProductID',
+  'DIMENSION/getDimensionByID',
   async (dimensionID: string, {rejectWithValue}) => {
     try {
       return await (await DimensionService.getDimensionByID(dimensionID)).data;
@@ -37,7 +37,7 @@ export const getAllDimensions = createAsyncThunk(
 );
 
 export const deleteDimensionByID = createAsyncThunk(
-  'DIMENSION/getDimensionsByTypeID',
+  'DIMENSION/deleteDimensionByID',
   async (dimensionID: string, {rejectWithValue}) => {
     try {
       return await (await DimensionService.deleteDimensionByID(dimensionID)).data;
