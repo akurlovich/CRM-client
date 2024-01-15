@@ -10,14 +10,15 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { getAllCompanies } from '../../store/reducers/CompanyReducer/CompanyActionCreaters';
 import { getAllUsers, getUserByID } from '../../store/reducers/UserReducer/UserActionCreators';
 import { Loader } from '../UI/Loader/Loader';
+import { CompanyItem } from './CompanyItem/CompanyItem';
 
-interface ICompanyItem {
-  title: string,
-  user: string,
-  district: string,
-  lastCommentDate: string,
-  nextCommentDate: string,
-}
+// interface ICompanyItem {
+//   title: string,
+//   user: string,
+//   district: string,
+//   lastCommentDate: string,
+//   nextCommentDate: string,
+// }
 
 const CompanyInner: FC = () => {
   const { companies, isLoading } = useAppSelector(state => state.companyReducer);
@@ -26,7 +27,7 @@ const CompanyInner: FC = () => {
   const dispatch = useAppDispatch();
   
   const [isModal, setIsModal] = useState<boolean>(false);
-  const [companiesArray, setCompaniesArray] = useState<ICompanyItem[]>([]);
+  // const [companiesArray, setCompaniesArray] = useState<ICompanyItem[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -80,17 +81,10 @@ const CompanyInner: FC = () => {
               <span className='cell'>Дата последней коммуникации</span>
               <span className='cell'>Район</span>
             </div>
-            <div className="company__main__row">
-              <IoSquareOutline width={25}/>
-              <span className='cell data'>{companies[0]?.title}</span>
-              <div className='cell data user'>
-                <span>{`${companies[0]?.users[0].lastname[0]}${companies[0]?.users[0].firstname[0]}`}</span>
-                <span>{`${companies[0]?.users[0].lastname} ${companies[0]?.users[0].firstname}`}</span>
-              </div>
-              <span className='cell data'>05 октябрь 2023г.</span>
-              <span className='cell data'>31 августа 2024г.</span>
-              <span className='cell data'>{`${companies[0]?.contact?.district ? companies[0]?.contact?.district : ''}`}</span>
-            </div>
+            {companies.map(item => (
+              <CompanyItem key={item._id} company={item}/>
+              )) 
+            }
             <div className="company__main__row">
               <IoSquareOutline width={25}/>
               <span className='cell data'>ОАО Строительный трест номер 212 Дрогичин</span>
