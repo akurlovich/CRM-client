@@ -41,7 +41,7 @@ const CompanyInner: FC = () => {
   }, []);
 
   useEffect(() => {
-    dispatch(getUserByID(companies[0]?.usersID[0]));
+    dispatch(getUserByID(companies[0]?.users[0]?.userID));
    
   }, [users]);
 
@@ -84,12 +84,12 @@ const CompanyInner: FC = () => {
               <IoSquareOutline width={25}/>
               <span className='cell data'>{companies[0]?.title}</span>
               <div className='cell data user'>
-                <span>{`КА`}</span>
-                <span>{`${user?.lastname} ${user?.firstname}`}</span>
+                <span>{`${companies[0]?.users[0].lastname[0]}${companies[0]?.users[0].firstname[0]}`}</span>
+                <span>{`${companies[0]?.users[0].lastname} ${companies[0]?.users[0].firstname}`}</span>
               </div>
               <span className='cell data'>05 октябрь 2023г.</span>
               <span className='cell data'>31 августа 2024г.</span>
-              <span className='cell data'>Мозырский</span>
+              <span className='cell data'>{`${companies[0]?.contact?.district ? companies[0]?.contact?.district : ''}`}</span>
             </div>
             <div className="company__main__row">
               <IoSquareOutline width={25}/>

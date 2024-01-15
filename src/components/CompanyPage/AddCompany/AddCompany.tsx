@@ -15,9 +15,9 @@ const AddCompanyInner: FC<IProps> = ({isVisible = false, onClose}) => {
   //!----берет данные из компанента Company------
   // const { companies } = useAppSelector(state => state.companyReducer);
   // const { users } = useAppSelector(state => state.userReducer);
-  // const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
 
-  const [newCompany, setNewCompany] = useState<ICompanyNew>({title: '', usersID: ['65a112acc11882f036f9cf74'] as string[]} as ICompanyNew);
+  const [newCompany, setNewCompany] = useState<ICompanyNew>({title: '', users: [{userID: '65a4ed82f45087cf955a9bac', lastname: 'Яцковец', firstname: 'Светлана'}]} as ICompanyNew);
   // setNewCompany(prev => ({...prev, title: 'new'}));
 
   const addNewCompanyHandler = async () => {
@@ -25,7 +25,7 @@ const AddCompanyInner: FC<IProps> = ({isVisible = false, onClose}) => {
     // setNewCompany(prev => ({...prev, usersID: ['657bf93c2f7bf96da48e91cc']}));
     // setNewCompany(prev => ({...prev, usersID: ['657bf93c2f7bf96da48e91cc']}));
     // setNewCompany(newCompany.usersID.push(''));
-    // console.log(newCompany);
+    console.log(newCompany);
     alert('отключена отправка')
     // await dispatch(addCompany(newCompany));
 

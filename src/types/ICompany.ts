@@ -1,20 +1,36 @@
 export interface ICompany {
   _id: string,
   title: string,
-  usersID: string[],
+  users: [{
+    userID: string,
+    firstname: string,
+    lastname: string,
+  }],
   description: string,
-  contactID: string,
-  dealsID: string[],
+  contact: {
+    contactID: string,
+    district: string,
+  },
+  deals: [{
+    dealsID: string,
+    createdAt: string,
+  }],
   ordersID: string[],
-  commentsID: string[],
+  comments: [{
+    commentsID: string,
+    createdAt: string,
+  }],
 }
 
 export interface ICompanyNew {
   title: string,
-  usersID: string[],
-  description: string,
-  contactID: string,
-  dealsID: string[],
-  ordersID: string[],
-  commentsID: string[],
+  users: [{
+    userID: string,
+    firstname: string,
+    lastname: string,
+  }],
+  contact: {
+    contactID: string,
+    district: string,
+  },
 }
