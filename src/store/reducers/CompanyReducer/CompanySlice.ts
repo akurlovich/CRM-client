@@ -18,7 +18,7 @@ const initialState: ICompanyState = {
   error: '',
 };
 
-const dimensionSlice = createSlice({
+const companySlice = createSlice({
   name: 'COMPANY',
   initialState,
   reducers: {},
@@ -62,4 +62,4 @@ const dimensionSlice = createSlice({
   },
 });
 
-export default dimensionSlice.reducer;
+export default companySlice.reducer;

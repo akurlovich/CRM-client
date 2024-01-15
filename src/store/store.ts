@@ -12,11 +12,13 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import dimensionReducer from './reducers/DimensionReducer/DimensionSlice';
 import companyReducer from './reducers/CompanyReducer/CompanySlice';
 import userReducer from './reducers/UserReducer/UserSlice';
+import contactReducer from './reducers/ContactReducer/ContactSlice';
 
 const rootReducer = combineReducers({
   dimensionReducer,
   companyReducer,
   userReducer,
+  contactReducer,
   // authReducer,
   // // bookReducer,
   // // bookedReducer,
