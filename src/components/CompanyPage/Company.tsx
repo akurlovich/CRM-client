@@ -29,15 +29,21 @@ const CompanyInner: FC = () => {
   const [companiesArray, setCompaniesArray] = useState<ICompanyItem[]>([]);
 
   useEffect(() => {
-    dispatch(getAllCompanies());
-    dispatch(getAllUsers());
+    const fetchData = async () => {
+      await dispatch(getAllCompanies());
+      await dispatch(getAllUsers());
+      // await dispatch(getUserByID(companies[0]?.usersID[0]));
+      // console.log(users)
+    };
+
+    fetchData();
    
   }, []);
 
   useEffect(() => {
     dispatch(getUserByID(companies[0]?.usersID[0]));
    
-  }, [companies]);
+  }, [users]);
 
   return (
     <>

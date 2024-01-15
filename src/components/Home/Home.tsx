@@ -19,7 +19,7 @@ const HomeInner: FC = () => {
   const dispatch = useAppDispatch();
   const [showAddOrder, setShowAddOrder] = useState<boolean>(false);
   const onclickbutton = () => {
-    console.log(dimensionAll)
+    // console.log(dimensionAll)
   }
   const onclickbutton2 = () => {
     // dispatch(addDimension('кг'))
@@ -27,7 +27,7 @@ const HomeInner: FC = () => {
 
   useEffect(() => {
     (async () => {
-      await dispatch(getAllDimensions());
+      // await dispatch(getAllDimensions());
     })();
  
   }, []);

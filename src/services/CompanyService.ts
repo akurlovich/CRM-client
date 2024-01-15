@@ -5,11 +5,11 @@ import { ICompany, ICompanyNew } from "../types/ICompany";
 export default class CompanyService {
   static async addCompany(company: ICompanyNew): Promise<AxiosResponse<ICompany>> {
     console.log('company client', company);
-    return serverApi.post<ICompany>('/company/add', company);
+    return serverApi.post<ICompany>('/companies', company);
   };
 
   static async getCompanyByID(companyID: string): Promise<AxiosResponse<ICompany>> {
-    return serverApi.get<ICompany>(`/company/${companyID}/card`);
+    return serverApi.get<ICompany>(`/companies/${companyID}`);
   };
 
   // static async getProductInfoByID(id: string): Promise<AxiosResponse<IProductInfoResponse>> {
@@ -17,7 +17,7 @@ export default class CompanyService {
   // };
 
   static async getAllCompanies(): Promise<AxiosResponse<ICompany[]>> {
-    return serverApi.get<ICompany[]>(`/company/all`);
+    return serverApi.get<ICompany[]>(`/companies`);
   };
 
   // static async getCompanysByTypeID(typeID: string): Promise<AxiosResponse<ICompanyResponse>> {
@@ -26,7 +26,7 @@ export default class CompanyService {
 
 
   static async deleteCompanyByID(companyID: string): Promise<AxiosResponse<ICompany>> {
-    return serverApi.delete<ICompany>(`/company/${companyID}`);
+    return serverApi.delete<ICompany>(`/companies/${companyID}`);
   };
 
   // static async updateProductAmountByID(newProduct: IProductUpdate): Promise<AxiosResponse<IProductResponse>> {

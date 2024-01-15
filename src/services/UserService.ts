@@ -5,11 +5,11 @@ import { IUser, IUserUpdateIsBlocked, IUserUpdateProfileImage } from "../types/I
 
 export default class UserService {
   static async getAllUsers(): Promise<AxiosResponse<IUser[]>> {
-    return serverApi.get<IUser[]>('/user/all')
+    return serverApi.get<IUser[]>('/users')
   };
 
   static async getUserByID(id: string): Promise<AxiosResponse<IUser>> {
-    return serverApi.get<IUser>(`/user/${id}/card`)
+    return serverApi.get<IUser>(`/users/${id}`)
   };
 
   // static async updateUserProfileImage(newImage: IUserUpdateProfileImage): Promise<AxiosResponse<IUser>> {

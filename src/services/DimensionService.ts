@@ -4,11 +4,11 @@ import { IDimension } from "../types/IDimension";
 
 export default class DimensionService {
   static async addDimension(dimension: string): Promise<AxiosResponse<IDimension>> {
-    return serverApi.post<IDimension>('/dimension', {title: dimension});
+    return serverApi.post<IDimension>('/dimensions', {title: dimension});
   };
 
   static async getDimensionByID(dimensionID: string): Promise<AxiosResponse<IDimension>> {
-    return serverApi.get<IDimension>(`/dimension/${dimensionID}`);
+    return serverApi.get<IDimension>(`/dimensions/${dimensionID}`);
   };
 
   // static async getProductInfoByID(id: string): Promise<AxiosResponse<IProductInfoResponse>> {
@@ -25,7 +25,7 @@ export default class DimensionService {
 
 
   static async deleteDimensionByID(dimensionID: string): Promise<AxiosResponse<IDimension>> {
-    return serverApi.delete<IDimension>(`/dimension/${dimensionID}`);
+    return serverApi.delete<IDimension>(`/dimensions/${dimensionID}`);
   };
 
   // static async updateProductAmountByID(newProduct: IProductUpdate): Promise<AxiosResponse<IProductResponse>> {
