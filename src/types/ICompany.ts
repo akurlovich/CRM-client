@@ -49,3 +49,24 @@ export interface ICompanyNew {
   //   district: string,
   // },
 }
+
+interface IQuery {
+  path: string,
+  select: string,
+}
+
+// export interface ICompaniesQuery  {
+//   path: string,
+//   select: string,
+// }
+
+export interface ICompaniesQuery {
+  query: IQuery[],
+  sort: {
+    [key: string]: 'asc' | 'desc',
+  },
+  limit: number,
+}
+
+
+

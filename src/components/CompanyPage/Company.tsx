@@ -7,10 +7,11 @@ import { IoDuplicateOutline } from "@react-icons/all-files/io5/IoDuplicateOutlin
 import { IoSquareOutline } from "@react-icons/all-files/io5/IoSquareOutline";
 import { AddCompany } from './AddCompany/AddCompany';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import { getAllCompanies } from '../../store/reducers/CompanyReducer/CompanyActionCreaters';
+import { getAllCompanies, getAllCompaniesQuery } from '../../store/reducers/CompanyReducer/CompanyActionCreaters';
 import { getAllUsers, getUserByID } from '../../store/reducers/UserReducer/UserActionCreators';
 import { Loader } from '../UI/Loader/Loader';
 import { CompanyItem } from './CompanyItem/CompanyItem';
+import { ICompaniesQuery } from '../../types/ICompany';
 
 // interface ICompanyItem {
 //   title: string,
@@ -31,7 +32,30 @@ const CompanyInner: FC = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      await dispatch(getAllCompanies());
+    //   const query: ICompaniesQuery[] = [{
+    //     path: "usersID", 
+    //     select: "lastname firstname"
+    // },
+    // {
+    //     path: "contactID", 
+    //     select: "address.district"
+    // }];
+      const query: ICompaniesQuery = {
+        query: 
+          [{
+              path: "usersID", 
+              select: "lastname firstname"
+          },
+          {
+              path: "contactID", 
+              select: "address.district"
+          }], 
+        sort: {title: 'asc'}, 
+        limit: 0
+      };
+
+      await dispatch(getAllCompaniesQuery(query));
+      // await dispatch(getAllCompanies());
       await dispatch(getAllUsers());
       // await dispatch(getUserByID(companies[0]?.usersID[0]));
       // console.log(users)

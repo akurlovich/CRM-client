@@ -1,6 +1,6 @@
 import { AxiosResponse } from "axios";
 import serverApi from "../http";
-import { ICompany, ICompanyNew } from "../types/ICompany";
+import { ICompaniesQuery, ICompany, ICompanyNew } from "../types/ICompany";
 import { IContactNew } from "../types/IContact";
 
 export default class CompanyService {
@@ -20,6 +20,11 @@ export default class CompanyService {
 
   static async getAllCompanies(): Promise<AxiosResponse<ICompany[]>> {
     return serverApi.get<ICompany[]>(`/companies`);
+  };
+
+  static async getAllCompaniesQuery(query: ICompaniesQuery): Promise<AxiosResponse<ICompany[]>> {
+    console.log('client query', query)
+    return serverApi.post<ICompany[]>(`/companies/filter`, query);
   };
 
   // static async getCompanysByTypeID(typeID: string): Promise<AxiosResponse<ICompanyResponse>> {

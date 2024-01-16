@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import CompanyService from "../../../services/CompanyService";
 import ContactService from "../../../services/ContactService";
-import { ICompanyNew } from "../../../types/ICompany";
+import { ICompaniesQuery, ICompanyNew } from "../../../types/ICompany";
 import { IContactNew } from "../../../types/IContact";
 
 export const addCompany = createAsyncThunk(
@@ -39,6 +39,18 @@ export const getAllCompanies = createAsyncThunk(
   async (_, {rejectWithValue}) => {
     try {
       return await (await CompanyService.getAllCompanies()).data;
+      
+    } catch (error: any) {
+      return rejectWithValue(error.message)
+    }
+  }
+);
+
+export const getAllCompaniesQuery = createAsyncThunk(
+  'COMPANY/getAllCompaniesQuery',
+  async ( query: ICompaniesQuery, {rejectWithValue}) => {
+    try {
+      return await (await CompanyService.getAllCompaniesQuery(query)).data;
       
     } catch (error: any) {
       return rejectWithValue(error.message)
