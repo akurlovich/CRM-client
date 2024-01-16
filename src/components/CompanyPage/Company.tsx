@@ -81,10 +81,10 @@ const CompanyInner: FC = () => {
               <span className='cell'>Дата последней коммуникации</span>
               <span className='cell'>Район</span>
             </div>
-            {/* {companies.map(item => (
+            {companies.map(item => (
               <CompanyItem key={item._id} company={item}/>
               )) 
-            } */}
+            }
             <div className="company__main__row">
               <IoSquareOutline width={25}/>
               <span className='cell data'>ОАО Строительный трест номер 212 Дрогичин</span>

@@ -1,3 +1,4 @@
+import { IContact } from "./IContact";
 import { IUser } from "./IUser";
 
 export interface ICompany {
@@ -26,7 +27,7 @@ export interface ICompany {
   title: string,
   usersID: IUser[],
   description: string,
-  contactID: string[],
+  contactID: IContact,
   dealsID: string[],
   ordersID: string[],
   commentsID: string[],

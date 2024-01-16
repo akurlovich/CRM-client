@@ -19,7 +19,7 @@ const AddCompanyInner: FC<IProps> = ({isVisible = false, onClose}) => {
   // const { users } = useAppSelector(state => state.userReducer);
   const dispatch = useAppDispatch();
 
-  const [newCompany, setNewCompany] = useState<ICompanyNew>({title: '', usersID: '65a112acc11882f036f9cf74'} as ICompanyNew);
+  const [newCompany, setNewCompany] = useState<ICompanyNew>({title: '', usersID: '65a4ed82f45087cf955a9bac'} as ICompanyNew);
   // const [newCompany, setNewCompany] = useState<ICompanyNew>({title: '', usersID: '657bf93c2f7bf96da48e91cc', contactID: '65a619932267f6b47b2ae804'} as ICompanyNew);
   const [newContact, setNewContact] = useState<IContactNew>({address: {district: ''}} as IContactNew);
   // setNewCompany(prev => ({...prev, title: 'new'}));
@@ -30,9 +30,9 @@ const AddCompanyInner: FC<IProps> = ({isVisible = false, onClose}) => {
     // setNewCompany(prev => ({...prev, usersID: ['657bf93c2f7bf96da48e91cc']}));
     // setNewCompany(newCompany.usersID.push(''));
     // console.log('from addcompany', newCompany);
-    // alert('отключена отправка')
+    alert('отключена отправка')
     // await dispatch(addContact(newContact));
-    await dispatch(addCompany({company: newCompany, contact: newContact}));
+    // await dispatch(addCompany({company: newCompany, contact: newContact}));
 
   };
 
