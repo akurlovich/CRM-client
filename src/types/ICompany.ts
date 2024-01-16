@@ -52,7 +52,10 @@ export interface ICompanyNew {
 
 interface IQuery {
   path: string,
-  select: string,
+  select?: string,
+  populate?: {
+    path: string,
+  }
 }
 
 // export interface ICompaniesQuery  {

@@ -21,7 +21,12 @@ const AddCompanyInner: FC<IProps> = ({isVisible = false, onClose}) => {
 
   const [newCompany, setNewCompany] = useState<ICompanyNew>({title: '', usersID: '65a4ed82f45087cf955a9bac'} as ICompanyNew);
   // const [newCompany, setNewCompany] = useState<ICompanyNew>({title: '', usersID: '657bf93c2f7bf96da48e91cc', contactID: '65a619932267f6b47b2ae804'} as ICompanyNew);
-  const [newContact, setNewContact] = useState<IContactNew>({address: {district: ''}} as IContactNew);
+  const [newContact, setNewContact] = useState<IContactNew>(
+    {
+      address: {main: '', district: ''}, 
+      phonesID: { number: '', description: ''}, 
+      emailsID: { email: '', description: ''}
+    } as IContactNew);
   // setNewCompany(prev => ({...prev, title: 'new'}));
 
   const addNewCompanyHandler = async () => {
@@ -30,10 +35,37 @@ const AddCompanyInner: FC<IProps> = ({isVisible = false, onClose}) => {
     // setNewCompany(prev => ({...prev, usersID: ['657bf93c2f7bf96da48e91cc']}));
     // setNewCompany(newCompany.usersID.push(''));
     // console.log('from addcompany', newCompany);
-    alert('отключена отправка')
+    // alert('отключена отправка')
     // await dispatch(addContact(newContact));
-    // await dispatch(addCompany({company: newCompany, contact: newContact}));
+    await dispatch(addCompany({company: newCompany, contact: newContact}));
 
+  };
+
+  const contactHandler = (e: React.FocusEvent<HTMLInputElement>) => {
+    switch (e.target.name) {
+      case 'contact.address.main':
+        setNewContact(prev => ({...prev, address: { main: e.target.value, district: newContact.address.district }}));
+        break;
+      case 'contact.address.district':
+        setNewContact(prev => ({...prev, address: { main: newContact.address.main, district: e.target.value }}));
+        break;    
+      case 'contact.phone.description':
+        setNewContact(prev => ({...prev, phonesID: { number: newContact.phonesID.number, description: e.target.value }}));
+        break;
+      case 'contact.phone.number':
+        setNewContact(prev => ({...prev, phonesID: { number: e.target.value, description: newContact.phonesID.description }}));
+        break;
+      case 'contact.email.email':
+        setNewContact(prev => ({...prev, emailsID: { email: e.target.value, description: newContact.emailsID.description }}));
+        break;
+      case 'contact.email.description':
+        setNewContact(prev => ({...prev, emailsID: { description: e.target.value, email: newContact.emailsID.email }}));
+        break;
+      default:
+        break;
+    }
+    // setNewContact(prev => ({...prev, address: {main: '', district: e.target.value}}));
+    // console.log(e.target.name);
   };
 
 
@@ -77,23 +109,49 @@ const AddCompanyInner: FC<IProps> = ({isVisible = false, onClose}) => {
           </div>
           <div className="add-company__input">
             <span>Телефон</span>
-            <input type="text" name="" id="" placeholder='+375296654556'/>
-            <input type="text" name="" id="" placeholder='комментарий'/>
+            <input 
+              value={newContact.phonesID.number}
+              onChange={contactHandler}
+              type="text" 
+              name="contact.phone.number" 
+              placeholder='+375296654556'/>
+            <input 
+              value={newContact.phonesID.description}
+              onChange={contactHandler}
+              type="text" 
+              name="contact.phone.description"  
+              placeholder='комментарий'/>
           </div>
           <div className="add-company__input">
             <span>Почта</span>
-            <input type="text" name="" id="" placeholder='example@tut.by'/>
-            <input type="text" name="" id="" placeholder='комментарий'/>
+            <input 
+              value={newContact.emailsID.email}
+              onChange={contactHandler}
+              type="text" 
+              name="contact.email.email" 
+              placeholder='example@tut.by'/>
+            <input 
+              value={newContact.emailsID.description}
+              onChange={contactHandler}
+              type="text" 
+              name="contact.email.description" 
+              placeholder='комментарий'/>
           </div>
           <div className="add-company__input">
             <span>Адрес</span>
-            <input type="text" name="" id="" placeholder='Область, город и тд.'/>
+            <input 
+              value={newContact.address.main}
+              onChange={contactHandler}
+              type='text'
+              name='contact.address.main' 
+              placeholder='Область, город и тд.'/>
           </div>
           <div className="add-company__input">
             <span>Район</span>
             <input 
               value={newContact.address.district}
-              onChange={(e: React.FocusEvent<HTMLInputElement>) => setNewContact(prev => ({...prev, address: {main: '', district: e.target.value}}))}
+              onChange={contactHandler}
+              name='contact.address.district'
               type="text" 
               placeholder='Район...'/>
           </div>

@@ -96,6 +96,7 @@
         &.data {
           color: var(--text-color-default);
           cursor: default;
+          line-height: 21px;
 
           &.user {
             display: flex;

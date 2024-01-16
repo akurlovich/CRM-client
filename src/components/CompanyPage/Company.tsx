@@ -43,13 +43,23 @@ const CompanyInner: FC = () => {
       const query: ICompaniesQuery = {
         query: 
           [{
-              path: "usersID", 
-              select: "lastname firstname"
+            path: "usersID", 
+            select: "lastname firstname"
           },
           {
-              path: "contactID", 
-              select: "address.district"
-          }], 
+            path: "contactID", 
+            select: ""
+          },
+          {
+            path: "contactID", 
+            populate: { path: 'phonesID' }
+          },
+          {
+            path: "contactID", 
+            populate: { path: 'emailsID' }
+          }
+
+        ], 
         sort: {title: 'asc'}, 
         limit: 0
       };

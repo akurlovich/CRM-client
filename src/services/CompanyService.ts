@@ -23,7 +23,7 @@ export default class CompanyService {
   };
 
   static async getAllCompaniesQuery(query: ICompaniesQuery): Promise<AxiosResponse<ICompany[]>> {
-    console.log('client query', query)
+    // console.log('client query', query)
     return serverApi.post<ICompany[]>(`/companies/filter`, query);
   };
 

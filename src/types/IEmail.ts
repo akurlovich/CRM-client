@@ -24,3 +24,9 @@ export interface IEmail {
   email: string,
   description: string,
 }
+
+export interface IEmailNew {
+  companyID: string,
+  email: string,
+  description: string,
+}

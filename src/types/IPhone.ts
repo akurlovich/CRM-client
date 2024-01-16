@@ -23,3 +23,9 @@ export interface IPhone {
   number: string,
   description: string,
 }
+
+export interface IPhoneNew {
+  companyID: string,
+  number: string,
+  description: string,
+}

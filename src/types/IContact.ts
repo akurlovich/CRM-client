@@ -1,5 +1,5 @@
-import { IEmail } from "./IEmail";
-import { IPhone } from "./IPhone";
+import { IEmail, IEmailNew } from "./IEmail";
+import { IPhone, IPhoneNew } from "./IPhone";
 
 export interface IContact {
   // _id: string,
@@ -37,6 +37,12 @@ export interface IContactNew {
     main: string,
     district: string,
   },
-  phonesID: string,
-  emailsID: string,
+  phonesID: {
+    number: string,
+    description: string,
+  },
+  emailsID: {
+    email: string,
+    description: string,
+  }
 }
