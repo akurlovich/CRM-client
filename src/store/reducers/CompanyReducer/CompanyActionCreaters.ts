@@ -1,12 +1,21 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import CompanyService from "../../../services/CompanyService";
+import ContactService from "../../../services/ContactService";
 import { ICompanyNew } from "../../../types/ICompany";
+import { IContactNew } from "../../../types/IContact";
 
 export const addCompany = createAsyncThunk(
   'COMPANY/addCompany',
-  async (company: ICompanyNew, {rejectWithValue}) => {
+  // async ({company, contact}: {company: ICompanyNew, contact: IContactNew}, {rejectWithValue}) => {
+  async (data: {company: ICompanyNew, contact: IContactNew}, {rejectWithValue}) => {
     try {
-      return await (await CompanyService.addCompany(company)).data;
+      // const newContact = await (await ContactService.addContact(contact)).data;
+      // console.log('new contact', newContact)
+      // company.contact.contactID = newContact._id;
+      // company.contact.district = contact.address.district;
+      // console.log('first')
+      // console.log('company from action', company)
+      return await (await CompanyService.addCompany(data)).data;
     } catch (error: any) {
       return rejectWithValue(error.message)
     }

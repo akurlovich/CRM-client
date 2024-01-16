@@ -2,8 +2,10 @@ import React, { FC, useEffect, useState } from 'react';
 import { UNSAFE_useRouteId } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { addCompany, getAllCompanies } from '../../../store/reducers/CompanyReducer/CompanyActionCreaters';
+import { addContact } from '../../../store/reducers/ContactReducer/ContactActionCreators';
 import { getAllUsers } from '../../../store/reducers/UserReducer/UserActionCreators';
 import { ICompanyNew } from '../../../types/ICompany';
+import { IContactNew } from '../../../types/IContact';
 import './addcompany.scss';
 
 interface IProps {
@@ -17,7 +19,9 @@ const AddCompanyInner: FC<IProps> = ({isVisible = false, onClose}) => {
   // const { users } = useAppSelector(state => state.userReducer);
   const dispatch = useAppDispatch();
 
-  const [newCompany, setNewCompany] = useState<ICompanyNew>({title: '', users: [{userID: '65a4ed82f45087cf955a9bac', lastname: 'Яцковец', firstname: 'Светлана'}]} as ICompanyNew);
+  const [newCompany, setNewCompany] = useState<ICompanyNew>({title: '', usersID: '65a112acc11882f036f9cf74'} as ICompanyNew);
+  // const [newCompany, setNewCompany] = useState<ICompanyNew>({title: '', usersID: '657bf93c2f7bf96da48e91cc', contactID: '65a619932267f6b47b2ae804'} as ICompanyNew);
+  const [newContact, setNewContact] = useState<IContactNew>({address: {district: ''}} as IContactNew);
   // setNewCompany(prev => ({...prev, title: 'new'}));
 
   const addNewCompanyHandler = async () => {
@@ -25,9 +29,10 @@ const AddCompanyInner: FC<IProps> = ({isVisible = false, onClose}) => {
     // setNewCompany(prev => ({...prev, usersID: ['657bf93c2f7bf96da48e91cc']}));
     // setNewCompany(prev => ({...prev, usersID: ['657bf93c2f7bf96da48e91cc']}));
     // setNewCompany(newCompany.usersID.push(''));
-    console.log(newCompany);
-    alert('отключена отправка')
-    // await dispatch(addCompany(newCompany));
+    // console.log('from addcompany', newCompany);
+    // alert('отключена отправка')
+    // await dispatch(addContact(newContact));
+    await dispatch(addCompany({company: newCompany, contact: newContact}));
 
   };
 
@@ -83,6 +88,14 @@ const AddCompanyInner: FC<IProps> = ({isVisible = false, onClose}) => {
           <div className="add-company__input">
             <span>Адрес</span>
             <input type="text" name="" id="" placeholder='Область, город и тд.'/>
+          </div>
+          <div className="add-company__input">
+            <span>Район</span>
+            <input 
+              value={newContact.address.district}
+              onChange={(e: React.FocusEvent<HTMLInputElement>) => setNewContact(prev => ({...prev, address: {main: '', district: e.target.value}}))}
+              type="text" 
+              placeholder='Район...'/>
           </div>
         </form>
         <div className="add-company__footer">

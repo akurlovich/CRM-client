@@ -10,7 +10,7 @@ const CompanyItemInner: FC<IProps> = ({company}) => {
 
   return (
     <div className="company__main__row">
-      <IoSquareOutline width={25}/>
+      {/* <IoSquareOutline width={25}/>
       <span className='cell data'>{company.title}</span>
       <div className='cell data user'>
         <span>{`${company.users[0].lastname[0]}${company.users[0].firstname[0]}`}</span>
@@ -18,7 +18,7 @@ const CompanyItemInner: FC<IProps> = ({company}) => {
       </div>
       <span className='cell data'>05 октябрь 2023г.</span>
       <span className='cell data'>31 августа 2024г.</span>
-      <span className='cell data'>{`${company.contact?.district ? company.contact?.district : ''}`}</span>
+      <span className='cell data'>{`${company.contact?.district ? company.contact?.district : ''}`}</span> */}
     </div>    
   )
 }

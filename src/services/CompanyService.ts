@@ -1,11 +1,13 @@
 import { AxiosResponse } from "axios";
 import serverApi from "../http";
 import { ICompany, ICompanyNew } from "../types/ICompany";
+import { IContactNew } from "../types/IContact";
 
 export default class CompanyService {
-  static async addCompany(company: ICompanyNew): Promise<AxiosResponse<ICompany>> {
-    console.log('company client', company);
-    return serverApi.post<ICompany>('/companies', company);
+  // static async addCompany(company: ICompanyNew): Promise<AxiosResponse<ICompany>> {
+  static async addCompany(data: {company: ICompanyNew, contact: IContactNew}): Promise<AxiosResponse<ICompany>> {
+    console.log('company client', data);
+    return serverApi.post<ICompany>('/companies', data);
   };
 
   static async getCompanyByID(companyID: string): Promise<AxiosResponse<ICompany>> {

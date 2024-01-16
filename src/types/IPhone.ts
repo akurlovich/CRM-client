@@ -1,7 +1,4 @@
-import { IEmail } from "./IEmail";
-import { IPhone } from "./IPhone";
-
-export interface IContact {
+export interface IPhone {
   // _id: string,
   // company: {
   //   companyID: string,
@@ -23,20 +20,6 @@ export interface IContact {
   // }],
   _id: string,
   companyID: string,
-  address: {
-    main: string,
-    district: string,
-  },
-  phonesID: IPhone[],
-  emailsID: IEmail[],
-}
-
-export interface IContactNew {
-  companyID: string,
-  address: {
-    main: string,
-    district: string,
-  },
-  phonesID: string,
-  emailsID: string,
+  number: string,
+  description: string,
 }
