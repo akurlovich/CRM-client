@@ -69,6 +69,9 @@ export interface ICompaniesQuery {
     [key: string]: 'asc' | 'desc',
   },
   limit: number,
+  find?: {
+    [key: string]: string
+  }
 }
 
 

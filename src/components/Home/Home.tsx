@@ -54,7 +54,7 @@ const HomeInner: FC = () => {
       </header>
       <div className="main__wrapper">
         <div className="left">
-          <BaseBlock/>
+          {/* <BaseBlock/> */}
           <BaseBlockSmall deal="Задачи"/>
           {/* <BaseBlockSmall deal="Процесссы"/> */}
           <AddOrder isVisible={showAddOrder}/>
@@ -66,31 +66,7 @@ const HomeInner: FC = () => {
           <BaseBlockNarrow/>
           <BaseBlockContacts/>
         </div>
-        {/* <BaseBlock/>
-        <BaseBlockSmall/>
-        <BaseBlock/>
-        <BaseBlockSmall/>
-        <BaseBlock/>
-        <BaseBlockSmall/>
-        <BaseBlock/>
-        <BaseBlockSmall/>
-        <BaseBlock/>
-        <BaseBlockSmall/>
-        <BaseBlock/>
-        <BaseBlockSmall/>
-        <BaseBlock/>
-        <BaseBlockSmall/>
-        <BaseBlock/>
-        <BaseBlockSmall/> */}
       </div>
-      {/* <button 
-        onClick={onclickbutton}
-        className="div">HI!!!!!!!!!!!!!!!!!
-      </button>
-      <button 
-        onClick={onclickbutton2}
-        className="div">HHHHHHHHHHHI!!!!!!!!!!!!!!!!!
-      </button> */}
     </main>
   );
 };

@@ -1,15 +1,26 @@
 import React, { FC } from 'react';
 import { IoSquareOutline } from "@react-icons/all-files/io5/IoSquareOutline";
 import { ICompany } from '../../../types/ICompany';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 interface IProps {
   company: ICompany,
 }
 
 const CompanyItemInner: FC<IProps> = ({company}) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const onClickHandler = () => {
+    // console.log(company._id)
+    // console.log(location)
+    navigate(`/companies/${company._id}/card`);
+  }
 
   return (
-    <div className="company__main__row">
+    <div 
+      onClick={onClickHandler}
+      className="company__main__row">
       <IoSquareOutline width={25}/>
       <span className='cell data'>{company.title}</span>
       <div className='cell data user'>

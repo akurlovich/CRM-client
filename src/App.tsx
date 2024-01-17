@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { Company } from './components/CompanyPage/Company';
+import { Company } from './components/CompanyPage/Companies';
+import { CompanyCard } from './components/CompanyPage/CompanyCard/CompanyCard';
 import { Home } from './components/Home/Home';
 import { OrdersPage } from './components/OrdersPage/OrdersMain';
 import { PageNotFound } from './components/PageNotFound/PageNotFound';
@@ -13,8 +14,9 @@ const App: FC = () => {
     <Routes>
       <Route path="/" element={<MainLayout />}>
         <Route index element={<Home />}/>
-        <Route path="all" element={<Company />}/>
+        <Route path="companies" element={<Company />}/>
         <Route path="orders" element={<OrdersPage/>}/>
+        <Route path="companies/:id/card" element={<CompanyCard/>}/>
         {/* <Route path='admin' element={
           <AdminAuthRouter>
             <AddProduct/>

@@ -6,12 +6,12 @@ import { IContactNew } from "../types/IContact";
 export default class CompanyService {
   // static async addCompany(company: ICompanyNew): Promise<AxiosResponse<ICompany>> {
   static async addCompany(data: {company: ICompanyNew, contact: IContactNew}): Promise<AxiosResponse<ICompany>> {
-    console.log('company client', data);
+    // console.log('company client', data);
     return serverApi.post<ICompany>('/companies', data);
   };
 
   static async getCompanyByID(companyID: string): Promise<AxiosResponse<ICompany>> {
-    return serverApi.get<ICompany>(`/companies/${companyID}`);
+    return serverApi.get<ICompany>(`/companies/${companyID}/card`);
   };
 
   // static async getProductInfoByID(id: string): Promise<AxiosResponse<IProductInfoResponse>> {
@@ -26,6 +26,11 @@ export default class CompanyService {
     // console.log('client query', query)
     return serverApi.post<ICompany[]>(`/companies/filter`, query);
   };
+
+  // static async getAllCompanyByIDQuery(query: ICompaniesQuery): Promise<AxiosResponse<ICompany[]>> {
+  //   // console.log('client query', query)
+  //   return serverApi.post<ICompany[]>(`/companies/filter`, query);
+  // };
 
   // static async getCompanysByTypeID(typeID: string): Promise<AxiosResponse<ICompanyResponse>> {
   //   return serverApi.get<ICompanyResponse>(`/colors/${typeID}`);

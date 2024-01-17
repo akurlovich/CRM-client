@@ -2,15 +2,20 @@ import React, { FC } from 'react';
 import './baseblock.scss';
 import { IoPencilOutline } from "@react-icons/all-files/io5/IoPencilOutline";
 import { IoSquareOutline } from "@react-icons/all-files/io5/IoSquareOutline";
+import { ICompany } from '../../types/ICompany';
 
-const BaseBlockInner: FC = () => {
+interface IProps {
+  company: ICompany;
+}
+
+const BaseBlockInner: FC<IProps> = ({company}) => {
   return (
     <section className='baseblock'>
       <div className="baseblock__title">
         <div className="baseblock__title__user">
           <div className="avatar">КА</div>
           <div className="name">
-            <span>Курлович Артем</span>
+            <span>{`${company?.usersID[0]?.lastname} ${company?.usersID[0]?.firstname}`}</span>
             <span>Ответственный</span>
           </div>
         </div>

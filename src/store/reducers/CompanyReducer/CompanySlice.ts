@@ -71,6 +71,18 @@ const companySlice = createSlice({
         state.isLoading = false;
         state.error = action.payload as string;
       });
+    // builder
+    //   .addCase(getAllCompanyByIDQuery.pending, (state) => {
+    //     state.isLoading = true;
+    //   })
+    //   .addCase(getAllCompanyByIDQuery.fulfilled, (state, action: PayloadAction<ICompany[]>) => {
+    //     state.isLoading = false;
+    //     state.company = action.payload[0];
+    //   })
+    //   .addCase(getAllCompanyByIDQuery.rejected, (state, action) => {
+    //     state.isLoading = false;
+    //     state.error = action.payload as string;
+    //   });
   },
 });
 

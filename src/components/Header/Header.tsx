@@ -21,7 +21,7 @@ export const Header: FC = () => {
             Сотрудники
           </NavLink>
           <NavLink
-            to='/all'
+            to='/companies'
             className={({ isActive }) => isActive ? 'header__nav__item active' : 'header__nav__item'}>
             Клиенты
           </NavLink>

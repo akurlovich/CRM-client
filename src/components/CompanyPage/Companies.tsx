@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
-import './company.scss';
+import './companies.scss';
 import { IoDocumentOutline } from "@react-icons/all-files/io5/IoDocumentOutline";
 import { IoExitOutline } from "@react-icons/all-files/io5/IoExitOutline";
 import { IoFilterOutline } from "@react-icons/all-files/io5/IoFilterOutline";
@@ -48,19 +48,20 @@ const CompanyInner: FC = () => {
           },
           {
             path: "contactID", 
-            select: ""
+            select: "address.district"
           },
-          {
-            path: "contactID", 
-            populate: { path: 'phonesID' }
-          },
-          {
-            path: "contactID", 
-            populate: { path: 'emailsID' }
-          }
+          // {
+          //   path: "contactID", 
+          //   populate: { path: 'phonesID' }
+          // },
+          // {
+          //   path: "contactID", 
+          //   populate: { path: 'emailsID' }
+          // }
 
         ], 
-        sort: {title: 'asc'}, 
+        //@ts-ignore
+        sort: {'contactID.address.district': 'asc'}, 
         limit: 0
       };
 
