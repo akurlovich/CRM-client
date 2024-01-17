@@ -27,10 +27,10 @@ export default class CompanyService {
     return serverApi.post<ICompany[]>(`/companies/filter`, query);
   };
 
-  // static async getAllCompanyByIDQuery(query: ICompaniesQuery): Promise<AxiosResponse<ICompany[]>> {
-  //   // console.log('client query', query)
-  //   return serverApi.post<ICompany[]>(`/companies/filter`, query);
-  // };
+  static async getCompanyByIDQuery(query: ICompaniesQuery): Promise<AxiosResponse<ICompany>> {
+    // console.log('client query', query)
+    return serverApi.post<ICompany>(`/companies/item`, query);
+  };
 
   // static async getCompanysByTypeID(typeID: string): Promise<AxiosResponse<ICompanyResponse>> {
   //   return serverApi.get<ICompanyResponse>(`/colors/${typeID}`);

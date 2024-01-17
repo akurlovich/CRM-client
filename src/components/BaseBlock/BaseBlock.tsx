@@ -1,21 +1,25 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import './baseblock.scss';
 import { IoPencilOutline } from "@react-icons/all-files/io5/IoPencilOutline";
 import { IoSquareOutline } from "@react-icons/all-files/io5/IoSquareOutline";
 import { ICompany } from '../../types/ICompany';
+import { useAppSelector } from '../../hooks/redux';
 
 interface IProps {
-  company: ICompany;
+  company: any;
 }
 
-const BaseBlockInner: FC<IProps> = ({company}) => {
+const BaseBlockInner: FC = () => {
+  const { company, companies, isLoading } = useAppSelector(state => state.companyReducer);
+  
   return (
     <section className='baseblock'>
       <div className="baseblock__title">
         <div className="baseblock__title__user">
           <div className="avatar">КА</div>
           <div className="name">
-            <span>{`${company?.usersID[0]?.lastname} ${company?.usersID[0]?.firstname}`}</span>
+          <span>{company.usersID ? `${company.usersID[0].lastname} ${company.usersID[0].firstname}` : ''}</span>
+            {/* <span>{`${company.usersID[0]?.lastname} ${company.usersID[0]?.firstname}`}</span> */}
             <span>Ответственный</span>
           </div>
         </div>
@@ -38,4 +42,5 @@ const BaseBlockInner: FC<IProps> = ({company}) => {
   )
 }
 
-export const BaseBlock = React.memo(BaseBlockInner);
+// export const BaseBlock = React.memo(BaseBlockInner);
+export const BaseBlock = BaseBlockInner;

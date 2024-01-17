@@ -34,17 +34,17 @@ export const getCompanyByID = createAsyncThunk(
   }
 );
 
-// export const getAllCompanyByIDQuery = createAsyncThunk(
-//   'COMPANY/getAllCompanyByIDQuery',
-//   async ( query: ICompaniesQuery, {rejectWithValue}) => {
-//     try {
-//       return await (await CompanyService.getAllCompanyByIDQuery(query)).data;
+export const getCompanyByIDQuery = createAsyncThunk(
+  'COMPANY/getCompanyByIDQuery',
+  async ( query: ICompaniesQuery, {rejectWithValue}) => {
+    try {
+      return await (await CompanyService.getCompanyByIDQuery(query)).data;
       
-//     } catch (error: any) {
-//       return rejectWithValue(error.message)
-//     }
-//   }
-// );
+    } catch (error: any) {
+      return rejectWithValue(error.message)
+    }
+  }
+);
 
 export const getAllCompanies = createAsyncThunk(
   'COMPANY/getAllCompanies',

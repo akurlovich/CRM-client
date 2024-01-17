@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ICompany, ICompanyNew } from "../../../types/ICompany";
-import { addCompany, getAllCompanies, getAllCompaniesQuery, getCompanyByID } from "./CompanyActionCreaters";
+import { addCompany, getAllCompanies, getAllCompaniesQuery, getCompanyByID, getCompanyByIDQuery } from "./CompanyActionCreaters";
 
 interface ICompanyState {
   company: ICompany,
@@ -71,18 +71,18 @@ const companySlice = createSlice({
         state.isLoading = false;
         state.error = action.payload as string;
       });
-    // builder
-    //   .addCase(getAllCompanyByIDQuery.pending, (state) => {
-    //     state.isLoading = true;
-    //   })
-    //   .addCase(getAllCompanyByIDQuery.fulfilled, (state, action: PayloadAction<ICompany[]>) => {
-    //     state.isLoading = false;
-    //     state.company = action.payload[0];
-    //   })
-    //   .addCase(getAllCompanyByIDQuery.rejected, (state, action) => {
-    //     state.isLoading = false;
-    //     state.error = action.payload as string;
-    //   });
+    builder
+      .addCase(getCompanyByIDQuery.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getCompanyByIDQuery.fulfilled, (state, action: PayloadAction<ICompany>) => {
+        state.isLoading = false;
+        state.company = action.payload;
+      })
+      .addCase(getCompanyByIDQuery.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload as string;
+      });
   },
 });
 

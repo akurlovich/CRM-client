@@ -16,7 +16,7 @@ const App: FC = () => {
         <Route index element={<Home />}/>
         <Route path="companies" element={<Company />}/>
         <Route path="orders" element={<OrdersPage/>}/>
-        <Route path="companies/:id/card" element={<CompanyCard/>}/>
+        <Route path="companies/:id" element={<CompanyCard/>}/>
         {/* <Route path='admin' element={
           <AdminAuthRouter>
             <AddProduct/>

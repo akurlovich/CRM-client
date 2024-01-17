@@ -1,0 +1,253 @@
+.baseblock {
+  max-width: 100%;
+  flex-basis: 60%;
+  flex-grow: 1;
+  flex-shrink: 0;
+  margin-bottom: 8px;
+  margin-right: 8px;
+  // width: calc(100% - 8px);
+  background: #fff;
+  border-radius: 2px;
+  padding: 18px;
+  // margin: 20px;
+  box-shadow: 0 0 2px 0 rgba(0,0,0,.1), 0 2px 2px 0 rgba(0,0,0,.2);
+
+  &.small {
+    // background-color: aqua;
+    flex-basis: 25%;
+  }
+
+  &__title {
+    display: flex;
+    gap: 20px;
+    padding-bottom: 30px;
+    border-bottom: 1px solid var(--border-1);
+    align-items: center;
+
+    &__user {
+      display: flex;
+      gap: 15px;
+
+      & > .avatar {
+        width: 30px;
+        height: 30px;
+        border-radius: 100%;
+        background-color: lightgrey;
+        display: flex;
+        align-items: center;
+        text-align: center;
+        justify-content: center;
+      }
+
+      & > .name {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        
+        & span:nth-child(2) {
+          color: var(--text-color-secondary-light);
+          font-size: 12px;
+        }
+      }
+
+    }
+
+    &__deal {
+      display: flex;
+      gap: 10px;
+
+      & > .item {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+
+        & span:nth-child(1) {
+          color: red;
+        }
+
+        & span:nth-child(2) {
+          color: var(--text-color-secondary-light);
+          font-size: 12px;
+        }
+      }
+
+    }
+
+    &__nitification {
+      color: var(--link-active-2);
+
+    }
+
+  }
+
+  &__description {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    padding-top: 20px;
+
+    & > span {
+      color: var(--text-color-default);
+    }
+  }
+
+}
+
+.baseblockSmall {
+
+  &__newdeal {
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-1);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    &__title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      & > .text {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+
+        & > span {
+          font-size: 18px;
+        }
+      }
+
+      & > .icons {
+        display: flex;
+        gap: 15px;
+      }
+    }
+
+    &__add {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+
+      & > span {
+        color: var(--text-color-light-secondary);
+      }
+    }
+
+  }
+
+  &__deals {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding-top: 20px;
+
+    &__item {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+
+      &__title {
+        color: var(--text-color-light-secondary);
+        font-size: 12px;
+
+      }
+
+      &__info {
+        display: flex;
+        justify-content: space-between;
+        
+
+        & > .text {
+          display: flex;
+          gap: 5px;
+
+          & > .item {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+
+            & span:first-child {
+              color: red;
+            }
+
+            & span:nth-child(2) {
+              font-size: 12px;
+            }
+          }
+        }
+
+        & > .icons {
+          display: flex;
+          gap: 10px;
+        }
+
+      }
+
+    }
+
+  }
+
+}
+
+// .baseblock {
+//   &.small__wrapper {
+//     padding: 20px;
+//   }
+// }
+
+.baseblock__small__wrapper {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+
+  &.small__wrapper {
+    padding: 15px;
+  }
+
+  & span {
+    text-transform: uppercase;
+  }
+
+}
+
+.baseblock__contacts {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  & > .title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    & > span {
+      font-size: 16px;
+    }
+  }
+
+  & > .data {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 15px;
+
+    & > .text {
+      padding-top: 10px;
+      display: flex;
+      gap: 15px;
+
+      & span:first-child {
+        color: var(--link-active-2);
+      }
+    }
+
+    & > .icons {
+      display: flex;
+      gap: 10px;
+    }
+
+    &.last {
+      padding-bottom: 10px;
+    }
+  }
+}

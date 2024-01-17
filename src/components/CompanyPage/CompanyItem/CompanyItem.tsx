@@ -1,20 +1,48 @@
 import React, { FC } from 'react';
 import { IoSquareOutline } from "@react-icons/all-files/io5/IoSquareOutline";
-import { ICompany } from '../../../types/ICompany';
+import { ICompaniesQuery, ICompany } from '../../../types/ICompany';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { getAllCompaniesQuery } from '../../../store/reducers/CompanyReducer/CompanyActionCreaters';
+import { useAppDispatch } from '../../../hooks/redux';
 
 interface IProps {
   company: ICompany,
 }
 
 const CompanyItemInner: FC<IProps> = ({company}) => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const location = useLocation();
 
-  const onClickHandler = () => {
+  const onClickHandler = async () => {
     // console.log(company._id)
     // console.log(location)
-    navigate(`/companies/${company._id}/card`);
+    // const query: ICompaniesQuery = {
+    //   query: 
+    //     [{
+    //       path: "usersID", 
+    //       select: "lastname firstname"
+    //     },
+    //     {
+    //       path: "contactID", 
+    //       // select: "address.district"
+    //     },
+    //     {
+    //       path: "contactID", 
+    //       populate: { path: 'phonesID' }
+    //     },
+    //     {
+    //       path: "contactID", 
+    //       populate: { path: 'emailsID' }
+    //     }
+
+    //   ], 
+    //   sort: {'contactID.address.district': 'asc'}, 
+    //   limit: 0,
+    //   find: {'_id': company._id}
+    // };
+    // await dispatch(getAllCompaniesQuery(query));
+    navigate(`/companies/${company._id}`);
   }
 
   return (
