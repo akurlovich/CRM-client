@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import './baseblock.scss';
+import './contactsblock.scss';
 import { IoAddCircleOutline } from "@react-icons/all-files/io5/IoAddCircleOutline";
 import { IoAddOutline } from "@react-icons/all-files/io5/IoAddOutline";
 import { IoPencilOutline } from "@react-icons/all-files/io5/IoPencilOutline";
@@ -18,7 +18,7 @@ const ContactsBlockInner: FC = () => {
   const { company, companies, isLoading } = useAppSelector(state => state.companyReducer);
 
   return (
-    <section className='baseblock small'>
+    <section className='contactsblock'>
       <div className="baseblockSmall__newdeal">
         <div className="baseblockSmall__newdeal__title">
           <div className="text">
@@ -34,69 +34,34 @@ const ContactsBlockInner: FC = () => {
           {/* <div className="baseblockSmall__deals__item__title">
             <span>Четверг, 2 ноября 2024г.</span> 
           </div> */}
-          <div className="baseblock__contacts">
+          <div className="contactsblock__contacts">
             <div className="title">
               <span>Телефоны</span>
               <IoAddOutline size={20}/>
             </div>
-            <div className="data">
-              <div className="text">
-                <span>+375 29 554-35-62</span>
-                <span>Иван Михайлович</span>
+
+            {company.contactID ? company.contactID.phonesID.map(item => (
+              <div className="data">
+                <div className="text">
+                  <span className='span-number'>{item.number}</span>
+                  <span>{item.description}</span>
+                </div>
+                <div className="icons">
+                  <IoPencilOutline size={20}/>
+                  <IoCopyOutline size={20}/>
+                </div>
               </div>
-              <div className="icons">
-                <IoPencilOutline size={20}/>
-                <IoCopyOutline size={20}/>
-              </div>
-            </div>
-            <div className="data">
-              <div className="text">
-                <span>+375 29 112-98-78</span>
-                <span>Владимир Эдуардович</span>
-              </div>
-              <div className="icons">
-                <IoPencilOutline size={20}/>
-                <IoCopyOutline size={20}/>
-              </div>
-            </div>
-            <div className="data">
-              <div className="text">
-                <span>+375 44 678-98-60</span>
-                <span>Дарья Васильевна</span>
-              </div>
-              <div className="icons">
-                <IoPencilOutline size={20}/>
-                <IoCopyOutline size={20}/>
-              </div>
-            </div>
-            <div className="data">
-              <div className="text">
-                <span>+375 33 978-11-11</span>
-                <span>Аленсандр Владиславович</span>
-              </div>
-              <div className="icons">
-                <IoPencilOutline size={20}/>
-                <IoCopyOutline size={20}/>
-              </div>
-            </div>
-            <div className="data last">
-              <div className="text">
-                <span>+375 25 425-55-32</span>
-                <span>Ана Степановна</span>
-              </div>
-              <div className="icons">
-                <IoPencilOutline size={20}/>
-                <IoCopyOutline size={20}/>
-              </div>
-            </div>
+              )) : null
+            }
+
+            
             <div className="title">
               <span>Адрес</span>
               <IoAddOutline size={20}/>
             </div>
             <div className="data last">
               <div className="text">
-                <span></span>
-                <span>{company?.contactID?.address?.main ? company?.contactID?.address?.main : ''}</span>
+                <span className='span-address'>{company?.contactID?.address?.main ? company?.contactID?.address?.main : ''}</span>
               </div>
               <div className="icons">
                 <IoPencilOutline size={20}/>
@@ -109,7 +74,6 @@ const ContactsBlockInner: FC = () => {
             </div>
             <div className="data last">
               <div className="text">
-                <span></span>
                 <span>{company?.contactID?.address?.district ? company?.contactID?.address?.district : ''}</span>
               </div>
               <div className="icons">
