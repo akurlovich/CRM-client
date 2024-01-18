@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IPhone } from "../../../types/IPhone";
-import { addPhone, getAllPhones } from "./PhoneActionCreators";
+import { addPhone, getAllPhones, updatePhoneByID } from "./PhoneActionCreators";
 
 interface IPhoneState {
   phone: IPhone,
@@ -42,6 +42,18 @@ const phoneSlice = createSlice({
         state.phones = action.payload;
       })
       .addCase(getAllPhones.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload as string;
+      });
+    builder
+      .addCase(updatePhoneByID.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updatePhoneByID.fulfilled, (state, action: PayloadAction<IPhone>) => {
+        state.isLoading = false;
+        state.phone = action.payload;
+      })
+      .addCase(updatePhoneByID.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload as string;
       });

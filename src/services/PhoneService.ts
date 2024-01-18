@@ -1,6 +1,6 @@
 import { AxiosResponse } from "axios";
 import serverApi from "../http";
-import { IPhone, IPhoneNewAddContacts } from "../types/IPhone";
+import { IPhone, IPhoneNewAddContacts, IPhoneUpdate } from "../types/IPhone";
 
 export default class PhoneService {
   static async addPhone(phone: IPhoneNewAddContacts): Promise<AxiosResponse<IPhone>> {
@@ -26,6 +26,10 @@ export default class PhoneService {
 
   static async deletePhoneByID(phoneID: string): Promise<AxiosResponse<IPhone>> {
     return serverApi.delete<IPhone>(`/phones/${phoneID}`);
+  };
+
+  static async updatePhoneByID(phoneID: string, phone: IPhoneUpdate): Promise<AxiosResponse<IPhone>> {
+    return serverApi.put<IPhone>(`/phones/${phoneID}`, phone);
   };
 
   // static async updatePhoneByAddress(

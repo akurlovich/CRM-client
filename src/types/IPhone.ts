@@ -11,6 +11,11 @@ export interface IPhoneNew {
   description: string,
 }
 
+export interface IPhoneUpdate {
+  number: string,
+  description: string,
+}
+
 export interface IPhoneNewAddContacts {
   contactID: string,
   phone: IPhoneNew

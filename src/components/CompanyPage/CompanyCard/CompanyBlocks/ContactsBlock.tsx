@@ -10,7 +10,7 @@ import { IoCallSharp } from "@react-icons/all-files/io5/IoCallSharp";
 import { ICompany } from '../../../../types/ICompany';
 import { useAppDispatch, useAppSelector } from '../../../../hooks/redux';
 import { IPhoneNewAddContacts } from '../../../../types/IPhone';
-import { addPhone, getAllPhones } from '../../../../store/reducers/PhoneReducer/PhoneActionCreators';
+import { addPhone, getAllPhones, updatePhoneByID } from '../../../../store/reducers/PhoneReducer/PhoneActionCreators';
 
 // interface IProps {
 //   company: ICompany;
@@ -22,7 +22,7 @@ const ContactsBlockInner: FC = () => {
 
   const dispatch = useAppDispatch();
 
-  // const [addPhoneAndUpdateContact, setAddPhoneAndUpdateContact] = useState({ number: '', description: '' });
+  const [showUpdateInput, setShowUpdateInput] = useState({show: false, itemID: ''})
 
   const [addPhoneAndUpdateContact, setAddPhoneAndUpdateContact] = useState<IPhoneNewAddContacts>({ contactID: company.contactID?._id, 
     phone: { 
@@ -36,10 +36,6 @@ const ContactsBlockInner: FC = () => {
   const addPhoneInputsHandler = (e: React.FocusEvent<HTMLInputElement>) => {
     switch (e.target.name) {
       case 'phone.number':
-        // setAddPhoneAndUpdateContact(prev => ({
-        //   ...prev,
-        //   number: e.target.value
-        // }))
         setAddPhoneAndUpdateContact(prev => ({
           ...prev,
           phone : {
@@ -56,26 +52,71 @@ const ContactsBlockInner: FC = () => {
             description: e.target.value
           }
         }))
-        break;   
+        break;
+      case 'phone.number.update':
+        setAddPhoneAndUpdateContact(prev => ({
+          ...prev,
+          phone : {
+            ...prev.phone,
+            number: e.target.value
+          }
+        }))
+        break;
+      case 'phone.description.update':
+        setAddPhoneAndUpdateContact(prev => ({
+          ...prev,
+          phone : {
+            ...prev.phone,
+            description: e.target.value
+          }
+        }))
+        break;    
       default:
         break;
     }
-  }
+  };
 
   const addPhoneHandler = async () => {
-    // const newPhone: IPhoneNewAddContacts = { 
-    //   contactID: company.contactID?._id, 
-    //   phone: { 
-    //     companyID: company._id, 
-    //     number: '', description: ''
-    //   }
-    // };
+    // const reqex = /^(\s*)?(\+)?([- _():=+]?\d[- _():=+]?){10,12}(\s*)?$/;
+    // const reqex = /^((8|\+3)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{10,12}$/;
+    // const reqex = /(?:\+375|80)\s?\(?\d\d\)?\s?\d\d(?:\d[\-\s]\d\d[\-\s]\d\d|[\-\s]\d\d[\-\s]\d\d\d|\d{5,6}$)/;
+    const reqex = /^((8|\+375)[\- ]?)?\(?\d{3,5}\)?[\- ]?\d{1}[\- ]?\d{1}[\- ]?\d{1}[\- ]?\d{1}[\- ]?\d{1}(([\- ]?\d{1})?[\- ]?\d{1})?$/;
 
+    const result = reqex.test(addPhoneAndUpdateContact.phone.number);
+    // console.log(result)
     console.log(addPhoneAndUpdateContact)
-    await dispatch(addPhone(addPhoneAndUpdateContact));
-    await dispatch(getAllPhones());
+    // await dispatch(addPhone(addPhoneAndUpdateContact));
+    // await dispatch(getAllPhones());
     
     // setShowAddPhone(false);
+  };
+
+  const updatePhoneHandler = async () => {
+    const phone = {
+      phoneID: showUpdateInput.itemID, 
+      phone: {
+        number: addPhoneAndUpdateContact.phone.number, 
+        description: addPhoneAndUpdateContact.phone.description
+    }};
+
+    console.log(phone)
+    
+    await dispatch(updatePhoneByID(phone));
+    await dispatch(getAllPhones());
+    setShowUpdateInput({show: false, itemID: ''});
+  };
+
+  const updateShowHandler = (show: boolean, itemID: string, number: string, description: string) => {
+    setShowUpdateInput({show: show, itemID: itemID});
+    setAddPhoneAndUpdateContact(prev => ({
+      ...prev,
+      phone : {
+        ...prev.phone,
+        number: number,
+        description: description,
+      }
+    }))
+
   }
 
   return (
@@ -104,14 +145,38 @@ const ContactsBlockInner: FC = () => {
 
             {company.contactID ? company.contactID.phonesID.map(item => (
               <div key={item._id} className="data">
-                <div className="text">
-                  <span className='span-number'>{item.number}</span>
-                  <span>{item.description}</span>
-                </div>
-                <div className="icons">
-                  <IoPencilOutline size={20}/>
-                  <IoCopyOutline size={20}/>
-                </div>
+                {showUpdateInput.itemID === item._id ? 
+                  <div className="contactsblock__contacts__inputs update">
+                    <input 
+                      value={addPhoneAndUpdateContact.phone.number}
+                      onChange={addPhoneInputsHandler}
+                      type="text" 
+                      name="phone.number.update" 
+                      placeholder='+37544-254-56-87'/>
+                    <input
+                      value={addPhoneAndUpdateContact.phone.description}
+                      onChange={addPhoneInputsHandler}
+                      type="text" 
+                      name="phone.description.update" 
+                      placeholder='комментарий'/>
+                    <button
+                      onClick={updatePhoneHandler}
+                      >Изменить</button>
+                  </div>
+                  :
+                  <div className="text">
+                    <span className='span-number'>{item.number}</span>
+                    <span>{item.description}</span>
+                  </div>
+                }
+                {showUpdateInput.itemID === item._id ? null :
+                  <div className="icons">
+                    <IoPencilOutline 
+                      onClick={() => updateShowHandler(true, item._id, item.number, item.description)}
+                      size={20}/>
+                    <IoCopyOutline size={20}/>
+                  </div>
+                }
               </div>
               )) : null
             }
