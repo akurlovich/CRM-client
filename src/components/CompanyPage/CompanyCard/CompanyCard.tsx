@@ -6,6 +6,7 @@ import React, { FC, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { getAllCompaniesQuery, getCompanyByID, getCompanyByIDQuery } from '../../../store/reducers/CompanyReducer/CompanyActionCreaters';
+import { getAllPhones } from '../../../store/reducers/PhoneReducer/PhoneActionCreators';
 import { ICompaniesQuery, ICompany } from '../../../types/ICompany';
 import { BaseBlock } from '../../BaseBlock/BaseBlock';
 import { BaseBlockContacts } from '../../BaseBlock/BaseBlockContacts';
@@ -31,7 +32,7 @@ const CompanyCardInner: FC = () => {
   const [userItem, setUserItem] = useState({});
 
   useEffect(() => {
-    console.log('param', params.id)
+    // console.log('param', params.id)
     const fetchData = async () => {
       if (params.id) {
         const query: ICompaniesQuery = {
@@ -59,6 +60,7 @@ const CompanyCardInner: FC = () => {
           find: {'_id': params.id}
         };
         await dispatch(getCompanyByIDQuery(query));
+        await dispatch(getAllPhones());
         // await dispatch(getCompanyByID(params.id));
       }
     }; 
@@ -108,7 +110,7 @@ const CompanyCardInner: FC = () => {
               <AddOrder isVisible={showAddOrder}/>
               {/* <AddOrder/> */}
               <OrdersInCompany showAddOrder={(() => setShowAddOrder(true))}/>
-              <Comments/>
+              {/* <Comments/> */}
             </div>
             <div className="right">
               <BaseBlockNarrow/>
