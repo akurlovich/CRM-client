@@ -4,7 +4,7 @@ import { IContact, IContactNew } from "../types/IContact";
 
 export default class ContactService {
   static async addContact(contact: IContactNew): Promise<AxiosResponse<IContact>> {
-    console.log('contact client', contact);
+    // console.log('contact client', contact);
     return serverApi.post<IContact>('/contacts', contact);
   };
 
@@ -41,7 +41,7 @@ export default class ContactService {
 
   static async updateContactByAddress(
     data: {contactID: string, newAddress: {address: {main: string, district: string}}}): Promise<AxiosResponse<IContact>> {
-    console.log('new address client', data);
+    // console.log('new address client', data);
     return serverApi.put<IContact>(`/contacts/${data.contactID}`, data.newAddress);
   };
 }

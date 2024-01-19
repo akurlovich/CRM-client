@@ -16,7 +16,7 @@ import { Comments } from '../../Comments/Comments';
 import { AddOrder } from '../../OrdersPage/AddOrder/AddOrder';
 import { OrdersInCompany } from '../../OrdersPage/OrdersInCompany/OrdersInCompany';
 import { Loader } from '../../UI/Loader/Loader';
-import { ContactsBlock } from './CompanyBlocks/ContactsBlock';
+import { ContactsBlock } from './CompanyBlocks/ContactsBlock/ContactsBlock';
 import './companycard.scss';
 
 // interface IProps {

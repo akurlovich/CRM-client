@@ -5,14 +5,15 @@ import { IoAddOutline } from "@react-icons/all-files/io5/IoAddOutline";
 import { IoPencilOutline } from "@react-icons/all-files/io5/IoPencilOutline";
 import { IoCopyOutline } from '@react-icons/all-files/io5/IoCopyOutline';
 import { IoTrashOutline } from "@react-icons/all-files/io5/IoTrashOutline";
-import { ICompaniesQuery, ICompany } from '../../../../types/ICompany';
-import { useAppDispatch, useAppSelector } from '../../../../hooks/redux';
-import { IPhoneNewAddContacts } from '../../../../types/IPhone';
-import { addPhone, getAllPhones, updatePhoneByID } from '../../../../store/reducers/PhoneReducer/PhoneActionCreators';
-import { deleteEmailFromContactByPhoneID, deletePhoneFromContactByPhoneID } from '../../../../store/reducers/ContactReducer/ContactActionCreators';
-import { getCompanyByIDQuery } from '../../../../store/reducers/CompanyReducer/CompanyActionCreaters';
-import { IEmailNewAddContacts } from '../../../../types/IEmail';
-import { addEmail } from '../../../../store/reducers/EmailReducer/EmailActionCreators';
+import { ICompaniesQuery } from '../../../../../types/ICompany';
+import { useAppDispatch, useAppSelector } from '../../../../../hooks/redux';
+import { IPhoneNewAddContacts } from '../../../../../types/IPhone';
+import { IEmailNewAddContacts } from '../../../../../types/IEmail';
+import { addPhone, updatePhoneByID } from '../../../../../store/reducers/PhoneReducer/PhoneActionCreators';
+import { getCompanyByIDQuery } from '../../../../../store/reducers/CompanyReducer/CompanyActionCreaters';
+import { addEmail, updateEmailByID } from '../../../../../store/reducers/EmailReducer/EmailActionCreators';
+import { deleteEmailFromContactByPhoneID, deletePhoneFromContactByPhoneID } from '../../../../../store/reducers/ContactReducer/ContactActionCreators';
+import { ContactsPhones } from './ContactsPhones';
 
 interface IProps {
   companyID: string;
@@ -48,8 +49,10 @@ const ContactsBlockInner: FC<IProps> = ({companyID}) => {
 
   const dispatch = useAppDispatch();
 
+  //!------del
   const [showUpdateInput, setShowUpdateInput] = useState({show: false, itemID: ''})
 
+  //!---------del
   const [addPhoneAndUpdateContact, setAddPhoneAndUpdateContact] = useState<IPhoneNewAddContacts>({ contactID: company.contactID?._id, 
     phone: { 
       companyID: company._id, 
@@ -66,6 +69,7 @@ const ContactsBlockInner: FC<IProps> = ({companyID}) => {
 
   const [showAddPhoneOrEmail, setShowAddPhoneOrEmail] = useState({phone: false, email: false});
 
+  //!---  del
   const addPhoneOrEmailInputsHandler = (e: React.FocusEvent<HTMLInputElement>) => {
     switch (e.target.name) {
       case 'phone.number':
@@ -145,6 +149,7 @@ const ContactsBlockInner: FC<IProps> = ({companyID}) => {
     }
   };
 
+  //!---- del
   const addPhoneHandler = async () => {
     // const reqex = /^(\s*)?(\+)?([- _():=+]?\d[- _():=+]?){10,12}(\s*)?$/;
     // const reqex = /^((8|\+3)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{10,12}$/;
@@ -171,6 +176,7 @@ const ContactsBlockInner: FC<IProps> = ({companyID}) => {
     setShowAddPhoneOrEmail(prev => ({...prev, email: false}));
   }
 
+  //!----del
   const updatePhoneHandler = async () => {
     const phone = {
       phoneID: showUpdateInput.itemID, 
@@ -182,28 +188,28 @@ const ContactsBlockInner: FC<IProps> = ({companyID}) => {
     // console.log(phone)
     
     await dispatch(updatePhoneByID(phone));
+    await dispatch(getCompanyByIDQuery(query));
     // await dispatch(getAllPhones());
     setShowUpdateInput({show: false, itemID: ''});
   };
 
   const updateEmailHandler = async () => {
-    // const phone = {
-    //   phoneID: showUpdateInput.itemID, 
-    //   phone: {
-    //     number: addPhoneAndUpdateContact.phone.number, 
-    //     description: addPhoneAndUpdateContact.phone.description
-    // }};
+    const email = {
+      emailID: showUpdateInput.itemID, 
+      email: {
+        email: addEmailAndUpdateContact.email.email, 
+        description: addEmailAndUpdateContact.email.description
+    }};
 
     // // console.log(phone)
     
-    // await dispatch(updatePhoneByID(phone));
+    await dispatch(updateEmailByID(email));
+    await dispatch(getCompanyByIDQuery(query));
     // await dispatch(getAllPhones());
     setShowUpdateInput({show: false, itemID: ''});
   };
 
-
-
-
+  //!---del
   const updateShowPhoneHandler = (show: boolean, itemID: string, number: string, description: string) => {
     setShowUpdateInput({show: show, itemID: itemID});
     setAddPhoneAndUpdateContact(prev => ({
@@ -230,18 +236,18 @@ const ContactsBlockInner: FC<IProps> = ({companyID}) => {
     setShowAddPhoneOrEmail(prev => ({...prev, email: false}));
   };
 
-  const showAddPhoneHandler = () => {
-    setAddPhoneAndUpdateContact(prev => ({
-      ...prev,
-      phone : {
-        ...prev.phone,
-        number: '',
-        description: '',
-      }
-    }))
-    setShowUpdateInput({show: false, itemID: ''})
-    setShowAddPhoneOrEmail(prev => ({...prev, phone: true}));
-  };
+  // const showAddPhoneHandler = () => {
+  //   setAddPhoneAndUpdateContact(prev => ({
+  //     ...prev,
+  //     phone : {
+  //       ...prev.phone,
+  //       number: '',
+  //       description: '',
+  //     }
+  //   }))
+  //   setShowUpdateInput({show: false, itemID: ''})
+  //   setShowAddPhoneOrEmail(prev => ({...prev, phone: true}));
+  // };
 
   const showAddEmailHandler = () => {
     setShowUpdateInput({show: false, itemID: ''})
@@ -256,6 +262,7 @@ const ContactsBlockInner: FC<IProps> = ({companyID}) => {
     setShowAddPhoneOrEmail(prev => ({...prev, email: true}));
   };
 
+  //!-- del
   const deletePhoneHandler = async (id: string) => {
     if (window.confirm("Удалить контакт?")) {
       await dispatch(deletePhoneFromContactByPhoneID(id));
@@ -288,7 +295,8 @@ const ContactsBlockInner: FC<IProps> = ({companyID}) => {
       <div className="baseblockSmall__deals">
         <div className="baseblockSmall__deals__item">
           <div className="contactsblock__contacts">
-            <div className="title">
+            <ContactsPhones items={company.contactID && company.contactID.phonesID} query={query}/>
+            {/* <div className="title">
               <span>Телефоны</span>
               <IoAddOutline 
                 style={{cursor: 'pointer'}}
@@ -366,7 +374,7 @@ const ContactsBlockInner: FC<IProps> = ({companyID}) => {
                   Отмена
                 </button>
               </div>
-            }
+            } */}
 
         
             <div className="title">
