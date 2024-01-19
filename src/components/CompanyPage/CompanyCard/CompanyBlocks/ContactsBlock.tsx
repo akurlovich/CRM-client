@@ -11,6 +11,7 @@ import { IPhoneNewAddContacts } from '../../../../types/IPhone';
 import { addPhone, getAllPhones, updatePhoneByID } from '../../../../store/reducers/PhoneReducer/PhoneActionCreators';
 import { deletePhoneFromContactByPhoneID } from '../../../../store/reducers/ContactReducer/ContactActionCreators';
 import { getCompanyByIDQuery } from '../../../../store/reducers/CompanyReducer/CompanyActionCreaters';
+import { IEmailNewAddContacts } from '../../../../types/IEmail';
 
 interface IProps {
   companyID: string;
@@ -55,9 +56,16 @@ const ContactsBlockInner: FC<IProps> = ({companyID}) => {
       description: ''
     }} as IPhoneNewAddContacts);
 
-  const [showAddPhone, setShowAddPhone] = useState(false);
+  const [addEmailAndUpdateContact, setAddEmailAndUpdateContact] = useState<IEmailNewAddContacts>({ contactID: company.contactID?._id, 
+    email: { 
+      companyID: company._id, 
+      email: '', 
+      description: ''
+    }} as IEmailNewAddContacts);
 
-  const addPhoneInputsHandler = (e: React.FocusEvent<HTMLInputElement>) => {
+  const [showAddPhoneOrEmail, setShowAddPhoneOrEmail] = useState({phone: false, email: false});
+
+  const addPhoneOrEmailInputsHandler = (e: React.FocusEvent<HTMLInputElement>) => {
     switch (e.target.name) {
       case 'phone.number':
         setAddPhoneAndUpdateContact(prev => ({
@@ -94,7 +102,25 @@ const ContactsBlockInner: FC<IProps> = ({companyID}) => {
             description: e.target.value
           }
         }))
-        break;    
+        break;
+      case 'email.email':
+        setAddEmailAndUpdateContact(prev => ({
+          ...prev,
+          email : {
+            ...prev.email,
+            email: e.target.value
+          }
+        }))
+        break;
+      case 'email.description':
+        setAddEmailAndUpdateContact(prev => ({
+          ...prev,
+          email : {
+            ...prev.email,
+            description: e.target.value
+          }
+        }))
+        break;  
       default:
         break;
     }
@@ -113,8 +139,16 @@ const ContactsBlockInner: FC<IProps> = ({companyID}) => {
     await dispatch(getCompanyByIDQuery(query));
     // await dispatch(getAllPhones());
     
-    // setShowAddPhone(false);
+    setShowAddPhoneOrEmail(prev => ({...prev, phone: false}));
   };
+
+  const addEmailHandler = async () => {
+    const reqex = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+    const result = reqex.test(addEmailAndUpdateContact.email.email);
+    // console.log(result)
+    // console.log(addEmailAndUpdateContact)
+    setShowAddPhoneOrEmail(prev => ({...prev, email: false}));
+  }
 
   const updatePhoneHandler = async () => {
     const phone = {
@@ -130,6 +164,24 @@ const ContactsBlockInner: FC<IProps> = ({companyID}) => {
     // await dispatch(getAllPhones());
     setShowUpdateInput({show: false, itemID: ''});
   };
+
+  const updateEmailHandler = async () => {
+    // const phone = {
+    //   phoneID: showUpdateInput.itemID, 
+    //   phone: {
+    //     number: addPhoneAndUpdateContact.phone.number, 
+    //     description: addPhoneAndUpdateContact.phone.description
+    // }};
+
+    // // console.log(phone)
+    
+    // await dispatch(updatePhoneByID(phone));
+    // await dispatch(getAllPhones());
+    setShowUpdateInput({show: false, itemID: ''});
+  };
+
+
+
 
   const updateShowHandler = (show: boolean, itemID: string, number: string, description: string) => {
     setShowUpdateInput({show: show, itemID: itemID});
@@ -153,7 +205,19 @@ const ContactsBlockInner: FC<IProps> = ({companyID}) => {
         description: '',
       }
     }))
-    setShowAddPhone(true);
+    setShowAddPhoneOrEmail(prev => ({...prev, phone: true}));
+  };
+
+  const showAddEmailHandler = () => {
+    setAddEmailAndUpdateContact(prev => ({
+      ...prev,
+      email : {
+        ...prev.email,
+        email: '',
+        description: '',
+      }
+    }))
+    setShowAddPhoneOrEmail(prev => ({...prev, email: true}));
   };
 
   const deletePhoneHandler = async (id: string) => {
@@ -195,13 +259,13 @@ const ContactsBlockInner: FC<IProps> = ({companyID}) => {
                   <div className="contactsblock__contacts__inputs update">
                     <input 
                       value={addPhoneAndUpdateContact.phone.number}
-                      onChange={addPhoneInputsHandler}
+                      onChange={addPhoneOrEmailInputsHandler}
                       type="text" 
                       name="phone.number.update" 
                       placeholder='+37544-254-56-87'/>
                     <input
                       value={addPhoneAndUpdateContact.phone.description}
-                      onChange={addPhoneInputsHandler}
+                      onChange={addPhoneOrEmailInputsHandler}
                       type="text" 
                       name="phone.description.update" 
                       placeholder='комментарий'/>
@@ -236,17 +300,17 @@ const ContactsBlockInner: FC<IProps> = ({companyID}) => {
               )) : null
             }
 
-            {showAddPhone && 
+            {showAddPhoneOrEmail.phone && 
               <div className="contactsblock__contacts__inputs">
                 <input 
                   value={addPhoneAndUpdateContact.phone.number}
-                  onChange={addPhoneInputsHandler}
+                  onChange={addPhoneOrEmailInputsHandler}
                   type="text" 
                   name="phone.number" 
                   placeholder='+37544-254-56-87'/>
                 <input
                   value={addPhoneAndUpdateContact.phone.description}
-                  onChange={addPhoneInputsHandler}
+                  onChange={addPhoneOrEmailInputsHandler}
                   type="text" 
                   name="phone.description" 
                   placeholder='комментарий'/>
@@ -255,7 +319,7 @@ const ContactsBlockInner: FC<IProps> = ({companyID}) => {
                   Добавить
                 </button>
                 <button
-                  onClick={() => setShowAddPhone(false)}>
+                  onClick={() => setShowAddPhoneOrEmail(prev => ({...prev, phone: false}))}>
                   Отмена
                 </button>
               </div>
@@ -276,9 +340,9 @@ const ContactsBlockInner: FC<IProps> = ({companyID}) => {
                 <IoPencilOutline 
                   style={{cursor: 'pointer'}}
                   size={20}/>
-                <IoTrashOutline
+                {/* <IoTrashOutline
                   style={{cursor: 'pointer'}}
-                  size={20}/>
+                  size={20}/> */}
               </div>
             </div>
 
@@ -296,33 +360,92 @@ const ContactsBlockInner: FC<IProps> = ({companyID}) => {
                 <IoPencilOutline 
                   style={{cursor: 'pointer'}}
                   size={20}/>
-                <IoTrashOutline
+                {/* <IoTrashOutline
                   style={{cursor: 'pointer'}}
-                  size={20}/>
+                  size={20}/> */}
               </div>
             </div>
             <div className="title">
               <span>Почта</span>
-              <IoAddOutline size={20}/>
+              <IoAddOutline 
+                style={{cursor: 'pointer'}}
+                onClick={showAddEmailHandler}
+                size={20}/>
             </div>
 
             {company.contactID ? company.contactID.emailsID.map(item => (
               <div key={item._id} className="data">
-                <div className="text">
-                  <span>{company?.contactID?.emailsID[0]?.email ? company?.contactID?.emailsID[0]?.email : ''}</span>
-                  <span>{company?.contactID?.emailsID[0]?.description ? company?.contactID?.emailsID[0]?.description : ''}</span>
-                </div>
-                <div className="icons">
-                  <IoPencilOutline 
-                    style={{cursor: 'pointer'}}
-                    size={20}/>
-                  <IoTrashOutline
-                    style={{cursor: 'pointer'}}
-                    size={20}/>
-                </div>
+                {showUpdateInput.itemID === item._id ? 
+                  <div className="contactsblock__contacts__inputs update">
+                    <input 
+                      value={addPhoneAndUpdateContact.phone.number}
+                      onChange={addPhoneOrEmailInputsHandler}
+                      type="text" 
+                      name="phone.number.update" 
+                      placeholder='+37544-254-56-87'/>
+                    <input
+                      value={addPhoneAndUpdateContact.phone.description}
+                      onChange={addPhoneOrEmailInputsHandler}
+                      type="text" 
+                      name="phone.description.update" 
+                      placeholder='комментарий'/>
+                    <button
+                      onClick={updateEmailHandler}>
+                      Изменить
+                    </button>
+                    <button
+                      onClick={() => setShowUpdateInput({show: false, itemID: ''})}>
+                      Отмена
+                    </button>
+                  </div>
+                  :
+                  <div className="text">
+                    <span className='span-number'>{company?.contactID?.emailsID[0]?.email ? company?.contactID?.emailsID[0]?.email : ''}</span>
+                    <span>{company?.contactID?.emailsID[0]?.description ? company?.contactID?.emailsID[0]?.description : ''}</span>
+                  </div>
+
+                }
+                {showUpdateInput.itemID === item._id ? null :
+                  <div className="icons">
+                    <IoPencilOutline 
+                      style={{cursor: 'pointer'}}
+                      onClick={() => updateShowHandler(true, item._id, item.email, item.description)}
+                      size={20}/>
+                    <IoTrashOutline
+                      // onClick={() => deletePhoneHandler(item._id)}
+                      style={{cursor: 'pointer'}}
+                      size={20}/>
+                  </div>
+                }
+
               </div>
 
               )) : null
+            }
+
+            {showAddPhoneOrEmail.email && 
+              <div className="contactsblock__contacts__inputs">
+                <input 
+                  value={addEmailAndUpdateContact.email.email}
+                  onChange={addPhoneOrEmailInputsHandler}
+                  type="text" 
+                  name="email.email" 
+                  placeholder='exapmle@tut.by'/>
+                <input
+                  value={addEmailAndUpdateContact.email.description}
+                  onChange={addPhoneOrEmailInputsHandler}
+                  type="text" 
+                  name="email.description" 
+                  placeholder='комментарий'/>
+                <button
+                  onClick={addEmailHandler}>
+                  Добавить
+                </button>
+                <button
+                  onClick={() => setShowAddPhoneOrEmail(prev => ({...prev, email: false}))}>
+                  Отмена
+                </button>
+              </div>
             }
 
           </div>
