@@ -12,6 +12,8 @@ export default class ContactService {
     return serverApi.get<IContact>(`/contacts/${contactID}`);
   };
 
+  
+
   // static async getProductInfoByID(id: string): Promise<AxiosResponse<IProductInfoResponse>> {
   //   return serverApi.get<IProductInfoResponse>(`/productinfo/${id}`);
   // };
@@ -27,6 +29,10 @@ export default class ContactService {
 
   static async deleteContactByID(contactID: string): Promise<AxiosResponse<IContact>> {
     return serverApi.delete<IContact>(`/contacts/${contactID}`);
+  };
+
+  static async deletePhoneFromContactByPhoneID(phoneID: string): Promise<AxiosResponse<IContact>> {
+    return serverApi.delete<IContact>(`/contacts/${phoneID}/phones`);
   };
 
   static async updateContactByAddress(

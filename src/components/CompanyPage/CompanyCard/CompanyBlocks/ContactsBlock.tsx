@@ -4,19 +4,43 @@ import { IoAddCircleOutline } from "@react-icons/all-files/io5/IoAddCircleOutlin
 import { IoAddOutline } from "@react-icons/all-files/io5/IoAddOutline";
 import { IoPencilOutline } from "@react-icons/all-files/io5/IoPencilOutline";
 import { IoCopyOutline } from '@react-icons/all-files/io5/IoCopyOutline';
-import { IoStarOutline } from "@react-icons/all-files/io5/IoStarOutline";
-import { IoPersonSharp } from "@react-icons/all-files/io5/IoPersonSharp";
-import { IoCallSharp } from "@react-icons/all-files/io5/IoCallSharp";
-import { ICompany } from '../../../../types/ICompany';
+import { IoTrashOutline } from "@react-icons/all-files/io5/IoTrashOutline";
+import { ICompaniesQuery, ICompany } from '../../../../types/ICompany';
 import { useAppDispatch, useAppSelector } from '../../../../hooks/redux';
 import { IPhoneNewAddContacts } from '../../../../types/IPhone';
 import { addPhone, getAllPhones, updatePhoneByID } from '../../../../store/reducers/PhoneReducer/PhoneActionCreators';
+import { deletePhoneFromContactByPhoneID } from '../../../../store/reducers/ContactReducer/ContactActionCreators';
+import { getCompanyByIDQuery } from '../../../../store/reducers/CompanyReducer/CompanyActionCreaters';
 
-// interface IProps {
-//   company: ICompany;
-// }
+interface IProps {
+  companyID: string;
+}
 
-const ContactsBlockInner: FC = () => {
+const ContactsBlockInner: FC<IProps> = ({companyID}) => {
+  const query: ICompaniesQuery = {
+    query: 
+      [
+        {
+          path: "usersID", 
+          select: "lastname firstname"
+        },
+        {
+          path: "contactID", 
+          // select: "address.district"
+        },
+        {
+          path: "contactID", 
+          populate: { path: 'phonesID' }
+        },
+        {
+          path: "contactID", 
+          populate: { path: 'emailsID' }
+        }
+      ], 
+    sort: {'contactID.address.district': 'asc'}, 
+    limit: 0,
+    find: {'_id': companyID}
+  };
   const { company, companies, isLoading } = useAppSelector(state => state.companyReducer);
   const { phones } = useAppSelector(state => state.phoneReducer);
 
@@ -85,7 +109,8 @@ const ContactsBlockInner: FC = () => {
     const result = reqex.test(addPhoneAndUpdateContact.phone.number);
     // console.log(result)
     console.log(addPhoneAndUpdateContact)
-    // await dispatch(addPhone(addPhoneAndUpdateContact));
+    await dispatch(addPhone(addPhoneAndUpdateContact));
+    await dispatch(getCompanyByIDQuery(query));
     // await dispatch(getAllPhones());
     
     // setShowAddPhone(false);
@@ -99,10 +124,10 @@ const ContactsBlockInner: FC = () => {
         description: addPhoneAndUpdateContact.phone.description
     }};
 
-    console.log(phone)
+    // console.log(phone)
     
     await dispatch(updatePhoneByID(phone));
-    await dispatch(getAllPhones());
+    // await dispatch(getAllPhones());
     setShowUpdateInput({show: false, itemID: ''});
   };
 
@@ -117,7 +142,26 @@ const ContactsBlockInner: FC = () => {
       }
     }))
 
-  }
+  };
+
+  const showAddPhoneHandler = () => {
+    setAddPhoneAndUpdateContact(prev => ({
+      ...prev,
+      phone : {
+        ...prev.phone,
+        number: '',
+        description: '',
+      }
+    }))
+    setShowAddPhone(true);
+  };
+
+  const deletePhoneHandler = async (id: string) => {
+    if (window.confirm("Удалить контакт?")) {
+      await dispatch(deletePhoneFromContactByPhoneID(id));
+      await dispatch(getCompanyByIDQuery(query));
+    }
+  };
 
   return (
     <section className='contactsblock'>
@@ -141,7 +185,7 @@ const ContactsBlockInner: FC = () => {
               <span>Телефоны</span>
               <IoAddOutline 
                 style={{cursor: 'pointer'}}
-                onClick={() => setShowAddPhone(true)}
+                onClick={showAddPhoneHandler}
                 size={20}/>
             </div>
 
@@ -179,10 +223,13 @@ const ContactsBlockInner: FC = () => {
                 {showUpdateInput.itemID === item._id ? null :
                   <div className="icons">
                     <IoPencilOutline 
-                    style={{cursor: 'pointer'}}
+                      style={{cursor: 'pointer'}}
                       onClick={() => updateShowHandler(true, item._id, item.number, item.description)}
                       size={20}/>
-                    {/* <IoCopyOutline size={20}/> */}
+                    <IoTrashOutline
+                      onClick={() => deletePhoneHandler(item._id)}
+                      style={{cursor: 'pointer'}}
+                      size={20}/>
                   </div>
                 }
               </div>
@@ -204,8 +251,13 @@ const ContactsBlockInner: FC = () => {
                   name="phone.description" 
                   placeholder='комментарий'/>
                 <button
-                  onClick={addPhoneHandler}
-                  >Добавить</button>
+                  onClick={addPhoneHandler}>
+                  Добавить
+                </button>
+                <button
+                  onClick={() => setShowAddPhone(false)}>
+                  Отмена
+                </button>
               </div>
             }
 
@@ -224,7 +276,9 @@ const ContactsBlockInner: FC = () => {
                 <IoPencilOutline 
                   style={{cursor: 'pointer'}}
                   size={20}/>
-                {/* <IoCopyOutline size={20}/> */}
+                <IoTrashOutline
+                  style={{cursor: 'pointer'}}
+                  size={20}/>
               </div>
             </div>
 
@@ -242,7 +296,9 @@ const ContactsBlockInner: FC = () => {
                 <IoPencilOutline 
                   style={{cursor: 'pointer'}}
                   size={20}/>
-                {/* <IoCopyOutline size={20}/> */}
+                <IoTrashOutline
+                  style={{cursor: 'pointer'}}
+                  size={20}/>
               </div>
             </div>
             <div className="title">
@@ -257,8 +313,12 @@ const ContactsBlockInner: FC = () => {
                   <span>{company?.contactID?.emailsID[0]?.description ? company?.contactID?.emailsID[0]?.description : ''}</span>
                 </div>
                 <div className="icons">
-                  <IoPencilOutline size={20}/>
-                  <IoCopyOutline size={20}/>
+                  <IoPencilOutline 
+                    style={{cursor: 'pointer'}}
+                    size={20}/>
+                  <IoTrashOutline
+                    style={{cursor: 'pointer'}}
+                    size={20}/>
                 </div>
               </div>
 

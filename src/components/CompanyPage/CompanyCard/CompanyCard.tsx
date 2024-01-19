@@ -28,8 +28,8 @@ const CompanyCardInner: FC = () => {
   const params = useParams();
   const dispatch = useAppDispatch();
   const [showAddOrder, setShowAddOrder] = useState<boolean>(false);
-  const [companyItem, setCompanyItem] = useState<ICompany>({} as ICompany);
-  const [userItem, setUserItem] = useState({});
+  // const [companyItem, setCompanyItem] = useState<ICompany>({} as ICompany);
+  // const [userItem, setUserItem] = useState({});
 
   useEffect(() => {
     // console.log('param', params.id)
@@ -37,30 +37,30 @@ const CompanyCardInner: FC = () => {
       if (params.id) {
         const query: ICompaniesQuery = {
           query: 
-            [{
-              path: "usersID", 
-              select: "lastname firstname"
-            },
-            {
-              path: "contactID", 
-              // select: "address.district"
-            },
-            {
-              path: "contactID", 
-              populate: { path: 'phonesID' }
-            },
-            {
-              path: "contactID", 
-              populate: { path: 'emailsID' }
-            }
-    
-          ], 
+            [
+              {
+                path: "usersID", 
+                select: "lastname firstname"
+              },
+              {
+                path: "contactID", 
+                // select: "address.district"
+              },
+              {
+                path: "contactID", 
+                populate: { path: 'phonesID' }
+              },
+              {
+                path: "contactID", 
+                populate: { path: 'emailsID' }
+              }
+            ], 
           sort: {'contactID.address.district': 'asc'}, 
           limit: 0,
           find: {'_id': params.id}
         };
         await dispatch(getCompanyByIDQuery(query));
-        await dispatch(getAllPhones());
+        // await dispatch(getAllPhones());
         // await dispatch(getCompanyByID(params.id));
       }
     }; 
@@ -95,7 +95,7 @@ const CompanyCardInner: FC = () => {
               <IoEllipsisVerticalOutline size={20} color={'#3e425e'}/>
             </div>
             <div
-              onClick={() => console.log(companyItem)}
+              // onClick={() => console.log(companyItem)}
               className="company-card__header__links">
               <span className="active">Клиент</span>
               <span>+ Сделка</span>
@@ -114,7 +114,7 @@ const CompanyCardInner: FC = () => {
             </div>
             <div className="right">
               <BaseBlockNarrow/>
-              <ContactsBlock/>
+              <ContactsBlock companyID={params.id ? params.id : ''}/>
             </div>
           </div>
         </section>   

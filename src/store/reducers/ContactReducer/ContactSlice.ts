@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IContact, IContactNew } from "../../../types/IContact";
-import { addContact, getAllContacts, updateContactByAddress } from "./ContactActionCreators";
+import { addContact, deletePhoneFromContactByPhoneID, getAllContacts, updateContactByAddress } from "./ContactActionCreators";
 
 interface IContactState {
   contact: IContact,
@@ -56,6 +56,18 @@ const contactSlice = createSlice({
         state.contact = action.payload;
       })
       .addCase(updateContactByAddress.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload as string;
+      });
+    builder
+      .addCase(deletePhoneFromContactByPhoneID.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(deletePhoneFromContactByPhoneID.fulfilled, (state, action: PayloadAction<IContact>) => {
+        state.isLoading = false;
+        state.contact = action.payload;
+      })
+      .addCase(deletePhoneFromContactByPhoneID.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload as string;
       });

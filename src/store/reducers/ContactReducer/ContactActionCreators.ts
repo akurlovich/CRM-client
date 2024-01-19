@@ -37,18 +37,6 @@ export const getAllContacts = createAsyncThunk(
   }
 );
 
-export const deleteContactByID = createAsyncThunk(
-  'CONTACT/deleteContactByID',
-  async (contactID: string, {rejectWithValue}) => {
-    try {
-      return await (await ContactService.deleteContactByID(contactID)).data;
-      
-    } catch (error: any) {
-      return rejectWithValue(error.message)
-    }
-  }
-);
-
 export const updateContactByAddress = createAsyncThunk(
   'CONTACT/updateContactByAddress',
   async (data: {contactID: string, newAddress: { address: {main: string, district: string}}}, {rejectWithValue}) => {
@@ -59,4 +47,28 @@ export const updateContactByAddress = createAsyncThunk(
       return rejectWithValue(error.message)
     }
   }
-);
+  );
+
+  export const deleteContactByID = createAsyncThunk(
+    'CONTACT/deleteContactByID',
+    async (contactID: string, {rejectWithValue}) => {
+      try {
+        return await (await ContactService.deleteContactByID(contactID)).data;
+        
+      } catch (error: any) {
+        return rejectWithValue(error.message)
+      }
+    }
+  );
+
+  export const deletePhoneFromContactByPhoneID = createAsyncThunk(
+    'CONTACT/deletePhoneFromContactByPhoneID',
+    async (phoneID: string, {rejectWithValue}) => {
+      try {
+        return await (await ContactService.deletePhoneFromContactByPhoneID(phoneID)).data;
+        
+      } catch (error: any) {
+        return rejectWithValue(error.message)
+      }
+    }
+  );
