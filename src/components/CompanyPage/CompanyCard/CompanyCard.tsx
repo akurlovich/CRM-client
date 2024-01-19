@@ -110,7 +110,7 @@ const CompanyCardInner: FC = () => {
               <AddOrder isVisible={showAddOrder}/>
               {/* <AddOrder/> */}
               <OrdersInCompany showAddOrder={(() => setShowAddOrder(true))}/>
-              {/* <Comments/> */}
+              <Comments/>
             </div>
             <div className="right">
               <BaseBlockNarrow/>

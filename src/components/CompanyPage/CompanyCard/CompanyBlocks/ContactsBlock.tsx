@@ -128,6 +128,7 @@ const ContactsBlockInner: FC = () => {
           </div>
           <div className="icons">
             <IoAddCircleOutline 
+              style={{cursor: 'pointer'}}
               onClick={() => console.log(phones)}
               size={20}/>
           </div>
@@ -139,6 +140,7 @@ const ContactsBlockInner: FC = () => {
             <div className="title">
               <span>Телефоны</span>
               <IoAddOutline 
+                style={{cursor: 'pointer'}}
                 onClick={() => setShowAddPhone(true)}
                 size={20}/>
             </div>
@@ -160,8 +162,13 @@ const ContactsBlockInner: FC = () => {
                       name="phone.description.update" 
                       placeholder='комментарий'/>
                     <button
-                      onClick={updatePhoneHandler}
-                      >Изменить</button>
+                      onClick={updatePhoneHandler}>
+                      Изменить
+                    </button>
+                    <button
+                      onClick={() => setShowUpdateInput({show: false, itemID: ''})}>
+                      Отмена
+                    </button>
                   </div>
                   :
                   <div className="text">
@@ -172,9 +179,10 @@ const ContactsBlockInner: FC = () => {
                 {showUpdateInput.itemID === item._id ? null :
                   <div className="icons">
                     <IoPencilOutline 
+                    style={{cursor: 'pointer'}}
                       onClick={() => updateShowHandler(true, item._id, item.number, item.description)}
                       size={20}/>
-                    <IoCopyOutline size={20}/>
+                    {/* <IoCopyOutline size={20}/> */}
                   </div>
                 }
               </div>
@@ -204,29 +212,37 @@ const ContactsBlockInner: FC = () => {
         
             <div className="title">
               <span>Адрес</span>
-              <IoAddOutline size={20}/>
+              <IoAddOutline
+                style={{cursor: 'pointer'}} 
+                size={20}/>
             </div>
             <div className="data last">
               <div className="text">
                 <span className='span-address'>{company?.contactID?.address?.main ? company?.contactID?.address?.main : ''}</span>
               </div>
               <div className="icons">
-                <IoPencilOutline size={20}/>
-                <IoCopyOutline size={20}/>
+                <IoPencilOutline 
+                  style={{cursor: 'pointer'}}
+                  size={20}/>
+                {/* <IoCopyOutline size={20}/> */}
               </div>
             </div>
 
             <div className="title">
               <span>Район</span>
-              <IoAddOutline size={20}/>
+              <IoAddOutline 
+                style={{cursor: 'pointer'}}
+                size={20}/>
             </div>
             <div className="data last">
               <div className="text">
                 <span>{company?.contactID?.address?.district ? company?.contactID?.address?.district : ''}</span>
               </div>
               <div className="icons">
-                <IoPencilOutline size={20}/>
-                <IoCopyOutline size={20}/>
+                <IoPencilOutline 
+                  style={{cursor: 'pointer'}}
+                  size={20}/>
+                {/* <IoCopyOutline size={20}/> */}
               </div>
             </div>
             <div className="title">
