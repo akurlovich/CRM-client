@@ -35,6 +35,10 @@ export default class ContactService {
     return serverApi.delete<IContact>(`/contacts/${phoneID}/phones`);
   };
 
+  static async deleteEmailFromContactByPhoneID(phoneID: string): Promise<AxiosResponse<IContact>> {
+    return serverApi.delete<IContact>(`/contacts/${phoneID}/emails`);
+  };
+
   static async updateContactByAddress(
     data: {contactID: string, newAddress: {address: {main: string, district: string}}}): Promise<AxiosResponse<IContact>> {
     console.log('new address client', data);

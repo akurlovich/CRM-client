@@ -72,3 +72,15 @@ export const updateContactByAddress = createAsyncThunk(
       }
     }
   );
+
+  export const deleteEmailFromContactByPhoneID = createAsyncThunk(
+    'CONTACT/deleteEmailFromContactByPhoneID',
+    async (phoneID: string, {rejectWithValue}) => {
+      try {
+        return await (await ContactService.deleteEmailFromContactByPhoneID(phoneID)).data;
+        
+      } catch (error: any) {
+        return rejectWithValue(error.message)
+      }
+    }
+  );

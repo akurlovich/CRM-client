@@ -9,9 +9,10 @@ import { ICompaniesQuery, ICompany } from '../../../../types/ICompany';
 import { useAppDispatch, useAppSelector } from '../../../../hooks/redux';
 import { IPhoneNewAddContacts } from '../../../../types/IPhone';
 import { addPhone, getAllPhones, updatePhoneByID } from '../../../../store/reducers/PhoneReducer/PhoneActionCreators';
-import { deletePhoneFromContactByPhoneID } from '../../../../store/reducers/ContactReducer/ContactActionCreators';
+import { deleteEmailFromContactByPhoneID, deletePhoneFromContactByPhoneID } from '../../../../store/reducers/ContactReducer/ContactActionCreators';
 import { getCompanyByIDQuery } from '../../../../store/reducers/CompanyReducer/CompanyActionCreaters';
 import { IEmailNewAddContacts } from '../../../../types/IEmail';
+import { addEmail } from '../../../../store/reducers/EmailReducer/EmailActionCreators';
 
 interface IProps {
   companyID: string;
@@ -120,7 +121,25 @@ const ContactsBlockInner: FC<IProps> = ({companyID}) => {
             description: e.target.value
           }
         }))
-        break;  
+        break;
+      case 'email.email.update':
+        setAddEmailAndUpdateContact(prev => ({
+          ...prev,
+          email : {
+            ...prev.email,
+            email: e.target.value
+          }
+        }))
+        break;
+      case 'email.description.update':
+        setAddEmailAndUpdateContact(prev => ({
+          ...prev,
+          email : {
+            ...prev.email,
+            description: e.target.value
+          }
+        }))
+        break;
       default:
         break;
     }
@@ -134,7 +153,7 @@ const ContactsBlockInner: FC<IProps> = ({companyID}) => {
 
     const result = reqex.test(addPhoneAndUpdateContact.phone.number);
     // console.log(result)
-    console.log(addPhoneAndUpdateContact)
+    // console.log(addPhoneAndUpdateContact)
     await dispatch(addPhone(addPhoneAndUpdateContact));
     await dispatch(getCompanyByIDQuery(query));
     // await dispatch(getAllPhones());
@@ -146,7 +165,9 @@ const ContactsBlockInner: FC<IProps> = ({companyID}) => {
     const reqex = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
     const result = reqex.test(addEmailAndUpdateContact.email.email);
     // console.log(result)
-    // console.log(addEmailAndUpdateContact)
+    console.log(addEmailAndUpdateContact)
+    await dispatch(addEmail(addEmailAndUpdateContact));
+    await dispatch(getCompanyByIDQuery(query));
     setShowAddPhoneOrEmail(prev => ({...prev, email: false}));
   }
 
@@ -183,7 +204,7 @@ const ContactsBlockInner: FC<IProps> = ({companyID}) => {
 
 
 
-  const updateShowHandler = (show: boolean, itemID: string, number: string, description: string) => {
+  const updateShowPhoneHandler = (show: boolean, itemID: string, number: string, description: string) => {
     setShowUpdateInput({show: show, itemID: itemID});
     setAddPhoneAndUpdateContact(prev => ({
       ...prev,
@@ -193,7 +214,20 @@ const ContactsBlockInner: FC<IProps> = ({companyID}) => {
         description: description,
       }
     }))
+    setShowAddPhoneOrEmail(prev => ({...prev, phone: false}));
+  };
 
+  const updateShowEmailHandler = (show: boolean, itemID: string, number: string, description: string) => {
+    setShowUpdateInput({show: show, itemID: itemID});
+    setAddEmailAndUpdateContact(prev => ({
+      ...prev,
+      email : {
+        ...prev.email,
+        email: number,
+        description: description,
+      }
+    }))
+    setShowAddPhoneOrEmail(prev => ({...prev, email: false}));
   };
 
   const showAddPhoneHandler = () => {
@@ -205,10 +239,12 @@ const ContactsBlockInner: FC<IProps> = ({companyID}) => {
         description: '',
       }
     }))
+    setShowUpdateInput({show: false, itemID: ''})
     setShowAddPhoneOrEmail(prev => ({...prev, phone: true}));
   };
 
   const showAddEmailHandler = () => {
+    setShowUpdateInput({show: false, itemID: ''})
     setAddEmailAndUpdateContact(prev => ({
       ...prev,
       email : {
@@ -223,6 +259,13 @@ const ContactsBlockInner: FC<IProps> = ({companyID}) => {
   const deletePhoneHandler = async (id: string) => {
     if (window.confirm("Удалить контакт?")) {
       await dispatch(deletePhoneFromContactByPhoneID(id));
+      await dispatch(getCompanyByIDQuery(query));
+    }
+  };
+
+  const deleteEmailHandler = async (id: string) => {
+    if (window.confirm("Удалить почту?")) {
+      await dispatch(deleteEmailFromContactByPhoneID(id));
       await dispatch(getCompanyByIDQuery(query));
     }
   };
@@ -288,7 +331,7 @@ const ContactsBlockInner: FC<IProps> = ({companyID}) => {
                   <div className="icons">
                     <IoPencilOutline 
                       style={{cursor: 'pointer'}}
-                      onClick={() => updateShowHandler(true, item._id, item.number, item.description)}
+                      onClick={() => updateShowPhoneHandler(true, item._id, item.number, item.description)}
                       size={20}/>
                     <IoTrashOutline
                       onClick={() => deletePhoneHandler(item._id)}
@@ -378,16 +421,16 @@ const ContactsBlockInner: FC<IProps> = ({companyID}) => {
                 {showUpdateInput.itemID === item._id ? 
                   <div className="contactsblock__contacts__inputs update">
                     <input 
-                      value={addPhoneAndUpdateContact.phone.number}
+                      value={addEmailAndUpdateContact.email.email}
                       onChange={addPhoneOrEmailInputsHandler}
                       type="text" 
-                      name="phone.number.update" 
+                      name="email.email.update" 
                       placeholder='+37544-254-56-87'/>
                     <input
-                      value={addPhoneAndUpdateContact.phone.description}
+                      value={addEmailAndUpdateContact.email.description}
                       onChange={addPhoneOrEmailInputsHandler}
                       type="text" 
-                      name="phone.description.update" 
+                      name="email.description.update" 
                       placeholder='комментарий'/>
                     <button
                       onClick={updateEmailHandler}>
@@ -400,8 +443,8 @@ const ContactsBlockInner: FC<IProps> = ({companyID}) => {
                   </div>
                   :
                   <div className="text">
-                    <span className='span-number'>{company?.contactID?.emailsID[0]?.email ? company?.contactID?.emailsID[0]?.email : ''}</span>
-                    <span>{company?.contactID?.emailsID[0]?.description ? company?.contactID?.emailsID[0]?.description : ''}</span>
+                    <span className='span-number'>{item.email}</span>
+                    <span>{item.description}</span>
                   </div>
 
                 }
@@ -409,10 +452,10 @@ const ContactsBlockInner: FC<IProps> = ({companyID}) => {
                   <div className="icons">
                     <IoPencilOutline 
                       style={{cursor: 'pointer'}}
-                      onClick={() => updateShowHandler(true, item._id, item.email, item.description)}
+                      onClick={() => updateShowEmailHandler(true, item._id, item.email, item.description)}
                       size={20}/>
                     <IoTrashOutline
-                      // onClick={() => deletePhoneHandler(item._id)}
+                      onClick={() => deleteEmailHandler(item._id)}
                       style={{cursor: 'pointer'}}
                       size={20}/>
                   </div>
