@@ -4,17 +4,19 @@ import { IoTrashOutline } from '@react-icons/all-files/io5/IoTrashOutline';
 import React, { FC, useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../../../../hooks/redux';
 import { getCompanyByIDQuery } from '../../../../../store/reducers/CompanyReducer/CompanyActionCreaters';
-import { deletePhoneFromContactByPhoneID } from '../../../../../store/reducers/ContactReducer/ContactActionCreators';
+import { deleteEmailFromContactByPhoneID, deletePhoneFromContactByPhoneID } from '../../../../../store/reducers/ContactReducer/ContactActionCreators';
+import { addEmail, updateEmailByID } from '../../../../../store/reducers/EmailReducer/EmailActionCreators';
 import { addPhone, updatePhoneByID } from '../../../../../store/reducers/PhoneReducer/PhoneActionCreators';
 import { ICompaniesQuery } from '../../../../../types/ICompany';
+import { IEmail, IEmailNewAddContacts } from '../../../../../types/IEmail';
 import { IPhone, IPhoneNewAddContacts } from '../../../../../types/IPhone';
 
 interface IProps {
-  items: IPhone[];
+  items: IEmail[];
   query: ICompaniesQuery;
 }
 
-const ContactsPhonesInner: FC<IProps> = ({items, query}) => {
+const ContactsEmailsInner: FC<IProps> = ({items, query}) => {
   const { company } = useAppSelector(state => state.companyReducer);
 
   const dispatch = useAppDispatch();
@@ -23,112 +25,106 @@ const ContactsPhonesInner: FC<IProps> = ({items, query}) => {
 
   const [showAddInputs, setShowAddInputs] = useState(false);
 
-  const [addPhoneAndUpdateContact, setAddPhoneAndUpdateContact] = useState<IPhoneNewAddContacts>({ contactID: company.contactID?._id, 
-    phone: { 
+  const [addEmailAndUpdateContact, setAddEmailAndUpdateContact] = useState<IEmailNewAddContacts>({ contactID: company.contactID?._id, 
+    email: { 
       companyID: company._id, 
-      number: '', 
+      email: '', 
       description: ''
-    }} as IPhoneNewAddContacts);
+    }} as IEmailNewAddContacts);
 
-  const showAddPhoneHandler = () => {
-    setAddPhoneAndUpdateContact(prev => ({
+  const showAddEmailHandler = () => {
+    setShowUpdateInput({show: false, itemID: ''})
+    setAddEmailAndUpdateContact(prev => ({
       ...prev,
-      phone : {
-        ...prev.phone,
-        number: '',
+      email : {
+        ...prev.email,
+        email: '',
         description: '',
       }
     }))
-    setShowUpdateInput({show: false, itemID: ''})
-    setShowAddInputs(true);
+    setShowAddInputs(prev => (true));
   };
 
-  const updatePhoneHandler = async () => {
-    const phone = {
-      phoneID: showUpdateInput.itemID, 
-      phone: {
-        number: addPhoneAndUpdateContact.phone.number, 
-        description: addPhoneAndUpdateContact.phone.description
+  const updateEmailHandler = async () => {
+    const email = {
+      emailID: showUpdateInput.itemID, 
+      email: {
+        email: addEmailAndUpdateContact.email.email, 
+        description: addEmailAndUpdateContact.email.description
     }};
 
-    // console.log(phone)
+    // // console.log(phone)
     
-    await dispatch(updatePhoneByID(phone));
+    await dispatch(updateEmailByID(email));
     await dispatch(getCompanyByIDQuery(query));
     // await dispatch(getAllPhones());
     setShowUpdateInput({show: false, itemID: ''});
   };
 
-  const updateShowPhoneHandler = (show: boolean, itemID: string, number: string, description: string) => {
+  const updateShowEmailHandler = (show: boolean, itemID: string, number: string, description: string) => {
     setShowUpdateInput({show: show, itemID: itemID});
-    setAddPhoneAndUpdateContact(prev => ({
+    setAddEmailAndUpdateContact(prev => ({
       ...prev,
-      phone : {
-        ...prev.phone,
-        number: number,
+      email : {
+        ...prev.email,
+        email: number,
         description: description,
       }
     }))
-    setShowAddInputs(false);
+    setShowAddInputs(prev => (false));
   };
 
-  const deletePhoneHandler = async (id: string) => {
-    if (window.confirm("Удалить контакт?")) {
-      await dispatch(deletePhoneFromContactByPhoneID(id));
+  const deleteEmailHandler = async (id: string) => {
+    if (window.confirm("Удалить почту?")) {
+      await dispatch(deleteEmailFromContactByPhoneID(id));
       await dispatch(getCompanyByIDQuery(query));
     }
   };
 
-  const addPhoneHandler = async () => {
-    // const reqex = /^(\s*)?(\+)?([- _():=+]?\d[- _():=+]?){10,12}(\s*)?$/;
-    // const reqex = /^((8|\+3)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{10,12}$/;
-    // const reqex = /(?:\+375|80)\s?\(?\d\d\)?\s?\d\d(?:\d[\-\s]\d\d[\-\s]\d\d|[\-\s]\d\d[\-\s]\d\d\d|\d{5,6}$)/;
-    const reqex = /^((8|\+375)[\- ]?)?\(?\d{3,5}\)?[\- ]?\d{1}[\- ]?\d{1}[\- ]?\d{1}[\- ]?\d{1}[\- ]?\d{1}(([\- ]?\d{1})?[\- ]?\d{1})?$/;
-
-    const result = reqex.test(addPhoneAndUpdateContact.phone.number);
+  const addEmailHandler = async () => {
+    const reqex = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+    const result = reqex.test(addEmailAndUpdateContact.email.email);
     // console.log(result)
-    // console.log(addPhoneAndUpdateContact)
-    await dispatch(addPhone(addPhoneAndUpdateContact));
+    // console.log(addEmailAndUpdateContact)
+    await dispatch(addEmail(addEmailAndUpdateContact));
     await dispatch(getCompanyByIDQuery(query));
-    // await dispatch(getAllPhones());
-    
-    setShowAddInputs(false);
+    setShowAddInputs(prev => (false));
   };
 
   const addOrUpdateInputsHandler = (e: React.FocusEvent<HTMLInputElement>) => {
     switch (e.target.name) {
-      case 'phone.number':
-        setAddPhoneAndUpdateContact(prev => ({
+      case 'email.email':
+        setAddEmailAndUpdateContact(prev => ({
           ...prev,
-          phone : {
-            ...prev.phone,
-            number: e.target.value
+          email : {
+            ...prev.email,
+            email: e.target.value
           }
         }))
         break;
-      case 'phone.description':
-        setAddPhoneAndUpdateContact(prev => ({
+      case 'email.description':
+        setAddEmailAndUpdateContact(prev => ({
           ...prev,
-          phone : {
-            ...prev.phone,
+          email : {
+            ...prev.email,
             description: e.target.value
           }
         }))
         break;
-      case 'phone.number.update':
-        setAddPhoneAndUpdateContact(prev => ({
+      case 'email.email.update':
+        setAddEmailAndUpdateContact(prev => ({
           ...prev,
-          phone : {
-            ...prev.phone,
-            number: e.target.value
+          email : {
+            ...prev.email,
+            email: e.target.value
           }
         }))
         break;
-      case 'phone.description.update':
-        setAddPhoneAndUpdateContact(prev => ({
+      case 'email.description.update':
+        setAddEmailAndUpdateContact(prev => ({
           ...prev,
-          phone : {
-            ...prev.phone,
+          email : {
+            ...prev.email,
             description: e.target.value
           }
         }))
@@ -142,31 +138,31 @@ const ContactsPhonesInner: FC<IProps> = ({items, query}) => {
   return (
     <>
       <div className="title">
-        <span>Телефоны</span>
+        <span>Почта</span>
         <IoAddOutline 
           style={{cursor: 'pointer'}}
-          onClick={showAddPhoneHandler}
+          onClick={showAddEmailHandler}
           size={20}/>
       </div>
 
-      {company.contactID ? company.contactID.phonesID.map(item => (
+      {company.contactID ? company.contactID.emailsID.map(item => (
         <div key={item._id} className="data">
           {showUpdateInput.itemID === item._id ? 
             <div className="contactsblock__contacts__inputs update">
               <input 
-                value={addPhoneAndUpdateContact.phone.number}
+                value={addEmailAndUpdateContact.email.email}
                 onChange={addOrUpdateInputsHandler}
                 type="text" 
-                name="phone.number.update" 
-                placeholder='+37544-254-56-87'/>
+                name="email.email.update" 
+                placeholder='example@tut.by'/>
               <input
-                value={addPhoneAndUpdateContact.phone.description}
+                value={addEmailAndUpdateContact.email.description}
                 onChange={addOrUpdateInputsHandler}
                 type="text" 
-                name="phone.description.update" 
+                name="email.description.update" 
                 placeholder='комментарий'/>
               <button
-                onClick={updatePhoneHandler}>
+                onClick={updateEmailHandler}>
                 Изменить
               </button>
               <button
@@ -176,7 +172,7 @@ const ContactsPhonesInner: FC<IProps> = ({items, query}) => {
             </div>
             :
             <div className="text">
-              <span className='span-number'>{item.number}</span>
+              <span className='span-number'>{item.email}</span>
               <span>{item.description}</span>
             </div>
           }
@@ -184,10 +180,10 @@ const ContactsPhonesInner: FC<IProps> = ({items, query}) => {
             <div className="icons">
               <IoPencilOutline 
                 style={{cursor: 'pointer'}}
-                onClick={() => updateShowPhoneHandler(true, item._id, item.number, item.description)}
+                onClick={() => updateShowEmailHandler(true, item._id, item.email, item.description)}
                 size={20}/>
               <IoTrashOutline
-                onClick={() => deletePhoneHandler(item._id)}
+                onClick={() => deleteEmailHandler(item._id)}
                 style={{cursor: 'pointer'}}
                 size={20}/>
             </div>
@@ -199,19 +195,19 @@ const ContactsPhonesInner: FC<IProps> = ({items, query}) => {
       {showAddInputs && 
         <div className="contactsblock__contacts__inputs">
           <input 
-            value={addPhoneAndUpdateContact.phone.number}
+            value={addEmailAndUpdateContact.email.email}
             onChange={addOrUpdateInputsHandler}
             type="text" 
-            name="phone.number" 
-            placeholder='+37544-254-56-87'/>
+            name="email.email" 
+            placeholder='example@tut.by'/>
           <input
-            value={addPhoneAndUpdateContact.phone.description}
+            value={addEmailAndUpdateContact.email.description}
             onChange={addOrUpdateInputsHandler}
             type="text" 
-            name="phone.description" 
+            name="email.description" 
             placeholder='комментарий'/>
           <button
-            onClick={addPhoneHandler}>
+            onClick={addEmailHandler}>
             Добавить
           </button>
           <button
@@ -224,4 +220,4 @@ const ContactsPhonesInner: FC<IProps> = ({items, query}) => {
   )
 }
 
-export const ContactsPhones = React.memo(ContactsPhonesInner)
+export const ContactsEmails = React.memo(ContactsEmailsInner)
