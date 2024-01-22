@@ -8,11 +8,13 @@ import { ContactsEmails } from './ContactsEmails';
 import { ContactsAddress } from './ContactsAddress';
 import { ContactsDistrict } from './ContactsDistrict';
 
-interface IProps {
-  companyID: string;
-}
+// interface IProps {
+//   companyID: string;
+// }
 
-const ContactsBlockInner: FC<IProps> = ({companyID}) => {
+const ContactsBlockInner: FC = ({}) => {
+  const { company, companies, isLoading } = useAppSelector(state => state.companyReducer);
+  
   const query: ICompaniesQuery = {
     query: 
       [
@@ -31,13 +33,20 @@ const ContactsBlockInner: FC<IProps> = ({companyID}) => {
         {
           path: "contactID", 
           populate: { path: 'emailsID' }
-        }
+        },
+        {
+          path: "dealsID", 
+          populate: { path: 'dealTitleID' }
+        },
+        {
+          path: "dealsID", 
+          populate: { path: 'userID' }
+        },
       ], 
     sort: {'contactID.address.district': 'asc'}, 
     limit: 0,
-    find: {'_id': companyID}
+    find: {'_id': company._id}
   };
-  const { company, companies, isLoading } = useAppSelector(state => state.companyReducer);
 
   const dispatch = useAppDispatch();
 
@@ -48,12 +57,12 @@ const ContactsBlockInner: FC<IProps> = ({companyID}) => {
           <div className="text">
             <span>Контактные данные</span>
           </div>
-          <div className="icons">
+          {/* <div className="icons">
             <IoAddCircleOutline 
               style={{cursor: 'pointer'}}
               // onClick={() => console.log(phones)}
               size={20}/>
-          </div>
+          </div> */}
         </div>
       </div>
       <div className="baseblockSmall__deals">

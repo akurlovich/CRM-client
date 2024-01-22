@@ -17,6 +17,7 @@ import { AddOrder } from '../../OrdersPage/AddOrder/AddOrder';
 import { OrdersInCompany } from '../../OrdersPage/OrdersInCompany/OrdersInCompany';
 import { Loader } from '../../UI/Loader/Loader';
 import { ContactsBlock } from './CompanyBlocks/ContactsBlock/ContactsBlock';
+import { DealsBlock } from './CompanyBlocks/DealsBlock/DealsBlock';
 import './companycard.scss';
 
 // interface IProps {
@@ -53,7 +54,15 @@ const CompanyCardInner: FC = () => {
               {
                 path: "contactID", 
                 populate: { path: 'emailsID' }
-              }
+              },
+              {
+                path: "dealsID", 
+                populate: { path: 'dealTitleID' }
+              },
+              {
+                path: "dealsID", 
+                populate: { path: 'userID' }
+              },
             ], 
           sort: {'contactID.address.district': 'asc'}, 
           limit: 0,
@@ -113,8 +122,9 @@ const CompanyCardInner: FC = () => {
               <Comments/>
             </div>
             <div className="right">
-              <BaseBlockNarrow/>
-              <ContactsBlock companyID={params.id ? params.id : ''}/>
+              <DealsBlock/>
+              {/* <ContactsBlock companyID={params.id ? params.id : ''}/> */}
+              <ContactsBlock/>
             </div>
           </div>
         </section>   

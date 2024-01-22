@@ -1,4 +1,5 @@
 import { IContact } from "./IContact";
+import { IDeal } from "./IDeal";
 import { IUser } from "./IUser";
 
 export interface ICompany {
@@ -28,7 +29,7 @@ export interface ICompany {
   usersID: IUser[],
   description: string,
   contactID: IContact,
-  dealsID: string[],
+  dealsID: IDeal[],
   ordersID: string[],
   commentsID: string[],
 }

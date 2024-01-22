@@ -16,9 +16,6 @@ interface IProps {
 }
 
 const ContactsDistrictInner: FC<IProps> = ({contactID, address, district, query}) => {
-  useEffect(() => {
-    console.log('first', district)
-  }, [])
   
   const dispatch = useAppDispatch();
 
