@@ -4,12 +4,10 @@ import { IoTrashOutline } from '@react-icons/all-files/io5/IoTrashOutline';
 import React, { FC, useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../../../../hooks/redux';
 import { getCompanyByIDQuery } from '../../../../../store/reducers/CompanyReducer/CompanyActionCreaters';
-import { deleteEmailFromContactByPhoneID, deletePhoneFromContactByPhoneID } from '../../../../../store/reducers/ContactReducer/ContactActionCreators';
+import { deleteEmailFromContactByPhoneID } from '../../../../../store/reducers/ContactReducer/ContactActionCreators';
 import { addEmail, updateEmailByID } from '../../../../../store/reducers/EmailReducer/EmailActionCreators';
-import { addPhone, updatePhoneByID } from '../../../../../store/reducers/PhoneReducer/PhoneActionCreators';
 import { ICompaniesQuery } from '../../../../../types/ICompany';
 import { IEmail, IEmailNewAddContacts } from '../../../../../types/IEmail';
-import { IPhone, IPhoneNewAddContacts } from '../../../../../types/IPhone';
 
 interface IProps {
   items: IEmail[];
@@ -33,7 +31,7 @@ const ContactsEmailsInner: FC<IProps> = ({items, query}) => {
     }} as IEmailNewAddContacts);
 
   const showAddEmailHandler = () => {
-    setShowUpdateInput({show: false, itemID: ''})
+    setShowUpdateInput({show: false, itemID: ''});
     setAddEmailAndUpdateContact(prev => ({
       ...prev,
       email : {
@@ -42,7 +40,7 @@ const ContactsEmailsInner: FC<IProps> = ({items, query}) => {
         description: '',
       }
     }))
-    setShowAddInputs(prev => (true));
+    setShowAddInputs(true);
   };
 
   const updateEmailHandler = async () => {
@@ -52,12 +50,9 @@ const ContactsEmailsInner: FC<IProps> = ({items, query}) => {
         email: addEmailAndUpdateContact.email.email, 
         description: addEmailAndUpdateContact.email.description
     }};
-
-    // // console.log(phone)
     
     await dispatch(updateEmailByID(email));
     await dispatch(getCompanyByIDQuery(query));
-    // await dispatch(getAllPhones());
     setShowUpdateInput({show: false, itemID: ''});
   };
 
@@ -71,7 +66,7 @@ const ContactsEmailsInner: FC<IProps> = ({items, query}) => {
         description: description,
       }
     }))
-    setShowAddInputs(prev => (false));
+    setShowAddInputs(false);
   };
 
   const deleteEmailHandler = async (id: string) => {
@@ -84,8 +79,6 @@ const ContactsEmailsInner: FC<IProps> = ({items, query}) => {
   const addEmailHandler = async () => {
     const reqex = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
     const result = reqex.test(addEmailAndUpdateContact.email.email);
-    // console.log(result)
-    // console.log(addEmailAndUpdateContact)
     await dispatch(addEmail(addEmailAndUpdateContact));
     await dispatch(getCompanyByIDQuery(query));
     setShowAddInputs(prev => (false));
