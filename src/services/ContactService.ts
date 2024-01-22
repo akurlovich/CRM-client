@@ -1,6 +1,6 @@
 import { AxiosResponse } from "axios";
 import serverApi from "../http";
-import { IContact, IContactNew } from "../types/IContact";
+import { IContact, IContactNew, IContactUpdateByAddress } from "../types/IContact";
 
 export default class ContactService {
   static async addContact(contact: IContactNew): Promise<AxiosResponse<IContact>> {
@@ -40,7 +40,7 @@ export default class ContactService {
   };
 
   static async updateContactByAddress(
-    data: {contactID: string, newAddress: {address: {main: string, district: string}}}): Promise<AxiosResponse<IContact>> {
+    data: IContactUpdateByAddress): Promise<AxiosResponse<IContact>> {
     // console.log('new address client', data);
     return serverApi.put<IContact>(`/contacts/${data.contactID}`, data.newAddress);
   };

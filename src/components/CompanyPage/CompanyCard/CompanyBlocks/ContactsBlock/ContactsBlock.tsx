@@ -61,8 +61,16 @@ const ContactsBlockInner: FC<IProps> = ({companyID}) => {
           <div className="contactsblock__contacts">
             <ContactsPhones items={company.contactID && company.contactID.phonesID} query={query}/>
             <ContactsEmails items={company.contactID && company.contactID.emailsID} query={query}/>
-            <ContactsAddress address={company?.contactID?.address?.main ? company?.contactID?.address?.main : ''}/>
-            <ContactsDistrict district={company?.contactID?.address?.district ? company?.contactID?.address?.district : ''}/>
+            <ContactsAddress 
+              address={company?.contactID?.address?.main ? company?.contactID?.address?.main : ''}
+              district={company?.contactID?.address?.district ? company?.contactID?.address?.district : ''} 
+              contactID={company.contactID?._id} 
+              query={query}/>
+            <ContactsDistrict 
+              address={company?.contactID?.address?.main ? company?.contactID?.address?.main : ''}
+              district={company?.contactID?.address?.district ? company?.contactID?.address?.district : ''} 
+              contactID={company.contactID?._id} 
+              query={query}/>
 
           </div>
         </div>
