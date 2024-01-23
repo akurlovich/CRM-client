@@ -10,7 +10,7 @@ import { IoCallSharp } from "@react-icons/all-files/io5/IoCallSharp";
 import { useAppSelector } from '../../../../../hooks/redux';
 
 const DealsBlockInner: FC = () => {
-  const { company, companies, isLoading } = useAppSelector(state => state.companyReducer);
+  const { company, companyDeals } = useAppSelector(state => state.companyReducer);
   const [name, setName] = useState('')
 
   useEffect(() => {
@@ -36,9 +36,9 @@ const DealsBlockInner: FC = () => {
           <span>Завтра в 12:00 важный звонок</span>
         </div>
       </div>
-      {company.dealsID ? company.dealsID.map(item => (
         <div className="deals-block__deals">
-          <div className="deals-block__deals__item">
+        {companyDeals.length ? companyDeals.map(item => (
+          <div key={item._id} className="deals-block__deals__item">
             <div className="deals-block__deals__item__title">
               <span>Четверг, 2 ноября 2024г.</span> 
             </div>
@@ -58,11 +58,15 @@ const DealsBlockInner: FC = () => {
               </div>
             </div>
           </div>
+          )) 
+          :
+          <div className="deals-block__deals__empty">
+            <IoCalendarOutline size={40} color='#aebbcb'/>
+            <span>Активных дел нет</span>
+          </div>
+        }
         </div>
 
-      )) : null
-
-      }
     </section>
   )
 };
