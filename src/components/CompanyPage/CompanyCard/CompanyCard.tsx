@@ -15,6 +15,8 @@ import { BaseBlockSmall } from '../../BaseBlock/BaseBlockSmall';
 import { Comments } from '../../Comments/Comments';
 import { AddOrder } from '../../OrdersPage/AddOrder/AddOrder';
 import { OrdersInCompany } from '../../OrdersPage/OrdersInCompany/OrdersInCompany';
+import CalendarCustom from '../../UI/Calendar/CalendaCustom';
+import CalendarItem from '../../UI/Calendar/Calendar';
 import { Loader } from '../../UI/Loader/Loader';
 import { ContactsBlock } from './CompanyBlocks/ContactsBlock/ContactsBlock';
 import { DealsBlock } from './CompanyBlocks/DealsBlock/DealsBlock';
@@ -120,11 +122,14 @@ const CompanyCardInner: FC = () => {
               {/* <AddOrder/> */}
               <OrdersInCompany showAddOrder={(() => setShowAddOrder(true))}/>
               <Comments/>
+              <CalendarCustom/>
             </div>
             <div className="right">
               <DealsBlock/>
               {/* <ContactsBlock companyID={params.id ? params.id : ''}/> */}
               <ContactsBlock/>
+              {/* <CalendarItem/> */}
+              
             </div>
           </div>
         </section>   

@@ -11,12 +11,8 @@ import { useAppSelector } from '../../../../../hooks/redux';
 
 const DealsBlockInner: FC = () => {
   const { company, companyDeals } = useAppSelector(state => state.companyReducer);
-  const [name, setName] = useState('')
-
-  useEffect(() => {
-    // setName(company.dealsID[0].userID.lastname);
-  }, [company])
   
+
   
   return (
     <section className='deals-block'>
@@ -40,15 +36,15 @@ const DealsBlockInner: FC = () => {
         {companyDeals.length ? companyDeals.map(item => (
           <div key={item._id} className="deals-block__deals__item">
             <div className="deals-block__deals__item__title">
-              <span>Четверг, 2 ноября 2024г.</span> 
+              <span>{item.dateEnd}</span> 
             </div>
             <div className="deals-block__deals__item__info">
               <div className="text">
                 <IoSquareOutline size={25}/>
                 <div className="item">
-                  <span>Звонок</span>
+                  <span>{item.dealTitleID.title}</span>
                   {/* <span>15:12 {company.dealsID?.[0].userID?.lastname + ' ' + company.dealsID?.[0].userID?.firstname}</span> */}
-                  <span>{item.userID.firstname}</span>
+                  <span>{item.timeEnd + ' ' + item.userID.lastname + ' ' +item.userID.firstname}</span>
                 </div>
               </div>
               <div className="icons">
@@ -66,6 +62,8 @@ const DealsBlockInner: FC = () => {
           </div>
         }
         </div>
+
+        
 
     </section>
   )

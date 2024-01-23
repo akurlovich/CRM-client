@@ -13,6 +13,7 @@ import { BaseBlockContacts } from "../BaseBlock/BaseBlockContacts";
 import { Comments } from "../Comments/Comments";
 import { AddOrder } from "../OrdersPage/AddOrder/AddOrder";
 import { OrdersInCompany } from "../OrdersPage/OrdersInCompany/OrdersInCompany";
+import CalendarItem from "../UI/Calendar/Calendar";
 
 const HomeInner: FC = () => {
   const { dimensionAll } = useAppSelector(state => state.dimensionReducer);
@@ -67,6 +68,7 @@ const HomeInner: FC = () => {
           <BaseBlockContacts/>
         </div>
       </div>
+      <CalendarItem/>
     </main>
   );
 };
