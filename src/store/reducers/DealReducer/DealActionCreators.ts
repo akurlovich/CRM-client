@@ -37,6 +37,18 @@ export const getAllDeals = createAsyncThunk(
   }
 );
 
+export const getAllDealTitles = createAsyncThunk(
+  'DEAL/getAllDealTitles',
+  async (_, {rejectWithValue}) => {
+    try {
+      return await (await DealService.getAllDealTitles()).data;
+      
+    } catch (error: any) {
+      return rejectWithValue(error.message)
+    }
+  }
+);
+
 export const updateDealByID = createAsyncThunk(
   'DEAL/updateDealByID',
   async ( data: {dealID: string, deal: IDealUpdate}, {rejectWithValue}) => {

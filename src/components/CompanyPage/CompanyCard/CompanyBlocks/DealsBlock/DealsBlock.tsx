@@ -11,34 +11,40 @@ import { IoCheckmarkCircleSharp } from "@react-icons/all-files/io5/IoCheckmarkCi
 import { useAppSelector } from '../../../../../hooks/redux';
 import CalendarCustom from '../../../../UI/Calendar/CalendarCustom';
 import TimeBlock from '../../../../UI/TimePicker/TimePicker';
+import SelectBlock from '../../../../UI/Select/SelectBlock';
+import DealCreate from './DealCreate';
 
 const DealsBlockInner: FC = () => {
   const { company, companyDeals } = useAppSelector(state => state.companyReducer);
-  const [calendarData, setCalendarData] = useState(
-    {
-      show: false,
-      date: '1',
-      hour: '8',
-      minuts: '0'
-    }
-  );
+  const { dealTitles } = useAppSelector(state => state.dealReducer);
 
-  const dateHandler = (date: string | number) => {
-    // console.log(date)
-    setCalendarData(prev => ({
-      ...prev,
-      date: date.toString(),
-    }))
-  }
+  const [showAddDeal, setShowAddDeal] = useState(false)
 
-  const timeHandler = (hour: number | undefined, minuts: number | undefined) => {
-    // console.log(hour, minuts)
-    setCalendarData(prev => ({
-      ...prev,
-      hour: hour?.toString() ? hour.toString() : '',
-      minuts: minuts?.toString() ? minuts.toString() : '',
-    }))
-  }
+  // const [calendarData, setCalendarData] = useState(
+  //   {
+  //     show: false,
+  //     date: '1',
+  //     hour: '8',
+  //     minuts: '0'
+  //   }
+  // );
+
+  // const dateHandler = (date: string | number) => {
+  //   // console.log(date)
+  //   setCalendarData(prev => ({
+  //     ...prev,
+  //     date: date.toString(),
+  //   }))
+  // };
+
+  // const timeHandler = (hour: number | undefined, minuts: number | undefined) => {
+  //   // console.log(hour, minuts)
+  //   setCalendarData(prev => ({
+  //     ...prev,
+  //     hour: hour?.toString() ? hour.toString() : '',
+  //     minuts: minuts?.toString() ? minuts.toString() : '',
+  //   }))
+  // };
 
   
   return (
@@ -51,29 +57,21 @@ const DealsBlockInner: FC = () => {
           </div>
           <div className="icons">
             <IoCalendarOutline 
-              onClick={() => setCalendarData(prev => ({...prev, show: true}))}
+              onClick={() => setShowAddDeal(true)}
               size={20}/>
-            <IoAddCircleOutline size={20}/>
-            {calendarData.show && 
-              <>
-                <div className="calendar">
-                  <CalendarCustom onClickDate={dateHandler}/>
-                  <div className="time">
-                    <TimeBlock onClickDate={timeHandler}/>
-                  </div>
-                  <div className="confirm">
-                    <IoCheckmarkCircleSharp 
-                      onClick={() => setCalendarData(prev => ({...prev, show: false}))}
-                      size={30}/>
-                  </div>
-                </div>
-              </>
+            <IoAddCircleOutline 
+              onClick={() => setShowAddDeal(true)}
+              size={20}/>
+            {showAddDeal && 
+              <DealCreate options={dealTitles} onAction={() => setShowAddDeal(false)}/>
             }
           </div>
         </div>
         <div className="deals-block__newdeal__add">
-          <IoAddCircleOutline/>
-          <span>Завтра в 12:00 важный звонок</span>
+          <IoAddCircleOutline 
+            onClick={() => setShowAddDeal(true)}
+            size={20}/>
+          <span>Завтра в 12:00 звонок</span>
         </div>
       </div>
       <div className="deals-block__deals">

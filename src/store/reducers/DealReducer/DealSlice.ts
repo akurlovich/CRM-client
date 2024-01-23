@@ -1,10 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IDeal } from "../../../types/IDeal";
-import { addDeal, deleteDealByID, getAllDeals, updateDealByID } from "./DealActionCreators";
+import { IDeal, IDealTitle } from "../../../types/IDeal";
+import { addDeal, deleteDealByID, getAllDeals, getAllDealTitles, updateDealByID } from "./DealActionCreators";
 
 interface IDealState {
   deal: IDeal,
   deals: IDeal[],
+  dealTitles: IDealTitle[],
   isLoading: boolean,
   error: string,
 };
@@ -12,6 +13,7 @@ interface IDealState {
 const initialState: IDealState = {
   deal: {} as IDeal,
   deals: [] as IDeal[],
+  dealTitles: [] as IDealTitle[],
   isLoading: false,
   error: '',
 };
@@ -42,6 +44,18 @@ const dealSlice = createSlice({
         state.deals = action.payload;
       })
       .addCase(getAllDeals.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload as string;
+      });
+    builder
+      .addCase(getAllDealTitles.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getAllDealTitles.fulfilled, (state, action: PayloadAction<IDealTitle[]>) => {
+        state.isLoading = false;
+        state.dealTitles = action.payload;
+      })
+      .addCase(getAllDealTitles.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload as string;
       });
