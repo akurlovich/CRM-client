@@ -12,7 +12,7 @@ dayjs.updateLocale('en', {
 });
 
 interface IProps {
-  onClickDate: (boolean: boolean) => void;
+  onClickDate: (date: string | number) => void;
 }
 
 const CalendarCustom: FC<IProps> = ({onClickDate}) => {
@@ -25,8 +25,8 @@ const CalendarCustom: FC<IProps> = ({onClickDate}) => {
   };
 
   const getDataHandler = (date: string | number) => {
-    onClickDate(false)
-    console.log(date)
+    onClickDate(date)
+    // console.log(date)
   }
 
   return (
@@ -60,7 +60,7 @@ const CalendarCustom: FC<IProps> = ({onClickDate}) => {
           }
           return (
             <div style={{ padding: 8 }}>
-              <Typography.Title level={4}>Выберите дату</Typography.Title>
+              <Typography.Title level={4}>Выберите дату и время</Typography.Title>
               <Row gutter={8}>
                 <Col>
                   <Select

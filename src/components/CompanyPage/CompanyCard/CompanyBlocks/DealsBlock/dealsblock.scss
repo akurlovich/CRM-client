@@ -45,6 +45,24 @@
           box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.5), 0 5px 10px 0 rgba(0, 0, 0, 0.3);
           right: 45px;
           top: 5px;
+          display: flex;
+
+          & > .time {
+            position: absolute;
+            right: 16px;
+            width: 90px;
+            top: 42px;
+
+          }
+
+          & > .confirm {
+            position: absolute;
+            right: 5px;
+            top: 5px;
+            color: var(--btn-default);
+            cursor: pointer;
+            border-radius: 50%;
+          }
         }
       }
 

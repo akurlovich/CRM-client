@@ -15,7 +15,7 @@ import { BaseBlockSmall } from '../../BaseBlock/BaseBlockSmall';
 import { Comments } from '../../Comments/Comments';
 import { AddOrder } from '../../OrdersPage/AddOrder/AddOrder';
 import { OrdersInCompany } from '../../OrdersPage/OrdersInCompany/OrdersInCompany';
-import CalendarCustom from '../../UI/Calendar/CalendaCustom';
+import CalendarCustom from '../../UI/Calendar/CalendarCustom';
 import CalendarItem from '../../UI/Calendar/Calendar';
 import { Loader } from '../../UI/Loader/Loader';
 import { ContactsBlock } from './CompanyBlocks/ContactsBlock/ContactsBlock';

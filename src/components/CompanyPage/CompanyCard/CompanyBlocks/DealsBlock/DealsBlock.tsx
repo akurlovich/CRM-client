@@ -7,12 +7,38 @@ import { IoSquareOutline } from '@react-icons/all-files/io5/IoSquareOutline';
 import { IoStarOutline } from "@react-icons/all-files/io5/IoStarOutline";
 import { IoPersonSharp } from "@react-icons/all-files/io5/IoPersonSharp";
 import { IoCallSharp } from "@react-icons/all-files/io5/IoCallSharp";
+import { IoCheckmarkCircleSharp } from "@react-icons/all-files/io5/IoCheckmarkCircleSharp";
 import { useAppSelector } from '../../../../../hooks/redux';
-import CalendarCustom from '../../../../UI/Calendar/CalendaCustom';
+import CalendarCustom from '../../../../UI/Calendar/CalendarCustom';
+import TimeBlock from '../../../../UI/TimePicker/TimePicker';
 
 const DealsBlockInner: FC = () => {
   const { company, companyDeals } = useAppSelector(state => state.companyReducer);
-  const [showCalendar, setShowCalendar] = useState(false);
+  const [calendarData, setCalendarData] = useState(
+    {
+      show: false,
+      date: '1',
+      hour: '8',
+      minuts: '0'
+    }
+  );
+
+  const dateHandler = (date: string | number) => {
+    // console.log(date)
+    setCalendarData(prev => ({
+      ...prev,
+      date: date.toString(),
+    }))
+  }
+
+  const timeHandler = (hour: number | undefined, minuts: number | undefined) => {
+    // console.log(hour, minuts)
+    setCalendarData(prev => ({
+      ...prev,
+      hour: hour?.toString() ? hour.toString() : '',
+      minuts: minuts?.toString() ? minuts.toString() : '',
+    }))
+  }
 
   
   return (
@@ -25,13 +51,23 @@ const DealsBlockInner: FC = () => {
           </div>
           <div className="icons">
             <IoCalendarOutline 
-              onClick={() => setShowCalendar(true)}
+              onClick={() => setCalendarData(prev => ({...prev, show: true}))}
               size={20}/>
             <IoAddCircleOutline size={20}/>
-            {showCalendar && 
-              <div className="calendar">
-                <CalendarCustom onClickDate={setShowCalendar}/>
-              </div>
+            {calendarData.show && 
+              <>
+                <div className="calendar">
+                  <CalendarCustom onClickDate={dateHandler}/>
+                  <div className="time">
+                    <TimeBlock onClickDate={timeHandler}/>
+                  </div>
+                  <div className="confirm">
+                    <IoCheckmarkCircleSharp 
+                      onClick={() => setCalendarData(prev => ({...prev, show: false}))}
+                      size={30}/>
+                  </div>
+                </div>
+              </>
             }
           </div>
         </div>
