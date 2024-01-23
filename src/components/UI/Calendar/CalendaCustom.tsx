@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import dayjs from 'dayjs';
 import type { Dayjs } from 'dayjs';
 import updateLocale from 'dayjs/plugin/updateLocale';
@@ -11,7 +11,11 @@ dayjs.updateLocale('en', {
   weekStart: 1,
 });
 
-const CalendarCustom: React.FC = () => {
+interface IProps {
+  onClickDate: (boolean: boolean) => void;
+}
+
+const CalendarCustom: FC<IProps> = ({onClickDate}) => {
   const { token } = theme.useToken();
 
   const wrapperStyle: React.CSSProperties = {
@@ -19,6 +23,11 @@ const CalendarCustom: React.FC = () => {
     border: `1px solid ${token.colorBorderSecondary}`,
     borderRadius: token.borderRadiusLG,
   };
+
+  const getDataHandler = (date: string | number) => {
+    onClickDate(false)
+    console.log(date)
+  }
 
   return (
     <div style={wrapperStyle}>
@@ -56,7 +65,7 @@ const CalendarCustom: React.FC = () => {
                 <Col>
                   <Select
                     size="small"
-                    dropdownMatchSelectWidth={false}
+                    popupMatchSelectWidth={false}
                     className="my-year-select"
                     value={year}
                     onChange={(newYear) => {
@@ -70,7 +79,7 @@ const CalendarCustom: React.FC = () => {
                 <Col>
                   <Select
                     size="small"
-                    dropdownMatchSelectWidth={false}
+                    popupMatchSelectWidth={false}
                     value={month}
                     onChange={(newMonth) => {
                       const now = value.clone().month(newMonth);
@@ -85,7 +94,8 @@ const CalendarCustom: React.FC = () => {
           );
         }}
         //TODO  year, month, date - число месяца
-        onSelect={(value: Dayjs) => console.log(value.format('YYYY-MM-DD'), value.date())}
+        // onSelect={(value: Dayjs) => console.log(value.format('YYYY-MM-DD'), value.date())}
+        onSelect={(value: Dayjs) => getDataHandler(value.date())}
       />
     </div>
   );

@@ -36,9 +36,18 @@
       }
   
       & > .icons {
+        position: relative;
         display: flex;
         gap: 15px;
+
+        & > .calendar {
+          position: absolute;
+          box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.5), 0 5px 10px 0 rgba(0, 0, 0, 0.3);
+          right: 45px;
+          top: 5px;
+        }
       }
+
     }
   
     &__add {
