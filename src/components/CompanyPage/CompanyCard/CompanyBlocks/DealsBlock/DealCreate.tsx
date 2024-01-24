@@ -10,9 +10,10 @@ import TimeBlock from '../../../../UI/TimePicker/TimePicker';
 interface IProps {
   // options: IDealTitle[];
   onAction: () => void; 
+  position?: string;
 }
 
-const DealCreate: FC<IProps> = ({onAction}) => {
+const DealCreate: FC<IProps> = ({onAction, position}) => {
   const { company, companyFirstUser, query } = useAppSelector(state => state.companyReducer);
   const dispatch = useAppDispatch();
   const [calendarData, setCalendarData] = useState(
@@ -69,7 +70,7 @@ const DealCreate: FC<IProps> = ({onAction}) => {
   };
 
   return (
-    <div className="calendar">
+    <div className={`calendar-block ${position}`}>
       <div className="type">
         <span>Тип:</span>
         <SelectBlock onClickDate={dateTypeHandler}/>

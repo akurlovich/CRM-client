@@ -23,6 +23,7 @@ import { DealsBlock } from './CompanyBlocks/DealsBlock/DealsBlock';
 import './companycard.scss';
 import { getAllDealTitles } from '../../../store/reducers/DealReducer/DealActionCreators';
 import { addQueryToState } from '../../../store/reducers/CompanyReducer/CompanySlice';
+import { InfoBlock } from './CompanyBlocks/InfoBlock/InfoBlock';
 
 // interface IProps {
 //   item: ICompany;
@@ -119,7 +120,7 @@ const CompanyCardInner: FC = () => {
           </header>
           <div className="company-card__wrapper">
             <div className="left">
-              <BaseBlock/>
+              <InfoBlock/>
               <BaseBlockSmall deal="Задачи"/>
               {/* <BaseBlockSmall deal="Процесссы"/> */}
               <AddOrder isVisible={showAddOrder}/>

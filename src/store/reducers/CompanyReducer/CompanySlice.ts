@@ -9,6 +9,8 @@ interface ICompanyState {
   companyNew: ICompanyNew,
   companies: ICompany[],
   companyDeals: IDeal[],
+  companyFirstDeal: IDeal,
+  companyUsers: IUser[],
   companyFirstUser: IUser,
   query: ICompaniesQuery,
   isLoading: boolean,
@@ -20,6 +22,8 @@ const initialState: ICompanyState = {
   companyNew: {} as ICompanyNew,
   companies: [] as ICompany[],
   companyDeals: [] as IDeal[],
+  companyFirstDeal: {} as IDeal,
+  companyUsers: [] as IUser[],
   companyFirstUser: {} as IUser,
   query: {} as ICompaniesQuery,
   isLoading: false,
@@ -90,7 +94,10 @@ const companySlice = createSlice({
       .addCase(getCompanyByIDQuery.fulfilled, (state, action: PayloadAction<ICompany>) => {
         state.isLoading = false;
         state.company = action.payload;
+  //TODO добавить сортироваку дел по endTime, первое в массие - первое на выполнение
         state.companyDeals = action.payload.dealsID;
+        state.companyFirstDeal = action.payload.dealsID[0];
+        state.companyUsers = action.payload.usersID;
         state.companyFirstUser = action.payload.usersID[0];
       })
       .addCase(getCompanyByIDQuery.rejected, (state, action) => {
