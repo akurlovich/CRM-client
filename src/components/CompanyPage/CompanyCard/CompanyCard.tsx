@@ -22,6 +22,7 @@ import { ContactsBlock } from './CompanyBlocks/ContactsBlock/ContactsBlock';
 import { DealsBlock } from './CompanyBlocks/DealsBlock/DealsBlock';
 import './companycard.scss';
 import { getAllDealTitles } from '../../../store/reducers/DealReducer/DealActionCreators';
+import { addQueryToState } from '../../../store/reducers/CompanyReducer/CompanySlice';
 
 // interface IProps {
 //   item: ICompany;
@@ -73,6 +74,7 @@ const CompanyCardInner: FC = () => {
         };
         await dispatch(getCompanyByIDQuery(query));
         await dispatch(getAllDealTitles());
+        dispatch(addQueryToState(query));
         // await dispatch(getAllPhones());
         // await dispatch(getCompanyByID(params.id));
       }

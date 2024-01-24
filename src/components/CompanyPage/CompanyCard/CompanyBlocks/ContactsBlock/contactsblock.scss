@@ -45,6 +45,11 @@
           flex: 0 120px
         }
 
+        & > .span-email {
+          color: var(--link-active-2);
+          flex: 0 150px
+        }
+
         & span:nth-child(2) {
           flex: 1 1;
         }
@@ -69,7 +74,7 @@
       display: flex;
       justify-content: space-between;
       padding-left: 15px;
-      gap: 15px;
+      gap: 10px;
 
       &.update {
         padding: 0;
@@ -90,10 +95,36 @@
       & input:first-child {
         max-width: 120px;
         width: 100%;
+
       }
 
-      & > button {
+      & > .add-btn {
+        background-color: var(--btn-default);
+        color: white;
+        text-transform: uppercase;
+        border-radius: 2px;
         padding: 5px;
+        font-size: 12px;
+        transition: all 0.3s;
+  
+        &:hover {
+          background-color: var(--btn-default-hover);
+        }
+      }
+  
+      & > .cansel-btn {
+        background-color: transparent;
+        color: #3e425e;
+        border: 1px solid #cacaca;
+        text-transform: uppercase;
+        border-radius: 2px;
+        padding: 5px;
+        font-size: 12px;
+        transition: all 0.3s;
+  
+        &:hover {
+          background-color: #f0f0f3;
+        }
       }
 
       & > .address {

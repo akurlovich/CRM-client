@@ -11,9 +11,10 @@ import { IoCheckbox } from "@react-icons/all-files/io5/IoCheckbox";
 import { useAppDispatch, useAppSelector } from '../../../../../hooks/redux';
 import DealCreate from './DealCreate';
 import { deleteDealByID } from '../../../../../store/reducers/DealReducer/DealActionCreators';
+import { getCompanyByIDQuery } from '../../../../../store/reducers/CompanyReducer/CompanyActionCreaters';
 
 const DealsBlockInner: FC = () => {
-  const { companyDeals } = useAppSelector(state => state.companyReducer);
+  const { companyDeals, query } = useAppSelector(state => state.companyReducer);
   const dispatch = useAppDispatch();
 
   const [showAddDeal, setShowAddDeal] = useState(false);
@@ -27,11 +28,12 @@ const DealsBlockInner: FC = () => {
     setTimeout(async () => {
       if (window.confirm("Завершить дело?")) {
           await dispatch(deleteDealByID(itemID));
-          setShowDeleteDeal({show: false, itemID: ''})
+          await dispatch(getCompanyByIDQuery(query));
+          setShowDeleteDeal({show: false, itemID: ''});
         }
       
     }, 0);
-  }
+  };
 
   const deleteHandleer = async () => {
     // console.log(showDeleteDeal.itemID);
@@ -78,6 +80,7 @@ const DealsBlockInner: FC = () => {
             <div className="text">
               {!showDeleteDeal ? 
                 <IoSquareOutline 
+                  style={{"cursor": 'pointer'}}
                   onClick={() => confirmHandler(item._id)}
                   size={25}/>
                 : showDeleteDeal.itemID == item._id ?
@@ -87,6 +90,7 @@ const DealsBlockInner: FC = () => {
                     size={25}/>
                   : 
                   <IoSquareOutline 
+                    style={{"cursor": 'pointer'}}
                     onClick={() => confirmHandler(item._id)}
                     size={25}/>
               }

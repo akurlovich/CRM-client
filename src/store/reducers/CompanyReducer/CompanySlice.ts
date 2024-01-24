@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ICompany, ICompanyNew } from "../../../types/ICompany";
+import { ICompaniesQuery, ICompany, ICompanyNew } from "../../../types/ICompany";
 import { IDeal } from "../../../types/IDeal";
 import { IUser } from "../../../types/IUser";
 import { addCompany, getAllCompanies, getAllCompaniesQuery, getCompanyByID, getCompanyByIDQuery } from "./CompanyActionCreaters";
@@ -10,6 +10,7 @@ interface ICompanyState {
   companies: ICompany[],
   companyDeals: IDeal[],
   companyFirstUser: IUser,
+  query: ICompaniesQuery,
   isLoading: boolean,
   error: string,
 };
@@ -20,6 +21,7 @@ const initialState: ICompanyState = {
   companies: [] as ICompany[],
   companyDeals: [] as IDeal[],
   companyFirstUser: {} as IUser,
+  query: {} as ICompaniesQuery,
   isLoading: false,
   error: '',
 };
@@ -27,7 +29,11 @@ const initialState: ICompanyState = {
 const companySlice = createSlice({
   name: 'COMPANY',
   initialState,
-  reducers: {},
+  reducers: {
+    addQueryToState(state, action: PayloadAction<ICompaniesQuery>) {
+      state.query = action.payload;
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(addCompany.pending, (state) => {
@@ -93,5 +99,7 @@ const companySlice = createSlice({
       });
   },
 });
+
+export const { addQueryToState } = companySlice.actions;
 
 export default companySlice.reducer;

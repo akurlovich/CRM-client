@@ -68,8 +68,8 @@ const ContactsBlockInner: FC = ({}) => {
       <div className="baseblockSmall__deals">
         <div className="baseblockSmall__deals__item">
           <div className="contactsblock__contacts">
-            <ContactsPhones items={company.contactID && company.contactID.phonesID} query={query}/>
-            <ContactsEmails items={company.contactID && company.contactID.emailsID} query={query}/>
+            <ContactsPhones />
+            <ContactsEmails />
             <ContactsAddress 
               address={company?.contactID?.address?.main ? company?.contactID?.address?.main : ''}
               district={company?.contactID?.address?.district ? company?.contactID?.address?.district : ''} 

@@ -9,13 +9,13 @@ import { addPhone, updatePhoneByID } from '../../../../../store/reducers/PhoneRe
 import { ICompaniesQuery } from '../../../../../types/ICompany';
 import { IPhone, IPhoneNewAddContacts } from '../../../../../types/IPhone';
 
-interface IProps {
-  items: IPhone[];
-  query: ICompaniesQuery;
-}
+// interface IProps {
+//   items: IPhone[];
+//   query: ICompaniesQuery;
+// }
 
-const ContactsPhonesInner: FC<IProps> = ({items, query}) => {
-  const { company } = useAppSelector(state => state.companyReducer);
+const ContactsPhonesInner: FC = ({}) => {
+  const { company, query } = useAppSelector(state => state.companyReducer);
 
   const dispatch = useAppDispatch();
 
@@ -166,10 +166,12 @@ const ContactsPhonesInner: FC<IProps> = ({items, query}) => {
                 name="phone.description.update" 
                 placeholder='комментарий'/>
               <button
+                className='add-btn'
                 onClick={updatePhoneHandler}>
                 Изменить
               </button>
               <button
+                className='cansel-btn'
                 onClick={() => setShowUpdateInput({show: false, itemID: ''})}>
                 Отмена
               </button>
@@ -211,10 +213,12 @@ const ContactsPhonesInner: FC<IProps> = ({items, query}) => {
             name="phone.description" 
             placeholder='комментарий'/>
           <button
+            className='add-btn'
             onClick={addPhoneHandler}>
             Добавить
           </button>
           <button
+            className='cansel-btn'
             onClick={() => setShowAddInputs(false)}>
             Отмена
           </button>

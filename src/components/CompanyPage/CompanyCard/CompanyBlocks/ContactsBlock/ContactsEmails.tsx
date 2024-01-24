@@ -9,13 +9,13 @@ import { addEmail, updateEmailByID } from '../../../../../store/reducers/EmailRe
 import { ICompaniesQuery } from '../../../../../types/ICompany';
 import { IEmail, IEmailNewAddContacts } from '../../../../../types/IEmail';
 
-interface IProps {
-  items: IEmail[];
-  query: ICompaniesQuery;
-}
+// interface IProps {
+//   items: IEmail[];
+//   query: ICompaniesQuery;
+// }
 
-const ContactsEmailsInner: FC<IProps> = ({items, query}) => {
-  const { company } = useAppSelector(state => state.companyReducer);
+const ContactsEmailsInner: FC = ({}) => {
+  const { company, query } = useAppSelector(state => state.companyReducer);
 
   const dispatch = useAppDispatch();
 
@@ -155,17 +155,19 @@ const ContactsEmailsInner: FC<IProps> = ({items, query}) => {
                 name="email.description.update" 
                 placeholder='комментарий'/>
               <button
+                className='add-btn'
                 onClick={updateEmailHandler}>
                 Изменить
               </button>
               <button
+                className='cansel-btn'
                 onClick={() => setShowUpdateInput({show: false, itemID: ''})}>
                 Отмена
               </button>
             </div>
             :
             <div className="text">
-              <span className='span-number'>{item.email}</span>
+              <span className='span-email'>{item.email}</span>
               <span>{item.description}</span>
             </div>
           }
@@ -200,10 +202,12 @@ const ContactsEmailsInner: FC<IProps> = ({items, query}) => {
             name="email.description" 
             placeholder='комментарий'/>
           <button
+            className='add-btn'
             onClick={addEmailHandler}>
             Добавить
           </button>
           <button
+            className='cansel-btn'
             onClick={() => setShowAddInputs(false)}>
             Отмена
           </button>

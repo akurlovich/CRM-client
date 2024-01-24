@@ -134,10 +134,12 @@ const ContactsAddressInner: FC<IProps> = ({contactID, address, district, query})
                 name="address.add" 
                 placeholder='Область, район, населенный пункт...'/>
               <button
+                className='add-btn'
                 onClick={updateAddressHandler}>
                 Изменить
               </button>
               <button
+                className='cansel-btn'
                 onClick={() => setShowUpdateInput(false)}>
                 Отмена
               </button>
@@ -168,10 +170,12 @@ const ContactsAddressInner: FC<IProps> = ({contactID, address, district, query})
             name="address.update" 
             placeholder='Область, район, населенный пункт...'/>
           <button
+            className='add-btn'
             onClick={addAddressHandler}>
             Добавить
           </button>
           <button
+            className='cansel-btn'
             onClick={() => setShowAddInputs(false)}>
             Отмена
           </button>

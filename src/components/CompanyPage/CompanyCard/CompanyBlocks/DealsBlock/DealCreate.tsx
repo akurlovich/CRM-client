@@ -1,5 +1,6 @@
 import React, { FC, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../../../hooks/redux';
+import { getCompanyByIDQuery } from '../../../../../store/reducers/CompanyReducer/CompanyActionCreaters';
 import { addDeal } from '../../../../../store/reducers/DealReducer/DealActionCreators';
 import { IDealNew, IDealTitle } from '../../../../../types/IDeal';
 import CalendarCustom from '../../../../UI/Calendar/CalendarCustom';
@@ -12,7 +13,7 @@ interface IProps {
 }
 
 const DealCreate: FC<IProps> = ({onAction}) => {
-  const { company, companyFirstUser} = useAppSelector(state => state.companyReducer);
+  const { company, companyFirstUser, query } = useAppSelector(state => state.companyReducer);
   const dispatch = useAppDispatch();
   const [calendarData, setCalendarData] = useState(
     {
@@ -62,6 +63,7 @@ const DealCreate: FC<IProps> = ({onAction}) => {
     };
     
     await dispatch(addDeal(newDeal));
+    await dispatch(getCompanyByIDQuery(query));
     
     onAction();
   };
