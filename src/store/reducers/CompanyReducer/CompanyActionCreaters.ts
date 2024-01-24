@@ -70,6 +70,18 @@ export const getAllCompaniesQuery = createAsyncThunk(
   }
 );
 
+export const updateCompanyDescription = createAsyncThunk(
+  'COMPANY/updateCompanyDescription',
+  async ({companyID, description}: {companyID: string, description: string}, {rejectWithValue}) => {
+    try {
+      return await (await CompanyService.updateCompanyDescription(companyID, description)).data;
+      
+    } catch (error: any) {
+      return rejectWithValue(error.message)
+    }
+  }
+);
+
 export const deleteCompanyByID = createAsyncThunk(
   'COMPANY/deleteCompanyByID',
   async (companyID: string, {rejectWithValue}) => {

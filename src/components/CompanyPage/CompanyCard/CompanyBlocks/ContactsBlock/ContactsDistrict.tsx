@@ -130,13 +130,16 @@ const ContactsDistrictInner: FC<IProps> = ({contactID, address, district, query}
                 onChange={addOrUpdateInputsHandler}
                 className="address"
                 type="text" 
+                autoFocus
                 name="district.add" 
                 placeholder='Область, район, населенный пункт...'/>
               <button
+                className='add-btn'
                 onClick={updateAddressHandler}>
                 Изменить
               </button>
               <button
+                className='cansel-btn'
                 onClick={() => setShowUpdateInput(false)}>
                 Отмена
               </button>
@@ -164,13 +167,16 @@ const ContactsDistrictInner: FC<IProps> = ({contactID, address, district, query}
             onChange={addOrUpdateInputsHandler}
             className="address"
             type="text" 
+            autoFocus
             name="district.update" 
             placeholder='Область, район, населенный пункт...'/>
           <button
+            className='add-btn'
             onClick={addAddressHandler}>
             Добавить
           </button>
           <button
+            className='cansel-btn'
             onClick={() => setShowAddInputs(false)}>
             Отмена
           </button>

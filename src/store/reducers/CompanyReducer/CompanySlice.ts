@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ICompaniesQuery, ICompany, ICompanyNew } from "../../../types/ICompany";
 import { IDeal } from "../../../types/IDeal";
 import { IUser } from "../../../types/IUser";
-import { addCompany, getAllCompanies, getAllCompaniesQuery, getCompanyByID, getCompanyByIDQuery } from "./CompanyActionCreaters";
+import { addCompany, getAllCompanies, getAllCompaniesQuery, getCompanyByID, getCompanyByIDQuery, updateCompanyDescription } from "./CompanyActionCreaters";
 
 interface ICompanyState {
   company: ICompany,
@@ -101,6 +101,18 @@ const companySlice = createSlice({
         state.companyFirstUser = action.payload.usersID[0];
       })
       .addCase(getCompanyByIDQuery.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload as string;
+      });
+    builder
+      .addCase(updateCompanyDescription.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateCompanyDescription.fulfilled, (state, action: PayloadAction<ICompany>) => {
+        state.isLoading = false;
+        // state.company = action.payload;
+      })
+      .addCase(updateCompanyDescription.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload as string;
       });

@@ -156,7 +156,8 @@ const ContactsPhonesInner: FC = ({}) => {
               <input 
                 value={addPhoneAndUpdateContact.phone.number}
                 onChange={addOrUpdateInputsHandler}
-                type="text" 
+                type="text"
+                autoFocus 
                 name="phone.number.update" 
                 placeholder='+37544-254-56-87'/>
               <input
@@ -204,6 +205,7 @@ const ContactsPhonesInner: FC = ({}) => {
             value={addPhoneAndUpdateContact.phone.number}
             onChange={addOrUpdateInputsHandler}
             type="text" 
+            autoFocus
             name="phone.number" 
             placeholder='+37544-254-56-87'/>
           <input

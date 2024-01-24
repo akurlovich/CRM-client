@@ -145,6 +145,7 @@ const ContactsEmailsInner: FC = ({}) => {
               <input 
                 value={addEmailAndUpdateContact.email.email}
                 onChange={addOrUpdateInputsHandler}
+                autoFocus
                 type="text" 
                 name="email.email.update" 
                 placeholder='example@tut.by'/>
@@ -193,6 +194,7 @@ const ContactsEmailsInner: FC = ({}) => {
             value={addEmailAndUpdateContact.email.email}
             onChange={addOrUpdateInputsHandler}
             type="text" 
+            autoFocus
             name="email.email" 
             placeholder='example@tut.by'/>
           <input

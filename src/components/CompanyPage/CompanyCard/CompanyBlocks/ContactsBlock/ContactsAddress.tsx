@@ -131,6 +131,7 @@ const ContactsAddressInner: FC<IProps> = ({contactID, address, district, query})
                 onChange={addOrUpdateInputsHandler}
                 className="address"
                 type="text" 
+                autoFocus
                 name="address.add" 
                 placeholder='Область, район, населенный пункт...'/>
               <button
@@ -167,6 +168,7 @@ const ContactsAddressInner: FC<IProps> = ({contactID, address, district, query})
             onChange={addOrUpdateInputsHandler}
             className="address"
             type="text" 
+            autoFocus
             name="address.update" 
             placeholder='Область, район, населенный пункт...'/>
           <button
