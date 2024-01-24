@@ -7,11 +7,11 @@ import SelectBlock from '../../../../UI/Select/SelectBlock';
 import TimeBlock from '../../../../UI/TimePicker/TimePicker';
 
 interface IProps {
-  options: IDealTitle[];
+  // options: IDealTitle[];
   onAction: () => void; 
 }
 
-const DealCreate: FC<IProps> = ({options, onAction}) => {
+const DealCreate: FC<IProps> = ({onAction}) => {
   const { company, companyFirstUser} = useAppSelector(state => state.companyReducer);
   const dispatch = useAppDispatch();
   const [calendarData, setCalendarData] = useState(
@@ -70,7 +70,7 @@ const DealCreate: FC<IProps> = ({options, onAction}) => {
     <div className="calendar">
       <div className="type">
         <span>Тип:</span>
-        <SelectBlock options={options} onClickDate={dateTypeHandler}/>
+        <SelectBlock onClickDate={dateTypeHandler}/>
       </div>
       <CalendarCustom onClickDate={dateHandler}/>
       <div className="time">

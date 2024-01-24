@@ -1,10 +1,11 @@
 import React, { FC, useEffect, useState } from 'react';
 import { Select, Space } from 'antd';
 import { IDealTitle } from '../../../types/IDeal';
+import { useAppSelector } from '../../../hooks/redux';
 
 
 interface IProps {
-  options: IDealTitle[];
+  // options: IDealTitle[];
   onClickDate: (type: string) => void;
 }
 
@@ -13,7 +14,8 @@ interface IOption {
   label: string,
 }
 
-const SelectBlock: FC<IProps> = ({options, onClickDate}) => {
+const SelectBlock: FC<IProps> = ({onClickDate}) => {
+  const { dealTitles } = useAppSelector(state => state.dealReducer);
   
   const handleChange = (value: string) => {
     onClickDate(value);
@@ -23,7 +25,7 @@ const SelectBlock: FC<IProps> = ({options, onClickDate}) => {
 
   useEffect(() => {
 
-    for (let item of options) {
+    for (let item of dealTitles) {
       const opt: IOption = {
         value: item._id,
         label: item.title,
@@ -41,7 +43,7 @@ const SelectBlock: FC<IProps> = ({options, onClickDate}) => {
     //   // setOptionArray(prev => ([...prev, opt]))
     //   setOptionArray([...optionArray, opt])
     // })
-  }, [options])
+  }, [dealTitles])
   
   return (
     <Select

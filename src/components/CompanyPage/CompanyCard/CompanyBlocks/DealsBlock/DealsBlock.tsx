@@ -7,46 +7,40 @@ import { IoSquareOutline } from '@react-icons/all-files/io5/IoSquareOutline';
 import { IoStarOutline } from "@react-icons/all-files/io5/IoStarOutline";
 import { IoPersonSharp } from "@react-icons/all-files/io5/IoPersonSharp";
 import { IoCallSharp } from "@react-icons/all-files/io5/IoCallSharp";
-import { IoCheckmarkCircleSharp } from "@react-icons/all-files/io5/IoCheckmarkCircleSharp";
-import { useAppSelector } from '../../../../../hooks/redux';
-import CalendarCustom from '../../../../UI/Calendar/CalendarCustom';
-import TimeBlock from '../../../../UI/TimePicker/TimePicker';
-import SelectBlock from '../../../../UI/Select/SelectBlock';
+import { IoCheckbox } from "@react-icons/all-files/io5/IoCheckbox";
+import { useAppDispatch, useAppSelector } from '../../../../../hooks/redux';
 import DealCreate from './DealCreate';
+import { deleteDealByID } from '../../../../../store/reducers/DealReducer/DealActionCreators';
 
 const DealsBlockInner: FC = () => {
-  const { company, companyDeals } = useAppSelector(state => state.companyReducer);
-  const { dealTitles } = useAppSelector(state => state.dealReducer);
+  const { companyDeals } = useAppSelector(state => state.companyReducer);
+  const dispatch = useAppDispatch();
 
-  const [showAddDeal, setShowAddDeal] = useState(false)
+  const [showAddDeal, setShowAddDeal] = useState(false);
+  const [showDeleteDeal, setShowDeleteDeal] = useState({
+    show: false,
+    itemID: '',
+  });
 
-  // const [calendarData, setCalendarData] = useState(
-  //   {
-  //     show: false,
-  //     date: '1',
-  //     hour: '8',
-  //     minuts: '0'
-  //   }
-  // );
+  const confirmHandler = async (itemID: string) => {
+    setShowDeleteDeal({show: true, itemID: itemID});
+    setTimeout(async () => {
+      if (window.confirm("Завершить дело?")) {
+          await dispatch(deleteDealByID(itemID));
+          setShowDeleteDeal({show: false, itemID: ''})
+        }
+      
+    }, 0);
+  }
 
-  // const dateHandler = (date: string | number) => {
-  //   // console.log(date)
-  //   setCalendarData(prev => ({
-  //     ...prev,
-  //     date: date.toString(),
-  //   }))
-  // };
+  const deleteHandleer = async () => {
+    // console.log(showDeleteDeal.itemID);
+    // if (window.confirm("Завершить дело?")) {
+    //   await dispatch(deleteDealByID(showDeleteDeal.itemID));
+    // }
+    setShowDeleteDeal({show: false, itemID: ''})
+  };
 
-  // const timeHandler = (hour: number | undefined, minuts: number | undefined) => {
-  //   // console.log(hour, minuts)
-  //   setCalendarData(prev => ({
-  //     ...prev,
-  //     hour: hour?.toString() ? hour.toString() : '',
-  //     minuts: minuts?.toString() ? minuts.toString() : '',
-  //   }))
-  // };
-
-  
   return (
     <section className='deals-block'>
       <div className="deals-block__newdeal">
@@ -63,7 +57,7 @@ const DealsBlockInner: FC = () => {
               onClick={() => setShowAddDeal(true)}
               size={20}/>
             {showAddDeal && 
-              <DealCreate options={dealTitles} onAction={() => setShowAddDeal(false)}/>
+              <DealCreate onAction={() => setShowAddDeal(false)}/>
             }
           </div>
         </div>
@@ -82,7 +76,20 @@ const DealsBlockInner: FC = () => {
           </div>
           <div className="deals-block__deals__item__info">
             <div className="text">
-              <IoSquareOutline size={25}/>
+              {!showDeleteDeal ? 
+                <IoSquareOutline 
+                  onClick={() => confirmHandler(item._id)}
+                  size={25}/>
+                : showDeleteDeal.itemID == item._id ?
+                  <IoCheckbox
+                    onClick={deleteHandleer}
+                    color={'green'}
+                    size={25}/>
+                  : 
+                  <IoSquareOutline 
+                    onClick={() => confirmHandler(item._id)}
+                    size={25}/>
+              }
               <div className="item">
                 <span>{item.dealTitleID.title}</span>
                 {/* <span>15:12 {company.dealsID?.[0].userID?.lastname + ' ' + company.dealsID?.[0].userID?.firstname}</span> */}
