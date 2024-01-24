@@ -46,7 +46,11 @@ const InfoBlockInner: FC = () => {
             <span>{company.description ? company.description : 'Введите описание компании'}</span>
             <IoPencilOutline 
               style={{cursor: 'pointer'}}
-              onClick={() => setShowAddDescription(false)}
+              onClick={() => {
+                setShowAddDescription(false);
+                setCompanyDescription(company.description)        
+                }
+              }
               size={20}/>
           </>
           :
