@@ -14,13 +14,13 @@ const format = 'HH:mm';
 
 
 interface IProps {
-  onClickDate: (hour: number | undefined, minuts: number | undefined) => void;
+  onClickDate: (timeString: string) => void;
 }
 
 const TimeBlock: FC<IProps> = ({onClickDate}) => {
   
-  const onChange = (hour: number | undefined, minuts: number | undefined) => {
-    onClickDate(hour, minuts)
+  const onChange = (timeString: string) => {
+    onClickDate(timeString)
 
   };
 
@@ -35,7 +35,8 @@ const TimeBlock: FC<IProps> = ({onClickDate}) => {
     <div>
       <TimePicker 
         // onChange={(time: Dayjs | null, timeString: string) => onChange(time?.hour(), timeString)}
-        onChange={(time: Dayjs | null) => onChange(time?.hour(), time?.minute())}
+        // onChange={(time: Dayjs | null) => onChange(time?.hour(), time?.minute())}
+        onChange={(time: Dayjs | null, timeString: string) => onChange(timeString)}
         // onSelect={(time: Dayjs | null) => onChange2(time?.hour(), time?.minute())}
         defaultValue={dayjs('08:00', format)} 
         format={format} 

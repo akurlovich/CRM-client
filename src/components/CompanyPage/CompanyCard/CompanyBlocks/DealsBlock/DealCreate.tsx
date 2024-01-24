@@ -1,5 +1,7 @@
 import React, { FC, useState } from 'react';
-import { IDealTitle } from '../../../../../types/IDeal';
+import { useAppDispatch, useAppSelector } from '../../../../../hooks/redux';
+import { addDeal } from '../../../../../store/reducers/DealReducer/DealActionCreators';
+import { IDealNew, IDealTitle } from '../../../../../types/IDeal';
 import CalendarCustom from '../../../../UI/Calendar/CalendarCustom';
 import SelectBlock from '../../../../UI/Select/SelectBlock';
 import TimeBlock from '../../../../UI/TimePicker/TimePicker';
@@ -10,29 +12,31 @@ interface IProps {
 }
 
 const DealCreate: FC<IProps> = ({options, onAction}) => {
+  const { company, companyFirstUser} = useAppSelector(state => state.companyReducer);
+  const dispatch = useAppDispatch();
   const [calendarData, setCalendarData] = useState(
     {
-      date: '1',
-      hour: '8',
-      minuts: '0',
-      dealType: 'Звонок'
+      date: '01.01.2030',
+      time: '08:00',
+      dealType: '657c071089e96dedfd490f35'
     }
   );
 
-  const dateHandler = (date: string | number) => {
+  const dateHandler = (date: string) => {
     // console.log(date)
     setCalendarData(prev => ({
       ...prev,
-      date: date.toString(),
+      date: date,
     }))
   };
 
-  const timeHandler = (hour: number | undefined, minuts: number | undefined) => {
+  const timeHandler = (timeString: string) => {
     // console.log(hour, minuts)
     setCalendarData(prev => ({
       ...prev,
-      hour: hour?.toString() ? hour.toString() : '',
-      minuts: minuts?.toString() ? minuts.toString() : '',
+      time: timeString,
+      // hour: hour?.toString() ? hour.toString() : '',
+      // minuts: minuts?.toString() ? minuts.toString() : '',
     }))
   };
 
@@ -46,8 +50,20 @@ const DealCreate: FC<IProps> = ({options, onAction}) => {
 
   const addDealHandler = async () => {
     // setCalendarData(prev => ({...prev, show: false}));
+    console.log(calendarData);
+    const newDeal: IDealNew = {
+      companyID: company._id,
+      userID: companyFirstUser._id,
+      dealTitleID: calendarData.dealType,
+      description: '',
+      dateEnd: calendarData.date,
+      timeEnd: calendarData.time,
+      isDone: false,
+    };
+    
+    await dispatch(addDeal(newDeal));
+    
     onAction();
-    // console.log(calendarData)
   };
 
   return (

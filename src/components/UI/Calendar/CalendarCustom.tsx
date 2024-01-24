@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import dayjs from 'dayjs';
 import type { Dayjs } from 'dayjs';
 import updateLocale from 'dayjs/plugin/updateLocale';
@@ -12,7 +12,7 @@ dayjs.updateLocale('en', {
 });
 
 interface IProps {
-  onClickDate: (date: string | number) => void;
+  onClickDate: (date: string) => void;
 }
 
 const CalendarCustom: FC<IProps> = ({onClickDate}) => {
@@ -24,10 +24,16 @@ const CalendarCustom: FC<IProps> = ({onClickDate}) => {
     borderRadius: token.borderRadiusLG,
   };
 
-  const getDataHandler = (date: string | number) => {
+  const getDataHandler = (date: string) => {
     onClickDate(date)
     // console.log(date)
-  }
+    // console.log(dayjs().format('DD.MM.YYYY'))
+  };
+
+  useEffect(() => {
+    onClickDate(dayjs().format('DD.MM.YYYY'))
+  }, [])
+  
 
   return (
     <div style={wrapperStyle}>
@@ -95,7 +101,8 @@ const CalendarCustom: FC<IProps> = ({onClickDate}) => {
         }}
         //TODO  year, month, date - число месяца
         // onSelect={(value: Dayjs) => console.log(value.format('YYYY-MM-DD'), value.date())}
-        onSelect={(value: Dayjs) => getDataHandler(value.date())}
+        // onSelect={(value: Dayjs) => getDataHandler('DD.MM.YYYY')}
+        onSelect={(value: Dayjs) => getDataHandler(value.format('DD.MM.YYYY'))}
       />
     </div>
   );

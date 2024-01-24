@@ -25,7 +25,7 @@ const SelectBlock: FC<IProps> = ({options, onClickDate}) => {
 
     for (let item of options) {
       const opt: IOption = {
-        value: item.title,
+        value: item._id,
         label: item.title,
       }
       // console.log(opt)
