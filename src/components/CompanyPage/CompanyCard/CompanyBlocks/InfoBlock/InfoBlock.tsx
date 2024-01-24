@@ -1,12 +1,12 @@
 import React, { FC, useEffect, useState } from 'react';
 import './infoblock.scss';
 import { IoPencilOutline } from "@react-icons/all-files/io5/IoPencilOutline";
-import { IoSquareOutline } from "@react-icons/all-files/io5/IoSquareOutline";
 import { useAppSelector } from '../../../../../hooks/redux';
 import DealCreate from '../DealsBlock/DealCreate';
+import { DealItem } from '../DealsBlock/DealItem';
 
 const InfoBlockInner: FC = () => {
-  const { companyFirstUser, companyDeals } = useAppSelector(state => state.companyReducer);
+  const { companyFirstUser, companyDeals, companyFirstDeal } = useAppSelector(state => state.companyReducer);
   const [showAddDeal, setShowAddDeal] = useState(false);
   
   return (
@@ -19,19 +19,7 @@ const InfoBlockInner: FC = () => {
             <span>Ответственный</span>
           </div>
         </div>
-        <div className="info-block__title__deal">
-          <IoSquareOutline size={25}/>
-          <div className="item">
-            {companyDeals[0] ? 
-              <>
-                <span>{`${companyDeals[0].dateEnd} в ${companyDeals[0].timeEnd}`}</span>
-                {/* <span>2 ноября 2024г. в 14:22</span> */}
-                <span>{companyDeals[0].dealTitleID.title}</span>
-              </>
-              : null
-            }
-          </div>
-        </div>
+        <DealItem item={companyFirstDeal} fromBlock={true}/>
         <div className="info-block__title__nitification">
           {showAddDeal && 
             <DealCreate onAction={() => setShowAddDeal(false)} position='infoblock'/>
@@ -50,5 +38,4 @@ const InfoBlockInner: FC = () => {
   )
 }
 
-// export const BaseBlock = React.memo(BaseBlockInner);
 export const InfoBlock = React.memo(InfoBlockInner);

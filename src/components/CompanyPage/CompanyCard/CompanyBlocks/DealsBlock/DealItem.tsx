@@ -11,9 +11,10 @@ import { IDeal } from '../../../../../types/IDeal'
 
 interface IProps {
   item: IDeal,
+  fromBlock?: boolean,
 }
 
-const DealItemInner: FC<IProps> = ({item}) => {
+const DealItemInner: FC<IProps> = ({item, fromBlock}) => {
   const { query } = useAppSelector(state => state.companyReducer);
   const dispatch = useAppDispatch();
   const [showDeleteDeal, setShowDeleteDeal] = useState({
@@ -34,18 +35,17 @@ const DealItemInner: FC<IProps> = ({item}) => {
   };
 
   const deleteHandleer = async () => {
-    // console.log(showDeleteDeal.itemID);
-    // if (window.confirm("Завершить дело?")) {
-    //   await dispatch(deleteDealByID(showDeleteDeal.itemID));
-    // }
     setShowDeleteDeal({show: false, itemID: ''})
   };
 
   return (
     <div key={item._id} className="deals-block__deals__item">
-      <div className="deals-block__deals__item__title">
-        <span>{item.dateEnd}</span> 
-      </div>
+      {!fromBlock ? 
+        <div className="deals-block__deals__item__title">
+          <span>{item.dateEnd}</span> 
+        </div>
+        : null
+      }
       <div className="deals-block__deals__item__info">
         <div className="text">
           {!showDeleteDeal ? 
@@ -65,16 +65,27 @@ const DealItemInner: FC<IProps> = ({item}) => {
                 size={25}/>
           }
           <div className="item">
-            <span>{item.dealTitleID.title}</span>
-            {/* <span>15:12 {company.dealsID?.[0].userID?.lastname + ' ' + company.dealsID?.[0].userID?.firstname}</span> */}
-            <span>{item.timeEnd + ' ' + item.userID.lastname + ' ' +item.userID.firstname}</span>
+            {fromBlock ? 
+              <>
+                <span>{`${item.dateEnd} в ${item.timeEnd}`}</span>
+                <span>{item.dealTitleID?.title}</span>
+              </>
+              : 
+              <>
+                <span>{item.dealTitleID.title}</span>
+                <span>{item.timeEnd + ' ' + item.userID.lastname + ' ' +item.userID.firstname}</span>
+              </>
+            }
           </div>
         </div>
-        <div className="icons">
-          <IoStarOutline size={20}/>
-          <IoPersonSharp size={20} color={'grey'}/>
-          <IoCallSharp size={20} color={'#b4cb4c'}/>
-        </div>
+        {!fromBlock ? 
+          <div className="icons">
+            <IoStarOutline size={20}/>
+            <IoPersonSharp size={20} color={'grey'}/>
+            <IoCallSharp size={20} color={'#b4cb4c'}/>
+          </div>
+          : null
+        }
       </div>
     </div>
 )
