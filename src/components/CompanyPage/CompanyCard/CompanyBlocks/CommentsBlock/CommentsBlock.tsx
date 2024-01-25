@@ -32,14 +32,15 @@ const CommentsBlockInner: FC = () => {
       description: newComment,
       dealType: 'Дело',
       date: dayjs().format('DD MMMM YYYY'),
-      time: '14:20',
+      time: dayjs().format('HH:mm'),
     }
 
-    setNewComment('')
-    console.log(dayjs().format('DD MMMM YYYY'))
-
+    // console.log(dayjs().format('DD MMMM YYYY'))
+    // console.log(dayjs().format('HH:mm'))
+    
     await dispatch(addComment(addNewComment));
     await dispatch(getCompanyByIDQuery(query));
+    setNewComment('')
   }
 
   return (
