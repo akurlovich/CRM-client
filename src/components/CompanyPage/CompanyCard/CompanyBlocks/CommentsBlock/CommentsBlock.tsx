@@ -8,6 +8,17 @@ import { addComment } from '../../../../../store/reducers/CommentReducer/Comment
 import { getCompanyByIDQuery } from '../../../../../store/reducers/CompanyReducer/CompanyActionCreaters';
 import { ICommentNew } from '../../../../../types/IComment';
 import { CommentItem } from './CommentItem';
+import dayjs from 'dayjs';
+import type { Dayjs } from 'dayjs';
+import updateLocale from 'dayjs/plugin/updateLocale';
+
+dayjs.extend(updateLocale);
+
+dayjs.updateLocale('en', {
+  weekdaysMin : ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб", ],
+  weekStart: 1,
+  months: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь']
+});
 
 const CommentsBlockInner: FC = () => {
   const { company, companyFirstUser, query, companyComments } = useAppSelector(state => state.companyReducer);
@@ -19,10 +30,13 @@ const CommentsBlockInner: FC = () => {
       companyID: company._id,
       userID: companyFirstUser._id,
       description: newComment,
-      dealType: 'Звонок',
-      date: '27.02.2024',
-      time: '09:32',
+      dealType: 'Дело',
+      date: dayjs().format('DD MMMM YYYY'),
+      time: '14:20',
     }
+
+    setNewComment('')
+    console.log(dayjs().format('DD MMMM YYYY'))
 
     await dispatch(addComment(addNewComment));
     await dispatch(getCompanyByIDQuery(query));

@@ -9,6 +9,7 @@ dayjs.extend(updateLocale);
 dayjs.updateLocale('en', {
   weekdaysMin : ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб", ],
   weekStart: 1,
+  months: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь']
 });
 
 interface IProps {
@@ -102,7 +103,7 @@ const CalendarCustom: FC<IProps> = ({onClickDate}) => {
         //TODO  year, month, date - число месяца
         // onSelect={(value: Dayjs) => console.log(value.format('YYYY-MM-DD'), value.date())}
         // onSelect={(value: Dayjs) => getDataHandler('DD.MM.YYYY')}
-        onSelect={(value: Dayjs) => getDataHandler(value.format('DD.MM.YYYY'))}
+        onSelect={(value: Dayjs) => getDataHandler(value.format('DD MMMM YYYY'))}
       />
     </div>
   );

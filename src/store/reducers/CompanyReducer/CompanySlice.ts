@@ -102,7 +102,7 @@ const companySlice = createSlice({
         state.companyFirstDeal = action.payload.dealsID[0];
         state.companyUsers = action.payload.usersID;
         state.companyFirstUser = action.payload.usersID[0];
-        state.companyComments = action.payload.commentsID;
+        state.companyComments = action.payload.commentsID.reverse();
       })
       .addCase(getCompanyByIDQuery.rejected, (state, action) => {
         state.isLoading = false;
