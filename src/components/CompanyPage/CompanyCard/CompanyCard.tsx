@@ -6,16 +6,10 @@ import React, { FC, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { getAllCompaniesQuery, getCompanyByID, getCompanyByIDQuery } from '../../../store/reducers/CompanyReducer/CompanyActionCreaters';
-import { getAllPhones } from '../../../store/reducers/PhoneReducer/PhoneActionCreators';
 import { ICompaniesQuery, ICompany } from '../../../types/ICompany';
-import { BaseBlock } from '../../BaseBlock/BaseBlock';
-import { BaseBlockContacts } from '../../BaseBlock/BaseBlockContacts';
-import { BaseBlockNarrow } from '../../BaseBlock/BaseBlockNarrow';
 import { BaseBlockSmall } from '../../BaseBlock/BaseBlockSmall';
 import { AddOrder } from '../../OrdersPage/AddOrder/AddOrder';
 import { OrdersInCompany } from '../../OrdersPage/OrdersInCompany/OrdersInCompany';
-import CalendarCustom from '../../UI/Calendar/CalendarCustom';
-import CalendarItem from '../../UI/Calendar/Calendar';
 import { Loader } from '../../UI/Loader/Loader';
 import { ContactsBlock } from './CompanyBlocks/ContactsBlock/ContactsBlock';
 import { DealsBlock } from './CompanyBlocks/DealsBlock/DealsBlock';
@@ -96,19 +90,8 @@ const CompanyCardInner: FC = () => {
         // await dispatch(getCompanyByID(params.id));
       }
     }; 
-      fetchData();
+    fetchData();
   }, []);
-
-  // useEffect(() => {
-  //   //@ts-ignore
-  //   // company.usersID.map(item => {
-  //   //   setUserItem(item);
-  //   // })
-  //   // setCompanyItem((prev) => ({...prev, ...company}));
-  //   // setUserItem(company?.usersID[0]);
-  //   console.log(company.usersID[0])
-  // }, [company]);
-  
   
   return (
     <>
@@ -137,9 +120,9 @@ const CompanyCardInner: FC = () => {
           <div className="company-card__wrapper">
             <div className="left">
               <InfoBlock/>
-              <BaseBlockSmall deal="Задачи"/>
+              <BaseBlockSmall deal="Добавить сделку" showAddOrder={(() => setShowAddOrder(true))}/>
               {/* <BaseBlockSmall deal="Процесссы"/> */}
-              <AddOrder isVisible={showAddOrder}/>
+              <AddOrder isVisible={showAddOrder} showAddOrder={(() => setShowAddOrder(true))}/>
               {/* <AddOrder/> */}
               <OrdersInCompany showAddOrder={(() => setShowAddOrder(true))}/>
               <CommentsBlock/>

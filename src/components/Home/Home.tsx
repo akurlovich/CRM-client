@@ -55,7 +55,7 @@ const HomeInner: FC = () => {
       <div className="main__wrapper">
         <div className="left">
           {/* <BaseBlock/> */}
-          <BaseBlockSmall deal="Задачи"/>
+          {/* <BaseBlockSmall deal="Задачи"/> */}
           {/* <BaseBlockSmall deal="Процесссы"/> */}
           <AddOrder isVisible={showAddOrder}/>
           {/* <AddOrder/> */}
