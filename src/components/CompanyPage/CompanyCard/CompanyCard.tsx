@@ -25,6 +25,18 @@ import { addQueryToState } from '../../../store/reducers/CompanyReducer/CompanyS
 import { InfoBlock } from './CompanyBlocks/InfoBlock/InfoBlock';
 import { CommentsBlock } from './CompanyBlocks/CommentsBlock/CommentsBlock';
 
+import dayjs from 'dayjs';
+import type { Dayjs } from 'dayjs';
+import updateLocale from 'dayjs/plugin/updateLocale';
+
+dayjs.extend(updateLocale);
+
+dayjs.updateLocale('en', {
+  weekdaysMin : ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб", ],
+  weekStart: 1,
+  months: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь']
+});
+
 // interface IProps {
 //   item: ICompany;
 // };
