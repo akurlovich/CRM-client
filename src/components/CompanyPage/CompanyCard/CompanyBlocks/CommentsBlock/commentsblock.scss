@@ -13,6 +13,7 @@
 }
 
 .comments {
+  padding-top: 15px;
   display: flex;
   width: 100%;
   flex-direction: column;
@@ -53,49 +54,81 @@
     }
 
     &__info {
+      display: flex;
+      justify-content: space-between;
 
-      & > .user {
+      & > .item {
         display: flex;
         justify-content: space-between;
+        gap: 5px;
+        align-items: flex-start;
 
-        & > .name {
+        & > .avatar {
           display: flex;
           gap: 5px;
           align-items: center;
 
           & span:nth-child(1) {
-            width: 30px;
-            height: 30px;
+            width: 36px;
+            height: 36px;
             border-radius: 100%;
-            background-color: lightgreen;
+            background-color: rgb(95, 196, 95);
             display: flex;
             align-items: center;
             text-align: center;
             justify-content: center;
+            color: #fff;
           }
 
-          & span:nth-child(2) {
-            color: var(--text-color-secondary-light);
-            font-size: 12px;
-          }
         }
-
-        & > .time {
-          color: var(--text-color-secondary-light);
-          font-size: 12px;
-        }
-      }
-
-      & > .comment {
-        padding-top: 10px;
-
-        & > .deal {
-          padding: 10px;
+        
+        & > .main-container {
+          margin-top: 3px;
           display: flex;
-          gap: 5px;
-          align-items: center;
+          flex-direction: column;
+          gap: 10px;
+
+          & > .name {
+            color: var(--text-color-secondary-light);
+            font-size: 14px;
+            
+          }
+          
+          & > .comment {
+              // padding-top: 10px;
+              color: var(--text-color-default);
+          }
+
+          & > .deal-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--link-active-2);
+
+            & > span {
+              margin-top: 3px;
+            }
+          }
+
         }
+
       }
+
+      & > .time {
+        color: var(--text-color-secondary-light);
+        font-size: 12px;
+      }
+
+      // & > .comment {
+      //   padding-top: 10px;
+
+      //   & > .deal {
+      //     padding: 10px;
+      //     display: flex;
+      //     gap: 5px;
+      //     align-items: center;
+      //   }
+      // }
     }
 
   }

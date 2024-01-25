@@ -1,5 +1,7 @@
+import { IoBagSharp } from '@react-icons/all-files/io5/IoBagSharp'
 import { IoCallSharp } from '@react-icons/all-files/io5/IoCallSharp'
 import { IoCheckbox } from '@react-icons/all-files/io5/IoCheckbox'
+import { IoPeople } from '@react-icons/all-files/io5/IoPeople'
 import { IoPersonSharp } from '@react-icons/all-files/io5/IoPersonSharp'
 import { IoSquareOutline } from '@react-icons/all-files/io5/IoSquareOutline'
 import { IoStarOutline } from '@react-icons/all-files/io5/IoStarOutline'
@@ -82,9 +84,12 @@ const DealItemInner: FC<IProps> = ({item, fromBlock}) => {
             </div>
             {!fromBlock ? 
               <div className="icons">
-                <IoStarOutline size={20}/>
+                {/* <IoStarOutline size={20}/>
                 <IoPersonSharp size={20} color={'grey'}/>
-                <IoCallSharp size={20} color={'#b4cb4c'}/>
+                <IoCallSharp size={20} color={'#b4cb4c'}/> */}
+                {item.dealTitleID.title == 'Звонок' && <IoCallSharp size={20} color={'#b4cb4c'}/>}
+                {item.dealTitleID.title == 'Дело' && <IoBagSharp size={20} color={'grey'}/>}
+                {item.dealTitleID.title == 'Встреча' && <IoPeople size={20} color={'#de6495'}/>}
               </div>
               : null
             }

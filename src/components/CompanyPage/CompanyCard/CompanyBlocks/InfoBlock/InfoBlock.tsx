@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
 import './infoblock.scss';
-import { IoPencilOutline } from "@react-icons/all-files/io5/IoPencilOutline";
+import { IoPencil } from "@react-icons/all-files/io5/IoPencil";
 import { useAppDispatch, useAppSelector } from '../../../../../hooks/redux';
 import DealCreate from '../DealsBlock/DealCreate';
 import { DealItem } from '../DealsBlock/DealItem';
@@ -44,14 +44,15 @@ const InfoBlockInner: FC = () => {
         {showAddDescription ? 
           <>
             <span>{company.description ? company.description : 'Введите описание компании'}</span>
-            <IoPencilOutline 
+            <IoPencil 
               style={{cursor: 'pointer'}}
               onClick={() => {
                 setShowAddDescription(false);
                 setCompanyDescription(company.description)        
                 }
               }
-              size={20}/>
+              size={20}
+              color={'#b4cb4c'}/>
           </>
           :
           <div className="contactsblock__contacts__inputs ">

@@ -1,5 +1,5 @@
 import { IoAddOutline } from '@react-icons/all-files/io5/IoAddOutline';
-import { IoPencilOutline } from '@react-icons/all-files/io5/IoPencilOutline';
+import { IoPencil } from '@react-icons/all-files/io5/IoPencil';
 import { IoTrashOutline } from '@react-icons/all-files/io5/IoTrashOutline';
 import React, { FC, useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../../../../hooks/redux';
@@ -13,7 +13,7 @@ import { IPhone, IPhoneNewAddContacts } from '../../../../../types/IPhone';
 //   items: IPhone[];
 //   query: ICompaniesQuery;
 // }
-
+//TODO   сделать возможность изменять цвет иконок через css variables
 const ContactsPhonesInner: FC = ({}) => {
   const { company, query } = useAppSelector(state => state.companyReducer);
 
@@ -185,14 +185,16 @@ const ContactsPhonesInner: FC = ({}) => {
           }
           {showUpdateInput.itemID === item._id ? null :
             <div className="icons">
-              <IoPencilOutline 
+              <IoPencil 
                 style={{cursor: 'pointer'}}
                 onClick={() => updateShowPhoneHandler(true, item._id, item.number, item.description)}
-                size={20}/>
+                size={20}
+                color={'#b4cb4c'}/>
               <IoTrashOutline
                 onClick={() => deletePhoneHandler(item._id)}
                 style={{cursor: 'pointer'}}
-                size={20}/>
+                size={20}
+                color={'#c02525'}/>
             </div>
           }
         </div>

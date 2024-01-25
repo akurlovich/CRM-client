@@ -1,5 +1,5 @@
 import { IoAddOutline } from '@react-icons/all-files/io5/IoAddOutline';
-import { IoPencilOutline } from '@react-icons/all-files/io5/IoPencilOutline';
+import { IoPencil } from '@react-icons/all-files/io5/IoPencil';
 import { IoTrashOutline } from '@react-icons/all-files/io5/IoTrashOutline';
 import React, { FC, useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../../../../hooks/redux';
@@ -174,14 +174,16 @@ const ContactsEmailsInner: FC = ({}) => {
           }
           {showUpdateInput.itemID === item._id ? null :
             <div className="icons">
-              <IoPencilOutline 
+              <IoPencil 
                 style={{cursor: 'pointer'}}
                 onClick={() => updateShowEmailHandler(true, item._id, item.email, item.description)}
-                size={20}/>
+                size={20}
+                color={'#b4cb4c'}/>
               <IoTrashOutline
                 onClick={() => deleteEmailHandler(item._id)}
                 style={{cursor: 'pointer'}}
-                size={20}/>
+                size={20}
+                color={'#c02525'}/>
             </div>
           }
         </div>

@@ -1,5 +1,5 @@
 import { IoAddOutline } from '@react-icons/all-files/io5/IoAddOutline';
-import { IoPencilOutline } from '@react-icons/all-files/io5/IoPencilOutline';
+import { IoPencil } from '@react-icons/all-files/io5/IoPencil';
 import React, { FC, useEffect, useState } from 'react';
 import { useAppDispatch } from '../../../../../hooks/redux';
 import { getCompanyByIDQuery } from '../../../../../store/reducers/CompanyReducer/CompanyActionCreaters';
@@ -150,10 +150,11 @@ const ContactsDistrictInner: FC<IProps> = ({contactID, address, district, query}
                   <span className='span-address'>{district}</span>
                 </div>
                 <div className="icons">
-                  <IoPencilOutline 
+                  <IoPencil 
                     onClick={updateShowAddressHandler}
                     style={{cursor: 'pointer'}}
-                    size={20}/>
+                    size={20}
+                    color={'#b4cb4c'}/>
                 </div>
               </div>
               : null
