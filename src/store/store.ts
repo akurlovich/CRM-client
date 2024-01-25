@@ -15,6 +15,7 @@ import userReducer from './reducers/UserReducer/UserSlice';
 import contactReducer from './reducers/ContactReducer/ContactSlice';
 import phoneReducer from './reducers/PhoneReducer/PhoneSlice';
 import dealReducer from './reducers/DealReducer/DealSlice';
+import commentReducer from './reducers/CommentReducer/CommentSlice';
 
 const rootReducer = combineReducers({
   dimensionReducer,
@@ -23,6 +24,7 @@ const rootReducer = combineReducers({
   contactReducer,
   phoneReducer,
   dealReducer,
+  commentReducer,
   // authReducer,
   // // bookReducer,
   // // bookedReducer,

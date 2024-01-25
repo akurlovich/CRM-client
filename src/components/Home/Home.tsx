@@ -10,7 +10,6 @@ import { IoEllipsisVerticalOutline } from "@react-icons/all-files/io5/IoEllipsis
 import { BaseBlockNarrow } from "../BaseBlock/BaseBlockNarrow";
 import { BaseBlockSmall } from "../BaseBlock/BaseBlockSmall";
 import { BaseBlockContacts } from "../BaseBlock/BaseBlockContacts";
-import { Comments } from "../Comments/Comments";
 import { AddOrder } from "../OrdersPage/AddOrder/AddOrder";
 import { OrdersInCompany } from "../OrdersPage/OrdersInCompany/OrdersInCompany";
 import CalendarItem from "../UI/Calendar/Calendar";
@@ -61,7 +60,7 @@ const HomeInner: FC = () => {
           <AddOrder isVisible={showAddOrder}/>
           {/* <AddOrder/> */}
           <OrdersInCompany showAddOrder={(() => setShowAddOrder(true))}/>
-          <Comments/>
+          
         </div>
         <div className="right">
           <BaseBlockNarrow/>

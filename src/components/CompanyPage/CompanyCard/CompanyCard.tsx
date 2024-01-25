@@ -12,7 +12,6 @@ import { BaseBlock } from '../../BaseBlock/BaseBlock';
 import { BaseBlockContacts } from '../../BaseBlock/BaseBlockContacts';
 import { BaseBlockNarrow } from '../../BaseBlock/BaseBlockNarrow';
 import { BaseBlockSmall } from '../../BaseBlock/BaseBlockSmall';
-import { Comments } from '../../Comments/Comments';
 import { AddOrder } from '../../OrdersPage/AddOrder/AddOrder';
 import { OrdersInCompany } from '../../OrdersPage/OrdersInCompany/OrdersInCompany';
 import CalendarCustom from '../../UI/Calendar/CalendarCustom';
@@ -24,6 +23,7 @@ import './companycard.scss';
 import { getAllDealTitles } from '../../../store/reducers/DealReducer/DealActionCreators';
 import { addQueryToState } from '../../../store/reducers/CompanyReducer/CompanySlice';
 import { InfoBlock } from './CompanyBlocks/InfoBlock/InfoBlock';
+import { CommentsBlock } from './CompanyBlocks/CommentsBlock/CommentsBlock';
 
 // interface IProps {
 //   item: ICompany;
@@ -66,6 +66,10 @@ const CompanyCardInner: FC = () => {
               },
               {
                 path: "dealsID", 
+                populate: { path: 'userID' }
+              },
+              {
+                path: "commentsID", 
                 populate: { path: 'userID' }
               },
             ], 
@@ -126,7 +130,7 @@ const CompanyCardInner: FC = () => {
               <AddOrder isVisible={showAddOrder}/>
               {/* <AddOrder/> */}
               <OrdersInCompany showAddOrder={(() => setShowAddOrder(true))}/>
-              <Comments/>
+              <CommentsBlock/>
             </div>
             <div className="right">
               <DealsBlock/>
