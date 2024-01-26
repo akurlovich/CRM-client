@@ -13,7 +13,7 @@ import { BaseBlockContacts } from "../BaseBlock/BaseBlockContacts";
 import CalendarItem from "../UI/Calendar/Calendar";
 
 const HomeInner: FC = () => {
-  const { dimensionAll } = useAppSelector(state => state.dimensionReducer);
+  const { dimensions } = useAppSelector(state => state.dimensionReducer);
   const dispatch = useAppDispatch();
   const [showAddOrder, setShowAddOrder] = useState<boolean>(false);
   const onclickbutton = () => {

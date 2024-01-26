@@ -5,6 +5,7 @@ import { IoExitOutline } from "@react-icons/all-files/io5/IoExitOutline";
 import { IoFilterOutline } from "@react-icons/all-files/io5/IoFilterOutline";
 import { IoDuplicateOutline } from "@react-icons/all-files/io5/IoDuplicateOutline";
 import { IoSquareOutline } from "@react-icons/all-files/io5/IoSquareOutline";
+import { AddProduct } from '../AddProduct/AddProduct';
 // import { IoDocumentOutline } from "@react-icons/all-files/io5/IoDocumentOutline";
 
 interface IProps {
@@ -14,9 +15,16 @@ interface IProps {
 
 const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
   const [isModal, setIsModal] = useState<boolean>(false);
+
+  const [showNewProduct, setShowNewProduct] = useState(false);
+  
+  const addProductHandler = async () => {
+
+  }
+
   return isVisible ? (
     <>
-      {/* <AddCompany isVisible={isModal} onClose={() => setIsModal(false)}/> */}
+      <AddProduct isVisible={showNewProduct} onClose={() => setShowNewProduct(false)}/>
       <section className='add-order'>
         <div className="add-order__container">
           <div className="add-order__header">
@@ -60,6 +68,16 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
               <input className='cell data tight' type="number" name="" id="" />
               <span className='cell data'>54 123,44 руб</span>
             </div>
+            <div className="add-order__main__row">
+              <span className='cell data narrowest'></span>
+              <span className='cell data'></span>
+              <span className='cell data narrow'>ИТОГО:</span>
+              {/* <input className='cell data narrow' type="number" name="" id="" /> */}
+              <span className='cell data narrow'>8982,896</span>
+              <span className='cell data tight'></span>
+              {/* <input className='cell data tight' type="number" name="" id="" /> */}
+              <span className='cell data total'>454 123,44 руб</span>
+            </div>
           
             <div className="add-order__main__items">
 
@@ -67,11 +85,12 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
           </div>
           <div className="add-order__search">
             <input 
+              onClick={() => setShowNewProduct(true)}
               // className="comments__input" 
               type="text" 
               // value={newComment} 
               // onChange={(e: React.FocusEvent<HTMLInputElement>) => setNewComment(e.target.value)}
-              placeholder='Введите назнавие товара...'/>
+              placeholder='Добавить позицию'/>
           </div>
         </div>
       </section>

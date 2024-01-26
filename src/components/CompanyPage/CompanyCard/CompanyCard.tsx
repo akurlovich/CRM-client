@@ -39,7 +39,7 @@ const CompanyCardInner: FC = () => {
   const { company, companies, isLoading } = useAppSelector(state => state.companyReducer);
   const params = useParams();
   const dispatch = useAppDispatch();
-  const [showAddOrder, setShowAddOrder] = useState<boolean>(true);
+  const [showAddOrder, setShowAddOrder] = useState<boolean>(false);
   // const [companyItem, setCompanyItem] = useState<ICompany>({} as ICompany);
   // const [userItem, setUserItem] = useState({});
 

@@ -4,14 +4,14 @@ import { addDimension, getAllDimensions } from "./DimensionActionCreaters";
 
 interface IDimensionState {
   dimension: IDimension,
-  dimensionAll: IDimension[],
+  dimensions: IDimension[],
   isLoading: boolean,
   error: string,
 };
 
 const initialState: IDimensionState = {
   dimension: {} as IDimension,
-  dimensionAll: [] as IDimension[],
+  dimensions: [] as IDimension[],
   isLoading: false,
   error: '',
 };
@@ -39,7 +39,7 @@ const dimensionSlice = createSlice({
       })
       .addCase(getAllDimensions.fulfilled, (state, action: PayloadAction<IDimension[]>) => {
         state.isLoading = false;
-        state.dimensionAll = action.payload;
+        state.dimensions = action.payload;
       })
       .addCase(getAllDimensions.rejected, (state, action) => {
         state.isLoading = false;
