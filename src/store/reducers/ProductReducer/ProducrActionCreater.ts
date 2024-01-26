@@ -27,9 +27,9 @@ export const getProductByID = createAsyncThunk(
 
 export const getAllProducts = createAsyncThunk(
   'PRODUCT/getAllProducts',
-  async (_, {rejectWithValue}) => {
+  async (search: string, {rejectWithValue}) => {
     try {
-      return await (await ProductService.getAllProducts()).data;
+      return await (await ProductService.getAllProducts(search)).data;
       
     } catch (error: any) {
       return rejectWithValue(error.message)

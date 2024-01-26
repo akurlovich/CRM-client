@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import './addorder.scss';
 import { IoDocumentOutline } from "@react-icons/all-files/io5/IoDocumentOutline";
 import { IoExitOutline } from "@react-icons/all-files/io5/IoExitOutline";
@@ -6,6 +6,9 @@ import { IoFilterOutline } from "@react-icons/all-files/io5/IoFilterOutline";
 import { IoDuplicateOutline } from "@react-icons/all-files/io5/IoDuplicateOutline";
 import { IoSquareOutline } from "@react-icons/all-files/io5/IoSquareOutline";
 import { AddProduct } from '../AddProduct/AddProduct';
+import { useAppDispatch, useAppSelector } from '../../../../../../hooks/redux';
+import { getAllProducts } from '../../../../../../store/reducers/ProductReducer/ProducrActionCreater';
+import { IProduct } from '../../../../../../types/IProduct';
 // import { IoDocumentOutline } from "@react-icons/all-files/io5/IoDocumentOutline";
 
 interface IProps {
@@ -14,13 +17,46 @@ interface IProps {
 }
 
 const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
+  const { products } = useAppSelector(state => state.productReducer)
+  const dispatch = useAppDispatch();
+  
   const [isModal, setIsModal] = useState<boolean>(false);
 
   const [showNewProduct, setShowNewProduct] = useState(false);
-  
-  const addProductHandler = async () => {
 
+  const [foundProducts, setfoundProducts] = useState<IProduct[]>([] as IProduct[]);
+
+  const [searchValue, setSearchValue] = useState('');
+
+  const searchValueHandler = async (e: React.FocusEvent<HTMLInputElement>) => {
+    setSearchValue(e.target.value);
+    // console.log(e.target.value);
+    // setTimeout(async () => {
+    //   await dispatch(getAllProducts(e.target.value));
+    //   setfoundProducts([...products])  
+    // }, 500);
   }
+
+  const addProductToOrderHandler = async () => {
+
+  };
+  
+  useEffect(() => {
+    const Debounce = setTimeout(async () => {
+      await dispatch(getAllProducts(searchValue));
+      setfoundProducts([...products])  
+    }, 500);
+
+    return () => clearTimeout(Debounce);
+  }, [searchValue]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await dispatch(getAllProducts(''));
+    };
+    fetchData();
+  }, [])
+  
 
   return isVisible ? (
     <>
@@ -30,7 +66,9 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
           <div className="add-order__header">
             <div className="add-order__header__title">
               <div className="title">
-                <span>Новая сделка</span>
+                <span
+                  onClick={() => console.log(products)}
+                  >Новая сделка</span>
               </div>
               <div className="icons">
                 <IoDocumentOutline size={20}/>
@@ -85,11 +123,11 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
           </div>
           <div className="add-order__search">
             <input 
-              onClick={() => setShowNewProduct(true)}
+              // onClick={() => setShowNewProduct(true)}
               // className="comments__input" 
               type="text" 
-              // value={newComment} 
-              // onChange={(e: React.FocusEvent<HTMLInputElement>) => setNewComment(e.target.value)}
+              value={searchValue} 
+              onChange={searchValueHandler}
               placeholder='Добавить позицию'/>
           </div>
         </div>

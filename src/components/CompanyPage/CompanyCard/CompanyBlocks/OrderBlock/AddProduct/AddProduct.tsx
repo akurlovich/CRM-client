@@ -1,16 +1,5 @@
-import { IoBagSharp } from '@react-icons/all-files/io5/IoBagSharp';
-import { IoCallSharp } from '@react-icons/all-files/io5/IoCallSharp';
-import { IoPeople } from '@react-icons/all-files/io5/IoPeople';
 import React, { FC, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../../../../hooks/redux';
-import { getCompanyByIDQuery } from '../../../../../../store/reducers/CompanyReducer/CompanyActionCreaters';
-import { deleteDealByID } from '../../../../../../store/reducers/DealReducer/DealActionCreators';
-import { IDeal } from '../../../../../../types/IDeal';
-import './addproduct.scss';
-
-import { ICommentNew } from '../../../../../../types/IComment';
-import { addComment } from '../../../../../../store/reducers/CommentReducer/CommentActionCreater';
-import { IoDuplicateOutline } from '@react-icons/all-files/io5/IoDuplicateOutline';
 import { getAllDimensions } from '../../../../../../store/reducers/DimensionReducer/DimensionActionCreaters';
 import SelectDimensions from '../../../../../UI/Select/SelectDimentions';
 import { IProductNew } from '../../../../../../types/IProduct';
@@ -22,8 +11,6 @@ interface IProps {
 }
 
 const AddProductInner: FC<IProps> = ({isVisible = false, onClose }) => {
-  const { company, companyFirstUser, query } = useAppSelector(state => state.companyReducer);
-  const { dimensions } = useAppSelector(state => state.dimensionReducer);
   const dispatch = useAppDispatch();
 
   const [ selectedDimenion, setSselectedDimenion] = useState('');
@@ -43,6 +30,8 @@ const AddProductInner: FC<IProps> = ({isVisible = false, onClose }) => {
       setSselectedDimenion('');
       setProductName('')
       onClose();
+    } else {
+      alert('Не заполнены все поля!')
     }
     
     // // console.log(addNewComment)

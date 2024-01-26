@@ -11,8 +11,8 @@ export default class ProductService {
     return serverApi.get<IProduct>(`/products/${productID}`);
   };
 
-  static async getAllProducts(): Promise<AxiosResponse<IProduct[]>> {
-    return serverApi.get<IProduct[]>(`/products`);
+  static async getAllProducts(search: string): Promise<AxiosResponse<IProduct[]>> {
+    return serverApi.get<IProduct[]>(`/products?search=${search}`);
   };
 
   static async deleteProductByID(productID: string): Promise<AxiosResponse<IProduct>> {
