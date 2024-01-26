@@ -1,4 +1,6 @@
 import React, { FC, useEffect, useState } from 'react'
+import { useAppDispatch } from '../../../../../../hooks/redux';
+import { addItemProduct, removeItemProduct } from '../../../../../../store/reducers/OrderReducer/OrderSlice';
 import { IProduct } from '../../../../../../types/IProduct'
 
 interface IProps {
@@ -10,6 +12,8 @@ interface IProps {
 //TODO ---  решить вопрос с нумерацией, особенно при удалении позиции
 
 const OrderItem: FC<IProps> = ({item, count, totalSum}) => {
+  const dispatch = useAppDispatch();
+
   const [ countItem, setCountItem ] = useState('');
   const [ priceItem, setPriceItem ] = useState('');
   const [ totalItem, setTotalItem ] = useState('0');
@@ -20,10 +24,11 @@ const OrderItem: FC<IProps> = ({item, count, totalSum}) => {
 
   useEffect(() => {
     if (countItem && priceItem) {
-      totalSum(0);
+      dispatch(removeItemProduct({id: item._id, sum: 0}))
       const total = (+countItem * +priceItem).toFixed(2);
       setTotalItem(total);
-      totalSum(+total);
+      // totalSum(+total);
+      dispatch(addItemProduct({id: item._id, sum: +total}))
     }
   }, [countItem, priceItem])
   

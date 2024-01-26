@@ -1,14 +1,4 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-// import userReducer from './reducers/UserReducer/UserSlice';
-// import authReducer from './reducers/AuthReducer/AuthSlice';
-// import productReducer from './reducers/ProductReducer/ProductSlice';
-
-// import filterReducer from "./reducers/FilterReducer/FilterSlice";
-// import brandReducer from "./reducers/BrandReducer/BrandSlice";
-// import typeReducer from "./reducers/TypeReducer/TypeSlice";
-// import navigationBarReducer from './reducers/NavigationBarReducer/NavigationBarSlice';
-
-// import cartReducer from "./reducers/CartReducer/CartSlice";
 import dimensionReducer from './reducers/DimensionReducer/DimensionSlice';
 import companyReducer from './reducers/CompanyReducer/CompanySlice';
 import userReducer from './reducers/UserReducer/UserSlice';
@@ -17,6 +7,7 @@ import phoneReducer from './reducers/PhoneReducer/PhoneSlice';
 import dealReducer from './reducers/DealReducer/DealSlice';
 import commentReducer from './reducers/CommentReducer/CommentSlice';
 import productReducer from './reducers/ProductReducer/ProductSlice';
+import orderReducer from './reducers/OrderReducer/OrderSlice';
 
 const rootReducer = combineReducers({
   dimensionReducer,
@@ -27,19 +18,8 @@ const rootReducer = combineReducers({
   dealReducer,
   commentReducer,
   productReducer,
-  // authReducer,
-  // // bookReducer,
-  // // bookedReducer,
-  // // issuedReducer,
-  // // commentReducer,
-
-  // productReducer,
-  // filterReducer,
-  // brandReducer,
-  // typeReducer,
-  // cartReducer,
-  // navigationBarReducer,
-  // colorsReducer,
+  orderReducer,
+ 
 })
 
 export const setupStore = () => {

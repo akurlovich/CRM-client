@@ -18,7 +18,8 @@ interface IProps {
 }
 
 const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
-  const { products } = useAppSelector(state => state.productReducer)
+  const { products } = useAppSelector(state => state.productReducer);
+  const { totalPrice } = useAppSelector(state => state.orderReducer);
   const dispatch = useAppDispatch();
   
   const [isModal, setIsModal] = useState<boolean>(false);
@@ -28,9 +29,9 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
   const [totalSum, setTotalSum] = useState(0);
 
   const totalSumHandler = (sum: number) => {
-    console.log(sum, totalSum)
-    const total = +((totalSum + sum).toFixed(2))
-    setTotalSum(total);
+    // console.log(sum, totalSum)
+    // const total = +((totalSum + sum).toFixed(2))
+    // setTotalSum(total);
   }
 
   const searchValueHandler = async (e: React.FocusEvent<HTMLInputElement>) => {
@@ -112,7 +113,7 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
                 <span className='cell data narrow'>ИТОГО:</span>
                 <span className='cell data narrow'>8982,896</span>
                 <span className='cell data tight'></span>
-                <span className='cell data total'>{`${totalSum} руб`}</span>
+                <span className='cell data total'>{`${totalPrice} руб`}</span>
               </div>
               : null
             }
