@@ -23,6 +23,8 @@ const orderSlice = createSlice({
   name: 'ORDER',
   initialState,
   reducers: {
+
+//!--------------  общая сумма, как сумма всех item.sum в массиве
     addItemProduct(state, action: PayloadAction<IItem>) {
       const findItem = state.items.find((obj: IItem) => obj.id === action.payload.id);
       if (findItem) {
