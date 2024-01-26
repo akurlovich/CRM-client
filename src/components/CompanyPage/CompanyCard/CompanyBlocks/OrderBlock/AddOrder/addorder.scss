@@ -133,6 +133,7 @@
   }
 
   &__search {
+    position: relative;
     padding: 20px;
 
     & > input {
@@ -146,6 +147,28 @@
         border-bottom: 2px solid #00b028;
         box-shadow: 0 0 2px 0 rgba(0,176,40,.1), 0 0 0 0 rgba(0,176,40,.2);
        
+      }
+    }
+
+    &__result {
+      max-width: 600px;
+      width: 100%;
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      top: 50px;
+      left: 20px;
+      // padding: 10px;
+      background-color: #fff;
+      box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5), 0 2px 2px 0 rgba(0, 0, 0, 0.3);
+
+      & > span {
+        padding: 15px;
+        cursor: pointer;
+      }
+
+      & > span:hover {
+        background-color: var(--bg-color-secondary);
       }
     }
   }

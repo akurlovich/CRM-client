@@ -34,15 +34,6 @@ const SelectBlock: FC<IProps> = ({onClickDate}) => {
       // setOptionArray(prev => ([...prev, opt]))
       setOptionArray(prev => [...prev, opt])
     }
-
-    // options.map(item => {
-    //   const opt: IOption = {
-    //     value: item.title,
-    //     label: item.title,
-    //   }
-    //   // setOptionArray(prev => ([...prev, opt]))
-    //   setOptionArray([...optionArray, opt])
-    // })
   }, [dealTitles])
   
   return (
