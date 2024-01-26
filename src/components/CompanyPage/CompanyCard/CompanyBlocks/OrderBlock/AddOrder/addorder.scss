@@ -127,4 +127,20 @@
     }
   }
 
+  &__search {
+    & > input {
+      padding: 5px;
+      border-bottom: 2px solid lightgray;
+      width: 100%;
+      // box-shadow: 0 0 2px 0 rgba(0,0,0,.1), 0 0 0 0 rgba(0,0,0,.2);
+      // border-bottom: 2px solid transparent;
+  
+      &:focus {
+        border-bottom: 2px solid #00b028;
+        box-shadow: 0 0 2px 0 rgba(0,176,40,.1), 0 0 0 0 rgba(0,176,40,.2);
+       
+      }
+    }
+  }
+
 }

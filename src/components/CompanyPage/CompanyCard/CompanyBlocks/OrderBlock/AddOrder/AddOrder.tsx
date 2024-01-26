@@ -65,6 +65,14 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
 
             </div>
           </div>
+          <div className="add-order__search">
+            <input 
+              // className="comments__input" 
+              type="text" 
+              // value={newComment} 
+              // onChange={(e: React.FocusEvent<HTMLInputElement>) => setNewComment(e.target.value)}
+              placeholder='Введите назнавие товара...'/>
+          </div>
         </div>
       </section>
 

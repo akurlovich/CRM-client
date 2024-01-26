@@ -8,8 +8,6 @@ import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { getAllCompaniesQuery, getCompanyByID, getCompanyByIDQuery } from '../../../store/reducers/CompanyReducer/CompanyActionCreaters';
 import { ICompaniesQuery, ICompany } from '../../../types/ICompany';
 import { BaseBlockSmall } from '../../BaseBlock/BaseBlockSmall';
-import { AddOrder } from '../../OrdersPage/AddOrder/AddOrder';
-import { OrdersInCompany } from '../../OrdersPage/OrdersInCompany/OrdersInCompany';
 import { Loader } from '../../UI/Loader/Loader';
 import { ContactsBlock } from './CompanyBlocks/ContactsBlock/ContactsBlock';
 import { DealsBlock } from './CompanyBlocks/DealsBlock/DealsBlock';
@@ -22,6 +20,8 @@ import { CommentsBlock } from './CompanyBlocks/CommentsBlock/CommentsBlock';
 import dayjs from 'dayjs';
 import type { Dayjs } from 'dayjs';
 import updateLocale from 'dayjs/plugin/updateLocale';
+import { AddOrder } from './CompanyBlocks/OrderBlock/AddOrder/AddOrder';
+import { OrdersInCompany } from './CompanyBlocks/OrderBlock/OrdersInCompany/OrdersInCompany';
 
 dayjs.extend(updateLocale);
 
@@ -39,7 +39,7 @@ const CompanyCardInner: FC = () => {
   const { company, companies, isLoading } = useAppSelector(state => state.companyReducer);
   const params = useParams();
   const dispatch = useAppDispatch();
-  const [showAddOrder, setShowAddOrder] = useState<boolean>(false);
+  const [showAddOrder, setShowAddOrder] = useState<boolean>(true);
   // const [companyItem, setCompanyItem] = useState<ICompany>({} as ICompany);
   // const [userItem, setUserItem] = useState({});
 
