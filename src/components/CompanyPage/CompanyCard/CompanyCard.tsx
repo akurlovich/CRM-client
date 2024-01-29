@@ -78,6 +78,10 @@ const CompanyCardInner: FC = () => {
                 path: "commentsID", 
                 populate: { path: 'userID' }
               },
+              {
+                path: "ordersID", 
+                // select: "address.district"
+              },
             ], 
           sort: {'contactID.address.district': 'asc'}, 
           limit: 0,

@@ -12,6 +12,9 @@ import { IProduct } from '../../../../../../types/IProduct';
 import OrderItem from '../OrderItem/OrderItem';
 import { useDebounce } from '../../../../../../hooks/useDebounce';
 import { productsClearArray } from '../../../../../../store/reducers/ProductReducer/ProductSlice';
+import { addOrderItem } from '../../../../../../store/reducers/OrderItemsReducer/OrderItemsActionCreater';
+import { IOrderNewWithItems } from '../../../../../../types/IOrder';
+import { addOrder } from '../../../../../../store/reducers/OrderReducer/OrderActionCreater';
 // import { IoDocumentOutline } from "@react-icons/all-files/io5/IoDocumentOutline";
 
 interface IProps {
@@ -20,8 +23,9 @@ interface IProps {
 }
 
 const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
+  const { company, companyFirstUser } = useAppSelector(state => state.companyReducer)
   const { products } = useAppSelector(state => state.productReducer);
-  const { totalPrice } = useAppSelector(state => state.orderReducer);
+  const { totalPrice, totalCount, items: orderItems } = useAppSelector(state => state.orderReducer);
   const dispatch = useAppDispatch();
   
   const [isModal, setIsModal] = useState<boolean>(false);
@@ -51,6 +55,20 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
     dispatch(productsClearArray());
     setSearchValue('');
   };
+
+  const createOrderHandler = async () => {
+    const orderNew: IOrderNewWithItems = {
+      order: {
+        companyID:company._id,
+        usersID: companyFirstUser._id,
+        totalSum: totalPrice,
+      },
+      orderItems: orderItems
+    }
+    console.log(orderNew);
+    await dispatch(addOrder(orderNew));
+    // await dispatch(addOrderItem(orderItems));
+  };
   
   // useEffect(() => {
   //   const Debounce = setTimeout(async () => {
@@ -65,6 +83,8 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
   // }, [searchValue]);
 
   useEffect(() => {
+    dispatch(productsClearArray());
+    console.log(debouncedSearch)
     if (debouncedSearch) {
       const fetchData = async () => {
         await dispatch(getAllProducts(debouncedSearch));
@@ -73,15 +93,6 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
 
     }
   }, [debouncedSearch])
-  
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     await dispatch(getAllProducts(''));
-  //   };
-  //   fetchData();
-  // }, [])
-  
 
   return isVisible ? (
     <>
@@ -96,9 +107,14 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
                   >Новая сделка</span>
               </div>
               <div className="icons">
-                <IoDocumentOutline size={20}/>
+                <button
+                  onClick={createOrderHandler}
+                  >
+                  Создать счёт
+                </button>
+                {/* <IoDocumentOutline size={20}/>
                 <IoExitOutline size={20}/>
-                <IoFilterOutline size={20}/>
+                <IoFilterOutline size={20}/> */}
               </div>
             </div>
           </div>
@@ -126,9 +142,9 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
                 <span className='cell data narrowest'></span>
                 <span className='cell data'></span>
                 <span className='cell data narrow'>ИТОГО:</span>
-                <span className='cell data narrow'>8982,896</span>
+                <span className='cell data narrow'>{`${totalCount}`}</span>
                 <span className='cell data tight'></span>
-                <span className='cell data total'>{`${totalPrice} руб`}</span>
+                <span className='cell data total'>{`${totalPrice.toFixed(2)} руб`}</span>
               </div>
               : null
             }
@@ -152,7 +168,7 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
                     key={item._id}
                     onClick={() => addProductToOrderHandler(item)}
                     >
-                    {item.title}
+                    {`${item.title}, ${item.dimension}`}
                   </span>
                 ) : null
               }

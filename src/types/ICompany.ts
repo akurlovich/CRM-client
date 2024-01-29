@@ -1,6 +1,7 @@
 import { IComment } from "./IComment";
 import { IContact } from "./IContact";
 import { IDeal } from "./IDeal";
+import { IOrder } from "./IOrder";
 import { IUser } from "./IUser";
 
 export interface ICompany {
@@ -10,7 +11,7 @@ export interface ICompany {
   description: string,
   contactID: IContact,
   dealsID: IDeal[],
-  ordersID: string[],
+  ordersID: IOrder[],
   commentsID: IComment[],
 }
 

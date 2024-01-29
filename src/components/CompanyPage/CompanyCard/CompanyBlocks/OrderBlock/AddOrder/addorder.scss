@@ -37,9 +37,22 @@
       }
 
       & > .icons {
-        display: flex;
-        gap: 10px;
-        align-items: flex-end;
+        // display: flex;
+        // gap: 10px;
+        // align-items: flex-end;
+        & > button {
+          background-color: var(--btn-default);
+          color: white;
+          text-transform: uppercase;
+          border-radius: 2px;
+          padding: 6px 16px 4px;
+          font-size: 12px;
+          transition: all 0.3s;
+
+          &:hover {
+            background-color: var(--btn-default-hover);
+          }
+        }
       }
     }
 

@@ -8,6 +8,7 @@ import dealReducer from './reducers/DealReducer/DealSlice';
 import commentReducer from './reducers/CommentReducer/CommentSlice';
 import productReducer from './reducers/ProductReducer/ProductSlice';
 import orderReducer from './reducers/OrderReducer/OrderSlice';
+import orderItemsReducer from './reducers/OrderItemsReducer/OrderItemsSlice';
 
 const rootReducer = combineReducers({
   dimensionReducer,
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
   commentReducer,
   productReducer,
   orderReducer,
+  orderItemsReducer,
  
 })
 

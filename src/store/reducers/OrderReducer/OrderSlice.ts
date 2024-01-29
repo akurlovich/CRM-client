@@ -3,6 +3,7 @@ import { IOrderItemNew } from "../../../types/IOrderItem";
 
 interface IOrderState {
   totalPrice: number;
+  totalCount: number;
   items: IOrderItemNew[];
   isLoading: boolean,
   error: string,
@@ -10,6 +11,7 @@ interface IOrderState {
 
 const initialState: IOrderState = {
   totalPrice: 0,
+  totalCount: 0,
   items: [],
   isLoading: false,
   error: '',
@@ -37,6 +39,9 @@ const orderSlice = createSlice({
       // console.log('totalSum', state.totalPrice)
       state.totalPrice = state.items.reduce((s, cur) => {
         return s + cur.sum
+      }, 0);
+      state.totalCount = state.items.reduce((s, cur) => {
+        return s + cur.count
       }, 0);
       // console.log('add', state.totalPrice)
     },

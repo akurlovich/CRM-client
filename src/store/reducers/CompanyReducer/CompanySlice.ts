@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IComment } from "../../../types/IComment";
 import { ICompaniesQuery, ICompany, ICompanyNew } from "../../../types/ICompany";
 import { IDeal } from "../../../types/IDeal";
+import { IOrder } from "../../../types/IOrder";
 import { IUser } from "../../../types/IUser";
 import { addCompany, getAllCompanies, getAllCompaniesQuery, getCompanyByID, getCompanyByIDQuery, updateCompanyDescription } from "./CompanyActionCreaters";
 
@@ -14,6 +15,7 @@ interface ICompanyState {
   companyUsers: IUser[],
   companyFirstUser: IUser,
   companyComments: IComment[],
+  companyOrders: IOrder[],
   query: ICompaniesQuery,
   isLoading: boolean,
   error: string,
@@ -27,7 +29,8 @@ const initialState: ICompanyState = {
   companyFirstDeal: {} as IDeal,
   companyUsers: [] as IUser[],
   companyFirstUser: {} as IUser,
-  companyComments: {} as IComment[],
+  companyComments: [] as IComment[],
+  companyOrders: [] as IOrder[],
   query: {} as ICompaniesQuery,
   isLoading: false,
   error: '',
@@ -103,6 +106,7 @@ const companySlice = createSlice({
         state.companyUsers = action.payload.usersID;
         state.companyFirstUser = action.payload.usersID[0];
         state.companyComments = action.payload.commentsID.reverse();
+        state.companyOrders = action.payload.ordersID;
       })
       .addCase(getCompanyByIDQuery.rejected, (state, action) => {
         state.isLoading = false;
