@@ -40,8 +40,19 @@ const CompanyCardInner: FC = () => {
   const params = useParams();
   const dispatch = useAppDispatch();
   const [showAddOrder, setShowAddOrder] = useState<boolean>(false);
+  const [showAddOrderSmall, setShowAddOrderSmall] = useState<boolean>(true);
   // const [companyItem, setCompanyItem] = useState<ICompany>({} as ICompany);
   // const [userItem, setUserItem] = useState({});
+
+  const showAddOrderHandler = () => {
+    setShowAddOrder(false);
+    setShowAddOrderSmall(true);
+  };
+
+  const showAddOrderSmallHandler = () => {
+    setShowAddOrder(true);
+    setShowAddOrderSmall(false);
+  };
 
   useEffect(() => {
     // console.log('param', params.id)
@@ -128,9 +139,10 @@ const CompanyCardInner: FC = () => {
           <div className="company-card__wrapper">
             <div className="left">
               <InfoBlock/>
-              <BaseBlockSmall deal="Добавить сделку" showAddOrder={(() => setShowAddOrder(true))}/>
+              <BaseBlockSmall deal="Добавить сделку" isVisible={showAddOrderSmall} showAddOrder={showAddOrderSmallHandler}/>
               {/* <BaseBlockSmall deal="Процесссы"/> */}
-              <AddOrder isVisible={showAddOrder} showAddOrder={(() => setShowAddOrder(true))}/>
+              {/* <AddOrder isVisible={showAddOrder} showAddOrder={(() => setShowAddOrder(false))}/> */}
+              <AddOrder isVisible={showAddOrder} showAddOrder={showAddOrderHandler}/>
               {/* <AddOrder/> */}
               <OrdersInCompany showAddOrder={(() => setShowAddOrder(true))}/>
               <CommentsBlock/>

@@ -8,7 +8,7 @@ interface IProps {
   showAddOrder: () => void;
 }
 
-const BaseBlockSmallInner: FC<IProps> = ({deal, showAddOrder}) => {
+const BaseBlockSmallInner: FC<IProps> = ({deal, isVisible, showAddOrder}) => {
   const [showBlock, setShowBlock] = useState(true);
 
   const showHandler = () => {
@@ -17,7 +17,7 @@ const BaseBlockSmallInner: FC<IProps> = ({deal, showAddOrder}) => {
   }
   return (
     <>
-      {showBlock &&
+      {isVisible &&
         <section className='baseblock small__wrapper'>
           <div
             onClick={showHandler} 

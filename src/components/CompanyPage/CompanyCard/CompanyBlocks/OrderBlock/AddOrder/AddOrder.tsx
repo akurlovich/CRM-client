@@ -102,15 +102,20 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
           <div className="add-order__header">
             <div className="add-order__header__title">
               <div className="title">
-                <span
-                  onClick={() => console.log(orderProducts)}
-                  >Новая сделка</span>
+                <span>Новая сделка</span>
               </div>
               <div className="icons">
                 <button
+                  className='add-btn'
                   onClick={createOrderHandler}
                   >
                   Создать счёт
+                </button>
+                <button
+                  className='cansel-btn'
+                  onClick={showAddOrder}
+                  >
+                  Закрыть
                 </button>
                 {/* <IoDocumentOutline size={20}/>
                 <IoExitOutline size={20}/>

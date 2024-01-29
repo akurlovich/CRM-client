@@ -37,20 +37,35 @@
       }
 
       & > .icons {
-        // display: flex;
-        // gap: 10px;
+        display: flex;
+        gap: 5px;
         // align-items: flex-end;
-        & > button {
+        & > .add-btn {
           background-color: var(--btn-default);
-          color: white;
+          color: #fff;
           text-transform: uppercase;
           border-radius: 2px;
-          padding: 6px 16px 4px;
+          padding: 5px 10px;
           font-size: 12px;
           transition: all 0.3s;
-
+    
           &:hover {
             background-color: var(--btn-default-hover);
+          }
+        }
+    
+        & > .cansel-btn {
+          background-color: transparent;
+          color: #3e425e;
+          border: 1px solid #cacaca;
+          text-transform: uppercase;
+          border-radius: 2px;
+          padding: 5px 10px;
+          font-size: 12px;
+          transition: all 0.3s;
+    
+          &:hover {
+            background-color: #f0f0f3;
           }
         }
       }
