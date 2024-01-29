@@ -24,11 +24,11 @@ const OrderItem: FC<IProps> = ({item, count, totalSum}) => {
 
   useEffect(() => {
     if (countItem && priceItem) {
-      dispatch(removeItemProduct({id: item._id, sum: 0}))
+      // dispatch(removeItemProduct({id: item._id, sum: 0}))
       const total = (+countItem * +priceItem).toFixed(2);
       setTotalItem(total);
       // totalSum(+total);
-      dispatch(addItemProduct({id: item._id, sum: +total}))
+      dispatch(addItemProduct({productID: item._id, price: +priceItem, count: +countItem, sum: +total}))
     }
   }, [countItem, priceItem])
   
