@@ -10,6 +10,8 @@ import { useAppDispatch, useAppSelector } from '../../../../../../hooks/redux';
 import { getAllProducts } from '../../../../../../store/reducers/ProductReducer/ProducrActionCreater';
 import { IProduct } from '../../../../../../types/IProduct';
 import OrderItem from '../OrderItem/OrderItem';
+import { useDebounce } from '../../../../../../hooks/useDebounce';
+import { productsClearArray } from '../../../../../../store/reducers/ProductReducer/ProductSlice';
 // import { IoDocumentOutline } from "@react-icons/all-files/io5/IoDocumentOutline";
 
 interface IProps {
@@ -26,6 +28,7 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
   const [showNewProduct, setShowNewProduct] = useState(false);
   const [orderProducts, setOrderProducts] = useState<IProduct[]>([] as IProduct[]);
   const [searchValue, setSearchValue] = useState('');
+  const debouncedSearch = useDebounce(searchValue);
   const [totalSum, setTotalSum] = useState(0);
 
   const totalSumHandler = (sum: number) => {
@@ -45,20 +48,32 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
 
   const addProductToOrderHandler = (item: IProduct) => {
     setOrderProducts(prev => ([...prev, item]));
-    setSearchValue('')
+    dispatch(productsClearArray());
+    setSearchValue('');
   };
   
+  // useEffect(() => {
+  //   const Debounce = setTimeout(async () => {
+  //     if (searchValue) {
+  //       await dispatch(getAllProducts(searchValue));
+
+  //     }
+  //     // setfoundProducts([...products])  
+  //   }, 500);
+
+  //   return () => clearTimeout(Debounce);
+  // }, [searchValue]);
+
   useEffect(() => {
-    const Debounce = setTimeout(async () => {
-      if (searchValue) {
-        await dispatch(getAllProducts(searchValue));
+    if (debouncedSearch) {
+      const fetchData = async () => {
+        await dispatch(getAllProducts(debouncedSearch));
+      };
+      fetchData();
 
-      }
-      // setfoundProducts([...products])  
-    }, 500);
-
-    return () => clearTimeout(Debounce);
-  }, [searchValue]);
+    }
+  }, [debouncedSearch])
+  
 
   // useEffect(() => {
   //   const fetchData = async () => {
