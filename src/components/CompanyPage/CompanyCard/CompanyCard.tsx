@@ -80,7 +80,11 @@ const CompanyCardInner: FC = () => {
               },
               {
                 path: "ordersID", 
-                // select: "address.district"
+                populate: { path: 'usersID' }
+              },
+              {
+                path: "ordersID", 
+                populate: { path: 'companyID' }
               },
             ], 
           sort: {'contactID.address.district': 'asc'}, 

@@ -1,17 +1,20 @@
+import { ICompany } from "./ICompany";
 import { IOrderItem, IOrderItemNew } from "./IOrderItem";
+import { IUser } from "./IUser";
 
 type StatusType = 'processing' | 'done' | 'cansel';
 
 export interface IOrder {
   _id: string,
   orderNumber: number,
-  companyID: string,
-  usersID: string,
+  companyID: ICompany,
+  usersID: IUser,
   orderItemID: IOrderItem[],
   totalSum: number,
   description: string,
   fileName: string[],
   status: StatusType,
+  createdAt: string,
 }
 
 export interface IOrderNew {
