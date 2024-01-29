@@ -45,7 +45,7 @@ const OrdersInCompanyInner: FC<IProps> = ({showAddOrder}) => {
 
             {companyOrders.length ? 
               companyOrders.map(item => 
-                <div className="orders-in-company__main__row">
+                <div key={item._id} className="orders-in-company__main__row">
                   <IoSquareOutline width={25}/>
                   <span className='cell data count'>{item.orderNumber}</span>
                   <span className='cell data'>{item.companyID.title}</span>
