@@ -53,7 +53,9 @@ const OrdersInCompanyInner: FC<IProps> = ({showAddOrder}) => {
 
               {companyOrders.length ? 
                 companyOrders.map(item => 
-                  <OrderUnit item={item}/>
+                  <OrderUnit 
+                    key={item._id}
+                    item={item}/>
                   
                 ) : null
               }

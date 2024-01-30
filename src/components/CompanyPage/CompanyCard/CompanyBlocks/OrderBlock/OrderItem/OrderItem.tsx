@@ -26,9 +26,19 @@ const OrderItem: FC<IProps> = ({item, count, totalSum}) => {
     if (countItem && priceItem) {
       // dispatch(removeItemProduct({id: item._id, sum: 0}))
       const total = (+countItem * +priceItem).toFixed(2);
-      setTotalItem(total);
+      setTotalItem((+total * 1.2).toFixed(2));
+      console.log(total)
       // totalSum(+total);
-      dispatch(addItemProduct({productID: item._id, price: +priceItem, count: +countItem, sum: +total}))
+      dispatch(addItemProduct({
+        productID: item._id, 
+        price: +priceItem, 
+        count: +countItem, 
+        sum: +total,
+        productTitle: item.title,
+        productDimension: item.dimension,
+        vatSum: +((+(+total * 1.2).toFixed(2)) - (+total)).toFixed(2),
+        totalSum: +(+total * 1.2).toFixed(2),
+      }))
     }
   }, [countItem, priceItem])
   

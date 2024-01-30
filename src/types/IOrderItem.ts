@@ -8,8 +8,16 @@ export interface IOrderItem {
 }
 
 export interface IOrderItemNew {
+  // productID: string,
+  // price: number,
+  // count: number,
+  // sum: number,
   productID: string,
   price: number,
   count: number,
   sum: number,
+  productTitle: string,
+  productDimension: string,
+  vatSum: number,
+  totalSum: number
 }

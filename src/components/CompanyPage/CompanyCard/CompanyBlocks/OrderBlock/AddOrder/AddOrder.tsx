@@ -25,7 +25,7 @@ interface IProps {
 const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
   const { company, companyFirstUser } = useAppSelector(state => state.companyReducer)
   const { products } = useAppSelector(state => state.productReducer);
-  const { totalPrice, totalCount, items: orderItems } = useAppSelector(state => state.orderReducer);
+  const { totalPrice, totalCount, items: orderItemsAll } = useAppSelector(state => state.orderReducer);
   const dispatch = useAppDispatch();
   
   const [isModal, setIsModal] = useState<boolean>(false);
@@ -63,9 +63,9 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
         usersID: companyFirstUser._id,
         totalSum: totalPrice,
       },
-      orderItems: orderItems
+      orderItems: orderItemsAll
     }
-    console.log(orderNew);
+    // console.log(orderNew);
     await dispatch(addOrder(orderNew));
     // await dispatch(addOrderItem(orderItems));
   };
@@ -92,7 +92,7 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
       fetchData();
 
     }
-  }, [debouncedSearch])
+  }, [debouncedSearch]);  
 
   return isVisible ? (
     <>
