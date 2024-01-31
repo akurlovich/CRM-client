@@ -201,4 +201,17 @@
     }
   }
 
+  &__bills {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    padding: 15px;
+
+    & > a {
+      color: var(--link-active-2);
+      font-size: 16px;
+      font-weight: 500;
+    }
+  }
+
 }

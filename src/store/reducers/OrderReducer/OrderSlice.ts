@@ -1,7 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { IOrder } from "../../../types/IOrder";
 import { IOrderItemNew } from "../../../types/IOrderItem";
+import { addOrder } from "./OrderActionCreater";
 
 interface IOrderState {
+  order: IOrder;
   totalPrice: number;
   totalCount: number;
   items: IOrderItemNew[];
@@ -10,6 +13,7 @@ interface IOrderState {
 };
 
 const initialState: IOrderState = {
+  order: {} as IOrder,
   totalPrice: 0,
   totalCount: 0,
   items: [],
@@ -30,6 +34,8 @@ const orderSlice = createSlice({
         foundItem.count = action.payload.count;
         foundItem.totalSum = action.payload.totalSum;
         foundItem.price = action.payload.price;
+        foundItem.sum = action.payload.sum;
+        foundItem.vatSum = action.payload.vatSum;
       } else {
         // state.items.push({
         //   ...action.payload,
@@ -65,7 +71,18 @@ const orderSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    
+    builder
+      .addCase(addOrder.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(addOrder.fulfilled, (state, action: PayloadAction<IOrder>) => {
+        state.isLoading = false;
+        state.order = action.payload;
+      })
+      .addCase(addOrder.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload as string;
+      });
   },
 });
 

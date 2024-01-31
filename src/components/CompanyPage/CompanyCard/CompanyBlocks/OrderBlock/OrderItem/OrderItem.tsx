@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from 'react'
-import { useAppDispatch } from '../../../../../../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../../../../../hooks/redux';
 import { addItemProduct, removeItemProduct } from '../../../../../../store/reducers/OrderReducer/OrderSlice';
 import { IProduct } from '../../../../../../types/IProduct'
 
@@ -21,6 +21,9 @@ const OrderItem: FC<IProps> = ({item, count, totalSum}) => {
   // const countHandler = (item: string) => {
   //   setCountItem(item);
   // }
+
+  //! ----   убрать возможно useEffect
+  //!-----   добавить useDebuonse для ввода кол-ва и цены
 
   useEffect(() => {
     if (countItem && priceItem) {

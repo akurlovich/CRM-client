@@ -15,6 +15,8 @@ import { productsClearArray } from '../../../../../../store/reducers/ProductRedu
 import { addOrderItem } from '../../../../../../store/reducers/OrderItemsReducer/OrderItemsActionCreater';
 import { IOrderNewWithItems } from '../../../../../../types/IOrder';
 import { addOrder } from '../../../../../../store/reducers/OrderReducer/OrderActionCreater';
+import { getCompanyByIDQuery } from '../../../../../../store/reducers/CompanyReducer/CompanyActionCreaters';
+import { SERVER_URL } from '../../../../../../constants/http';
 // import { IoDocumentOutline } from "@react-icons/all-files/io5/IoDocumentOutline";
 
 interface IProps {
@@ -23,8 +25,9 @@ interface IProps {
 }
 
 const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
-  const { company, companyFirstUser } = useAppSelector(state => state.companyReducer)
+  const { company, companyFirstUser, query } = useAppSelector(state => state.companyReducer)
   const { products } = useAppSelector(state => state.productReducer);
+  const { order } = useAppSelector(state => state.orderReducer);
   const { totalPrice, totalCount, items: orderItemsAll } = useAppSelector(state => state.orderReducer);
   const dispatch = useAppDispatch();
   
@@ -67,6 +70,7 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
     }
     // console.log(orderNew);
     await dispatch(addOrder(orderNew));
+    // await dispatch(getCompanyByIDQuery(query));
     // await dispatch(addOrderItem(orderItems));
   };
   
@@ -179,6 +183,13 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
               }
             </div>
           </div>
+          {order.fileName?.length ? 
+            <div className="add-order__bills">
+              {/* <a href={`${SERVER_URL+order._id+order.orderNumber}.docx`}>Скачать счёт</a> */}
+              <a href={`${SERVER_URL+order.fileName[0]}`}>Скачать счёт</a>
+            </div>
+            : null
+          }
         </div>
       </section>
 

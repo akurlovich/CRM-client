@@ -39,7 +39,7 @@ const ContactsEmailsInner: FC = ({}) => {
         email: '',
         description: '',
       }
-    }))
+    }));
     setShowAddInputs(true);
   };
 

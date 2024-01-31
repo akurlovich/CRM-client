@@ -3,9 +3,9 @@ import serverApi from "../http";
 import { IOrder, IOrderNew, IOrderNewWithItems } from "../types/IOrder";
 
 export default class OrderService {
-  static async addOrder(orderWithItems: IOrderNewWithItems): Promise<AxiosResponse<IOrder[]>> {
+  static async addOrder(orderWithItems: IOrderNewWithItems): Promise<AxiosResponse<IOrder>> {
     console.log('client')
-    return serverApi.post<IOrder[]>('/orders', orderWithItems);
+    return serverApi.post<IOrder>('/orders', orderWithItems);
   };
 
   static async getOrderByID(orderID: string): Promise<AxiosResponse<IOrder>> {
