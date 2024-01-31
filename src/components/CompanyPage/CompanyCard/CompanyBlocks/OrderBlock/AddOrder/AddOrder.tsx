@@ -36,6 +36,7 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
   const [orderProducts, setOrderProducts] = useState<IProduct[]>([] as IProduct[]);
   const [searchValue, setSearchValue] = useState('');
   const debouncedSearch = useDebounce(searchValue);
+  const [createDate, setCreateDate] = useState('');
   const [totalSum, setTotalSum] = useState(0);
 
   const totalSumHandler = (sum: number) => {
@@ -96,7 +97,16 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
       fetchData();
 
     }
-  }, [debouncedSearch]);  
+  }, [debouncedSearch]);
+
+  useEffect(() => {
+    if (order.fileName?.length) {
+      const today = new Date(order.createdAt);
+      const months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
+      setCreateDate(`${today.getDate()}.${months[today.getMonth()]}.${today.getFullYear()}`)
+    }
+  }, [order])
+  
 
   return isVisible ? (
     <>
@@ -184,10 +194,12 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
             </div>
           </div>
           {order.fileName?.length ? 
-            <div className="add-order__bills">
-              {/* <a href={`${SERVER_URL+order._id+order.orderNumber}.docx`}>Скачать счёт</a> */}
-              <a href={`${SERVER_URL+order.fileName[0]}`}>Скачать счёт</a>
-            </div>
+            order.fileName.map(item => 
+              <div key={item} className="add-order__bills">
+                {/* <a href={`${SERVER_URL+order._id+order.orderNumber}.docx`}>Скачать счёт</a> */}
+                <a href={`${SERVER_URL+item}`}>{`Скачать счёт №${order.orderNumber} от ${createDate}г.`}</a>
+              </div>
+            )
             : null
           }
         </div>
