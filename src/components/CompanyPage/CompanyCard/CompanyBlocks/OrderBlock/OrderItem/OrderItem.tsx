@@ -2,6 +2,7 @@ import React, { FC, useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../../../../../hooks/redux';
 import { addItemProduct, removeItemProduct } from '../../../../../../store/reducers/OrderReducer/OrderSlice';
 import { IProduct } from '../../../../../../types/IProduct'
+import { IoTrashOutline } from "@react-icons/all-files/io5/IoTrashOutline";
 
 interface IProps {
   item: IProduct;
@@ -62,6 +63,12 @@ const OrderItem: FC<IProps> = ({item, count, totalSum}) => {
         type="number" 
         name="price"/>
       <span className='cell data'>{`${totalItem} руб`}</span>
+      <span 
+        className='cell data narrow trash'>
+        <IoTrashOutline 
+          style={{"cursor": "pointer"}}
+          size={18}/>
+      </span>
     </div>
   )
 }
