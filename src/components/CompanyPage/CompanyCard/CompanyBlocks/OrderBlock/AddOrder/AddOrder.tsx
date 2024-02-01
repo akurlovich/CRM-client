@@ -13,8 +13,8 @@ import OrderItem from '../OrderItem/OrderItem';
 import { useDebounce } from '../../../../../../hooks/useDebounce';
 import { productsClearArray } from '../../../../../../store/reducers/ProductReducer/ProductSlice';
 import { addOrderItem } from '../../../../../../store/reducers/OrderItemsReducer/OrderItemsActionCreater';
-import { IOrderNewWithItems } from '../../../../../../types/IOrder';
-import { addOrder } from '../../../../../../store/reducers/OrderReducer/OrderActionCreater';
+import { IOrderNewWithItems, IOrderUpdateOrderItems } from '../../../../../../types/IOrder';
+import { addOrder, updateOrderItemsByOrderID } from '../../../../../../store/reducers/OrderReducer/OrderActionCreater';
 import { getCompanyByIDQuery } from '../../../../../../store/reducers/CompanyReducer/CompanyActionCreaters';
 import { SERVER_URL } from '../../../../../../constants/http';
 // import { IoDocumentOutline } from "@react-icons/all-files/io5/IoDocumentOutline";
@@ -61,17 +61,31 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
   };
 
   const createOrderHandler = async () => {
-    const orderNew: IOrderNewWithItems = {
-      order: {
-        companyID:company._id,
-        usersID: companyFirstUser._id,
-        totalSum: totalPrice,
-      },
-      orderItems: orderItemsAll
+    if (order._id) {
+      console.log('first')
+      const orderUpdate: IOrderUpdateOrderItems = {
+        order: {
+          orderID: order._id,
+          totalSum: totalPrice,
+        },
+        orderItems: orderItemsAll
+      }
+      await dispatch(updateOrderItemsByOrderID(orderUpdate));
+    } else {
+      const orderNew: IOrderNewWithItems = {
+        order: {
+          companyID:company._id,
+          usersID: companyFirstUser._id,
+          totalSum: totalPrice,
+        },
+        orderItems: orderItemsAll
+      }
+      // console.log(orderNew);
+      await dispatch(addOrder(orderNew));
+      // await dispatch(getCompanyByIDQuery(query));
+
     }
-    // console.log(orderNew);
-    await dispatch(addOrder(orderNew));
-    // await dispatch(getCompanyByIDQuery(query));
+
     // await dispatch(addOrderItem(orderItems));
   };
   

@@ -1,10 +1,9 @@
 import { AxiosResponse } from "axios";
 import serverApi from "../http";
-import { IOrder, IOrderNew, IOrderNewWithItems } from "../types/IOrder";
+import { IOrder, IOrderNew, IOrderNewWithItems, IOrderUpdateOrderItems } from "../types/IOrder";
 
 export default class OrderService {
   static async addOrder(orderWithItems: IOrderNewWithItems): Promise<AxiosResponse<IOrder>> {
-    console.log('client')
     return serverApi.post<IOrder>('/orders', orderWithItems);
   };
 
@@ -14,6 +13,10 @@ export default class OrderService {
 
   static async getAllOrders(): Promise<AxiosResponse<IOrder[]>> {
     return serverApi.get<IOrder[]>(`/orders`);
+  };
+
+  static async updateOrderItemsByOrderID(data: IOrderUpdateOrderItems): Promise<AxiosResponse<IOrder>> {
+    return serverApi.put<IOrder>(`/orders/${data.order.orderID}/items`, data);
   };
 
   static async deleteOrderByID(orderID: string): Promise<AxiosResponse<IOrder>> {

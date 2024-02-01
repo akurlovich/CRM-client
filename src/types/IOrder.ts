@@ -27,3 +27,16 @@ export interface IOrderNewWithItems {
   order: IOrderNew,
   orderItems: IOrderItemNew[],
 }
+
+export interface IOrderNewWithItems {
+  order: IOrderNew,
+  orderItems: IOrderItemNew[],
+}
+
+export interface IOrderUpdateOrderItems {
+  order: {
+    orderID: string,
+    totalSum: number,
+  },
+  orderItems: IOrderItemNew[],
+}

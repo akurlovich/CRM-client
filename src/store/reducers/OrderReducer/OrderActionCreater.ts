@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import OrderService from "../../../services/OrderService";
-import { IOrderNew, IOrderNewWithItems } from "../../../types/IOrder";
+import { IOrderNew, IOrderNewWithItems, IOrderUpdateOrderItems } from "../../../types/IOrder";
 
 export const addOrder = createAsyncThunk(
   'ORDER/addOrder',
@@ -30,6 +30,18 @@ export const getAllOrders = createAsyncThunk(
   async (_, {rejectWithValue}) => {
     try {
       return await (await OrderService.getAllOrders()).data;
+      
+    } catch (error: any) {
+      return rejectWithValue(error.message)
+    }
+  }
+);
+
+export const updateOrderItemsByOrderID = createAsyncThunk(
+  'ORDER/updateOrderItemsByOrderID',
+  async (data: IOrderUpdateOrderItems, {rejectWithValue}) => {
+    try {
+      return await (await OrderService.updateOrderItemsByOrderID(data)).data;
       
     } catch (error: any) {
       return rejectWithValue(error.message)
