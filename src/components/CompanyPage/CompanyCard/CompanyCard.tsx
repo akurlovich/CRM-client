@@ -97,6 +97,11 @@ const CompanyCardInner: FC = () => {
                 path: "ordersID", 
                 populate: { path: 'companyID' }
               },
+              {
+                path: "ordersID", 
+                //@ts-ignore
+                populate: { path: 'orderItemID', populate: { path: "productID"} }
+              },
             ], 
           sort: {'contactID.address.district': 'asc'}, 
           limit: 0,

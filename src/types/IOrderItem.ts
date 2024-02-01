@@ -1,7 +1,9 @@
+import { IProduct } from "./IProduct";
+
 export interface IOrderItem {
   _id: string,
   orderID: string,
-  productID: string,
+  productID: IProduct,
   price: number,
   count: number,
   sum: number,

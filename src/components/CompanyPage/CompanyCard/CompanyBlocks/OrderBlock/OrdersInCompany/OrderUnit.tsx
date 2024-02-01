@@ -23,7 +23,7 @@ const OrderUnit: FC<IProps> = ({item}) => {
     <div className="orders-in-company__main__row">
       <IoSquareOutline width={25}/>
       <span className='cell data count'>{item.orderNumber}</span>
-      <span className='cell data'>{item.companyID.title}</span>
+      <span className='cell data'>{item?.orderItemID[0]?.productID ? item.orderItemID?.[0].productID?.title : ''}</span>
       <span className='cell data total'>{`${item.totalSum} руб`}</span>
       <div className='cell data user'>
         <span>{`${item.usersID.firstname[0]}${item.usersID.lastname[0]}`}</span>

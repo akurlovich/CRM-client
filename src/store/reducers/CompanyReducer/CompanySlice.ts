@@ -106,7 +106,18 @@ const companySlice = createSlice({
         state.companyUsers = action.payload.usersID;
         state.companyFirstUser = action.payload.usersID[0];
         state.companyComments = action.payload.commentsID.reverse();
-        state.companyOrders = action.payload.ordersID;
+        state.companyOrders = action.payload.ordersID.sort((a, b) => {
+          let fa = a.createdAt;
+          let fb = b.createdAt;
+
+          if (fa < fb) {
+              return 1;
+          }
+          if (fa > fb) {
+              return -1;
+          }
+          return 0;
+        });
       })
       .addCase(getCompanyByIDQuery.rejected, (state, action) => {
         state.isLoading = false;

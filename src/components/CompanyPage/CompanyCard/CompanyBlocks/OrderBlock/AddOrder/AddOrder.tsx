@@ -17,6 +17,7 @@ import { IOrderNewWithItems, IOrderUpdateOrderItems } from '../../../../../../ty
 import { addOrder, updateOrderItemsByOrderID } from '../../../../../../store/reducers/OrderReducer/OrderActionCreater';
 import { getCompanyByIDQuery } from '../../../../../../store/reducers/CompanyReducer/CompanyActionCreaters';
 import { SERVER_URL } from '../../../../../../constants/http';
+import { Link } from 'react-router-dom';
 // import { IoDocumentOutline } from "@react-icons/all-files/io5/IoDocumentOutline";
 
 interface IProps {
@@ -212,13 +213,13 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
             order.fileName.map(item => 
               <div key={item} className="add-order__bills">
                 {/* <a href={`${SERVER_URL+order._id+order.orderNumber}.docx`}>Скачать счёт</a> */}
-                <a 
-                  // download="foo.txt"
+                <Link 
+                  to={`${SERVER_URL+item}`}
+                  download="foo.txt"
                   target="_blank"
-                  href={`${SERVER_URL+item}`}
                     >
                   {`Скачать ${item.replace('.docx', '')} от ${createDate}г.`}
-                </a>
+                </Link>
               </div>
             )
             : null
