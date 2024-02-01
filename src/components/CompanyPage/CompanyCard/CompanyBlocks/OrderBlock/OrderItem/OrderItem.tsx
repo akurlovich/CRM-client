@@ -30,7 +30,7 @@ const OrderItem: FC<IProps> = ({item, count, totalSum}) => {
       // dispatch(removeItemProduct({id: item._id, sum: 0}))
       const total = (+countItem * +priceItem).toFixed(2);
       setTotalItem((+total * 1.2).toFixed(2));
-      console.log((+total * 1.2).toFixed(2))
+      // console.log((+total * 1.2).toFixed(2))
       // totalSum(+total);
       dispatch(addItemProduct({
         productID: item._id, 

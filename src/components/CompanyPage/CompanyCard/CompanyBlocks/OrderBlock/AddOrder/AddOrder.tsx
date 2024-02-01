@@ -62,7 +62,7 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
 
   const createOrderHandler = async () => {
     if (order._id) {
-      console.log('first')
+      // console.log('first')
       const orderUpdate: IOrderUpdateOrderItems = {
         order: {
           orderID: order._id,
@@ -103,7 +103,7 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
 
   useEffect(() => {
     dispatch(productsClearArray());
-    console.log(debouncedSearch)
+    // console.log(debouncedSearch)
     if (debouncedSearch) {
       const fetchData = async () => {
         await dispatch(getAllProducts(debouncedSearch));
@@ -116,8 +116,9 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
   useEffect(() => {
     if (order.fileName?.length) {
       const today = new Date(order.createdAt);
+      const day = ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31'];
       const months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
-      setCreateDate(`${today.getDate()}.${months[today.getMonth()]}.${today.getFullYear()}`)
+      setCreateDate(`${day[today.getDate()]}.${months[today.getMonth()]}.${today.getFullYear()}`)
     }
   }, [order])
   
@@ -216,7 +217,7 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
                   target="_blank"
                   href={`${SERVER_URL+item}`}
                     >
-                  {`Скачать счёт №${order.orderNumber} от ${createDate}г.`}
+                  {`Скачать ${item.replace('.docx', '')} от ${createDate}г.`}
                 </a>
               </div>
             )
