@@ -211,7 +211,13 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
             order.fileName.map(item => 
               <div key={item} className="add-order__bills">
                 {/* <a href={`${SERVER_URL+order._id+order.orderNumber}.docx`}>Скачать счёт</a> */}
-                <a href={`${SERVER_URL+item}`}>{`Скачать счёт №${order.orderNumber} от ${createDate}г.`}</a>
+                <a 
+                  // download="foo.txt"
+                  target="_blank"
+                  href={`${SERVER_URL+item}`}
+                    >
+                  {`Скачать счёт №${order.orderNumber} от ${createDate}г.`}
+                </a>
               </div>
             )
             : null
