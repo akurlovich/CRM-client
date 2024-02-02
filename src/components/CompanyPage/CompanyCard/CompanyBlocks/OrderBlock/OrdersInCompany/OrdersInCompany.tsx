@@ -7,6 +7,7 @@ import { IoDuplicateOutline } from "@react-icons/all-files/io5/IoDuplicateOutlin
 import { IoSquareOutline } from "@react-icons/all-files/io5/IoSquareOutline";
 import { useAppSelector } from '../../../../../../hooks/redux';
 import OrderUnit from './OrderUnit';
+import { IOrder } from '../../../../../../types/IOrder';
 // import { IoDocumentOutline } from "@react-icons/all-files/io5/IoDocumentOutline";
 
 interface IProps {
@@ -15,6 +16,10 @@ interface IProps {
 
 const OrdersInCompanyInner: FC<IProps> = ({showAddOrder}) => {
   const { companyOrders } = useAppSelector(state => state.companyReducer);
+
+  const orderHandler = (item: IOrder) => {
+
+  }
   // const [isModal, setIsModal] = useState<boolean>(false);
   // const today = new Date('2024-01-29T11:36:39.685Z'); 
   // const days = ["Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"];
@@ -43,12 +48,12 @@ const OrdersInCompanyInner: FC<IProps> = ({showAddOrder}) => {
             </div>
             <div className="orders-in-company__main">
               <div className="orders-in-company__main__row first_row">
-                <IoDuplicateOutline width={30}/>
-                <span className='cell'><IoDocumentOutline width={50}/></span>
-                <span className='cell'>Клиент</span>
-                <span className='cell'>Сумма</span>
-                <span className='cell'>Ответственный</span>
-                <span className='cell'>Дата создания</span>
+                {/* <IoDuplicateOutline width={30}/> */}
+                <span className='cell first'><IoDocumentOutline width={30}/></span>
+                <span className='cell'>Заказ</span>
+                <span className='cell total'>Сумма</span>
+                <span className='cell tight'>Ответственный</span>
+                <span className='cell narrow'>Дата создания</span>
               </div>
 
               {companyOrders.length ? 
@@ -56,7 +61,7 @@ const OrdersInCompanyInner: FC<IProps> = ({showAddOrder}) => {
                   <OrderUnit 
                     key={item._id}
                     item={item}/>
-                  
+                                  
                 ) : null
               }
 

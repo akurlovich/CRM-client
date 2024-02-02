@@ -70,6 +70,16 @@
       gap: 10px;
       color: var(--text-color-secondary-light);
       padding-left: 10px;
+      // cursor: pointer;
+
+      &.units {
+        cursor: pointer;
+
+        &:hover {
+          background-color: var(--bg-color-hover);
+        }
+      }
+      
       
       &.first_row {
         border-bottom: 1px solid var(--border-1);
@@ -83,22 +93,42 @@
 
       }
 
-      & > span:nth-child(2) {
-        // background-color: aqua;
-        max-width: 50px;
-      }
+      // & > span:nth-child(2) {
+      //   // background-color: aqua;
+      //   max-width: 30px;
+      // }
 
       & > .cell {
         flex: 1;
-        max-width: 250px;
+        max-width: 400px;
         // padding: 8px;
         // border: 1px solid #ccc;
         // text-align: center;
         padding: 8px 20px 8px 8px;
 
+        &.first {
+          max-width: 30px;
+        }
+
+        &.total {
+          max-width: 110px;
+          padding-right: 0px;
+        }
+
+        &.tight {
+          max-width: 200px;
+          padding-right: 0px;
+        }
+
+        &.narrow {
+          max-width: 150px;
+        }
+
+
+
         &.data {
           color: var(--text-color-default);
-          cursor: default;
+          // cursor: default;
 
           &.user {
             display: flex;
@@ -114,6 +144,7 @@
               align-items: center;
               text-align: center;
               justify-content: center;
+              color: #fff;
             }
 
             & span:nth-child(2) {
@@ -131,6 +162,17 @@
 
           &.total {
             text-align: end;
+            max-width: 110px;
+            padding-right: 0px;
+          }
+
+          &.tight {
+            max-width: 200px;
+            padding-right: 0px;
+          }
+
+          &.narrow {
+            max-width: 150px;
           }
         }
       }

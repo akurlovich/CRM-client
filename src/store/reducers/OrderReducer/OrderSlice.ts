@@ -8,6 +8,8 @@ interface IOrderState {
   totalPrice: number;
   totalCount: number;
   items: IOrderItemNew[];
+  isShowEditOrder: boolean;
+  orderForEdit: IOrder;
   isLoading: boolean,
   error: string,
 };
@@ -17,6 +19,8 @@ const initialState: IOrderState = {
   totalPrice: 0,
   totalCount: 0,
   items: [],
+  isShowEditOrder: false,
+  orderForEdit: {} as IOrder,
   isLoading: false,
   error: '',
 };
@@ -25,8 +29,6 @@ const orderSlice = createSlice({
   name: 'ORDER',
   initialState,
   reducers: {
-
-//!--------------  общая сумма, как сумма всех item.sum в массиве
     addItemProduct(state, action: PayloadAction<IOrderItemNew>) {
       // console.log("action.payload", action.payload)
       let foundItem = state.items.find((obj: IOrderItemNew) => obj.itemID === action.payload.itemID);
@@ -71,8 +73,17 @@ const orderSlice = createSlice({
 
     clearItemsProduct(state) {
       state.items = [];
+      state.orderForEdit = {} as IOrder;
       state.totalPrice = 0;
     },
+
+    setShowEditOrder(state, action: PayloadAction<boolean>) {
+      state.isShowEditOrder = action.payload;
+    },
+    setOrderForEdit(state, action: PayloadAction<IOrder>) {
+      state.orderForEdit = action.payload;
+    },
+
   },
   extraReducers: (builder) => {
     builder
@@ -102,6 +113,6 @@ const orderSlice = createSlice({
   },
 });
 
-export const { addItemProduct, minusItemProduct, removeItemProduct, clearItemsProduct } = orderSlice.actions;
+export const { addItemProduct, minusItemProduct, removeItemProduct, clearItemsProduct, setShowEditOrder, setOrderForEdit } = orderSlice.actions;
 
 export default orderSlice.reducer;

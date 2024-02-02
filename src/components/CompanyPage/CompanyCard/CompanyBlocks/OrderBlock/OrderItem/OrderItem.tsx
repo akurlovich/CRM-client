@@ -15,8 +15,8 @@ interface IProps {
 const OrderItem: FC<IProps> = ({item, count}) => {
   const dispatch = useAppDispatch();
 
-  const [ countItem, setCountItem ] = useState('');
-  const [ priceItem, setPriceItem ] = useState('');
+  const [ countItem, setCountItem ] = useState(item.count ? item.count : '');
+  const [ priceItem, setPriceItem ] = useState(item.price ? item.price : '');
   const [ totalItem, setTotalItem ] = useState('0');
 
   const deleteItemHandler = () => {
@@ -54,11 +54,13 @@ const OrderItem: FC<IProps> = ({item, count}) => {
       <span className='cell data'>{item.productTitle}</span>
       <span className='cell data narrow'>{item.productDimension}</span>
       <input 
+        value={countItem}
         onChange={(e:React.FocusEvent<HTMLInputElement>) => setCountItem(e.target.value)}
         className='cell data narrow' 
         type="number" 
         name="count"/>
       <input 
+        value={priceItem}
         onChange={(e:React.FocusEvent<HTMLInputElement>) => setPriceItem(e.target.value)}
         className='cell data tight' 
         type="number" 

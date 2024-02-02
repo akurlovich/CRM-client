@@ -22,6 +22,7 @@ import type { Dayjs } from 'dayjs';
 import updateLocale from 'dayjs/plugin/updateLocale';
 import { AddOrder } from './CompanyBlocks/OrderBlock/AddOrder/AddOrder';
 import { OrdersInCompany } from './CompanyBlocks/OrderBlock/OrdersInCompany/OrdersInCompany';
+import { EditOrder } from './CompanyBlocks/OrderBlock/EditOrder/EditOrder';
 
 dayjs.extend(updateLocale);
 
@@ -36,8 +37,11 @@ dayjs.updateLocale('en', {
 //   item: ICompany;
 // };
 
+//TODO при нажатии Добавить сделку, очистить в orderReducer order, orderForEdit
+
 const CompanyCardInner: FC = () => {
   const { company, companies, isLoading } = useAppSelector(state => state.companyReducer);
+  const { isShowEditOrder } = useAppSelector(state => state.orderReducer);
   const params = useParams();
   const dispatch = useAppDispatch();
   const [showAddOrder, setShowAddOrder] = useState<boolean>(false);
@@ -149,6 +153,7 @@ const CompanyCardInner: FC = () => {
               {/* <BaseBlockSmall deal="Процесссы"/> */}
               {/* <AddOrder isVisible={showAddOrder} showAddOrder={(() => setShowAddOrder(false))}/> */}
               <AddOrder isVisible={showAddOrder} showAddOrder={showAddOrderHandler}/>
+              <EditOrder isVisible={isShowEditOrder}/>
               {/* <AddOrder/> */}
               <OrdersInCompany showAddOrder={(() => setShowAddOrder(true))}/>
               <CommentsBlock/>
