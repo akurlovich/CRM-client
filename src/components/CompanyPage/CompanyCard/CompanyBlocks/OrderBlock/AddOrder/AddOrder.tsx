@@ -78,6 +78,7 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
         orderItems: orderItemsAll
       }
       await dispatch(updateOrderItemsByOrderID(orderUpdate));
+      await dispatch(getCompanyByIDQuery(query));
     } else {
       const orderNew: IOrderNewWithItems = {
         order: {
@@ -89,7 +90,7 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
       }
       // console.log(orderNew);
       await dispatch(addOrder(orderNew));
-      // await dispatch(getCompanyByIDQuery(query));
+      await dispatch(getCompanyByIDQuery(query));
 
     }
   };

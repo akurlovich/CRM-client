@@ -14,6 +14,7 @@ import { SERVER_URL } from '../../../../../../constants/http';
 import { Link } from 'react-router-dom';
 import { addItemProduct, clearItemsProduct, setShowEditOrder } from '../../../../../../store/reducers/OrderReducer/OrderSlice';
 import { v4 as uuidv4 } from 'uuid';
+import { getCompanyByIDQuery } from '../../../../../../store/reducers/CompanyReducer/CompanyActionCreaters';
 
 interface IProps {
   isVisible: boolean;
@@ -56,30 +57,19 @@ const EditOrderInner: FC<IProps> = ({isVisible = false}) => {
   };
 
   const createOrderHandler = async () => {
-    if (order._id) {
-      // console.log('first')
+   
       const orderUpdate: IOrderUpdateOrderItems = {
         order: {
-          orderID: order._id,
+          orderID: order._id ? order._id : orderForEdit._id,
           totalSum: totalPrice,
         },
         orderItems: orderItemsAll
       }
-      await dispatch(updateOrderItemsByOrderID(orderUpdate));
-    } else {
-      const orderNew: IOrderNewWithItems = {
-        order: {
-          companyID:company._id,
-          usersID: companyFirstUser._id,
-          totalSum: totalPrice,
-        },
-        orderItems: orderItemsAll
-      }
-      // console.log(orderNew);
-      await dispatch(addOrder(orderNew));
-      // await dispatch(getCompanyByIDQuery(query));
 
-    }
+      console.log(orderUpdate)
+      // await dispatch(updateOrderItemsByOrderID(orderUpdate));
+      // await dispatch(getCompanyByIDQuery(query));
+  
   };
 
   const canselOrderEdit = () => {
