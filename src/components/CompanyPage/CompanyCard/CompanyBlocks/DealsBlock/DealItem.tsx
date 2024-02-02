@@ -39,6 +39,11 @@ const DealItemInner: FC<IProps> = ({item, fromBlock}) => {
     setShowDealComplete(true);
   };
 
+  const canselDealComplete = () => {
+    setShowDealComplete(false);
+    setShowDeleteDeal({show: false, itemID: ''})
+  };
+
   const deleteHandleer = async () => {
     setShowDeleteDeal({show: false, itemID: ''})
   };
@@ -50,7 +55,7 @@ const DealItemInner: FC<IProps> = ({item, fromBlock}) => {
           {<DealComplete 
             isVisible={showDealComplete}
             item={item} 
-            onClose={() => setShowDealComplete(false)}/>}
+            onClose={canselDealComplete}/>}
           <div key={item._id} className="deals-block__deals__item">
             {!fromBlock ? 
               <div className="deals-block__deals__item__title">

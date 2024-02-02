@@ -21,7 +21,7 @@
 
     &__user {
       display: flex;
-      gap: 15px;
+      gap: 10px;
 
       & > .avatar {
         width: 30px;
@@ -38,7 +38,7 @@
       & > .name {
         display: flex;
         flex-direction: column;
-        gap: 5px;
+        // gap: 5px;
         
         & span:nth-child(2) {
           color: var(--text-color-secondary-light);
