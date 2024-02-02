@@ -18,13 +18,14 @@ import { addOrder, updateOrderItemsByOrderID } from '../../../../../../store/red
 import { getCompanyByIDQuery } from '../../../../../../store/reducers/CompanyReducer/CompanyActionCreaters';
 import { SERVER_URL } from '../../../../../../constants/http';
 import { Link } from 'react-router-dom';
-// import { IoDocumentOutline } from "@react-icons/all-files/io5/IoDocumentOutline";
+import { addItemProduct } from '../../../../../../store/reducers/OrderReducer/OrderSlice';
+import { v4 as uuidv4 } from 'uuid';
 
 interface IProps {
   isVisible: boolean;
   showAddOrder?: () => void;
 }
-
+//TODO ---------- добавить сохранение  текущих позиций в локалсторедж или indexedb, пока не создали счет
 const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
   const { company, companyFirstUser, query } = useAppSelector(state => state.companyReducer)
   const { products } = useAppSelector(state => state.productReducer);
@@ -38,13 +39,6 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
   const [searchValue, setSearchValue] = useState('');
   const debouncedSearch = useDebounce(searchValue);
   const [createDate, setCreateDate] = useState('');
-  const [totalSum, setTotalSum] = useState(0);
-
-  const totalSumHandler = (sum: number) => {
-    // console.log(sum, totalSum)
-    // const total = +((totalSum + sum).toFixed(2))
-    // setTotalSum(total);
-  }
 
   const searchValueHandler = async (e: React.FocusEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
@@ -56,7 +50,19 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
   }
 
   const addProductToOrderHandler = (item: IProduct) => {
-    setOrderProducts(prev => ([...prev, item]));
+    const newID = uuidv4();
+    dispatch(addItemProduct({
+      itemID: newID,
+      productID: item._id, 
+      price: 0, 
+      count: 0, 
+      sum: 0,
+      productTitle: item.title,
+      productDimension: item.dimension,
+      vatSum: 0,
+      totalSum: 0,
+    }))
+    // setOrderProducts(prev => ([...prev, item]));
     dispatch(productsClearArray());
     setSearchValue('');
   };
@@ -86,21 +92,7 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
       // await dispatch(getCompanyByIDQuery(query));
 
     }
-
-    // await dispatch(addOrderItem(orderItems));
   };
-  
-  // useEffect(() => {
-  //   const Debounce = setTimeout(async () => {
-  //     if (searchValue) {
-  //       await dispatch(getAllProducts(searchValue));
-
-  //     }
-  //     // setfoundProducts([...products])  
-  //   }, 500);
-
-  //   return () => clearTimeout(Debounce);
-  // }, [searchValue]);
 
   useEffect(() => {
     dispatch(productsClearArray());
@@ -163,19 +155,19 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
               <span className='cell'>Итого с НДС</span>
               <span className='cell narrow'></span>
             </div>
-            {orderProducts.length ? 
-              orderProducts.map((item, index) => 
+            {orderItemsAll.length ? 
+              orderItemsAll.map((item, index) => 
                 <OrderItem 
-                  key={item._id}
+                  key={item.itemID}
                   item={item} 
                   count={index + 1}
-                  totalSum={totalSumHandler}/>
+                  />
               )
               : null
             }
-            {orderProducts.length ? 
+            {orderItemsAll.length ? 
               <div className="add-order__main__row">
-                <span className='cell data narrowest'></span>
+                <span className='cell data narrowest'> </span>
                 <span className='cell data'></span>
                 <span className='cell data narrow'>ИТОГО:</span>
                 <span className='cell data narrow'>{`${totalCount}`}</span>

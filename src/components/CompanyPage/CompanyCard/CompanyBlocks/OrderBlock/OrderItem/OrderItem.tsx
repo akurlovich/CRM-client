@@ -3,25 +3,25 @@ import { useAppDispatch, useAppSelector } from '../../../../../../hooks/redux';
 import { addItemProduct, removeItemProduct } from '../../../../../../store/reducers/OrderReducer/OrderSlice';
 import { IProduct } from '../../../../../../types/IProduct'
 import { IoTrashOutline } from "@react-icons/all-files/io5/IoTrashOutline";
+import { IOrderItemNew } from '../../../../../../types/IOrderItem';
 
 interface IProps {
-  item: IProduct;
+  item: IOrderItemNew;
   count: number;
-  totalSum: (sum: number) => void;
 }
 
 //TODO ---  решить вопрос с нумерацией, особенно при удалении позиции
 
-const OrderItem: FC<IProps> = ({item, count, totalSum}) => {
+const OrderItem: FC<IProps> = ({item, count}) => {
   const dispatch = useAppDispatch();
 
   const [ countItem, setCountItem ] = useState('');
   const [ priceItem, setPriceItem ] = useState('');
   const [ totalItem, setTotalItem ] = useState('0');
 
-  // const countHandler = (item: string) => {
-  //   setCountItem(item);
-  // }
+  const deleteItemHandler = () => {
+    dispatch(removeItemProduct(item))
+  }
 
   //! ----   убрать возможно useEffect
   //!-----   добавить useDebuonse для ввода кол-ва и цены
@@ -34,12 +34,13 @@ const OrderItem: FC<IProps> = ({item, count, totalSum}) => {
       // console.log((+total * 1.2).toFixed(2))
       // totalSum(+total);
       dispatch(addItemProduct({
-        productID: item._id, 
+        itemID: item.itemID,
+        productID: item.productID, 
         price: +priceItem, 
         count: +countItem, 
         sum: +total,
-        productTitle: item.title,
-        productDimension: item.dimension,
+        productTitle: item.productTitle,
+        productDimension: item.productDimension,
         vatSum: +((+(+total * 1.2).toFixed(2)) - (+total)).toFixed(2),
         totalSum: +(+total * 1.2).toFixed(2),
       }))
@@ -50,8 +51,8 @@ const OrderItem: FC<IProps> = ({item, count, totalSum}) => {
   return (
     <div className="add-order__main__row">
       <span className='cell data narrowest'>{count}</span>
-      <span className='cell data'>{item.title}</span>
-      <span className='cell data narrow'>{item.dimension}</span>
+      <span className='cell data'>{item.productTitle}</span>
+      <span className='cell data narrow'>{item.productDimension}</span>
       <input 
         onChange={(e:React.FocusEvent<HTMLInputElement>) => setCountItem(e.target.value)}
         className='cell data narrow' 
@@ -66,6 +67,7 @@ const OrderItem: FC<IProps> = ({item, count, totalSum}) => {
       <span 
         className='cell data narrow trash'>
         <IoTrashOutline 
+          onClick={deleteItemHandler}
           style={{"cursor": "pointer"}}
           size={18}/>
       </span>

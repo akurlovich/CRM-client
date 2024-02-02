@@ -14,6 +14,7 @@ export interface IOrderItemNew {
   // price: number,
   // count: number,
   // sum: number,
+  itemID: string,
   productID: string,
   price: number,
   count: number,

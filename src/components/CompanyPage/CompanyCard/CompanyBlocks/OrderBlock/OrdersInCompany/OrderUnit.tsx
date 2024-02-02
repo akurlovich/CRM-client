@@ -11,9 +11,9 @@ const OrderUnit: FC<IProps> = ({item}) => {
 
   useEffect(() => {
     const today = new Date(item.createdAt); 
-    const days = ["Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"];
-    const months = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", 
-    "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"];
+    // const days = ["Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"];
+    const months = [ 'Января', 'Февраля', 'Марта', 'Апреля', 'Мая', 'Июня',
+    'Июля', 'Августа', 'Сентября', 'Октября', 'Ноября', 'Декабря' ];
     // console.log(`Сегодня: ${today.getDate()} ${months[today.getMonth()]} ${today.getFullYear()}, ${days[today.getDay()]}`);
     setCreateDate(`${today.getDate()} ${months[today.getMonth()]} ${today.getFullYear()}`)
   }, [])

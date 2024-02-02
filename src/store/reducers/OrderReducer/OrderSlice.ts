@@ -29,7 +29,7 @@ const orderSlice = createSlice({
 //!--------------  общая сумма, как сумма всех item.sum в массиве
     addItemProduct(state, action: PayloadAction<IOrderItemNew>) {
       // console.log("action.payload", action.payload)
-      let foundItem = state.items.find((obj: IOrderItemNew) => obj.productID === action.payload.productID);
+      let foundItem = state.items.find((obj: IOrderItemNew) => obj.itemID === action.payload.itemID);
       if (foundItem) {
         foundItem.count = action.payload.count;
         foundItem.totalSum = action.payload.totalSum;
@@ -53,16 +53,20 @@ const orderSlice = createSlice({
     },
     
     minusItemProduct(state, action: PayloadAction<IOrderItemNew>) {
-      const findItem = state.items.find((obj: IOrderItemNew) => obj.productID === action.payload.productID);
+      const findItem = state.items.find((obj: IOrderItemNew) => obj.itemID === action.payload.itemID);
       if (findItem) {
         state.totalPrice -= action.payload.totalSum;
       }
       
     },
     removeItemProduct(state, action: PayloadAction<IOrderItemNew>) {
-      state.items = state.items.filter((obj: IOrderItemNew) => obj.productID !== action.payload.productID);
-      state.totalPrice -= action.payload.totalSum;
-      console.log('rem', state.totalPrice)
+      state.items = state.items.filter((obj: IOrderItemNew) => obj.itemID !== action.payload.itemID);
+      state.totalPrice = state.items.reduce((s, cur) => {
+        return s + cur.totalSum
+      }, 0);
+      state.totalCount = state.items.reduce((s, cur) => {
+        return s + cur.count
+      }, 0);
     },
 
     clearItemsProduct(state) {

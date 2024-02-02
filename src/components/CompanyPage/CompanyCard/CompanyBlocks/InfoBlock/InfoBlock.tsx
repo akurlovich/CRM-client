@@ -11,7 +11,7 @@ const InfoBlockInner: FC = () => {
   const dispatch = useAppDispatch();
   const [showAddDeal, setShowAddDeal] = useState(false);
   const [showAddDescription, setShowAddDescription] = useState(true);
-  const [companyDescription, setCompanyDescription] = useState(company.description);
+  const [companyDescription, setCompanyDescription] = useState<string>(company.description);
 
   const addOrUpdateDescription = async () => {
     await dispatch(updateCompanyDescription({companyID: company._id, description: companyDescription}));
