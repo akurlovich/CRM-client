@@ -153,7 +153,7 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
               <span className='cell narrow'>Ед.изм.</span>
               <span className='cell narrow'>Кол-во</span>
               <span className='cell tight'>Цена без НДС</span>
-              <span className='cell'>Итого с НДС</span>
+              <span className='cell medium'>Итого с НДС</span>
               <span className='cell narrow'></span>
             </div>
             {orderItemsAll.length ? 
@@ -173,7 +173,7 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
                 <span className='cell data narrow'>ИТОГО:</span>
                 <span className='cell data narrow'>{`${totalCount}`}</span>
                 <span className='cell data tight'></span>
-                <span className='cell data total'>{`${totalPrice.toFixed(2)} руб`}</span>
+                <span className='cell data total medium'>{`${totalPrice.toFixed(2)} руб`}</span>
                 <span className='cell data narrow'></span>
               </div>
               : null

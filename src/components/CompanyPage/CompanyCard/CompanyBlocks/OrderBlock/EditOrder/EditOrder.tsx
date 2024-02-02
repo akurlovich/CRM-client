@@ -24,7 +24,7 @@ interface IProps {
 const EditOrderInner: FC<IProps> = ({isVisible = false}) => {
   const { company, companyFirstUser, query } = useAppSelector(state => state.companyReducer)
   const { products } = useAppSelector(state => state.productReducer);
-  const { order, orderForEdit } = useAppSelector(state => state.orderReducer);
+  const { order } = useAppSelector(state => state.orderReducer);
   const { totalPrice, totalCount, items: orderItemsAll } = useAppSelector(state => state.orderReducer);
   const dispatch = useAppDispatch();
   
@@ -60,15 +60,15 @@ const EditOrderInner: FC<IProps> = ({isVisible = false}) => {
    
       const orderUpdate: IOrderUpdateOrderItems = {
         order: {
-          orderID: order._id ? order._id : orderForEdit._id,
+          orderID: order._id,
           totalSum: totalPrice,
         },
         orderItems: orderItemsAll
       }
 
       console.log(orderUpdate)
-      // await dispatch(updateOrderItemsByOrderID(orderUpdate));
-      // await dispatch(getCompanyByIDQuery(query));
+      await dispatch(updateOrderItemsByOrderID(orderUpdate));
+      await dispatch(getCompanyByIDQuery(query));
   
   };
 
@@ -98,14 +98,14 @@ const EditOrderInner: FC<IProps> = ({isVisible = false}) => {
     }
   }, [order]);
 
-  useEffect(() => {
-    if (orderForEdit.fileName?.length) {
-      const today = new Date(orderForEdit.createdAt);
-      const day = ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31'];
-      const months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
-      setCreateDate(`${day[today.getDate()]}.${months[today.getMonth()]}.${today.getFullYear()}`)
-    }
-  }, [orderForEdit])
+  // useEffect(() => {
+  //   if (order.fileName?.length) {
+  //     const today = new Date(order.createdAt);
+  //     const day = ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31'];
+  //     const months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
+  //     setCreateDate(`${day[today.getDate()]}.${months[today.getMonth()]}.${today.getFullYear()}`)
+  //   }
+  // }, [orderForEdit])
   
 
   return isVisible ? (
@@ -116,7 +116,7 @@ const EditOrderInner: FC<IProps> = ({isVisible = false}) => {
           <div className="edit-order__header">
             <div className="edit-order__header__title">
               <div className="title">
-                <span>{`Сделка №${orderForEdit.orderNumber}`}</span>
+                <span>{`Сделка №${order.orderNumber}`}</span>
               </div>
               <div className="icons">
                 <button
@@ -144,7 +144,7 @@ const EditOrderInner: FC<IProps> = ({isVisible = false}) => {
               <span className='cell narrow'>Ед.изм.</span>
               <span className='cell narrow'>Кол-во</span>
               <span className='cell tight'>Цена без НДС</span>
-              <span className='cell'>Итого с НДС</span>
+              <span className='cell medium'>Итого с НДС</span>
               <span className='cell narrow'></span>
             </div>
             {orderItemsAll.length ? 
@@ -164,7 +164,7 @@ const EditOrderInner: FC<IProps> = ({isVisible = false}) => {
                 <span className='cell data narrow'>ИТОГО:</span>
                 <span className='cell data narrow'>{`${totalCount}`}</span>
                 <span className='cell data tight'></span>
-                <span className='cell data total'>{`${totalPrice.toFixed(2)} руб`}</span>
+                <span className='cell data total medium'>{`${totalPrice.toFixed(2)} руб`}</span>
                 <span className='cell data narrow'></span>
               </div>
               : null
@@ -195,8 +195,8 @@ const EditOrderInner: FC<IProps> = ({isVisible = false}) => {
               }
             </div>
           </div>
-          {orderForEdit.fileName?.length ? 
-            orderForEdit.fileName.map(item => 
+          {order.fileName?.length ? 
+            order.fileName.map(item => 
               <div key={item} className="edit-order__bills">
                 {/* <a href={`${SERVER_URL+order._id+order.orderNumber}.docx`}>Скачать счёт</a> */}
                 <Link 

@@ -65,7 +65,7 @@ const OrderItem: FC<IProps> = ({item, count}) => {
         className='cell data tight' 
         type="number" 
         name="price"/>
-      <span className='cell data'>{`${totalItem} руб`}</span>
+      <span className='cell data medium'>{`${totalItem} руб`}</span>
       <span 
         className='cell data narrow trash'>
         <IoTrashOutline 

@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../../../../../hooks/redux';
-import { addItemProduct, clearItemsProduct, setOrderForEdit, setShowEditOrder } from '../../../../../../store/reducers/OrderReducer/OrderSlice';
+import { addItemProduct, clearItemsProduct, setOrderForEdit, setShowEditOrder, setShowNewOrder } from '../../../../../../store/reducers/OrderReducer/OrderSlice';
 import { IOrder } from '../../../../../../types/IOrder';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -17,6 +17,7 @@ const OrderUnit: FC<IProps> = ({item}) => {
     dispatch(clearItemsProduct());
     dispatch(setOrderForEdit(item));
     dispatch(setShowEditOrder(true));
+    dispatch(setShowNewOrder(false));
     for (let data of item.orderItemID) {
       const newID = uuidv4();
       dispatch(addItemProduct({

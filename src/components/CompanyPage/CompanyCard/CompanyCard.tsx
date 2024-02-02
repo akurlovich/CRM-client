@@ -23,6 +23,7 @@ import updateLocale from 'dayjs/plugin/updateLocale';
 import { AddOrder } from './CompanyBlocks/OrderBlock/AddOrder/AddOrder';
 import { OrdersInCompany } from './CompanyBlocks/OrderBlock/OrdersInCompany/OrdersInCompany';
 import { EditOrder } from './CompanyBlocks/OrderBlock/EditOrder/EditOrder';
+import { setShowNewOrder } from '../../../store/reducers/OrderReducer/OrderSlice';
 
 dayjs.extend(updateLocale);
 
@@ -41,21 +42,21 @@ dayjs.updateLocale('en', {
 
 const CompanyCardInner: FC = () => {
   const { company, companies, isLoading } = useAppSelector(state => state.companyReducer);
-  const { isShowEditOrder } = useAppSelector(state => state.orderReducer);
+  const { isShowEditOrder, isShowNewOrder } = useAppSelector(state => state.orderReducer);
   const params = useParams();
   const dispatch = useAppDispatch();
-  const [showAddOrder, setShowAddOrder] = useState<boolean>(false);
+  // const [showAddOrder, setShowAddOrder] = useState<boolean>(false);
   const [showAddOrderSmall, setShowAddOrderSmall] = useState<boolean>(true);
   // const [companyItem, setCompanyItem] = useState<ICompany>({} as ICompany);
   // const [userItem, setUserItem] = useState({});
 
   const showAddOrderHandler = () => {
-    setShowAddOrder(false);
+    dispatch(setShowNewOrder(false))
     setShowAddOrderSmall(true);
   };
 
   const showAddOrderSmallHandler = () => {
-    setShowAddOrder(true);
+    dispatch(setShowNewOrder(true))
     setShowAddOrderSmall(false);
   };
 
@@ -152,10 +153,10 @@ const CompanyCardInner: FC = () => {
               <BaseBlockSmall deal="Добавить сделку" isVisible={showAddOrderSmall} showAddOrder={showAddOrderSmallHandler}/>
               {/* <BaseBlockSmall deal="Процесссы"/> */}
               {/* <AddOrder isVisible={showAddOrder} showAddOrder={(() => setShowAddOrder(false))}/> */}
-              <AddOrder isVisible={showAddOrder} showAddOrder={showAddOrderHandler}/>
+              <AddOrder isVisible={isShowNewOrder} showAddOrder={showAddOrderHandler}/>
               <EditOrder isVisible={isShowEditOrder}/>
               {/* <AddOrder/> */}
-              <OrdersInCompany showAddOrder={(() => setShowAddOrder(true))}/>
+              <OrdersInCompany showAddOrder={(() => dispatch(setShowNewOrder(true)))}/>
               <CommentsBlock/>
             </div>
             <div className="right">

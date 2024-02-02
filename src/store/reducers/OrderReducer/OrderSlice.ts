@@ -9,6 +9,7 @@ interface IOrderState {
   totalCount: number;
   items: IOrderItemNew[];
   isShowEditOrder: boolean;
+  isShowNewOrder: boolean;
   orderForEdit: IOrder;
   isLoading: boolean,
   error: string,
@@ -20,6 +21,7 @@ const initialState: IOrderState = {
   totalCount: 0,
   items: [],
   isShowEditOrder: false,
+  isShowNewOrder: false,
   orderForEdit: {} as IOrder,
   isLoading: false,
   error: '',
@@ -74,14 +76,18 @@ const orderSlice = createSlice({
     clearItemsProduct(state) {
       state.items = [];
       state.orderForEdit = {} as IOrder;
+      state.order = {} as IOrder;
       state.totalPrice = 0;
     },
 
     setShowEditOrder(state, action: PayloadAction<boolean>) {
       state.isShowEditOrder = action.payload;
     },
+    setShowNewOrder(state, action: PayloadAction<boolean>) {
+      state.isShowNewOrder = action.payload;
+    },
     setOrderForEdit(state, action: PayloadAction<IOrder>) {
-      state.orderForEdit = action.payload;
+      state.order = action.payload;
     },
 
   },
@@ -113,6 +119,6 @@ const orderSlice = createSlice({
   },
 });
 
-export const { addItemProduct, minusItemProduct, removeItemProduct, clearItemsProduct, setShowEditOrder, setOrderForEdit } = orderSlice.actions;
+export const { addItemProduct, minusItemProduct, removeItemProduct, clearItemsProduct, setShowEditOrder, setOrderForEdit, setShowNewOrder } = orderSlice.actions;
 
 export default orderSlice.reducer;
