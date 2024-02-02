@@ -92,11 +92,13 @@
         // border: 1px solid #ccc;
         // text-align: center;
         padding: 8px 20px 8px 8px;
+        cursor: pointer;
 
         &.data {
           color: var(--text-color-default);
           cursor: default;
           line-height: 21px;
+          cursor: pointer;
 
           &.user {
             display: flex;
@@ -118,7 +120,7 @@
               // color: var(--text-color-secondary-light);
               // font-size: 12px;
               color: var(--text-color-default);
-              cursor: default;
+              // cursor: default;
             }
           }
         }
@@ -126,6 +128,7 @@
 
       &:hover {
         background-color: var(--bg-row-color);
+        cursor: pointer;
       }
     }
   }

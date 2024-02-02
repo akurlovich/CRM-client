@@ -39,6 +39,7 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
   const [searchValue, setSearchValue] = useState('');
   const debouncedSearch = useDebounce(searchValue);
   const [createDate, setCreateDate] = useState('');
+  const [fileArray, setFileArray] = useState<string[]>([]);
 
   const searchValueHandler = async (e: React.FocusEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
@@ -109,6 +110,11 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
 
   useEffect(() => {
     if (order.fileName?.length) {
+      setFileArray([]);
+      for (let i = order.fileName.length - 1; i >= 0; i--) {
+        // Add every element to new array
+        setFileArray(prev => [...prev, order.fileName[i]]);
+      }
       const today = new Date(order.createdAt);
       const day = ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31'];
       const months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
@@ -205,7 +211,7 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
             </div>
           </div>
           {order.fileName?.length ? 
-            order.fileName.map(item => 
+            fileArray.map(item => 
               <div key={item} className="add-order__bills">
                 {/* <a href={`${SERVER_URL+order._id+order.orderNumber}.docx`}>Скачать счёт</a> */}
                 <Link 

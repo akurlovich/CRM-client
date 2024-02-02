@@ -86,7 +86,7 @@
       // gap: 20px;
       color: var(--text-color-secondary-light);
       padding-left: 10px;
-      margin-bottom: 5px;
+      // margin-bottom: 5px;
       width: 100%;
       justify-content: space-between;
       
@@ -122,8 +122,8 @@
       & > .cell {
         flex: 1;
         max-width: 350px;
-        padding: 8px 20px 8px 8px;
-        line-height: 16px;
+        padding: 5px 20px 5px 8px;
+        // line-height: 16px;
 
         &.data {
           color: var(--text-color-default);
