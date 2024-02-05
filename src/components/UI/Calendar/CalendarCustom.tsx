@@ -13,7 +13,7 @@ dayjs.updateLocale('en', {
 });
 
 interface IProps {
-  onClickDate: (date: string) => void;
+  onClickDate: (date: string, dateShort: string) => void;
 }
 
 const CalendarCustom: FC<IProps> = ({onClickDate}) => {
@@ -25,14 +25,14 @@ const CalendarCustom: FC<IProps> = ({onClickDate}) => {
     borderRadius: token.borderRadiusLG,
   };
 
-  const getDataHandler = (date: string) => {
-    onClickDate(date)
+  const getDataHandler = (value: Dayjs) => {
+    onClickDate(value.format('DD MMMM YYYY'), value.format('DD-MM-YYYY'))
     // console.log(date)
     // console.log(dayjs().format('DD.MM.YYYY'))
   };
 
   useEffect(() => {
-    onClickDate(dayjs().format('DD.MM.YYYY'))
+    onClickDate(dayjs().format('DD MMMM YYYY'), dayjs().format('DD-MM-YYYY'))
   }, [])
   
 
@@ -103,7 +103,7 @@ const CalendarCustom: FC<IProps> = ({onClickDate}) => {
         //TODO  year, month, date - число месяца
         // onSelect={(value: Dayjs) => console.log(value.format('YYYY-MM-DD'), value.date())}
         // onSelect={(value: Dayjs) => getDataHandler('DD.MM.YYYY')}
-        onSelect={(value: Dayjs) => getDataHandler(value.format('DD MMMM YYYY'))}
+        onSelect={(value: Dayjs) => getDataHandler(value)}
       />
     </div>
   );

@@ -8,6 +8,11 @@ export interface IDeal {
   description: string,
   dateEnd: string,
   timeEnd: string,
+  dayEnd: string,
+  monthEnd: string,
+  yearEnd: string,
+  minuteEnd: string,
+  hourEnd: string,
   isDone: boolean,
 }
 
@@ -23,6 +28,11 @@ export interface IDealNew {
   description: string,
   dateEnd: string,
   timeEnd: string,
+  dayEnd: string,
+  monthEnd: string,
+  yearEnd: string,
+  minuteEnd: string,
+  hourEnd: string,
   isDone: boolean,
 }
 

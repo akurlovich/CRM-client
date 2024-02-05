@@ -33,25 +33,38 @@ const DealCompleteInner: FC<IProps> = ({isVisible = false, onClose, item}) => {
   const { company, companyFirstUser, query } = useAppSelector(state => state.companyReducer);
   const dispatch = useAppDispatch();
 
+  const [disabled, setDisabled] = useState(true);
+
   const [dealComment, setDealComment] = useState('');
 
-  const completeDealHandler = async () => {
-    const addNewComment: ICommentNew = {
-      companyID: company._id,
-      userID: companyFirstUser._id,
-      description: dealComment,
-      dealType: item.dealTitleID.title,
-      date: dayjs().format('DD MMMM YYYY'),
-      time: dayjs().format('HH:mm'),
+  const commentInputHandler = (e: React.FocusEvent<HTMLInputElement>) => {
+    setDealComment(e.target.value)
+    if (e.target.value) {
+      setDisabled(false)
+    } else {
+      setDisabled(true)
     }
+  };
 
-    // console.log(addNewComment)
-    
-    await dispatch(addComment(addNewComment));
-    await dispatch(deleteDealByID(item._id));
-    await dispatch(getCompanyByIDQuery(query));
-    setDealComment('');
-    onClose();
+  const completeDealHandler = async () => {
+    if (dealComment) {
+
+      const addNewComment: ICommentNew = {
+        companyID: company._id,
+        userID: companyFirstUser._id,
+        description: dealComment,
+        dealType: item.dealTitleID.title,
+        date: dayjs().format('DD MMMM YYYY'),
+        time: dayjs().format('HH:mm'),
+      }
+      await dispatch(addComment(addNewComment));
+      await dispatch(deleteDealByID(item._id));
+      await dispatch(getCompanyByIDQuery(query));
+      setDealComment('');
+      onClose();
+    } else {
+      
+    }
   }
 
   const keydownHandler = ({ key }: {key: string}) => {
@@ -85,66 +98,21 @@ const DealCompleteInner: FC<IProps> = ({isVisible = false, onClose, item}) => {
             <span className='required'>Комментарий</span>
             <input 
               value={dealComment}
-              onChange={(e: React.FocusEvent<HTMLInputElement>) => setDealComment(e.target.value)}
+              onChange={commentInputHandler}
               type="text"
               autoFocus
               placeholder='Введите комментарий к сделке...'/>
           </div>
-          {/* <div className="deal-complete__input">
-            <span>Телефон</span>
-            <input 
-              // value={newContact.phonesID.number}
-              // onChange={contactHandler}
-              type="text" 
-              name="contact.phone.number" 
-              placeholder='+375296654556'/>
-            <input 
-              // value={newContact.phonesID.description}
-              // onChange={contactHandler}
-              type="text" 
-              name="contact.phone.description"  
-              placeholder='комментарий'/>
-          </div>
-          <div className="deal-complete__input">
-            <span>Почта</span>
-            <input 
-              // value={newContact.emailsID.email}
-              // onChange={contactHandler}
-              type="text" 
-              name="contact.email.email" 
-              placeholder='example@tut.by'/>
-            <input 
-              // value={newContact.emailsID.description}
-              // onChange={contactHandler}
-              type="text" 
-              name="contact.email.description" 
-              placeholder='комментарий'/>
-          </div>
-          <div className="deal-complete__input">
-            <span>Адрес</span>
-            <input 
-              // value={newContact.address.main}
-              // onChange={contactHandler}
-              type='text'
-              name='contact.address.main' 
-              placeholder='Область, город и тд.'/>
-          </div>
-          <div className="deal-complete__input">
-            <span>Район</span>
-            <input 
-              // value={newContact.address.district}
-              // onChange={contactHandler}
-              name='contact.address.district'
-              type="text" 
-              placeholder='Район...'/>
-          </div> */}
+        
         </form>
         <div className="deal-complete__footer">
           <button 
+            className={disabled ? 'disabled' : ''}
+            // disabled={disabled}
             onClick={completeDealHandler}
-            type="submit"
+            // type="submit"
             >
-            Завершить сделку
+            Завершить дело
           </button>
           <button onClick={onClose}>Отмена</button>
         </div>

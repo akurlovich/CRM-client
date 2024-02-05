@@ -19,24 +19,30 @@ const DealCreate: FC<IProps> = ({onAction, position}) => {
   const [calendarData, setCalendarData] = useState(
     {
       date: '01.01.2030',
+      dateShort: ['01', '01', '2030'],
       time: '08:00',
+      timeShort: ['08', '00'],
       dealType: '657c071089e96dedfd490f35'
     }
   );
 
-  const dateHandler = (date: string) => {
-    // console.log(date)
+  const dateHandler = (date: string, dateShort: string) => {
+    const dateArr: string[] = dateShort.split('-');
+    // console.log("date", date)
+    // console.log("dateShort", dateShort)
     setCalendarData(prev => ({
       ...prev,
       date: date,
+      dateShort: dateArr,
     }))
   };
 
   const timeHandler = (timeString: string) => {
-    // console.log(hour, minuts)
+    const timeArr: string[] = timeString.split(':');
     setCalendarData(prev => ({
       ...prev,
       time: timeString,
+      timeShort: timeArr,
       // hour: hour?.toString() ? hour.toString() : '',
       // minuts: minuts?.toString() ? minuts.toString() : '',
     }))
@@ -52,7 +58,7 @@ const DealCreate: FC<IProps> = ({onAction, position}) => {
 
   const addDealHandler = async () => {
     // setCalendarData(prev => ({...prev, show: false}));
-    console.log(calendarData);
+    // console.log(calendarData);
     const newDeal: IDealNew = {
       companyID: company._id,
       userID: companyFirstUser._id,
@@ -60,6 +66,11 @@ const DealCreate: FC<IProps> = ({onAction, position}) => {
       description: '',
       dateEnd: calendarData.date,
       timeEnd: calendarData.time,
+      dayEnd: calendarData.dateShort[0],
+      monthEnd: calendarData.dateShort[1],
+      yearEnd: calendarData.dateShort[2],
+      minuteEnd: calendarData.timeShort[0],
+      hourEnd: calendarData.timeShort[1],
       isDone: false,
     };
     
