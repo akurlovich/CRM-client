@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import DealService from "../../../services/DealService";
+import { ICompaniesQuery } from "../../../types/ICompany";
 import { IDealNew, IDealUpdate } from "../../../types/IDeal";
 
 export const addDeal = createAsyncThunk(
@@ -42,6 +43,18 @@ export const getAllDealTitles = createAsyncThunk(
   async (_, {rejectWithValue}) => {
     try {
       return await (await DealService.getAllDealTitles()).data;
+      
+    } catch (error: any) {
+      return rejectWithValue(error.message)
+    }
+  }
+);
+
+export const getDealsWithQuery = createAsyncThunk(
+  'DEAL/getDealsWithQuery',
+  async ( query: ICompaniesQuery, {rejectWithValue}) => {
+    try {
+      return await (await DealService.getDealsWithQuery(query)).data;
       
     } catch (error: any) {
       return rejectWithValue(error.message)

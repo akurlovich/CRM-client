@@ -6,6 +6,9 @@ import dayjs from 'dayjs';
 import CalendarLocale from 'rc-picker/lib/locale/ru_RU';
 import { IDeal } from '../../../types/IDeal';
 import { v4 as uuidv4 } from 'uuid';
+import { useAppDispatch } from '../../../hooks/redux';
+import { getDealsWithQuery } from '../../../store/reducers/DealReducer/DealActionCreators';
+import { ICompaniesQuery } from '../../../types/ICompany';
 // import TimePickerLocale from '../../time-picker/locale/ru_RU';
 // import type { PickerLocale } from '../generatePicker';
 
@@ -40,6 +43,8 @@ const locale = {
 // };
 
 const CalendarBig: FC<IProps> = ({items, showDealsForDay}) => {
+  const dispatch = useAppDispatch();
+
   const getListData = (value: Dayjs) => {
     let listData: any[] = [];
     const monthArr = items.filter(item => +item.monthEnd === (value.month() + 1))
@@ -176,6 +181,13 @@ const CalendarBig: FC<IProps> = ({items, showDealsForDay}) => {
     const listData = getListData(value);
     return (
       <ul className="events">
+        {listData.length ? 
+          <li className='dealsmain__calendar__deals'>
+            <span>Всего дел:</span>
+            <span>{listData.length}</span>
+          </li>
+          : null
+        }
         {listData.map((item) => (
           <li key={item.id}
             // onClick={() => console.log(item.content)}
@@ -196,10 +208,30 @@ const CalendarBig: FC<IProps> = ({items, showDealsForDay}) => {
   ////////////////-------------
   // const [value, setValue] = useState(() => dayjs('2017-01-25'));
 
-  const onSelect = (newValue: Dayjs) => {
+  const onSelect = async (newValue: Dayjs) => {
     // setValue(newValue);
-    showDealsForDay(newValue.format('MM'))
-    // console.log(newValue.format('DD MMMM YYYY'))
+    showDealsForDay(newValue.format('DD-MM-YYYY'))
+
+    const query: ICompaniesQuery = {
+      query: 
+            [ 
+              {
+                path: "companyID", 
+              },
+              {
+                path: "dealTitleID", 
+              },
+              {
+                path: "userID", 
+              }
+            ], 
+          sort: {'contactID.address.district': 'asc'}, 
+          limit: 0,
+          //@ts-ignore
+          find: { monthEnd: newValue.format('MM'), dayEnd: newValue.format('DD') }
+    }
+    
+    await dispatch(getDealsWithQuery(query))
   };
 
   const onPanelChange = (newValue: Dayjs) => {

@@ -5,10 +5,11 @@ import { getAllDeals } from '../../store/reducers/DealReducer/DealActionCreators
 import { ICompaniesQuery } from '../../types/ICompany';
 import { IDeal } from '../../types/IDeal';
 import CalendarBig from '../UI/Calendar/CalendarBig';
+import DealForDay from './DealsForDay/DealForDay';
 import './dealsmain.scss'
 
 const DealsMainInner: FC = () => {
-  const { deals } = useAppSelector(state => state.dealReducer);
+  const { deals, dealsWithQuery } = useAppSelector(state => state.dealReducer);
   const dispatch = useAppDispatch();
 
   const [showDayDeal, setShowDayDeal] = useState(true)
@@ -91,7 +92,10 @@ const DealsMainInner: FC = () => {
       {showDayDeal ? 
         <CalendarBig items={deals} showDealsForDay={dealsHandler}/>
         :
-        <span>все дела</span>
+        // (dealsWithQuery.map(item => 
+        //   <span key={item._id}>{item.companyID.title}</span>  
+        // ))
+        <DealForDay/>
       }
 
     </section>

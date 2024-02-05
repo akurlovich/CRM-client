@@ -6,4 +6,30 @@
   display: flex;
   flex-direction: column;
 
+  &__calendar__deals {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+
+    & > span:first-child {
+      color: var(--link-active-2);
+      font-weight: 500;
+    }
+
+    & > span:nth-child(2) {
+      // display: flex;
+      // align-items: center;
+      // text-align: center;
+      // justify-content: center;
+      // width: 20px;
+      // height: 20px;
+      // border-radius: 100%;
+      // background-color: green;
+      // color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+  }
+
 }

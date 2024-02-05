@@ -1,5 +1,6 @@
 import { AxiosResponse } from "axios";
 import serverApi from "../http";
+import { ICompaniesQuery } from "../types/ICompany";
 import { IDeal, IDealNew, IDealTitle, IDealUpdate } from "../types/IDeal";
 
 export default class DealService {
@@ -17,6 +18,10 @@ export default class DealService {
 
   static async getAllDealTitles(): Promise<AxiosResponse<IDealTitle[]>> {
     return serverApi.get<IDealTitle[]>(`/dealtitles`);
+  };
+
+  static async getDealsWithQuery(query: ICompaniesQuery): Promise<AxiosResponse<IDeal[]>> {
+    return serverApi.post<IDeal[]>('/deals/filter', query);
   };
   
   static async updateDealByID(dealID: string, deal: IDealUpdate): Promise<AxiosResponse<IDeal>> {
