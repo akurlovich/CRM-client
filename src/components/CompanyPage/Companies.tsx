@@ -128,7 +128,7 @@ const CompanyInner: FC = () => {
               <CompanyItem key={item._id} company={item}/>
               )) 
             }
-            <div className="company__main__row">
+            {/* <div className="company__main__row">
               <IoSquareOutline width={25}/>
               <span className='cell data'>ОАО Строительный трест номер 212 Дрогичин</span>
               <div className='cell data user'>
@@ -138,7 +138,7 @@ const CompanyInner: FC = () => {
               <span className='cell data'>05 сентября 2023г.</span>
               <span className='cell data'>31 мая 2024г.</span>
               <span className='cell data'>Малоритский</span>
-            </div>
+            </div> */}
             <div className="company__main__items">
 
             </div>

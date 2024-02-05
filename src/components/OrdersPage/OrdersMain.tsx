@@ -7,7 +7,7 @@ import { IoDuplicateOutline } from "@react-icons/all-files/io5/IoDuplicateOutlin
 import { IoSquareOutline } from "@react-icons/all-files/io5/IoSquareOutline";
 // import { IoDocumentOutline } from "@react-icons/all-files/io5/IoDocumentOutline";
 
-const OrdersPageInner: FC = () => {
+const OrdersMainInner: FC = () => {
   const [isModal, setIsModal] = useState<boolean>(false);
   return (
     <>
@@ -77,4 +77,4 @@ const OrdersPageInner: FC = () => {
   )
 }
 
-export const OrdersPage = React.memo(OrdersPageInner);
+export const OrdersMain = React.memo(OrdersMainInner);

@@ -1,9 +1,10 @@
 import React, { FC } from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import { Company } from './components/CompanyPage/Companies';
 import { CompanyCard } from './components/CompanyPage/CompanyCard/CompanyCard';
+import { DealsMain } from './components/DealsPage/DealsMain';
 import { Home } from './components/Home/Home';
-import { OrdersPage } from './components/OrdersPage/OrdersMain';
+import { OrdersMain } from './components/OrdersPage/OrdersMain';
 import { PageNotFound } from './components/PageNotFound/PageNotFound';
 import MainLayout from './components/RoutersComponents/MainLayout/MainLayout';
 import './scss/app.scss';
@@ -13,10 +14,11 @@ const App: FC = () => {
   return (
     <Routes>
       <Route path="/" element={<MainLayout />}>
-        <Route index element={<Home />}/>
+        <Route index element={<Navigate to="/companies" />}/>
         <Route path="companies" element={<Company />}/>
-        <Route path="orders" element={<OrdersPage/>}/>
         <Route path="companies/:id" element={<CompanyCard/>}/>
+        <Route path="orders" element={<OrdersMain/>}/>
+        <Route path="deals" element={<DealsMain/>}/>
         {/* <Route path='admin' element={
           <AdminAuthRouter>
             <AddProduct/>
