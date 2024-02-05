@@ -1,8 +1,9 @@
+import { ICompany } from "./ICompany";
 import { IUser } from "./IUser";
 
 export interface IDeal {
   _id: string,
-  companyID: string,
+  companyID: ICompany,
   userID: IUser,
   dealTitleID: IDealTitle,
   description: string,

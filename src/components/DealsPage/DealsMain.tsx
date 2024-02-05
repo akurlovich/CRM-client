@@ -11,9 +11,16 @@ const DealsMainInner: FC = () => {
   const { deals } = useAppSelector(state => state.dealReducer);
   const dispatch = useAppDispatch();
 
+  const [showDayDeal, setShowDayDeal] = useState(true)
+
   const dealsArr: string[] = [];
   for (let item of deals) {
     dealsArr.push(item.dateEnd)
+  }
+
+  const dealsHandler = (date: string) => {
+    setShowDayDeal(false)
+    console.log(date)
   }
 
 
@@ -79,17 +86,13 @@ const DealsMainInner: FC = () => {
     fetchData();
   }, []);
 
-  // useEffect(() => {
-    
-  // }, [deals])
-  
-
   return (
     <section className='dealsmain'>
-      <CalendarBig/>
-      {dealsArr.map(item => 
-        <span>{item}</span>
-        )}
+      {showDayDeal ? 
+        <CalendarBig items={deals} showDealsForDay={dealsHandler}/>
+        :
+        <span>все дела</span>
+      }
 
     </section>
   )
