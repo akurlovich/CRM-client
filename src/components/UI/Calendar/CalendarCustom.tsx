@@ -13,7 +13,7 @@ dayjs.updateLocale('en', {
 });
 
 interface IProps {
-  onClickDate: (date: string, dateShort: string) => void;
+  onClickDate?: (date: string, dateShort: string) => void;
 }
 
 const CalendarCustom: FC<IProps> = ({onClickDate}) => {
@@ -26,14 +26,17 @@ const CalendarCustom: FC<IProps> = ({onClickDate}) => {
   };
 
   const getDataHandler = (value: Dayjs) => {
-    onClickDate(value.format('DD MMMM YYYY'), value.format('DD-MM-YYYY'))
+    if (onClickDate) {
+      onClickDate(value.format('DD MMMM YYYY'), value.format('DD-MM-YYYY'))
+
+    }
     // console.log(date)
     // console.log(dayjs().format('DD.MM.YYYY'))
   };
 
-  useEffect(() => {
-    onClickDate(dayjs().format('DD MMMM YYYY'), dayjs().format('DD-MM-YYYY'))
-  }, [])
+  // useEffect(() => {
+  //   onClickDate(dayjs().format('DD MMMM YYYY'), dayjs().format('DD-MM-YYYY'))
+  // }, [])
   
 
   return (

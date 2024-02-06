@@ -39,6 +39,7 @@ const DealCreate: FC<IProps> = ({onAction, position}) => {
 
   const timeHandler = (timeString: string) => {
     const timeArr: string[] = timeString.split(':');
+    console.log(timeArr)
     setCalendarData(prev => ({
       ...prev,
       time: timeString,
@@ -69,8 +70,8 @@ const DealCreate: FC<IProps> = ({onAction, position}) => {
       dayEnd: calendarData.dateShort[0],
       monthEnd: calendarData.dateShort[1],
       yearEnd: calendarData.dateShort[2],
-      minuteEnd: calendarData.timeShort[0],
-      hourEnd: calendarData.timeShort[1],
+      minuteEnd: calendarData.timeShort[1],
+      hourEnd: calendarData.timeShort[0],
       isDone: false,
     };
     

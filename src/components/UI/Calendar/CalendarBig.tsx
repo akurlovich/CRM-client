@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import type { Dayjs } from 'dayjs';
 import type { BadgeProps, CalendarProps } from 'antd';
 import { Badge, Calendar } from 'antd';
@@ -9,12 +9,18 @@ import { v4 as uuidv4 } from 'uuid';
 import { useAppDispatch } from '../../../hooks/redux';
 import { getDealsWithQuery } from '../../../store/reducers/DealReducer/DealActionCreators';
 import { ICompaniesQuery } from '../../../types/ICompany';
+import weekYear from 'dayjs/plugin/weekYear';
+import weekOfYear from 'dayjs/plugin/weekOfYear';
+import weekday  from 'dayjs/plugin/weekday';
 // import TimePickerLocale from '../../time-picker/locale/ru_RU';
 // import type { PickerLocale } from '../generatePicker';
 
+dayjs.extend(weekday)
+// dayjs.extend(weekOfYear)
+
 interface IProps {
   items: IDeal[];
-  showDealsForDay: (date: string) => void;
+  showDealsForDay: (date: string, dateShot: string) => void;
 }
 
 const locale = {
@@ -210,7 +216,7 @@ const CalendarBig: FC<IProps> = ({items, showDealsForDay}) => {
 
   const onSelect = async (newValue: Dayjs) => {
     // setValue(newValue);
-    showDealsForDay(newValue.format('DD-MM-YYYY'))
+    showDealsForDay(newValue.format('DD MMMM YYYY'), newValue.format('DD-MM-YYYY'))
 
     const query: ICompaniesQuery = {
       query: 
@@ -232,12 +238,14 @@ const CalendarBig: FC<IProps> = ({items, showDealsForDay}) => {
     }
     
     await dispatch(getDealsWithQuery(query))
+
+    // console.log(dayjs().weekday())
   };
 
-  const onPanelChange = (newValue: Dayjs) => {
-    console.log(newValue)
-    // setValue(newValue);
-  };
+  // const onPanelChange = (newValue: Dayjs) => {
+  //   console.log(newValue)
+  //   // setValue(newValue);
+  // };
 
   return (
     <>
