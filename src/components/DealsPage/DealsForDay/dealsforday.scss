@@ -40,10 +40,11 @@
         flex-wrap: wrap;
         gap: 5px;
 
-        & > span {
+        & > a {
           padding: 2px 5px;
           border-radius: 5px;
           background: #fff7e9;
+          color: var(--text-color-default);
           border: 1px solid rgba(246,166,35,.15);
           cursor: pointer;
         }
