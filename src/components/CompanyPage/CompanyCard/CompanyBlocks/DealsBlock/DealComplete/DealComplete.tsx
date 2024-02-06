@@ -108,7 +108,7 @@ const DealCompleteInner: FC<IProps> = ({isVisible = false, onClose, item}) => {
         <div className="deal-complete__footer">
           <button 
             className={disabled ? 'disabled' : ''}
-            // disabled={disabled}
+            disabled={disabled}
             onClick={completeDealHandler}
             // type="submit"
             >

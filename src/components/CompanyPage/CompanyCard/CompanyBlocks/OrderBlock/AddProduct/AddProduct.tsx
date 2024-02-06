@@ -4,6 +4,7 @@ import { getAllDimensions } from '../../../../../../store/reducers/DimensionRedu
 import SelectDimensions from '../../../../../UI/Select/SelectDimentions';
 import { IProductNew } from '../../../../../../types/IProduct';
 import { addProduct } from '../../../../../../store/reducers/ProductReducer/ProducrActionCreater';
+import './addproduct.scss'
 
 interface IProps {
   isVisible: boolean;
@@ -15,6 +16,8 @@ const AddProductInner: FC<IProps> = ({isVisible = false, onClose }) => {
 
   const [ selectedDimenion, setSselectedDimenion] = useState('');
   const [ productName, setProductName ] = useState('')
+
+  const [disabled, setDisabled] = useState(true);
 
   const addProductHandler = async () => {
     if (selectedDimenion && productName ) {
@@ -41,6 +44,15 @@ const AddProductInner: FC<IProps> = ({isVisible = false, onClose }) => {
     // await dispatch(getCompanyByIDQuery(query));
     // setDealComment('');
     // onClose();
+  };
+
+  const productInputHandler = (e: React.FocusEvent<HTMLInputElement>) => {
+    setProductName(e.target.value)
+    if (e.target.value) {
+      setDisabled(false)
+    } else {
+      setDisabled(true)
+    }
   };
 
   const canselHandler = () => {
@@ -97,7 +109,7 @@ const AddProductInner: FC<IProps> = ({isVisible = false, onClose }) => {
               <input 
                 className='add-product__main__row_cell data'
                 value={productName}
-                onChange={((e: React.FocusEvent<HTMLInputElement>) => setProductName(e.target.value))}
+                onChange={productInputHandler}
                 type="text"
                 placeholder='Введите название нового товара...'
                 autoFocus/>
@@ -110,8 +122,10 @@ const AddProductInner: FC<IProps> = ({isVisible = false, onClose }) => {
         </form>
         <div className="add-product__footer">
           <button 
+            className={disabled ? 'disabled' : ''}
+            disabled={disabled}
             onClick={addProductHandler}
-            type="submit"
+            // type="submit"
             >
             Добавить в каталог
           </button>

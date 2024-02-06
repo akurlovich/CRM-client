@@ -5,7 +5,7 @@
   left: 0;
   right: 0;
   width: 100%;
-  // z-index: 9999;
+  z-index: 1;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -144,6 +144,16 @@
     justify-content: flex-start;
     display: flex;
     gap: 20px;
+
+    & .disabled {
+      cursor: default !important; 
+      opacity: 0.3 !important;
+      // background-color: red !important;
+
+      &:hover {
+        background-color: var(--btn-default) !important;
+      }
+    }
 
     & button:nth-child(1) {
       background-color: var(--btn-default);

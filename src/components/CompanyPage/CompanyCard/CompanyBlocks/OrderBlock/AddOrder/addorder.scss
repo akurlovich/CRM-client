@@ -188,6 +188,8 @@
   &__search {
     position: relative;
     padding: 20px;
+    display: flex;
+    gap: 5px;
 
     & > input {
       padding: 5px;
@@ -222,6 +224,22 @@
 
       & > span:hover {
         background-color: var(--bg-color-secondary);
+      }
+    }
+
+    & > button {
+      background-color: transparent;
+      color: #3e425e;
+      border: 1px solid #cacaca;
+      // text-transform: uppercase;
+      border-radius: 2px;
+      padding: 5px 10px;
+      font-size: 12px;
+      transition: all 0.3s;
+      width: 110px;
+
+      &:hover {
+        background-color: #f0f0f3;
       }
     }
   }
