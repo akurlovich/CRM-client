@@ -102,7 +102,18 @@ const companySlice = createSlice({
         state.isLoading = false;
         state.company = action.payload;
   //TODO добавить сортироваку дел по endTime, первое в массие - первое на выполнение
-        state.companyDeals = action.payload.dealsID;
+        state.companyDeals = action.payload.dealsID.sort((a, b) => {
+          let fa = a.monthEnd;
+          let fb = b.monthEnd;
+
+          if (fa < fb) {
+              return -1;
+          }
+          if (fa > fb) {
+              return 1;
+          }
+          return 0;
+        });
         state.companyFirstDeal = action.payload.dealsID[0];
         state.companyUsers = action.payload.usersID;
         state.companyFirstUser = action.payload.usersID[0];

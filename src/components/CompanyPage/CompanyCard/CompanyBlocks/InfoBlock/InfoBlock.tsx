@@ -7,7 +7,7 @@ import { DealItem } from '../DealsBlock/DealItem';
 import { getCompanyByIDQuery, updateCompanyDescription } from '../../../../../store/reducers/CompanyReducer/CompanyActionCreaters';
 
 const InfoBlockInner: FC = () => {
-  const { company, companyFirstUser, companyFirstDeal, query } = useAppSelector(state => state.companyReducer);
+  const { company, companyFirstUser, companyDeals, query } = useAppSelector(state => state.companyReducer);
   const dispatch = useAppDispatch();
   const [showAddDeal, setShowAddDeal] = useState(false);
   const [showAddDescription, setShowAddDescription] = useState(true);
@@ -29,7 +29,7 @@ const InfoBlockInner: FC = () => {
             <span>Ответственный</span>
           </div>
         </div>
-        <DealItem item={companyFirstDeal} fromBlock={true}/>
+        <DealItem item={companyDeals[0]} fromBlock={true}/>
         <div className="info-block__title__nitification">
           {showAddDeal && 
             <DealCreate onAction={() => setShowAddDeal(false)} position='infoblock'/>
