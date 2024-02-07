@@ -3,35 +3,45 @@ import { useAppDispatch, useAppSelector } from '../../../../../../hooks/redux';
 import { addItemProduct, clearItemsProduct, setOrderForEdit, setShowEditOrder, setShowNewOrder } from '../../../../../../store/reducers/OrderReducer/OrderSlice';
 import { IOrder } from '../../../../../../types/IOrder';
 import { v4 as uuidv4 } from 'uuid';
+import { useNavigate } from 'react-router-dom';
 
 interface IProps {
   item: IOrder;
+  ordersPage?: boolean;
 }
 
-const OrderUnit: FC<IProps> = ({item}) => {
+const OrderUnitInner: FC<IProps> = ({item, ordersPage = false}) => {
   // const { isShowEditOrder } = useAppSelector(state => state.orderReducer);
   const dispatch = useAppDispatch();
   const [createDate, setCreateDate] = useState('');
 
+  const navigate = useNavigate();
+
   const orderHandler = (item: IOrder) => {
-    dispatch(clearItemsProduct());
-    dispatch(setOrderForEdit(item));
-    dispatch(setShowEditOrder(true));
-    dispatch(setShowNewOrder(false));
-    for (let data of item.orderItemID) {
-      const newID = uuidv4();
-      dispatch(addItemProduct({
-        itemID: newID,
-        productID: data.productID._id, 
-        price: data.price, 
-        count: data.count, 
-        sum: data.sum,
-        productTitle: data.productID.title,
-        productDimension: data.productID.dimension,
-        vatSum: 0,
-        totalSum: 0,
-      }))
+    if (ordersPage) {
+      navigate(`/companies/${item.companyID._id}`);
+    } else {
+      dispatch(clearItemsProduct());
+      dispatch(setOrderForEdit(item));
+      dispatch(setShowEditOrder(true));
+      dispatch(setShowNewOrder(false));
+      for (let data of item.orderItemID) {
+        const newID = uuidv4();
+        dispatch(addItemProduct({
+          itemID: newID,
+          productID: data.productID._id, 
+          price: data.price, 
+          count: data.count, 
+          sum: data.sum,
+          productTitle: data.productID.title,
+          productDimension: data.productID.dimension,
+          vatSum: 0,
+          totalSum: 0,
+        }))
+      }
+
     }
+
   }
 
   useEffect(() => {
@@ -51,8 +61,12 @@ const OrderUnit: FC<IProps> = ({item}) => {
       >
       {/* <IoSquareOutline width={25}/> */}
       <span className='cell data count first'>{item.orderNumber}</span>
-      <span className='cell data'>{item?.orderItemID[0]?.productID ? item.orderItemID?.[0].productID?.title : ''}</span>
-      <span className='cell data total'>{`${item.totalSum} руб`}</span>
+      {ordersPage ? 
+        <span className='cell data'>{item.companyID.title}</span>
+        : 
+        <span className='cell data'>{item?.orderItemID[0]?.productID ? item.orderItemID?.[0].productID?.title : ''}</span>
+      }
+      <span className='cell data total'>{`${item.totalSum.toFixed(2)} руб`}</span>
       <div className='cell data user tight'>
         <span>{`${item.usersID.firstname[0]}${item.usersID.lastname[0]}`}</span>
         <span>{`${item.usersID.firstname} ${item.usersID.lastname}`}</span>
@@ -63,4 +77,4 @@ const OrderUnit: FC<IProps> = ({item}) => {
   )
 }
 
-export default OrderUnit
+export const OrderUnit = React.memo(OrderUnitInner);

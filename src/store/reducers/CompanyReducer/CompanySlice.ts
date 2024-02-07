@@ -98,6 +98,7 @@ const companySlice = createSlice({
         state.isLoading = true;
       })
       .addCase(getCompanyByIDQuery.fulfilled, (state, action: PayloadAction<ICompany>) => {
+        console.log(action.payload)
         state.isLoading = false;
         state.company = action.payload;
   //TODO добавить сортироваку дел по endTime, первое в массие - первое на выполнение

@@ -1,10 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IOrder } from "../../../types/IOrder";
 import { IOrderItemNew } from "../../../types/IOrderItem";
-import { addOrder, updateOrderItemsByOrderID } from "./OrderActionCreater";
+import { addOrder, updateOrderItemsByOrderID, getAllOrders } from "./OrderActionCreater";
 
 interface IOrderState {
   order: IOrder;
+  ordersAll: IOrder[];
   totalPrice: number;
   totalCount: number;
   items: IOrderItemNew[];
@@ -17,6 +18,7 @@ interface IOrderState {
 
 const initialState: IOrderState = {
   order: {} as IOrder,
+  ordersAll: [] as IOrder[],
   totalPrice: 0,
   totalCount: 0,
   items: [],
@@ -113,6 +115,18 @@ const orderSlice = createSlice({
         state.order = action.payload;
       })
       .addCase(updateOrderItemsByOrderID.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload as string;
+      });
+    builder
+      .addCase(getAllOrders.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getAllOrders.fulfilled, (state, action: PayloadAction<IOrder[]>) => {
+        state.isLoading = false;
+        state.ordersAll = action.payload;
+      })
+      .addCase(getAllOrders.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload as string;
       });

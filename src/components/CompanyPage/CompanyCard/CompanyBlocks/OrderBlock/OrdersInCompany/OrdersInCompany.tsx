@@ -6,8 +6,8 @@ import { IoFilterOutline } from "@react-icons/all-files/io5/IoFilterOutline";
 import { IoDuplicateOutline } from "@react-icons/all-files/io5/IoDuplicateOutline";
 import { IoSquareOutline } from "@react-icons/all-files/io5/IoSquareOutline";
 import { useAppSelector } from '../../../../../../hooks/redux';
-import OrderUnit from './OrderUnit';
 import { IOrder } from '../../../../../../types/IOrder';
+import { OrderUnit } from './OrderUnit';
 // import { IoDocumentOutline } from "@react-icons/all-files/io5/IoDocumentOutline";
 
 interface IProps {
