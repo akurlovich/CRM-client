@@ -7,10 +7,12 @@ import { IDeal, IDealsQuery } from '../../types/IDeal';
 import CalendarBig from '../UI/Calendar/CalendarBig';
 
 import DealForDay from './DealsForDay/DealForDay';
-import './dealsmain.scss'
+import './dealsmain.scss';
+import dayjs from 'dayjs';
+import { DealsOverdue } from './DealsOverdue/DealsOverdue';
 
 const DealsMainInner: FC = () => {
-  const { deals, dealsWithQuery } = useAppSelector(state => state.dealReducer);
+  const { deals, dealsWithQuery, dealsByUserQuery } = useAppSelector(state => state.dealReducer);
   const dispatch = useAppDispatch();
 
   const [showDayDeal, setShowDayDeal] = useState(true);
@@ -22,28 +24,39 @@ const DealsMainInner: FC = () => {
     dealsArr.push(item.dateEnd)
   }
 
-  const dealsHandler = (date: string, dateShot: string) => {
+  const dealsHandler = async (date: string, dateShot: string) => {
     setShowDayDeal(false)
     setchoosenDate(date)
     setchoosenShotDate(dateShot)
-    console.log(date)
+    // console.log(dayjs().format('YYYY'))
+    const query: IDealsQuery = {
+      find: {
+        // usersID: '', 
+        monthEnd: { $lte: dayjs().format('MM') }, 
+        dayEnd: { $lt: dayjs().format('DD') }, 
+        yearEnd: { $lte: dayjs().format('YYYY') }
+        // monthEnd: { $lte: '03'}, 
+        // dayEnd: { $lt: '14'}, 
+        // yearEnd: { $lte: '2024'}
+      }
+    }
+    await dispatch(getAllDealsByUserQuery(query));
   }
 
 
   useEffect(() => {
     const fetchData = async () => {
-      const query: IDealsQuery = {
-        find: {
-          // usersID: '', 
-          monthEnd: { $lte: '02'}, 
-          dayEnd: { $lt: '07'}, 
-          yearEnd: { $lte: '2024' }
-        }
-      }
+      // const query: IDealsQuery = {
+      //   find: {
+      //     // usersID: '', 
+      //     monthEnd: { $lte: '02'}, 
+      //     dayEnd: { $lt: '07'}, 
+      //     yearEnd: { $lte: '2024' }
+      //   }
+      // }
 
-      
       await dispatch(getAllDeals());
-      await dispatch(getAllDealsByUserQuery(query));
+      // await dispatch(getAllDealsByUserQuery(query));
       // dispatch(addQueryToState(query));
       // await dispatch(getAllPhones());
       // await dispatch(getCompanyByID(params.id));
@@ -59,7 +72,13 @@ const DealsMainInner: FC = () => {
         // (dealsWithQuery.map(item => 
         //   <span key={item._id}>{item.companyID.title}</span>  
         // ))
-        <DealForDay date={choosenDate} dateShot={choosenShotDate}/>
+        <>
+          {/* <DealsOverdue items={dealsByUserQuery}/> */}
+          <DealForDay 
+            date={choosenDate} 
+            dateShot={choosenShotDate} 
+            showCalendar={() => setShowDayDeal(true)}/>
+        </>
       }
 
     </section>

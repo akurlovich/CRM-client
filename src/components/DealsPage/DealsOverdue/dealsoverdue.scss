@@ -1,0 +1,34 @@
+.deals-overdue {
+  width: 100%;
+  background-color: #fff;
+  box-shadow: 0 0 2px 0 rgba(0,0,0,.1), 0 2px 2px 0 rgba(0,0,0,.2);
+
+  &__container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    gap: 10px;
+  }
+
+  &__title {
+    font-size: 19px;
+    font-weight: 500;
+  }
+
+  &__items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+
+    & > a {
+      padding: 2px 5px;
+      border-radius: 5px;
+      background: #f7a7a7;
+      color: var(--text-color-default);
+      border: 1px solid rgba(246,166,35,.15);
+      cursor: pointer;
+      font-weight: 500;
+    }
+  }
+}

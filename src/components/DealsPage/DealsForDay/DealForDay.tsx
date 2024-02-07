@@ -4,14 +4,16 @@ import CalendarCustom from '../../UI/Calendar/CalendarCustom'
 import { useAppSelector } from '../../../hooks/redux';
 import { IDeal } from '../../../types/IDeal';
 import { useNavigate } from 'react-router-dom';
+import { DealsOverdue } from '../DealsOverdue/DealsOverdue';
 
 interface IProps {
   date?: string;
   dateShot: string;
+  showCalendar: () => void;
 }
 
-const DealForDay:FC<IProps> = ({date = '01.01.2024', dateShot}) => {
-  const { deals, dealsWithQuery } = useAppSelector(state => state.dealReducer);
+const DealForDay:FC<IProps> = ({date = '01.01.2024', dateShot, showCalendar}) => {
+  const { deals, dealsWithQuery, dealsByUserQuery } = useAppSelector(state => state.dealReducer);
 
   interface IArr {
     date: string,
@@ -51,7 +53,7 @@ const DealForDay:FC<IProps> = ({date = '01.01.2024', dateShot}) => {
   // // console.log(Object.entries(myArray))
   const newArr: [string, IDeal[]][] = Object.entries(myArray)
   
-  console.log(newArr.sort());
+  // console.log(newArr.sort());
   // console.log(myArray);
 
   // setReadyArrDeals(Object.entries(myArray))
@@ -69,13 +71,23 @@ const DealForDay:FC<IProps> = ({date = '01.01.2024', dateShot}) => {
         <div className="deal-for-day__calendar">
           <CalendarCustom/>
         </div>
+
         <div className="deal-for-day__main">
           <div
             onClick={() => console.log(readyArrDeals)} 
             className="deal-for-day__main__title">
-            {`Дела на ${date}г.`}
+            <span>
+              {`Все дела на ${date}г.`}
+            </span>
+            <button
+              onClick={showCalendar}>
+              Календарь</button>
           </div>
+          <DealsOverdue items={dealsByUserQuery}/>
           <div className="deal-for-day__main__block">
+            <div className="deal-for-day__main__block__title">
+              Текущие дела:
+            </div>
 
             {readyArrDeals?.map(item => (
               <div key={item[0]} className="deal-for-day__main__block__item">
@@ -86,7 +98,8 @@ const DealForDay:FC<IProps> = ({date = '01.01.2024', dateShot}) => {
                   {item[1].map(item => 
                     <a 
                       key={item._id}
-                      href={`/companies/${item.companyID._id}`}>
+                      href={`/companies/${item.companyID._id}`}
+                      target="_blank">
                         <b>
                           {item.companyID.title}
                           
