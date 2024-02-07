@@ -233,7 +233,7 @@ const CalendarBig: FC<IProps> = ({items, showDealsForDay}) => {
             ], 
           sort: {'contactID.address.district': 'asc'}, 
           limit: 0,
-          //@ts-ignore
+      
           find: { monthEnd: newValue.format('MM'), dayEnd: newValue.format('DD') }
     }
     

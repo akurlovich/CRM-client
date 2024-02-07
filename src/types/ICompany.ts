@@ -36,7 +36,8 @@ export interface ICompaniesQuery {
   },
   limit: number,
   find?: {
-    [key: string]: string
+    [key: string]: string,
+    // key: any
   }
 }
 

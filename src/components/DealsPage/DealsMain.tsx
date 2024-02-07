@@ -1,9 +1,9 @@
 import React, { FC, useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { getCompanyByIDQuery } from '../../store/reducers/CompanyReducer/CompanyActionCreaters';
-import { getAllDeals } from '../../store/reducers/DealReducer/DealActionCreators';
+import { getAllDeals, getAllDealsByUserQuery } from '../../store/reducers/DealReducer/DealActionCreators';
 import { ICompaniesQuery } from '../../types/ICompany';
-import { IDeal } from '../../types/IDeal';
+import { IDeal, IDealsQuery } from '../../types/IDeal';
 import CalendarBig from '../UI/Calendar/CalendarBig';
 
 import DealForDay from './DealsForDay/DealForDay';
@@ -32,59 +32,18 @@ const DealsMainInner: FC = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-     
-      const query: ICompaniesQuery = {
-        query: 
-          [
-            {
-              path: "usersID", 
-              select: "lastname firstname"
-            },
-            {
-              path: "contactID", 
-              // select: "address.district"
-            },
-            {
-              path: "contactID", 
-              populate: { path: 'phonesID' }
-            },
-            {
-              path: "contactID", 
-              populate: { path: 'emailsID' }
-            },
-            {
-              path: "dealsID", 
-              populate: { path: 'dealTitleID' }
-            },
-            {
-              path: "dealsID", 
-              populate: { path: 'userID' }
-            },
-            {
-              path: "commentsID", 
-              populate: { path: 'userID' }
-            },
-            {
-              path: "ordersID", 
-              populate: { path: 'usersID' }
-            },
-            {
-              path: "ordersID", 
-              populate: { path: 'companyID' }
-            },
-            {
-              path: "ordersID", 
-              //@ts-ignore
-              populate: { path: 'orderItemID', populate: { path: "productID"} }
-            },
-          ], 
-        sort: {'contactID.address.district': 'asc'}, 
-        limit: 0,
-        find: {'_id': ''}
-      };
-      // await dispatch(getCompanyByIDQuery(query));
+      const query: IDealsQuery = {
+        find: {
+          // usersID: '', 
+          monthEnd: { $lte: '02'}, 
+          dayEnd: { $lt: '07'}, 
+          yearEnd: { $lte: '2024' }
+        }
+      }
+
+      
       await dispatch(getAllDeals());
-      // await dispatch(getAllDealTitles());
+      await dispatch(getAllDealsByUserQuery(query));
       // dispatch(addQueryToState(query));
       // await dispatch(getAllPhones());
       // await dispatch(getCompanyByID(params.id));
