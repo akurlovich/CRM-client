@@ -69,7 +69,7 @@ const OrdersMainInner: FC = () => {
         find: {'_id': ''}
       };
       // await dispatch(getCompanyByIDQuery(query));
-  //TODO --  надо userID брать из reducer, когда пользователь будет залогинен, а также если он АДМИН, если не админ, пустая строка
+  //TODO --  надо userID брать из reducer, когда пользователь будет залогинен, а также если он АДМИН, пустая строка (верунть все записи)
       await dispatch(getAllOrders(''));
       // await dispatch(getAllDealTitles());
       // dispatch(addQueryToState(query));
