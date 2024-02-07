@@ -11,8 +11,8 @@ export default class OrderService {
     return serverApi.get<IOrder>(`/orders/${orderID}`);
   };
 
-  static async getAllOrders(): Promise<AxiosResponse<IOrder[]>> {
-    return serverApi.get<IOrder[]>(`/orders`);
+  static async getAllOrders(userID: string): Promise<AxiosResponse<IOrder[]>> {
+    return serverApi.get<IOrder[]>(`/orders?userid=${userID}`);
   };
 
   static async updateOrderItemsByOrderID(data: IOrderUpdateOrderItems): Promise<AxiosResponse<IOrder>> {

@@ -27,9 +27,9 @@ export const getOrderByID = createAsyncThunk(
 
 export const getAllOrders = createAsyncThunk(
   'ORDER/getAllOrders',
-  async (_, {rejectWithValue}) => {
+  async (userID: string, {rejectWithValue}) => {
     try {
-      return await (await OrderService.getAllOrders()).data;
+      return await (await OrderService.getAllOrders(userID)).data;
       
     } catch (error: any) {
       return rejectWithValue(error.message)
