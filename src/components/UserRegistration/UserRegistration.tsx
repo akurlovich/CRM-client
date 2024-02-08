@@ -10,7 +10,7 @@ import { UserErrorWarning } from '../UI/UserErrorWarning/UserErrorWarning';
 import './userregistration.scss';
 
 const UserRegistrationInner: FC = () => {
-  const { error } = useAppSelector(state => state.authReducer);
+  const { registrationError } = useAppSelector(state => state.authReducer);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
@@ -38,17 +38,17 @@ const UserRegistrationInner: FC = () => {
   }, [password, confirmPassword, email]);
 
   useEffect(() => {
-    if (error) {
+    if (registrationError) {
       setRegisterError(true);
     }
   
-  }, [error])
+  }, [registrationError])
 
   const canselHandler = () => {
     setEmail('');
     setPassword('');
     setConfirmPassword('');
-    setButtonSubmit(prev => false);
+    setButtonSubmit(false);
     setRegisterError(false);
     dispatch(removeRigisterUserError());
   }
