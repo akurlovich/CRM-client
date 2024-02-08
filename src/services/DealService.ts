@@ -20,9 +20,9 @@ export default class DealService {
     return serverApi.get<IDealTitle[]>(`/dealtitles`);
   };
 
-  static async getDealsWithQuery(query: ICompaniesQuery): Promise<AxiosResponse<IDeal[]>> {
-    return serverApi.post<IDeal[]>('/deals/filter', query);
-  };
+  // static async getDealsWithQuery(query: IDealsQuery): Promise<AxiosResponse<IDeal[]>> {
+  //   return serverApi.post<IDeal[]>('/deals/filter', query);
+  // };
 
   static async getAllDealsByUserQuery(query: IDealsQuery): Promise<AxiosResponse<IDeal[]>> {
     return serverApi.post<IDeal[]>('/deals/userquery', query);

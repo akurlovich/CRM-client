@@ -52,9 +52,10 @@ export const getAllDealTitles = createAsyncThunk(
 
 export const getDealsWithQuery = createAsyncThunk(
   'DEAL/getDealsWithQuery',
-  async ( query: ICompaniesQuery, {rejectWithValue}) => {
+  async ( query: IDealsQuery, {rejectWithValue}) => {
     try {
-      return await (await DealService.getDealsWithQuery(query)).data;
+      // return await (await DealService.getDealsWithQuery(query)).data;
+      return await (await DealService.getAllDealsByUserQuery(query)).data;
       
     } catch (error: any) {
       return rejectWithValue(error.message)

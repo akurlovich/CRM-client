@@ -45,8 +45,16 @@ export interface IDealUpdate {
   isDone: boolean,
 }
 
+interface IQuery {
+  path: string,
+  select?: string,
+  populate?: {
+    path: string,
+  }
+}
+
 export interface IDealsQuery {
-  // query: IQuery[],
+  query?: IQuery[],
   sort?: {
     [key: string]: 'asc' | 'desc',
   },
