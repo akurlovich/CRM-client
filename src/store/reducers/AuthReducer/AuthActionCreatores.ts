@@ -5,12 +5,12 @@ import AuthService from "../../../services/AuthService";
 // import RoleService from "../../../services/RoleService";
 import UserService from "../../../services/UserService";
 import { IAuthResponse } from "../../../types/IAuthResponse";
-import { IUserUpdateIsBlocked, IUserUpdateProfileImage } from "../../../types/IUser";
+// import { IUserUpdateIsBlocked, IUserUpdateProfileImage } from "../../../types/IUser";
 
 interface IUserReg {
   email: string,
   password: string,
-  profileImage: string,
+  // profileImage: string,
 };
 
 interface IUserLogin {
@@ -22,8 +22,8 @@ export const registerUser = createAsyncThunk(
   'AUTH/regUser',
   async (data: IUserReg, {rejectWithValue}) => {
     try {
-      const { email, password, profileImage } = data;
-      const response = await AuthService.registration(email, password, profileImage);
+      const { email, password } = data;
+      const response = await AuthService.registration(email, password);
       localStorage.setItem('token', response.data.refreshToken);
       // const role = await RoleService.getRoleByID(response.data.user.role[0]);
       return {
@@ -87,26 +87,26 @@ export const checkAuth = createAsyncThunk(
   }
 );
 
-export const updateUserProfileImage = createAsyncThunk(
-  'AUTH/updateUserProfileImage',
-  async (newImage: IUserUpdateProfileImage, thunkAPI) => {
-    try {
-      // return await (await UserService.updateUserProfileImage(newImage)).data;
+// export const updateUserProfileImage = createAsyncThunk(
+//   'AUTH/updateUserProfileImage',
+//   async (newImage: IUserUpdateProfileImage, thunkAPI) => {
+//     try {
+//       // return await (await UserService.updateUserProfileImage(newImage)).data;
       
-    } catch (error) {
-      return thunkAPI.rejectWithValue("Can't update user!")
-    }
-  }
-);
+//     } catch (error) {
+//       return thunkAPI.rejectWithValue("Can't update user!")
+//     }
+//   }
+// );
 
-export const updateUserIsBlocked = createAsyncThunk(
-  'AUTH/updateUserIsBlocked',
-  async (newIsBlocked: IUserUpdateIsBlocked, thunkAPI) => {
-    try {
-      // return await (await UserService.updateUserIsBlocked(newIsBlocked)).data;
+// export const updateUserIsBlocked = createAsyncThunk(
+//   'AUTH/updateUserIsBlocked',
+//   async (newIsBlocked: IUserUpdateIsBlocked, thunkAPI) => {
+//     try {
+//       // return await (await UserService.updateUserIsBlocked(newIsBlocked)).data;
       
-    } catch (error) {
-      return thunkAPI.rejectWithValue("Can't update user!")
-    }
-  }
-);
+//     } catch (error) {
+//       return thunkAPI.rejectWithValue("Can't update user!")
+//     }
+//   }
+// );

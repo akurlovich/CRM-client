@@ -9,12 +9,12 @@ export interface IUser {
   isAdmin: boolean,
 };
 
-export interface IUserUpdateProfileImage {
-  id: string;
-  profileImage: string;
-};
+// export interface IUserUpdateProfileImage {
+//   id: string;
+//   profileImage: string;
+// };
 
-export interface IUserUpdateIsBlocked {
-  id: string;
-  isBlocked: boolean;
-};
+// export interface IUserUpdateIsBlocked {
+//   id: string;
+//   isBlocked: boolean;
+// };

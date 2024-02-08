@@ -1,7 +1,7 @@
 import { AxiosResponse } from "axios";
 import { IAuthResponse } from "../types/IAuthResponse";
 import serverApi from '../http/index';
-import { IUser, IUserUpdateIsBlocked, IUserUpdateProfileImage } from "../types/IUser";
+import { IUser } from "../types/IUser";
 
 export default class UserService {
   static async getAllUsers(): Promise<AxiosResponse<IUser[]>> {

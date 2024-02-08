@@ -9,6 +9,7 @@ import commentReducer from './reducers/CommentReducer/CommentSlice';
 import productReducer from './reducers/ProductReducer/ProductSlice';
 import orderReducer from './reducers/OrderReducer/OrderSlice';
 import orderItemsReducer from './reducers/OrderItemsReducer/OrderItemsSlice';
+import authReducer from './reducers/AuthReducer/AuthSlice';
 
 const rootReducer = combineReducers({
   dimensionReducer,
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
   productReducer,
   orderReducer,
   orderItemsReducer,
+  authReducer,
  
 })
 
