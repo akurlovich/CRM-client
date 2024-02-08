@@ -20,6 +20,7 @@ const App: FC = () => {
   useEffect(() => {
     (async () => {
       if (localStorage.getItem('token')) {
+        console.log(localStorage.getItem('token'))
         await dispatch(checkAuth());
       }
 
@@ -29,7 +30,8 @@ const App: FC = () => {
   return (
     <Routes>
       <Route path="/" element={<MainLayout />}>
-        <Route index element={<Navigate to="/companies" />}/>
+        {/* <Route index element={<Navigate to="/companies" />}/> */}
+        <Route index element={<UserLogin/>}/>
         <Route path='login' element={<UserLogin/>}/>
         <Route path='registration' element={<UserRegistration/>}/>
         <Route path="companies" element={<Company />}/>

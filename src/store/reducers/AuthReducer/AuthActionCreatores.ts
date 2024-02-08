@@ -73,7 +73,7 @@ export const checkAuth = createAsyncThunk(
   'AUTH/chechAuth',
   async (_, {rejectWithValue}) => {
     try {
-      const response = await axios.get<IAuthResponse>(`${API_URL}refresh`, {withCredentials: true});
+      const response = await axios.get<IAuthResponse>(`${API_URL}users/refresh`, {withCredentials: true});
       localStorage.setItem('token', response.data.accessToken);
       // const role = await RoleService.getRoleByID(response.data.user.role[0]);
       return {

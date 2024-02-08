@@ -13,6 +13,8 @@ interface IAuthState {
   isAuth: boolean,
   // role: string,
   error: string,
+  loginError: string,
+  registrationError: string,
 };
 
 const initialState: IAuthState = {
@@ -21,6 +23,8 @@ const initialState: IAuthState = {
   isAuth: false,
   // role: '',
   error: '',
+  loginError: '',
+  registrationError: '',
 };
 
 export const authSlice = createSlice({
@@ -39,14 +43,14 @@ export const authSlice = createSlice({
       .addCase(registerUser.fulfilled, (state, action: PayloadAction<IResponseData>) => {
         state.isLoading = false;
         state.isAuth = true;
-        state.error = '';
+        state.registrationError = '';
         state.user = action.payload.user;
         // state.role = action.payload.role;
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.isLoading = false;
         state.isAuth = false;   
-        state.error = action.payload as string;
+        state.registrationError = action.payload as string;
       });
     builder
       .addCase(loginUser.pending, (state) => {
@@ -55,14 +59,14 @@ export const authSlice = createSlice({
       .addCase(loginUser.fulfilled, (state, action: PayloadAction<IResponseData>) => {
         state.isLoading = false;
         state.isAuth = true;
-        state.error = '';
+        state.loginError = '';
         state.user = action.payload.user;
         // state.role = action.payload.role;
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.isLoading = false;
         state.isAuth = false;
-        state.error = action.payload as string;
+        state.loginError = action.payload as string;
       });
     builder
       .addCase(logoutUser.pending, (state) => {

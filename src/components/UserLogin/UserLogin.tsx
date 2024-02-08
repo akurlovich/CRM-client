@@ -13,10 +13,10 @@ interface ILocationState {
 };
 
 const UserLoginInner: FC = () => {
-  const {isAuth, error} = useAppSelector(state => state.authReducer);
+  const {isAuth, loginError} = useAppSelector(state => state.authReducer);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [loginError, setLoginError] = useState(false);
+  const [showError, setShowError] = useState(false);
   const [buttonSubmit, setButtonSubmit] = useState(false);
   const dispatch = useAppDispatch();
   const location = useLocation();
@@ -51,26 +51,26 @@ const UserLoginInner: FC = () => {
   }, [password, email, isAuth]);
 
   useEffect(() => {
-    if (error) {
-      setLoginError(true);
+    if (loginError) {
+      setShowError(true);
     }
   
-  }, [error]);
+  }, [loginError]);
 
   const canselHandler = () => {
-    setLoginError(false);
+    setShowError(false);
   };
   
   return (
     <div className='registration'>
-      {loginError && <UserErrorWarning canselHandler={canselHandler} message='User not fouund!!!'/>}
+      {showError && <UserErrorWarning canselHandler={canselHandler} message='User not found!!!'/>}
       <div className="registration__block">
         <div className="registration__container">
           <div onClick={() => navigate('/')} className="registration__close">
             <AiOutlineCloseCircle size={40}/>
           </div>
           <div className="registration__title">
-            Log in
+            Вход
           </div>
           <form
             onSubmit={handlerChange}
@@ -97,22 +97,22 @@ const UserLoginInner: FC = () => {
               <input
                 className={buttonSubmit ? "registration__form__button_send active" : "registration__form__button_send"}
                 type="submit"
-                value="Log in"
+                value="Войти"
               />
             </div>
           </form>
           <div className="registration__login-link">
             <div className="registration__login-link__text">
-              Нou don't have an account?
+              Нет аккаунта?
             </div>
             <div className="registration__login-link__link">
-              <Link to='/registration'>Sing in</Link> 
+              <Link to='/registration'>Регистрация</Link> 
             </div>
           </div>
         </div>
-        <img className='registration__book one' src="./assets/book-1.png" alt="book" />
+        {/* <img className='registration__book one' src="./assets/book-1.png" alt="book" />
         <img className='registration__book two' src="./assets/book-2.png" alt="book" />
-        <img className='registration__book three' src="./assets/book-3.png" alt="book" />
+        <img className='registration__book three' src="./assets/book-3.png" alt="book" /> */}
       </div>
     </div>
   );

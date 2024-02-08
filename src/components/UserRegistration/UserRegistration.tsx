@@ -10,27 +10,29 @@ import { UserErrorWarning } from '../UI/UserErrorWarning/UserErrorWarning';
 import './userregistration.scss';
 
 const UserRegistrationInner: FC = () => {
+  const { error } = useAppSelector(state => state.authReducer);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [buttonSubmit, setButtonSubmit] = useState(false);
-  const [registerError, setRegisterError] = useState(false)
-  const dispatch = useAppDispatch();
-  const { error } = useAppSelector(state => state.authReducer);
-  const navigate = useNavigate();
+  const [registerError, setRegisterError] = useState(false);
+
   const handlerChange = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     await dispatch(registerUser({email, password}));
   };
+
   const validFormData = () => {
     const emailValid = /^\S+@\S+\.\S+$/.test(email);
     const passValid = /^(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d]{6,20}$/.test(password);
     const pasConfirm = (password === confirmPassword);
     if (passValid && pasConfirm && emailValid) {
-      setButtonSubmit(prev => true)
+      setButtonSubmit(true)
     }
-
   };
+
   useEffect(() => {
     validFormData();
   }, [password, confirmPassword, email]);
@@ -60,7 +62,7 @@ const UserRegistrationInner: FC = () => {
             <AiOutlineCloseCircle size={40}/>
           </div>
           <div className="registration__title">
-            Create Account
+            Создать аккаунт
           </div>
           <form
             onSubmit={handlerChange}
@@ -106,16 +108,16 @@ const UserRegistrationInner: FC = () => {
           </form>
           <div className="registration__login-link">
             <div className="registration__login-link__text">
-              Already have an account?
+              Уже есть аккаунт?
             </div>
             <div className="registration__login-link__link">
-              <Link to='/login'>Login</Link> 
+              <Link to='/login'>Вход</Link> 
             </div>
           </div>
         </div>
-        <img className='registration__book one' src="./assets/book-1.png" alt="book" />
+        {/* <img className='registration__book one' src="./assets/book-1.png" alt="book" />
         <img className='registration__book two' src="./assets/book-2.png" alt="book" />
-        <img className='registration__book three' src="./assets/book-3.png" alt="book" />
+        <img className='registration__book three' src="./assets/book-3.png" alt="book" /> */}
       </div>
     </div>
   );
