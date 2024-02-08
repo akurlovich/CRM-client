@@ -6,6 +6,7 @@ import { DealsMain } from './components/DealsPage/DealsMain';
 import { Home } from './components/Home/Home';
 import { OrdersMain } from './components/OrdersPage/OrdersMain';
 import { PageNotFound } from './components/PageNotFound/PageNotFound';
+import { AdminAuthRouter } from './components/RoutersComponents/AdminAuth/AdminAuthRouter';
 import MainLayout from './components/RoutersComponents/MainLayout/MainLayout';
 import { UserLogin } from './components/UserLogin/UserLogin';
 import { UserRegistration } from './components/UserRegistration/UserRegistration';
@@ -30,14 +31,20 @@ const App: FC = () => {
   return (
     <Routes>
       <Route path="/" element={<MainLayout />}>
-        {/* <Route index element={<Navigate to="/companies" />}/> */}
-        <Route index element={<UserLogin/>}/>
+        <Route index element={<Navigate to="/companies" />}/>
+        {/* <Route index element={<UserLogin/>}/> */}
         <Route path='login' element={<UserLogin/>}/>
         <Route path='registration' element={<UserRegistration/>}/>
-        <Route path="companies" element={<Company />}/>
+        
+        <Route element={<AdminAuthRouter/>}>
+          <Route path="companies" element={<Company />}/>
+          <Route path="orders" element={<OrdersMain/>}/>
+          <Route path="deals" element={<DealsMain/>}/>
+        </Route>
+
         <Route path="companies/:id" element={<CompanyCard/>}/>
-        <Route path="orders" element={<OrdersMain/>}/>
-        <Route path="deals" element={<DealsMain/>}/>
+        {/* <Route path="orders" element={<OrdersMain/>}/>
+        <Route path="deals" element={<DealsMain/>}/> */}
         {/* <Route path='admin' element={
           <AdminAuthRouter>
             <AddProduct/>

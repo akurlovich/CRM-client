@@ -1,22 +1,25 @@
 import React, { FC } from 'react'
-import { Navigate, useLocation } from 'react-router-dom';
+import { Navigate, Outlet, useLocation } from 'react-router-dom'
+import { useAppSelector } from '../../../hooks/redux';
 // import { ADMIN_ROLE } from '../../../constants/user';
 // import { useAppSelector } from '../../../hooks/redux';
 
 interface IProps {
-  children: JSX.Element;
+  // children: JSX.Element;
 }
 
-const AdminAuthRouterInner: FC<IProps> = ({children}) => {
+const AdminAuthRouterInner: FC<IProps> = ({}) => {
   const location = useLocation();
-  // const {role} = useAppSelector(state => state.authReducer);
+  // const { isAuth } = useAppSelector(state => state.authReducer);
+  const isAuth = 'admin';
   const role = 'admin';
-
-  if (role !== role) {
-    return <Navigate to='/pageNotFound' state={location.pathname}/>
+  //@ts-ignore
+  if (isAuth !== role) {
+    return <Navigate to='/login' state={location.pathname} replace/>
+    // return <Navigate to='/login' state={{from: location.pathname}}/>
   }
 
-  return children;
+  return <Outlet />;
 };
 
 export const AdminAuthRouter = React.memo(AdminAuthRouterInner);
