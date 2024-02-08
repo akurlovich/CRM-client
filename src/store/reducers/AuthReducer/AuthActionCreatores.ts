@@ -49,8 +49,10 @@ export const loginUser = createAsyncThunk(
         user: response.data.user,
         // role: role.data.value,
       }
-    } catch (error) {
-      return rejectWithValue(`User with email ${data.email} not found!`)
+    } catch (error: any) {
+      // console.log(error.response.data.message)
+      // return rejectWithValue(`User with email ${data.email} not found!`)
+      return rejectWithValue(error.response.data.message)
     }
   }
 );

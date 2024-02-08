@@ -31,13 +31,13 @@ const App: FC = () => {
   return (
     <Routes>
       <Route path="/" element={<MainLayout />}>
-        <Route index element={<Navigate to="/companies" />}/>
+        <Route index element={<Navigate to="/companies"/>}/>
         {/* <Route index element={<UserLogin/>}/> */}
         <Route path='login' element={<UserLogin/>}/>
         <Route path='registration' element={<UserRegistration/>}/>
         
         <Route element={<AdminAuthRouter/>}>
-          <Route path="companies" element={<Company />}/>
+          <Route path="companies" element={<Company/>}/>
           <Route path="orders" element={<OrdersMain/>}/>
           <Route path="deals" element={<DealsMain/>}/>
         </Route>
