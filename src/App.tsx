@@ -7,6 +7,8 @@ import { Home } from './components/Home/Home';
 import { OrdersMain } from './components/OrdersPage/OrdersMain';
 import { PageNotFound } from './components/PageNotFound/PageNotFound';
 import MainLayout from './components/RoutersComponents/MainLayout/MainLayout';
+import { UserLogin } from './components/UserLogin/UserLogin';
+import { UserRegistration } from './components/UserRegistration/UserRegistration';
 import { useAppDispatch } from './hooks/redux';
 import './scss/app.scss';
 import { checkAuth } from './store/reducers/AuthReducer/AuthActionCreatores';
@@ -28,6 +30,8 @@ const App: FC = () => {
     <Routes>
       <Route path="/" element={<MainLayout />}>
         <Route index element={<Navigate to="/companies" />}/>
+        <Route path='login' element={<UserLogin/>}/>
+        <Route path='registration' element={<UserRegistration/>}/>
         <Route path="companies" element={<Company />}/>
         <Route path="companies/:id" element={<CompanyCard/>}/>
         <Route path="orders" element={<OrdersMain/>}/>
