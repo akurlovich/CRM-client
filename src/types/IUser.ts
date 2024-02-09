@@ -9,6 +9,15 @@ export interface IUser {
   isAdmin: boolean,
 };
 
+export interface IUserReg {
+  email: string,
+  password: string,
+  firstname: string,
+  lastname: string,
+  isAdmin: boolean,
+  position: string,
+};
+
 // export interface IUserUpdateProfileImage {
 //   id: string;
 //   profileImage: string;

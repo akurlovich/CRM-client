@@ -5,13 +5,17 @@ import AuthService from "../../../services/AuthService";
 // import RoleService from "../../../services/RoleService";
 import UserService from "../../../services/UserService";
 import { IAuthResponse } from "../../../types/IAuthResponse";
+import { IUserReg } from "../../../types/IUser";
 // import { IUserUpdateIsBlocked, IUserUpdateProfileImage } from "../../../types/IUser";
 
-interface IUserReg {
-  email: string,
-  password: string,
-  // profileImage: string,
-};
+// interface IUserReg {
+//   email: string,
+//   password: string,
+//   firstname: string,
+//   lastname: string,
+//   isAdmin: boolean,
+//   position: string,
+// };
 
 interface IUserLogin {
   email: string,
@@ -22,8 +26,8 @@ export const registerUser = createAsyncThunk(
   'AUTH/regUser',
   async (data: IUserReg, {rejectWithValue}) => {
     try {
-      const { email, password } = data;
-      const response = await AuthService.registration(email, password);
+      // const { email, password } = data;
+      const response = await AuthService.registration(data);
       localStorage.setItem('token', response.data.refreshToken);
       // const role = await RoleService.getRoleByID(response.data.user.role[0]);
       return {

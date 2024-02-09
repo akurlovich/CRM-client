@@ -1,11 +1,12 @@
 import { IoEllipsisVerticalOutline } from '@react-icons/all-files/io5/IoEllipsisVerticalOutline';
 import { IoNewspaper } from '@react-icons/all-files/io5/IoNewspaper';
+import { IoTrashOutline } from '@react-icons/all-files/io5/IoTrashOutline';
 import { IoPricetagOutline } from '@react-icons/all-files/io5/IoPricetagOutline';
 import { IoStarOutline } from '@react-icons/all-files/io5/IoStarOutline';
 import React, { FC, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
-import { getAllCompaniesQuery, getCompanyByID, getCompanyByIDQuery } from '../../../store/reducers/CompanyReducer/CompanyActionCreaters';
+import { deleteCompanyByID, getAllCompaniesQuery, getCompanyByID, getCompanyByIDQuery } from '../../../store/reducers/CompanyReducer/CompanyActionCreaters';
 import { ICompaniesQuery, ICompany } from '../../../types/ICompany';
 import { BaseBlockSmall } from '../../BaseBlock/BaseBlockSmall';
 import { Loader } from '../../UI/Loader/Loader';
@@ -43,6 +44,7 @@ dayjs.updateLocale('en', {
 const CompanyCardInner: FC = () => {
   const { company, companies, isLoading } = useAppSelector(state => state.companyReducer);
   const { isShowEditOrder, isShowNewOrder } = useAppSelector(state => state.orderReducer);
+  const { user } = useAppSelector(state => state.authReducer);
   const params = useParams();
   const dispatch = useAppDispatch();
   // const [showAddOrder, setShowAddOrder] = useState<boolean>(false);
@@ -58,6 +60,12 @@ const CompanyCardInner: FC = () => {
   const showAddOrderSmallHandler = () => {
     dispatch(setShowNewOrder(true))
     setShowAddOrderSmall(false);
+  };
+
+  const deleteCompanyHandler = async () => {
+    if (window.confirm(`Удалить компанию ${company.title}?`)) {
+      await dispatch(deleteCompanyByID(company._id))
+    }
   };
 
   useEffect(() => {
@@ -137,7 +145,13 @@ const CompanyCardInner: FC = () => {
               </div>
               <IoStarOutline size={20} color={'#3e425e'}/>
               <IoPricetagOutline size={20} color={'#3e425e'}/>
-              <IoEllipsisVerticalOutline size={20} color={'#3e425e'}/>
+              {!user.isAdmin ? 
+                <IoTrashOutline
+                  onClick={deleteCompanyHandler}
+                  style={{'cursor': 'pointer'}}
+                  size={20} color={'#3e425e'}/>
+                : null
+              }
             </div>
             <div
               // onClick={() => console.log(companyItem)}

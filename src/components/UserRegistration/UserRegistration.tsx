@@ -21,7 +21,7 @@ const UserRegistrationInner: FC = () => {
 
   const handlerChange = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    await dispatch(registerUser({email, password}));
+    await dispatch(registerUser({email, password, isAdmin: false, position: 'Специалист', firstname: 'Юлия', lastname: 'Петрова'}));
   };
 
   const validFormData = () => {
