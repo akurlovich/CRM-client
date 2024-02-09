@@ -62,7 +62,7 @@ const DealCreate: FC<IProps> = ({onAction, position}) => {
     // console.log(calendarData);
     const newDeal: IDealNew = {
       companyID: company._id,
-      userID: companyFirstUser._id,
+      userID: companyFirstUser.id,
       dealTitleID: calendarData.dealType,
       description: '',
       dateEnd: calendarData.date,

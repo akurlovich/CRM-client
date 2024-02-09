@@ -23,11 +23,11 @@ import { ICompaniesQuery } from '../../types/ICompany';
 
 const CompanyInner: FC = () => {
   const { companies, isLoading } = useAppSelector(state => state.companyReducer);
-  const { users, user } = useAppSelector(state => state.userReducer);
+  const { user } = useAppSelector(state => state.authReducer);
 
   const dispatch = useAppDispatch();
   
-  const [isModal, setIsModal] = useState<boolean>(false);
+  const [showAddCompany, setShowAddCompany] = useState<boolean>(false);
   // const [companiesArray, setCompaniesArray] = useState<ICompanyItem[]>([]);
 
   useEffect(() => {
@@ -94,7 +94,7 @@ const CompanyInner: FC = () => {
   return (
     <>
       {isLoading && <Loader/>}
-      <AddCompany isVisible={isModal} onClose={() => setIsModal(false)}/>
+      <AddCompany isVisible={showAddCompany} onClose={() => setShowAddCompany(false)}/>
       <section className='company'>
         <div className="company__filters">
           filter
@@ -112,7 +112,7 @@ const CompanyInner: FC = () => {
               </div>
             </div>
             <button 
-              onClick={() => setIsModal(true)}
+              onClick={() => setShowAddCompany(true)}
               className="company__header__btn">
               Добавить клиента
             </button>

@@ -4,7 +4,7 @@ import { IoTrashOutline } from '@react-icons/all-files/io5/IoTrashOutline';
 import { IoPricetagOutline } from '@react-icons/all-files/io5/IoPricetagOutline';
 import { IoStarOutline } from '@react-icons/all-files/io5/IoStarOutline';
 import React, { FC, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { deleteCompanyByID, getAllCompaniesQuery, getCompanyByID, getCompanyByIDQuery } from '../../../store/reducers/CompanyReducer/CompanyActionCreaters';
 import { ICompaniesQuery, ICompany } from '../../../types/ICompany';
@@ -47,6 +47,7 @@ const CompanyCardInner: FC = () => {
   const { user } = useAppSelector(state => state.authReducer);
   const params = useParams();
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   // const [showAddOrder, setShowAddOrder] = useState<boolean>(false);
   const [showAddOrderSmall, setShowAddOrderSmall] = useState<boolean>(true);
   // const [companyItem, setCompanyItem] = useState<ICompany>({} as ICompany);
@@ -65,6 +66,8 @@ const CompanyCardInner: FC = () => {
   const deleteCompanyHandler = async () => {
     if (window.confirm(`Удалить компанию ${company.title}?`)) {
       await dispatch(deleteCompanyByID(company._id))
+//TODO  ---  обработать ошибку, если вдруг компания не удалилась
+      navigate('/companies')
     }
   };
 
@@ -145,7 +148,7 @@ const CompanyCardInner: FC = () => {
               </div>
               <IoStarOutline size={20} color={'#3e425e'}/>
               <IoPricetagOutline size={20} color={'#3e425e'}/>
-              {!user.isAdmin ? 
+              {user.isAdmin ? 
                 <IoTrashOutline
                   onClick={deleteCompanyHandler}
                   style={{'cursor': 'pointer'}}

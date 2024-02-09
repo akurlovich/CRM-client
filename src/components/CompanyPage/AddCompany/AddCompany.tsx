@@ -15,11 +15,12 @@ interface IProps {
 
 const AddCompanyInner: FC<IProps> = ({isVisible = false, onClose}) => {
   //!----берет данные из компанента Company------
+  const { user } = useAppSelector(state => state.authReducer);
   // const { companies } = useAppSelector(state => state.companyReducer);
   // const { users } = useAppSelector(state => state.userReducer);
   const dispatch = useAppDispatch();
 
-  const [newCompany, setNewCompany] = useState<ICompanyNew>({title: '', usersID: '65a4ed82f45087cf955a9bac'} as ICompanyNew);
+  const [newCompany, setNewCompany] = useState<ICompanyNew>({title: '', usersID: user.id} as ICompanyNew);
   // const [newCompany, setNewCompany] = useState<ICompanyNew>({title: '', usersID: '657bf93c2f7bf96da48e91cc', contactID: '65a619932267f6b47b2ae804'} as ICompanyNew);
   const [newContact, setNewContact] = useState<IContactNew>(
     {
@@ -34,10 +35,11 @@ const AddCompanyInner: FC<IProps> = ({isVisible = false, onClose}) => {
     // setNewCompany(prev => ({...prev, usersID: ['657bf93c2f7bf96da48e91cc']}));
     // setNewCompany(prev => ({...prev, usersID: ['657bf93c2f7bf96da48e91cc']}));
     // setNewCompany(newCompany.usersID.push(''));
-    // console.log('from addcompany', newCompany);
+    console.log('company', newCompany);
+    console.log('contact', newContact);
     // alert('отключена отправка')
     // await dispatch(addContact(newContact));
-    await dispatch(addCompany({company: newCompany, contact: newContact}));
+    // await dispatch(addCompany({company: newCompany, contact: newContact}));
 
   };
 
@@ -87,10 +89,12 @@ const AddCompanyInner: FC<IProps> = ({isVisible = false, onClose}) => {
   }, []);
 
   // useEffect(() => {
-  //   console.log('companies', companies);
-  //   console.log('users', users);
-   
-  // }, [companies, users]);
+  //   if (user) {
+  //     console.log('user', user)
+  //     setNewCompany(prev => ({...prev, usersID: user.id}))
+  //   }
+  // }, [user])
+  
 
   return isVisible ? (
     <div className="add-company">
