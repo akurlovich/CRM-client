@@ -61,7 +61,7 @@ const AddCompanyInner: FC<IProps> = ({isVisible = false, onClose}) => {
         sort: {'contactID.address.district': 'asc'}, 
         limit: 0,
   //TODO --  надо userID брать из reducer, когда пользователь будет залогинен, а также если он АДМИН, пустая строка (верунть все записи)
-        find: {},
+        find: user.isAdmin ? {} : { usersID: user.id},
         // find: { usersID: '65a4ed82f45087cf955a9bac'}
       };
 
