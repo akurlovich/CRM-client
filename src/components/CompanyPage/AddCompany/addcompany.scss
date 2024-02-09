@@ -92,6 +92,16 @@
     display: flex;
     gap: 20px;
 
+    & .disabled {
+      cursor: default !important; 
+      opacity: 0.3 !important;
+      // background-color: red !important;
+
+      &:hover {
+        background-color: var(--btn-default) !important;
+      }
+    }
+
     & button:nth-child(1) {
       background-color: var(--btn-default);
       color: white;

@@ -77,7 +77,7 @@ const CompanyInner: FC = () => {
 
       await dispatch(getAllCompaniesQuery(query));
       // await dispatch(getAllCompanies());
-      await dispatch(getAllUsers());
+      // await dispatch(getAllUsers());
       // await dispatch(getUserByID(companies[0]?.usersID[0]));
       // console.log(users)
     };

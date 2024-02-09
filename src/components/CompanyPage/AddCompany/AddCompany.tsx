@@ -1,10 +1,10 @@
 import React, { FC, useEffect, useState } from 'react';
 import { UNSAFE_useRouteId } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
-import { addCompany, getAllCompanies } from '../../../store/reducers/CompanyReducer/CompanyActionCreaters';
+import { addCompany, getAllCompanies, getAllCompaniesQuery } from '../../../store/reducers/CompanyReducer/CompanyActionCreaters';
 import { addContact } from '../../../store/reducers/ContactReducer/ContactActionCreators';
 import { getAllUsers } from '../../../store/reducers/UserReducer/UserActionCreators';
-import { ICompanyNew } from '../../../types/ICompany';
+import { ICompaniesQuery, ICompanyNew } from '../../../types/ICompany';
 import { IContactNew } from '../../../types/IContact';
 import './addcompany.scss';
 
@@ -20,6 +20,7 @@ const AddCompanyInner: FC<IProps> = ({isVisible = false, onClose}) => {
   // const { users } = useAppSelector(state => state.userReducer);
   const dispatch = useAppDispatch();
 
+  const [disabled, setDisabled] = useState(true);
   const [newCompany, setNewCompany] = useState<ICompanyNew>({title: '', usersID: user.id} as ICompanyNew);
   // const [newCompany, setNewCompany] = useState<ICompanyNew>({title: '', usersID: '657bf93c2f7bf96da48e91cc', contactID: '65a619932267f6b47b2ae804'} as ICompanyNew);
   const [newContact, setNewContact] = useState<IContactNew>(
@@ -35,16 +36,50 @@ const AddCompanyInner: FC<IProps> = ({isVisible = false, onClose}) => {
     // setNewCompany(prev => ({...prev, usersID: ['657bf93c2f7bf96da48e91cc']}));
     // setNewCompany(prev => ({...prev, usersID: ['657bf93c2f7bf96da48e91cc']}));
     // setNewCompany(newCompany.usersID.push(''));
-    console.log('company', newCompany);
-    console.log('contact', newContact);
-    // alert('отключена отправка')
-    // await dispatch(addContact(newContact));
-    // await dispatch(addCompany({company: newCompany, contact: newContact}));
+    if (disabled) {
+      alert('Введите название компании!')
+    } else {
+      // console.log('company', newCompany);
+      // console.log('contact', newContact);
+      onClose();
+      // alert('отключена отправка')
+      await dispatch(addContact(newContact));
+      await dispatch(addCompany({company: newCompany, contact: newContact}));
+      const query: ICompaniesQuery = {
+        query: 
+          [{
+            path: "usersID", 
+            select: "lastname firstname"
+          },
+          {
+            path: "contactID", 
+            select: "address.district"
+          },
+         
+
+        ], 
+        sort: {'contactID.address.district': 'asc'}, 
+        limit: 0,
+  //TODO --  надо userID брать из reducer, когда пользователь будет залогинен, а также если он АДМИН, пустая строка (верунть все записи)
+        find: {},
+        // find: { usersID: '65a4ed82f45087cf955a9bac'}
+      };
+
+      await dispatch(getAllCompaniesQuery(query));
+    }
 
   };
 
   const contactHandler = (e: React.FocusEvent<HTMLInputElement>) => {
     switch (e.target.name) {
+      case 'company.title':
+        setNewCompany(prev => ({...prev, title: e.target.value}));
+        if (e.target.value) {
+          setDisabled(false)
+        } else {
+          setDisabled(true)
+        }
+        break;
       case 'contact.address.main':
         setNewContact(prev => ({...prev, address: { main: e.target.value, district: newContact.address.district }}));
         break;
@@ -107,7 +142,8 @@ const AddCompanyInner: FC<IProps> = ({isVisible = false, onClose}) => {
             <span className='required'>Название</span>
             <input 
               value={newCompany.title}
-              onChange={(e: React.FocusEvent<HTMLInputElement>) => setNewCompany(prev => ({...prev, title: e.target.value}))}
+              onChange={contactHandler}
+              name="company.title" 
               type="text"
               placeholder='ООО "Моя компания'/>
           </div>
@@ -160,8 +196,10 @@ const AddCompanyInner: FC<IProps> = ({isVisible = false, onClose}) => {
               placeholder='Район...'/>
           </div>
         </form>
-        <div className="add-company__footer">
+        <div className="add-company__footer disabled">
           <button 
+            className={disabled ? 'disabled' : ''}
+            disabled={disabled}
             onClick={addNewCompanyHandler}
             type="submit"
             >
