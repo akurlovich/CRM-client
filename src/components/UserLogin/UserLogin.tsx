@@ -64,7 +64,7 @@ const UserLoginInner: FC = () => {
   return (
     <div className='registration'>
       {showError && <UserErrorWarning canselHandler={canselHandler} message={loginError}/>}
-      <div className="registration__block">
+      <div className="registration__block login">
         <div className="registration__container">
           <div onClick={() => navigate('/')} className="registration__close">
             <AiOutlineCloseCircle size={40}/>

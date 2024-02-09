@@ -15,13 +15,27 @@ const UserRegistrationInner: FC = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isAdmin, setIsAdmin] = useState(true)
+  const [position, setPosition] = useState('Специалист')
+  const [firstname, setfirstname] = useState('')
+  const [lastname, setLastname] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('');
   const [buttonSubmit, setButtonSubmit] = useState(false);
   const [registerError, setRegisterError] = useState(false);
 
   const handlerChange = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    await dispatch(registerUser({email, password, isAdmin: false, position: 'Специалист', firstname: 'Юлия', lastname: 'Петрова'}));
+    // console.log(email, password, isAdmin, position, firstname, lastname)
+    await dispatch(registerUser({email, password, isAdmin, position, firstname, lastname}));
+    setEmail('');
+    setPassword('');
+    setConfirmPassword('');
+    setfirstname('');
+    setLastname('');
+    setButtonSubmit(false);
+    setRegisterError(false);
+    dispatch(removeRigisterUserError());
+    //TODO --- добавить переход, например на страницу с компаниями
   };
 
   const validFormData = () => {
@@ -48,6 +62,8 @@ const UserRegistrationInner: FC = () => {
     setEmail('');
     setPassword('');
     setConfirmPassword('');
+    setfirstname('');
+    setLastname('');
     setButtonSubmit(false);
     setRegisterError(false);
     dispatch(removeRigisterUserError());
@@ -98,11 +114,31 @@ const UserRegistrationInner: FC = () => {
               required={true}
               pattern={password}
             />
+            <FormInput
+              label='Имя'
+              name='firstname'
+              type='text'
+              value={firstname}
+              // errorMessage='Password shoud be 8-20 characters and include 1 number and 1 letter!'
+              setData={setfirstname}
+              required={true}
+              // pattern='^(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d]{6,20}$'
+            />
+            <FormInput
+              label='Фамилия'
+              name='lastname'
+              type='text'
+              value={lastname}
+              // errorMessage='Password shoud be 8-20 characters and include 1 number and 1 letter!'
+              setData={setLastname}
+              required={true}
+              // pattern='^(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d]{6,20}$'
+            />
             <div className="registration__form__button">
               <input
                 className={buttonSubmit ? "registration__form__button_send active" : "registration__form__button_send"}
                 type="submit"
-                value="Sing in"
+                value="Зарегистрироваться"
               />
             </div>
           </form>

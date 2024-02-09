@@ -12,11 +12,11 @@
     font-family: 'Poppins', sans-serif;
     font-style: normal;
     font-weight: 500;
-    font-size: 26px;
-    line-height: 39px;
+    font-size: 16px;
+    // line-height: 30px;
     color: #A6A6A6;
     // z-index: 2;
-    top: 46px;
+    top: 40px;
     left: 4px;
     background-color: #e8faf8;
     transition: all 0.3s ease;
@@ -26,13 +26,13 @@
     max-width: 526px;
     width: 100%;
     padding: 5px;
-    margin-top: 40px;
+    margin-top: 30px;
     border-bottom: 1px solid #B8B8B8;
     font-family: 'Poppins', sans-serif;
     font-style: normal;
     font-weight: 500;
-    font-size: 26px;
-    line-height: 39px;
+    font-size: 16px;
+    line-height: 30px;
     color: #000000;
     z-index: 2;
     background-color: transparent;
@@ -47,14 +47,14 @@
     }
 
     &:focus ~ .form-input__label {
-      top: 0px;
-      font-size: 20px;
+      top: 10px;
+      font-size: 12px;
       z-index: 10;
     }
 
     &:not(:placeholder-shown) ~ .form-input__label {
-      top: 0px;
-      font-size: 20px;
+      top: 10px;
+      font-size: 12px;
       z-index: 10;
     }
   }

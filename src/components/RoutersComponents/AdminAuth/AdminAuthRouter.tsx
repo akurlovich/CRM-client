@@ -10,11 +10,11 @@ interface IProps {
 
 const AdminAuthRouterInner: FC<IProps> = ({}) => {
   const location = useLocation();
-  const { isAuth } = useAppSelector(state => state.authReducer);
-  // const isAuth = 'admin';
-  // const role = 'admin';
+  // const { isAuth } = useAppSelector(state => state.authReducer);
+  const isAuth = 'admin';
+  const role = 'admin';
   //@ts-ignore
-  if (!isAuth) {
+  if (isAuth !== role) {
     return <Navigate to='/login' state={location.pathname} replace/>
     // return <Navigate to='/login' state={{from: location.pathname}}/>
   }
