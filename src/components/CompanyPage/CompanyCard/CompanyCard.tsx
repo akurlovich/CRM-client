@@ -42,7 +42,7 @@ dayjs.updateLocale('en', {
 //TODO при нажатии Добавить сделку, очистить в orderReducer order, orderForEdit
 
 const CompanyCardInner: FC = () => {
-  const { company, companies, isLoading } = useAppSelector(state => state.companyReducer);
+  const { company, companies, isLoading, companyFirstUser } = useAppSelector(state => state.companyReducer);
   const { isShowEditOrder, isShowNewOrder } = useAppSelector(state => state.orderReducer);
   const { user } = useAppSelector(state => state.authReducer);
   const params = useParams();
@@ -167,19 +167,40 @@ const CompanyCardInner: FC = () => {
           <div className="company-card__wrapper">
             <div className="left">
               <InfoBlock/>
-              <BaseBlockSmall deal="Добавить сделку" isVisible={showAddOrderSmall} showAddOrder={showAddOrderSmallHandler}/>
-              {/* <BaseBlockSmall deal="Процесссы"/> */}
-              {/* <AddOrder isVisible={showAddOrder} showAddOrder={(() => setShowAddOrder(false))}/> */}
-              <AddOrder isVisible={isShowNewOrder} showAddOrder={showAddOrderHandler}/>
-              <EditOrder isVisible={isShowEditOrder}/>
-              {/* <AddOrder/> */}
-              <OrdersInCompany showAddOrder={(() => dispatch(setShowNewOrder(true)))}/>
-              <CommentsBlock/>
+              {companyFirstUser._id === user.id ?
+                <>
+                  <BaseBlockSmall deal="Добавить сделку" isVisible={showAddOrderSmall} showAddOrder={showAddOrderSmallHandler}/>
+                  <AddOrder isVisible={isShowNewOrder} showAddOrder={showAddOrderHandler}/>
+                  <EditOrder isVisible={isShowEditOrder}/>
+                  {/* <AddOrder/> */}
+                  <OrdersInCompany showAddOrder={(() => dispatch(setShowNewOrder(true)))}/>
+                  <CommentsBlock/>
+                </>
+                : user.isAdmin ?
+                  <>
+                    <BaseBlockSmall deal="Добавить сделку" isVisible={showAddOrderSmall} showAddOrder={showAddOrderSmallHandler}/>
+                    <AddOrder isVisible={isShowNewOrder} showAddOrder={showAddOrderHandler}/>
+                    <EditOrder isVisible={isShowEditOrder}/>
+                    {/* <AddOrder/> */}
+                    <OrdersInCompany showAddOrder={(() => dispatch(setShowNewOrder(true)))}/>
+                    <CommentsBlock/>
+                  </>
+                  : null
+              }
             </div>
             <div className="right">
-              <DealsBlock/>
-              {/* <ContactsBlock companyID={params.id ? params.id : ''}/> */}
-              <ContactsBlock/>
+              {companyFirstUser._id === user.id ?
+                <>
+                  <DealsBlock/>
+                  <ContactsBlock/>
+                </>
+                : user.isAdmin ?
+                <>
+                  <DealsBlock/>
+                  <ContactsBlock/>
+                </>
+                : null
+              }
               
             </div>
           </div>

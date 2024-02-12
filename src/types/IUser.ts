@@ -1,4 +1,15 @@
 export interface IUser {
+  _id: string,
+  email: string,
+  firstname: string,
+  lastname: string,
+  surname: string,
+  position: string,
+  avatar: string,
+  isAdmin: boolean,
+};
+
+export interface IUserAuth {
   id: string,
   email: string,
   firstname: string,

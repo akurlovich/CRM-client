@@ -28,7 +28,7 @@ const CommentsBlockInner: FC = () => {
   const addCommentHandler = async () => {
     const addNewComment: ICommentNew = {
       companyID: company._id,
-      userID: companyFirstUser.id,
+      userID: companyFirstUser._id,
       description: newComment,
       dealType: 'Встреча',
       date: dayjs().format('DD MMMM YYYY'),

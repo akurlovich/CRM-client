@@ -1,14 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IUser } from "../../../types/IUser";
+import { IUserAuth } from "../../../types/IUser";
 import { checkAuth, loginUser, logoutUser, registerUser, } from "./AuthActionCreatores";
 
 interface IResponseData {
-  user: IUser,
+  user: IUserAuth,
   // role: string,
 }
 
 interface IAuthState {
-  user: IUser,
+  user: IUserAuth,
   isLoading: boolean,
   isAuth: boolean,
   // role: string,
@@ -18,7 +18,7 @@ interface IAuthState {
 };
 
 const initialState: IAuthState = {
-  user: {} as IUser,
+  user: {} as IUserAuth,
   isLoading: true,
   isAuth: false,
   // role: '',
@@ -75,7 +75,7 @@ export const authSlice = createSlice({
       .addCase(logoutUser.fulfilled, (state) => {
         state.isLoading = false;
         state.isAuth = false;
-        state.user = {} as IUser;
+        state.user = {} as IUserAuth;
       })
       .addCase(logoutUser.rejected, (state, action) => {
         state.isLoading = false;

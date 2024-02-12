@@ -51,7 +51,7 @@ const DealCompleteInner: FC<IProps> = ({isVisible = false, onClose, item}) => {
 
       const addNewComment: ICommentNew = {
         companyID: company._id,
-        userID: companyFirstUser.id,
+        userID: companyFirstUser._id,
         description: dealComment,
         dealType: item.dealTitleID.title,
         date: dayjs().format('DD MMMM YYYY'),

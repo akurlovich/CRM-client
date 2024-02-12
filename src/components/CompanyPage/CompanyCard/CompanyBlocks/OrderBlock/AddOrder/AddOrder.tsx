@@ -84,7 +84,7 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
       const orderNew: IOrderNewWithItems = {
         order: {
           companyID:company._id,
-          usersID: companyFirstUser.id,
+          usersID: companyFirstUser._id,
           totalSum: totalPrice,
         },
         orderItems: orderItemsAll
