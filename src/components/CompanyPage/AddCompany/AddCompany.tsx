@@ -43,7 +43,7 @@ const AddCompanyInner: FC<IProps> = ({isVisible = false, onClose}) => {
       // console.log('contact', newContact);
       onClose();
       // alert('отключена отправка')
-      await dispatch(addContact(newContact));
+      // await dispatch(addContact(newContact));
       await dispatch(addCompany({company: newCompany, contact: newContact}));
       const query: ICompaniesQuery = {
         query: 
@@ -66,6 +66,8 @@ const AddCompanyInner: FC<IProps> = ({isVisible = false, onClose}) => {
       };
 
       await dispatch(getAllCompaniesQuery(query));
+      setNewCompany({} as ICompanyNew);
+      setNewContact({} as IContactNew);
     }
 
   };

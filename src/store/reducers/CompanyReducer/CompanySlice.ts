@@ -51,7 +51,7 @@ const companySlice = createSlice({
       })
       .addCase(addCompany.fulfilled, (state, action: PayloadAction<ICompany>) => {
         state.isLoading = false;
-        state.company = action.payload;
+        // state.company = action.payload;
       })
       .addCase(addCompany.rejected, (state, action) => {
         state.isLoading = false;
