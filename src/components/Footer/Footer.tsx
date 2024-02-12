@@ -4,6 +4,7 @@ import { useDebounce } from '../../hooks/useDebounce';
 import { getSearchResult } from '../../store/reducers/SearchReducer/SearchActionCreater';
 import './footer.scss';
 import { IoSearchOutline } from "@react-icons/all-files/io5/IoSearchOutline";
+import { IoPeopleOutline } from "@react-icons/all-files/io5/IoPeopleOutline";
 import { searchResultClearArray } from '../../store/reducers/SearchReducer/SearchSlice';
 
 const FooterInner: FC = () => {
@@ -52,14 +53,44 @@ const FooterInner: FC = () => {
             {searchValue ? 
               searchResult.map(item => 
                 <a 
-                  key={item._id}
-                  href={`/companies/${item._id}`}
+                  key={item.companyID}
+                  href={`/companies/${item.companyID}`}
                   onClick={() => dispatch(searchResultClearArray())}
                   target="_blank">
-                    <b>
+                    {/* <b>
                       {`${item.title}, ${item.contactID.address.district}`}
                       
-                    </b>
+                    </b> */}
+                    <div className="footer__search__result__item">
+                      <div className="footer__search__result__item__icon">
+                        <IoPeopleOutline size={30}/>
+                      </div>
+                        <div className="footer__search__result__item__info">
+                          <div className="footer__search__result__item__block">
+                            <span className='title'>Клиент:</span>
+                            <span className='title-name'>{item.companyTitle}</span>
+                          </div>            
+                          {item.phoneNumber ? 
+                            <div className="footer__search__result__item__block">
+                              <span>Телефон:</span>
+                              <span>{item.phoneNumber + ' ' + item.phoneDescription}</span>
+                            </div>
+                            :
+                            null
+                          }
+                          {item.emailEmail ? 
+                            <div className="footer__search__result__item__block">
+                              <span>Почта:</span>
+                              <span>{item.emailEmail + ' ' + item.emailDescription}</span>
+                            </div>
+                            : null
+                          }
+                          <div className="footer__search__result__item__block">
+                            <span>Ответственынй:</span>
+                            <span>{item.userLastName + ' ' + item.userFirstName}</span>
+                          </div>
+                        </div>
+                    </div>
                 </a>
 
                 // <span

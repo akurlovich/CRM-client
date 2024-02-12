@@ -1,8 +1,6 @@
 import { AxiosResponse } from "axios";
 import serverApi from "../http";
-import { ICompany } from "../types/ICompany";
-import { IEmail } from "../types/IEmail";
-import { IPhone } from "../types/IPhone";
+import { ISearchResult } from "../types/ISearchResult";
 
 export default class SearchService {
   // static async addProduct(product: IProductNew): Promise<AxiosResponse<IProduct>> {
@@ -17,8 +15,8 @@ export default class SearchService {
   //   return serverApi.get<ICompany[] | IPhone[] | IEmail[]>(`/search?search=${search}`);
   // };
 
-  static async getSearchResult(search: string): Promise<AxiosResponse<ICompany[]>> {
-    return serverApi.get<ICompany[]>(`/search?search=${search}`);
+  static async getSearchResult(search: string): Promise<AxiosResponse<ISearchResult[]>> {
+    return serverApi.get<ISearchResult[]>(`/search?search=${search}`);
   };
 
   // static async deleteProductByID(productID: string): Promise<AxiosResponse<IProduct>> {

@@ -1,18 +1,16 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ICompany } from "../../../types/ICompany";
-import { IEmail } from "../../../types/IEmail";
-import { IPhone } from "../../../types/IPhone";
+import { ISearchResult } from "../../../types/ISearchResult";
 import { getSearchResult } from "./SearchActionCreater";
 // import getSearchResult from "./SearchSlice";
 
 interface ISearchState {
-  searchResult: ICompany[];
+  searchResult: ISearchResult[];
   isLoading: boolean,
   error: string,
 };
 
 const initialState: ISearchState = {
-  searchResult: [] as ICompany[],
+  searchResult: [] as ISearchResult[],
   isLoading: false,
   error: '',
 };
@@ -30,7 +28,7 @@ const searchSlice = createSlice({
       .addCase(getSearchResult.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(getSearchResult.fulfilled, (state, action: PayloadAction<ICompany[]>) => {
+      .addCase(getSearchResult.fulfilled, (state, action: PayloadAction<ISearchResult[]>) => {
         state.isLoading = false;
         state.searchResult = action.payload;
       })
