@@ -1,37 +1,85 @@
-import React, { FC } from 'react';
-import { AiOutlineArrowRight, AiOutlineCopyrightCircle, AiOutlineMail } from "react-icons/ai";
-import { Link, NavLink } from 'react-router-dom';
+import React, { FC, useEffect, useState } from 'react';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { useDebounce } from '../../hooks/useDebounce';
+import { getSearchResult } from '../../store/reducers/SearchReducer/SearchActionCreater';
 import './footer.scss';
+import { IoSearchOutline } from "@react-icons/all-files/io5/IoSearchOutline";
+import { searchResultClearArray } from '../../store/reducers/SearchReducer/SearchSlice';
 
 const FooterInner: FC = () => {
+  const { searchResult } = useAppSelector(state => state.searchReducer);
+
+  const dispatch = useAppDispatch();
+  
+  const [searchValue, setSearchValue] = useState('');
+
+  const debouncedSearch = useDebounce(searchValue);
+
+  const searchValueHandler = async (e: React.FocusEvent<HTMLInputElement>) => {
+    setSearchValue(e.target.value);
+    // console.log(searchResult)
+  };
+
+  useEffect(() => {
+    dispatch(searchResultClearArray());
+    // console.log(debouncedSearch)
+    if (debouncedSearch) {
+      const fetchData = async () => {
+        await dispatch(getSearchResult(debouncedSearch));
+      };
+      fetchData();
+
+    }
+  }, [debouncedSearch]);
+
+  
   return (
     <footer className="footer">
-      {/* <nav className="footer__wrapper">
-        <NavLink 
-          to='/' 
-          className={({ isActive }) => isActive ? 'footer__links active' : 'footer__links'}>
-          <AiOutlineArrowRight size={30} />
-          <div className="footer__links__text">
-            Главная
+      <div className="footer__search">
+        <div className="footer__search__input">
+          <div className="footer__search__icon">
+            <IoSearchOutline size={20}/>
           </div>
-        </NavLink>
-        <NavLink to='/polikarbonat' className={({ isActive }) => isActive ? 'footer__links active' : 'footer__links'}>
-          <AiOutlineArrowRight size={30}/>
-          <div className="footer__links__text">
-            Продукция
+          <input 
+            // onClick={() => console.log(searchResult)}
+            // className="comments__input" 
+            type="text" 
+            value={searchValue} 
+            onChange={searchValueHandler}
+            placeholder='Найти...'/>
+          <div className="footer__search__result">
+            
+            {searchValue ? 
+              searchResult.map(item => 
+                <a 
+                  key={item._id}
+                  href={`/companies/${item._id}`}
+                  onClick={() => dispatch(searchResultClearArray())}
+                  target="_blank">
+                    <b>
+                      {`${item.title}, ${item.contactID.address.district}`}
+                      
+                    </b>
+                </a>
+
+                // <span
+                //   key={item._id}
+                //   // onClick={() => addProductToOrderHandler(item)}
+                //   >
+                //   {`${item.title}, ${item.usersID}`}
+                // </span>
+              ) : null
+            }
           </div>
-        </NavLink>
-        <NavLink to='/about' className={({ isActive }) => isActive ? 'footer__links active' : 'footer__links'}>
-          <AiOutlineArrowRight size={30}/>
-          <div className="footer__links__text">
-            Контакты
-          </div>
-        </NavLink>
-      </nav> */}
-      <div className="footer__copywrite">
+        </div>
+      </div>
+
+      {/* <div className="footer__copywrite">
         <div className="footer__item">
           <AiOutlineCopyrightCircle size={30}/>
-          <div className="footer__text">
+          <div 
+            onClick={() => console.log(searchResult)}
+            className="footer__text">
             Copyright: Artsiom Kurlovich
           </div>
         </div>
@@ -41,7 +89,7 @@ const FooterInner: FC = () => {
             <a className="footer__text" href="mailto: info@skrama.by">info@skrama.by</a>
           </div>
         </div>
-      </div>
+      </div> */}
     </footer>
   );
 };

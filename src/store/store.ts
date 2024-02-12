@@ -10,6 +10,7 @@ import productReducer from './reducers/ProductReducer/ProductSlice';
 import orderReducer from './reducers/OrderReducer/OrderSlice';
 import orderItemsReducer from './reducers/OrderItemsReducer/OrderItemsSlice';
 import authReducer from './reducers/AuthReducer/AuthSlice';
+import searchReducer from './reducers/SearchReducer/SearchSlice';
 
 const rootReducer = combineReducers({
   dimensionReducer,
@@ -23,6 +24,7 @@ const rootReducer = combineReducers({
   orderReducer,
   orderItemsReducer,
   authReducer,
+  searchReducer,
  
 })
 
