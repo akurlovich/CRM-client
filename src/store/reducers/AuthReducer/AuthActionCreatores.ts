@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { API_URL } from "../../../constants/http";
+import serverApi from "../../../http";
 import AuthService from "../../../services/AuthService";
 // import RoleService from "../../../services/RoleService";
 import UserService from "../../../services/UserService";
@@ -48,6 +49,7 @@ export const loginUser = createAsyncThunk(
       const { email, password } = data;
       const response = await AuthService.login(email, password);
       localStorage.setItem('token', response.data.accessToken);
+      localStorage.setItem('ref', response.data.refreshToken);
       // const role = await RoleService.getRoleByID(response.data.user.role[0]);
       return {
         user: response.data.user,
@@ -79,7 +81,54 @@ export const checkAuth = createAsyncThunk(
   'AUTH/chechAuth',
   async (_, {rejectWithValue}) => {
     try {
-      const response = await axios.get<IAuthResponse>(`${API_URL}users/refresh`, {withCredentials: true});
+      // console.log('auth')
+      // const value = `; ${document.cookie}`;
+      // document.cookie = "username=Debra White; path=/";
+      // document.cookie = "userId=wjgye264s; path=/";
+      // console.log('cookie', document.cookie)
+      const response = await axios.get<IAuthResponse>(`${API_URL}users/refresh`, {
+        withCredentials: true,
+        withXSRFToken: true,
+        // crossDomain: true,
+        headers: {
+          'Access-Control-Allow-Origin': '*', 
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Credentials': 'true',
+          'Access-Control-Allow-Headers': 'Content-Type, *',
+          // 'Authorization': `${localStorage.getItem('token')}`,
+          // 'Authorization': `${document.cookie}`,
+          'Authorization': `${localStorage.getItem('ref')}`,
+        },
+        
+      });
+      // const response = await serverApi.get<IAuthResponse>(`${API_URL}users/refresh`, {withCredentials: true});
+      // console.log('response', response.data.accessToken)
+      localStorage.setItem('token', response.data.accessToken);
+      localStorage.setItem('ref', response.data.refreshToken);
+      // const role = await RoleService.getRoleByID(response.data.user.role[0]);
+      return {
+        user: response.data.user,
+        // role: role.data.value,
+      }
+      
+    } 
+    // catch (error) {
+    //   return rejectWithValue(`Auth went wrong!`)
+    catch (error: any) {
+      return rejectWithValue(error.message)
+    }
+  }
+);
+
+export const refreshUser = createAsyncThunk(
+  'AUTH/refreshUser',
+  async (_, {rejectWithValue}) => {
+    try {
+      // console.log('refreshUser')
+      const cookieNew = `${localStorage.getItem('token')}`
+      const response = await axios.post<IAuthResponse>(`${API_URL}users/refresh`, {cookie: cookieNew}, {withCredentials: true});
+      // const response = await serverApi.get<IAuthResponse>(`${API_URL}users/refresh`, {withCredentials: true});
+      console.log('refreshUser response', response)
       localStorage.setItem('token', response.data.accessToken);
       // const role = await RoleService.getRoleByID(response.data.user.role[0]);
       return {
@@ -87,8 +136,11 @@ export const checkAuth = createAsyncThunk(
         // role: role.data.value,
       }
       
-    } catch (error) {
-      return rejectWithValue(`Auth went wrong!`)
+    } 
+    // catch (error) {
+    //   return rejectWithValue(`Auth went wrong!`)
+    catch (error: any) {
+      return rejectWithValue(error.message)
     }
   }
 );

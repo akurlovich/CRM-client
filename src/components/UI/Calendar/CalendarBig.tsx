@@ -6,7 +6,7 @@ import dayjs from 'dayjs';
 import CalendarLocale from 'rc-picker/lib/locale/ru_RU';
 import { IDeal } from '../../../types/IDeal';
 import { v4 as uuidv4 } from 'uuid';
-import { useAppDispatch } from '../../../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { getDealsWithQuery } from '../../../store/reducers/DealReducer/DealActionCreators';
 import { ICompaniesQuery } from '../../../types/ICompany';
 import weekYear from 'dayjs/plugin/weekYear';
@@ -49,6 +49,7 @@ const locale = {
 // };
 
 const CalendarBig: FC<IProps> = ({items, showDealsForDay}) => {
+  const { user } = useAppSelector(state => state.authReducer);
   const dispatch = useAppDispatch();
 
   const getListData = (value: Dayjs) => {
@@ -234,7 +235,14 @@ const CalendarBig: FC<IProps> = ({items, showDealsForDay}) => {
           sort: {'contactID.address.district': 'asc'}, 
           limit: 0,
       
-          find: { monthEnd: newValue.format('MM'), dayEnd: newValue.format('DD') }
+          find: user.isAdmin ? { 
+            monthEnd: newValue.format('MM'), 
+            dayEnd: newValue.format('DD'),
+          } : {
+            userID: user.id,
+            monthEnd: newValue.format('MM'), 
+            dayEnd: newValue.format('DD'),
+          }
     }
     
     await dispatch(getDealsWithQuery(query))

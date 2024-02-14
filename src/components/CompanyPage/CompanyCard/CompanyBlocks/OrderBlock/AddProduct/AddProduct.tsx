@@ -20,6 +20,10 @@ const AddProductInner: FC<IProps> = ({isVisible = false, onClose }) => {
   const [disabled, setDisabled] = useState(true);
 
   const addProductHandler = async () => {
+    if (!selectedDimenion) {
+      alert('Не выбрана единица измерения!')
+      return;
+    }
     if (selectedDimenion && productName ) {
       const newProduct: IProductNew = {
         title: productName,
@@ -33,6 +37,7 @@ const AddProductInner: FC<IProps> = ({isVisible = false, onClose }) => {
       setSselectedDimenion('');
       setProductName('')
       onClose();
+      setDisabled(true);
     } else {
       alert('Не заполнены все поля!')
     }

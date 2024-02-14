@@ -14,5 +14,9 @@ export default class AuthService {
   
   static async logout(): Promise<void> {
     return serverApi.post('/users/logout');
-  }
+  };
+
+  // static async refreshUser(cookie: string): Promise<AxiosResponse<IAuthResponse>> {
+  //   return serverApi.post<IAuthResponse>('/users/refresh', {cookie: cookie});
+  // }
 }

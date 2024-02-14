@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IUserAuth } from "../../../types/IUser";
-import { checkAuth, loginUser, logoutUser, registerUser, } from "./AuthActionCreatores";
+import { checkAuth, loginUser, logoutUser, refreshUser, registerUser, } from "./AuthActionCreatores";
 
 interface IResponseData {
   user: IUserAuth,
@@ -94,6 +94,22 @@ export const authSlice = createSlice({
         // state.role = action.payload.role;
       })
       .addCase(checkAuth.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isAuth = false;
+        state.error = action.payload as string;
+      });
+    builder
+      .addCase(refreshUser.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(refreshUser.fulfilled, (state, action: PayloadAction<IResponseData>) => {
+        state.isLoading = false;
+        state.isAuth = action.payload.user?.isAdmin && false;
+        state.error = '';
+        state.user = action.payload.user;
+        // state.role = action.payload.role;
+      })
+      .addCase(refreshUser.rejected, (state, action) => {
         state.isLoading = false;
         state.isAuth = false;
         state.error = action.payload as string;

@@ -12,6 +12,7 @@ import dayjs from 'dayjs';
 import { DealsOverdue } from './DealsOverdue/DealsOverdue';
 
 const DealsMainInner: FC = () => {
+  const { user } = useAppSelector(state => state.authReducer);
   const { deals, dealsWithQuery, dealsByUserQuery } = useAppSelector(state => state.dealReducer);
   const dispatch = useAppDispatch();
 
@@ -41,7 +42,7 @@ const DealsMainInner: FC = () => {
           path: "userID", 
         }
       ], 
-      find: {
+      find: user.isAdmin ? {
 //TODO ----  если все задачи, то вообще без usersID
         // usersID: '', 
         monthEnd: { $lte: dayjs().format('MM') }, 
@@ -50,9 +51,37 @@ const DealsMainInner: FC = () => {
         // monthEnd: { $lte: '03'}, 
         // dayEnd: { $lt: '14'}, 
         // yearEnd: { $lte: '2024'}
+      } : {
+        userID: user.id, 
+        monthEnd: { $lte: dayjs().format('MM') }, 
+        dayEnd: { $lt: dayjs().format('DD') }, 
+        yearEnd: { $lte: dayjs().format('YYYY') }
       }
     }
     await dispatch(getAllDealsByUserQuery(query));
+  }
+
+  const showDealsForDayHandler = async () => {
+    setShowDayDeal(true);
+    const query: IDealsQuery = {
+        query: [ 
+          {
+            path: "companyID", 
+          },
+          {
+            path: "dealTitleID", 
+          },
+          {
+            path: "userID", 
+          }
+        ], 
+        sort: {'contactID.address.district': 'asc'}, 
+        limit: 0,
+    
+        find: user.isAdmin ? {} : { userID: user.id }
+      }
+      
+      await dispatch(getDealsWithQuery(query))
   }
 
 
@@ -82,7 +111,7 @@ const DealsMainInner: FC = () => {
         sort: {'contactID.address.district': 'asc'}, 
         limit: 0,
     
-        find: {}
+        find: user.isAdmin ? {} : { userID: user.id }
       }
       
       await dispatch(getDealsWithQuery(query))
@@ -109,7 +138,7 @@ const DealsMainInner: FC = () => {
           <DealForDay 
             date={choosenDate} 
             dateShot={choosenShotDate} 
-            showCalendar={() => setShowDayDeal(true)}/>
+            showCalendar={showDealsForDayHandler}/>
         </>
       }
 

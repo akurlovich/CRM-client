@@ -12,7 +12,8 @@ import { UserLogin } from './components/UserLogin/UserLogin';
 import { UserRegistration } from './components/UserRegistration/UserRegistration';
 import { useAppDispatch } from './hooks/redux';
 import './scss/app.scss';
-import { checkAuth } from './store/reducers/AuthReducer/AuthActionCreatores';
+import { checkAuth, loginUser, refreshUser } from './store/reducers/AuthReducer/AuthActionCreatores';
+import { getAllUsers } from './store/reducers/UserReducer/UserActionCreators';
 
 const App: FC = () => {
 
@@ -21,8 +22,10 @@ const App: FC = () => {
   useEffect(() => {
     (async () => {
       if (localStorage.getItem('token')) {
-        console.log(localStorage.getItem('token'))
+        // console.log(localStorage.getItem('token'))
         await dispatch(checkAuth());
+        // await dispatch(refreshUser());
+        // await dispatch(loginUser({email: 'skrama@tut.by', password: 'q1234567'}));
       }
 
     })()
