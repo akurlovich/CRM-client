@@ -235,14 +235,18 @@ const CalendarBig: FC<IProps> = ({items, showDealsForDay}) => {
           sort: {'contactID.address.district': 'asc'}, 
           limit: 0,
       
-          find: user.isAdmin ? { 
+          find: (user.id === '65a112acc11882f036f9cf74') ? {
+            userID: user.id,
+            monthEnd: newValue.format('MM'), 
+            dayEnd: newValue.format('DD'),
+          } : (user.isAdmin ? { 
             monthEnd: newValue.format('MM'), 
             dayEnd: newValue.format('DD'),
           } : {
             userID: user.id,
             monthEnd: newValue.format('MM'), 
             dayEnd: newValue.format('DD'),
-          }
+          })
     }
     
     await dispatch(getDealsWithQuery(query))

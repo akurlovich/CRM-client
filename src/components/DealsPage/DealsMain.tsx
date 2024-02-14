@@ -42,7 +42,12 @@ const DealsMainInner: FC = () => {
           path: "userID", 
         }
       ], 
-      find: user.isAdmin ? {
+      find: (user.id === '65a112acc11882f036f9cf74') ? {
+        userID: user.id, 
+        monthEnd: { $lte: dayjs().format('MM') }, 
+        dayEnd: { $lt: dayjs().format('DD') }, 
+        yearEnd: { $lte: dayjs().format('YYYY') }
+      } : (user.isAdmin ? {
 //TODO ----  если все задачи, то вообще без usersID
         // usersID: '', 
         monthEnd: { $lte: dayjs().format('MM') }, 
@@ -56,7 +61,7 @@ const DealsMainInner: FC = () => {
         monthEnd: { $lte: dayjs().format('MM') }, 
         dayEnd: { $lt: dayjs().format('DD') }, 
         yearEnd: { $lte: dayjs().format('YYYY') }
-      }
+      })
     }
     await dispatch(getAllDealsByUserQuery(query));
   }
@@ -78,7 +83,7 @@ const DealsMainInner: FC = () => {
         sort: {'contactID.address.district': 'asc'}, 
         limit: 0,
     
-        find: user.isAdmin ? {} : { userID: user.id }
+        find: (user.id === '65a112acc11882f036f9cf74') ? { userID: user.id } : (user.isAdmin ? {} : { userID: user.id })
       }
       
       await dispatch(getDealsWithQuery(query))
@@ -111,7 +116,7 @@ const DealsMainInner: FC = () => {
         sort: {'contactID.address.district': 'asc'}, 
         limit: 0,
     
-        find: user.isAdmin ? {} : { userID: user.id }
+        find: (user.id === '65a112acc11882f036f9cf74') ? { userID: user.id } : (user.isAdmin ? {} : { userID: user.id })
       }
       
       await dispatch(getDealsWithQuery(query))
