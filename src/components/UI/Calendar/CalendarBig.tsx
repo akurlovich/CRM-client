@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
 import type { Dayjs } from 'dayjs';
-import type { BadgeProps, CalendarProps } from 'antd';
+import { BadgeProps, CalendarProps, ConfigProvider } from 'antd';
 import { Badge, Calendar } from 'antd';
 import dayjs from 'dayjs';
 import CalendarLocale from 'rc-picker/lib/locale/ru_RU';
@@ -260,23 +260,45 @@ const CalendarBig: FC<IProps> = ({items, showDealsForDay}) => {
   // };
 
   return (
-    <>
-      {/* <Alert message={`You selected date: ${selectedValue?.format('YYYY-MM-DD')}`}/> */}
-      <Calendar 
-        // value={value} 
-        onSelect={onSelect} 
-        // onSelect={(date, { source }) => {
-        //   if (source === 'date') {
-        //     console.log('Panel Select:', source);
-        //   }
-        // }}
-        // onPanelChange={onPanelChange}
-        cellRender={cellRender} 
-        //@ts-ignore
-        locale={locale}
-        />;
+  
+      <ConfigProvider
+        theme={{
+          token: {
+            // Seed Token
+            colorPrimary: '#00b96b',
+            // borderRadius: 2,
+            // // colorBorder: 'red',
+            // colorBorderSecondary: 'red',
+            // colorBorderBg: 'red',
+            // colorPrimaryBorder: 'green',
+                        
     
-    </>
+            // // Alias Token
+            // // colorBgContainer: '#f6ffed',
+            // colorFillSecondary: '#f6ffed',
+          },
+        }}
+
+
+      >
+        <Calendar 
+          
+          // value={value} 
+          onSelect={onSelect} 
+          // onSelect={(date, { source }) => {
+          //   if (source === 'date') {
+          //     console.log('Panel Select:', source);
+          //   }
+          // }}
+          // onPanelChange={onPanelChange}
+          cellRender={cellRender} 
+          //@ts-ignore
+          locale={locale}
+          />
+        
+      </ConfigProvider>
+    
+    
 
 
   )
