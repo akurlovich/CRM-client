@@ -53,11 +53,12 @@ const App: FC = () => {
         
         <Route element={<AdminAuthRouter/>}>
           <Route path="companies" element={<Company/>}/>
+          <Route path="companies/:id" element={<CompanyCard/>}/>
           <Route path="orders" element={<OrdersMain/>}/>
           <Route path="deals" element={<DealsMain/>}/>
+          {/* <Route path="deals/:date" element={<DealsMain/>}/> */}
         </Route>
 
-        <Route path="companies/:id" element={<CompanyCard/>}/>
         {/* <Route path="orders" element={<OrdersMain/>}/>
         <Route path="deals" element={<DealsMain/>}/> */}
         {/* <Route path='admin' element={

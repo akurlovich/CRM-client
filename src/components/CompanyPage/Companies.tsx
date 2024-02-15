@@ -50,10 +50,14 @@ const CompanyInner: FC = () => {
             path: "contactID", 
             select: "address.district"
           },
-          // {
-          //   path: "dealsID", 
-          //   populate: { path: 'dealTitleID' }
-          // },
+          {
+            path: "commentsID", 
+            populate: { path: 'userID' }
+          },
+          {
+            path: "dealsID", 
+            // populate: { path: 'dealTitleID' }
+          },
           // {
           //   path: "dealsID", 
           //   populate: { path: 'userID' }
