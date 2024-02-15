@@ -74,7 +74,7 @@ const DealForDay:FC<IProps> = ({date = '01.01.2024', dateShot, showCalendar}) =>
 
         <div className="deal-for-day__main">
           <div
-            onClick={() => console.log(readyArrDeals)} 
+            // onClick={() => console.log(readyArrDeals)} 
             className="deal-for-day__main__title">
             <span>
               {`Все дела на ${date}г.`}
@@ -83,7 +83,10 @@ const DealForDay:FC<IProps> = ({date = '01.01.2024', dateShot, showCalendar}) =>
               onClick={showCalendar}>
               Календарь</button>
           </div>
-          <DealsOverdue items={dealsByUserQuery}/>
+          {dealsByUserQuery.length ? 
+            <DealsOverdue items={dealsByUserQuery}/>
+            : null
+          }
           <div className="deal-for-day__main__block">
             <div className="deal-for-day__main__block__title">
               Текущие дела:

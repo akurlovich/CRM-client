@@ -39,7 +39,7 @@ const DealCreate: FC<IProps> = ({onAction, position}) => {
 
   const timeHandler = (timeString: string) => {
     const timeArr: string[] = timeString.split(':');
-    console.log(timeArr)
+    // console.log(timeArr)
     setCalendarData(prev => ({
       ...prev,
       time: timeString,

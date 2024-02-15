@@ -7,41 +7,18 @@
   justify-content: center;
   align-items: center;
   background-color: rgba($color: #000000, $alpha: 0.5);
-  font-family: 'Poppins', sans-serif;
+  // font-family: 'Poppins', sans-serif;
   
   &__block {
     position: relative;
-    max-width: 640px;
+    // max-width: 450px;
     width: 100%;
-    min-height: 780px;
+    // min-height: 780px;
     // height: 100%;
     background-color: #ffffff;
-    border-radius: 50px;
+    border-radius: 5px;
     box-shadow: 2px 3px 11px 5px rgb(0 0 0 / 50%);
     overflow: hidden;
-  }
-
-  &__book {
-    position: absolute;
-    &.one {
-      top: -28px;
-      left: 35px;
-      transform: rotate(-17deg);
-      width: 256px;
-    }
-    &.two {
-      top: 231px;
-      left: 36px;
-      transform: rotate(1deg);
-      width: 218px;
-      border-radius: 10px;
-    }
-    &.three {
-      top: 449px;
-      left: 20px;
-      transform: rotate(17deg);
-      border-radius: 10px;
-    }
   }
 
   &__container {
@@ -51,14 +28,14 @@
     max-width: 640px;
     width: 100%;
     height: 100%;
-    background: #e8faf8;
-    border-radius: 50px;
-    padding: 20px;
+    // background: #e8faf8;
+    // border-radius: 50px;
+    // padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
     // justify-content: space-around;
-    gap: 10px;
+    // gap: 10px;
     text-align: center;
     box-shadow: 2px 3px 11px 5px rgb(0 0 0 / 50%);
     z-index: 5;
@@ -72,7 +49,7 @@
   }
 
   &__title {
-    font-family: 'Poppins', sans-serif;
+    // font-family: 'Poppins', sans-serif;
     font-style: normal;
     font-weight: bold;
     font-size: 32px;
@@ -84,20 +61,20 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 5px;
+    // gap: 5px;
 
     &__button {
-      margin-top: 40px;
+      // margin-top: 40px;
       &_send {
-        width: 526px;
-        height: 74px;
-        background: #B0D8DA;
-        border-radius: 25px;
-        font-family: 'Poppins', sans-serif;
+        // width: 526px;
+        // height: 74px;
+        // background: #B0D8DA;
+        border-radius: 5px;
+        // font-family: 'Poppins', sans-serif;
         font-style: normal;
-        font-weight: bold;
-        font-size: 30px;
-        line-height: 45px;
+        // font-weight: bold;
+        // font-size: 24px;
+        // line-height: 45px;
         color: #FFFFFF;
         
         &.active {
@@ -110,15 +87,15 @@
 
   &__login-link {
     // margin: 40px 0 20px 0;
-    font-family: 'Poppins', sans-serif;
+    // font-family: 'Poppins', sans-serif;
     font-style: normal;
     font-weight: 500;
-    font-size: 18px;
-    line-height: 39px;
+    // font-size: 18px;
+    // line-height: 39px;
     color: #000000;
 
     &__link {
-      font-size: 26px;
+      font-size: 20px;
     }
   }
 }

@@ -27,6 +27,12 @@ const UserLoginInner: FC = () => {
 
   const handlerChange = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (!email.length) {
+      return
+    }
+    if (!password.length) {
+      return
+    }
     await dispatch(loginUser({email, password}));
     setEmail('');
     setPassword('');
@@ -66,9 +72,9 @@ const UserLoginInner: FC = () => {
       {showError && <UserErrorWarning canselHandler={canselHandler} message={loginError}/>}
       <div className="registration__block login">
         <div className="registration__container">
-          <div onClick={() => navigate('/')} className="registration__close">
+          {/* <div onClick={() => navigate('/')} className="registration__close">
             <AiOutlineCloseCircle size={40}/>
-          </div>
+          </div> */}
           <div className="registration__title">
             Вход
           </div>

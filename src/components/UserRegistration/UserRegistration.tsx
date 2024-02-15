@@ -74,9 +74,9 @@ const UserRegistrationInner: FC = () => {
       {registerError && <UserErrorWarning canselHandler={canselHandler} message={`User with email ${email} already exist!`}/>}
       <div className="registration__block">
         <div className="registration__container">
-          <div onClick={() => navigate('/')} className="registration__close">
+          {/* <div onClick={() => navigate('/')} className="registration__close">
             <AiOutlineCloseCircle size={40}/>
-          </div>
+          </div> */}
           <div className="registration__title">
             Создать аккаунт
           </div>

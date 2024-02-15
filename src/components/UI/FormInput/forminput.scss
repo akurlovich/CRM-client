@@ -9,7 +9,7 @@
   &__label {
     position: absolute;
     align-self: flex-start;
-    font-family: 'Poppins', sans-serif;
+    // font-family: 'Poppins', sans-serif;
     font-style: normal;
     font-weight: 500;
     font-size: 16px;
@@ -18,7 +18,7 @@
     // z-index: 2;
     top: 40px;
     left: 4px;
-    background-color: #e8faf8;
+    background-color: #f8f8f6;
     transition: all 0.3s ease;
   }
 
@@ -28,7 +28,7 @@
     padding: 5px;
     margin-top: 30px;
     border-bottom: 1px solid #B8B8B8;
-    font-family: 'Poppins', sans-serif;
+    // font-family: 'Poppins', sans-serif;
     font-style: normal;
     font-weight: 500;
     font-size: 16px;
@@ -36,6 +36,39 @@
     color: #000000;
     z-index: 2;
     background-color: transparent;
+
+    &:-webkit-autofill {
+        // -webkit-text-fill-color: #31b0dd;
+        -webkit-box-shadow: 0 0 0px 40rem #f8f8f6 inset;
+    }
+
+    &:-webkit-autofill:hover {
+      // -webkit-text-fill-color: #31b0dd;
+      -webkit-box-shadow: 0 0 0px 40rem #f8f8f6 inset;
+    }
+
+    &:-webkit-autofill:focus {
+      // -webkit-text-fill-color: #31b0dd;
+      -webkit-box-shadow: 0 0 0px 40rem #f8f8f6 inset;
+    }
+
+    // &:-internal-autofill-selected {
+    //   background-color: rgb(255, 255, 255) !important;
+    //   background-image: none !important;
+    // }
+
+    // &:-internal-light-dark {
+    //   background-color: rgb(255, 255, 255) !important;
+    //   background-image: none !important;
+    // }
+
+    &::selection {
+      background-color: transparent;
+    }
+
+    &::-moz-selection {
+      background-color: transparent;
+    }
 
     &:invalid[datatype='true'] ~ .form-input__error {
       opacity: 1;
