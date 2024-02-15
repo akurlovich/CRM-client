@@ -30,6 +30,7 @@ export const registerUser = createAsyncThunk(
       // const { email, password } = data;
       const response = await AuthService.registration(data);
       localStorage.setItem('token', response.data.refreshToken);
+      localStorage.setItem('ref', response.data.refreshToken);
       // const role = await RoleService.getRoleByID(response.data.user.role[0]);
       return {
         user: response.data.user,
@@ -69,6 +70,7 @@ export const logoutUser = createAsyncThunk(
     try {
       await AuthService.logout();
       localStorage.removeItem('token');
+      localStorage.removeItem('ref');
       return;
       
     } catch (error) {

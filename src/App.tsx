@@ -20,15 +20,27 @@ const App: FC = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    (async () => {
-      if (localStorage.getItem('token')) {
-        // console.log(localStorage.getItem('token'))
-        await dispatch(checkAuth());
-        // await dispatch(refreshUser());
-        // await dispatch(loginUser({email: 'skrama@tut.by', password: 'q1234567'}));
-      }
+    let isMounted = true;
+    const controller = new AbortController();
 
-    })()
+    const getAuth = async () => {
+      try {
+        if (localStorage.getItem('token') || localStorage.getItem('ref')) {
+          if (isMounted) {
+            await dispatch(checkAuth());
+          }
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    getAuth();
+
+    return () => {
+      isMounted = false;
+      controller.abort();
+    }
+
   }, []);
 
   return (
