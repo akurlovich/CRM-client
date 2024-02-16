@@ -14,9 +14,10 @@ dayjs.updateLocale('en', {
 
 interface IProps {
   onClickDate?: (date: string, dateShort: string) => void;
+  title?: boolean;
 }
 
-const CalendarCustom: FC<IProps> = ({onClickDate}) => {
+const CalendarCustom: FC<IProps> = ({onClickDate, title = true}) => {
   const { token } = theme.useToken();
 
   const wrapperStyle: React.CSSProperties = {
@@ -33,11 +34,6 @@ const CalendarCustom: FC<IProps> = ({onClickDate}) => {
     // console.log(date)
     // console.log(dayjs().format('DD.MM.YYYY'))
   };
-
-  // useEffect(() => {
-  //   onClickDate(dayjs().format('DD MMMM YYYY'), dayjs().format('DD-MM-YYYY'))
-  // }, [])
-  
 
   return (
     <div style={wrapperStyle}>
@@ -70,11 +66,16 @@ const CalendarCustom: FC<IProps> = ({onClickDate}) => {
           }
           return (
             <div style={{ padding: 8 }}>
-              <Typography.Title level={4}>Выберите дату и время</Typography.Title>
-              <Row gutter={8}>
+              {title ? 
+                <Typography.Title level={4}>Выберите дату и время</Typography.Title>
+                : null
+              }
+              <Row 
+                
+                gutter={8}>
                 <Col>
                   <Select
-                    size="small"
+                    size="large"
                     popupMatchSelectWidth={false}
                     className="my-year-select"
                     value={year}
@@ -88,7 +89,7 @@ const CalendarCustom: FC<IProps> = ({onClickDate}) => {
                 </Col>
                 <Col>
                   <Select
-                    size="small"
+                    size="large"
                     popupMatchSelectWidth={false}
                     value={month}
                     onChange={(newMonth) => {

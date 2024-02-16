@@ -69,7 +69,7 @@ const DealForDay: FC<IProps> = ({ }) => {
     <section className='deal-for-day'>
       <div className="deal-for-day__container">
         <div className="deal-for-day__calendar">
-          <CalendarCustom />
+          <CalendarCustom title={false}/>
         </div>
 
         <div className="deal-for-day__main">

@@ -31,6 +31,11 @@ export const registerUser = createAsyncThunk(
       const response = await AuthService.registration(data);
       localStorage.setItem('token', response.data.refreshToken);
       localStorage.setItem('ref', response.data.refreshToken);
+      if (response.data.refreshToken) {
+        localStorage.setItem('isauth', 'true');
+      } else {
+        localStorage.removeItem('isauth');
+      }
       // const role = await RoleService.getRoleByID(response.data.user.role[0]);
       return {
         user: response.data.user,
@@ -51,6 +56,11 @@ export const loginUser = createAsyncThunk(
       const response = await AuthService.login(email, password);
       localStorage.setItem('token', response.data.accessToken);
       localStorage.setItem('ref', response.data.refreshToken);
+      if (response.data.refreshToken) {
+        localStorage.setItem('isauth', 'true');
+      } else {
+        localStorage.removeItem('isauth');
+      }
       // const role = await RoleService.getRoleByID(response.data.user.role[0]);
       return {
         user: response.data.user,
@@ -71,6 +81,7 @@ export const logoutUser = createAsyncThunk(
       await AuthService.logout();
       localStorage.removeItem('token');
       localStorage.removeItem('ref');
+      localStorage.removeItem('isauth');
       return;
       
     } catch (error) {
@@ -107,6 +118,11 @@ export const checkAuth = createAsyncThunk(
       // console.log('response', response.data.accessToken)
       localStorage.setItem('token', response.data.accessToken);
       localStorage.setItem('ref', response.data.refreshToken);
+      if (response.data.refreshToken) {
+        localStorage.setItem('isauth', 'true');
+      } else {
+        localStorage.removeItem('isauth');
+      }
       // const role = await RoleService.getRoleByID(response.data.user.role[0]);
       return {
         user: response.data.user,

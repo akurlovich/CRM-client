@@ -6,6 +6,7 @@ import { IDealNew, IDealTitle } from '../../../../../types/IDeal';
 import CalendarCustom from '../../../../UI/Calendar/CalendarCustom';
 import SelectBlock from '../../../../UI/Select/SelectBlock';
 import TimeBlock from '../../../../UI/TimePicker/TimePicker';
+import dayjs from 'dayjs';
 
 interface IProps {
   // options: IDealTitle[];
@@ -18,8 +19,8 @@ const DealCreate: FC<IProps> = ({onAction, position}) => {
   const dispatch = useAppDispatch();
   const [calendarData, setCalendarData] = useState(
     {
-      date: '01.01.2030',
-      dateShort: ['01', '01', '2030'],
+      date: dayjs().format('DD.MM.YYYY'),
+      dateShort: [dayjs().format('DD'), dayjs().format('MM'), dayjs().format('YYYY')],
       time: '08:00',
       timeShort: ['08', '00'],
       dealType: '657c071089e96dedfd490f35'
