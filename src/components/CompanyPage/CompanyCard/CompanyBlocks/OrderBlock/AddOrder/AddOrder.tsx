@@ -20,6 +20,7 @@ import { SERVER_URL } from '../../../../../../constants/http';
 import { Link } from 'react-router-dom';
 import { addItemProduct } from '../../../../../../store/reducers/OrderReducer/OrderSlice';
 import { v4 as uuidv4 } from 'uuid';
+import numberWithSpaces from '../../../../../../services/ClientServices/numberWithSpaces';
 
 interface IProps {
   isVisible: boolean;
@@ -179,7 +180,7 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
                 <span className='cell data narrow'>ИТОГО:</span>
                 <span className='cell data narrow'>{`${totalCount}`}</span>
                 <span className='cell data tight'></span>
-                <span className='cell data total medium'>{`${totalPrice.toFixed(2)} руб`}</span>
+                <span className='cell data total medium'>{`${numberWithSpaces(totalPrice)} руб`}</span>
                 <span className='cell data narrow'></span>
               </div>
               : null

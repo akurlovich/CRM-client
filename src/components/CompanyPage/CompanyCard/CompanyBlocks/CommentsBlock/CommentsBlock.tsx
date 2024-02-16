@@ -11,6 +11,8 @@ import { CommentItem } from './CommentItem';
 import dayjs from 'dayjs';
 import type { Dayjs } from 'dayjs';
 import updateLocale from 'dayjs/plugin/updateLocale';
+import { Loader } from '../../../../UI/Loader/Loader';
+import { LoaderSmall } from '../../../../UI/LoaderSmall/LoaderSmall';
 
 dayjs.extend(updateLocale);
 
@@ -22,6 +24,7 @@ dayjs.updateLocale('en', {
 
 const CommentsBlockInner: FC = () => {
   const { company, companyFirstUser, query, companyComments } = useAppSelector(state => state.companyReducer);
+  const { isLoading } = useAppSelector(state => state.commentReducer)
   const dispatch = useAppDispatch();
   const [newComment, setNewComment] = useState<string>('');
 
@@ -42,6 +45,7 @@ const CommentsBlockInner: FC = () => {
 
   return (
     <section className='comments-block'>
+      {isLoading && <LoaderSmall/>}
       <div className="comments">
         <div className="comments__inputblock">
           <IoDocumentAttachOutline size={25} color={'#972f2f'}/>

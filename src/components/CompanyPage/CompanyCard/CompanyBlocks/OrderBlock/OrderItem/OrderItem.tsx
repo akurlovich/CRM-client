@@ -4,6 +4,7 @@ import { addItemProduct, removeItemProduct } from '../../../../../../store/reduc
 import { IProduct } from '../../../../../../types/IProduct'
 import { IoTrashOutline } from "@react-icons/all-files/io5/IoTrashOutline";
 import { IOrderItemNew } from '../../../../../../types/IOrderItem';
+import numberWithSpaces from '../../../../../../services/ClientServices/numberWithSpaces';
 
 interface IProps {
   item: IOrderItemNew;
@@ -65,7 +66,7 @@ const OrderItem: FC<IProps> = ({item, count}) => {
         className='cell data tight' 
         type="number" 
         name="price"/>
-      <span className='cell data medium'>{`${totalItem} руб`}</span>
+      <span className='cell data medium'>{`${numberWithSpaces(+totalItem)} руб`}</span>
       <span 
         className='cell data narrow trash'>
         <IoTrashOutline 

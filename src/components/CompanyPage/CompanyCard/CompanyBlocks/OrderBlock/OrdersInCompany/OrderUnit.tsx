@@ -4,6 +4,7 @@ import { addItemProduct, clearItemsProduct, setOrderForEdit, setShowEditOrder, s
 import { IOrder } from '../../../../../../types/IOrder';
 import { v4 as uuidv4 } from 'uuid';
 import { useNavigate } from 'react-router-dom';
+import numberWithSpaces from '../../../../../../services/ClientServices/numberWithSpaces';
 
 interface IProps {
   item: IOrder;
@@ -66,7 +67,7 @@ const OrderUnitInner: FC<IProps> = ({item, ordersPage = false}) => {
         : 
         <span className='cell data'>{item?.orderItemID[0]?.productID ? item.orderItemID?.[0].productID?.title : ''}</span>
       }
-      <span className='cell data total'>{`${item.totalSum.toFixed(2)} руб`}</span>
+      <span className='cell data total'>{`${numberWithSpaces(item.totalSum)} руб`}</span>
       <div className='cell data user tight'>
         <span>{`${item.usersID.firstname[0]}${item.usersID.lastname[0]}`}</span>
         <span>{`${item.usersID.firstname} ${item.usersID.lastname}`}</span>

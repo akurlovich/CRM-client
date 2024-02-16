@@ -38,6 +38,7 @@ const CalendarCustom: FC<IProps> = ({onClickDate, title = true}) => {
   return (
     <div style={wrapperStyle}>
       <Calendar
+        
         fullscreen={false}
         headerRender={({ value, type, onChange, onTypeChange }) => {
           const start = 0;

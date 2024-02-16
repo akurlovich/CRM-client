@@ -31,6 +31,8 @@ const CompanyInner: FC = () => {
   // const [companiesArray, setCompaniesArray] = useState<ICompanyItem[]>([]);
 
   useEffect(() => {
+    let isMounted = true;
+    const controller = new AbortController();
     const fetchData = async () => {
     //   const query: ICompaniesQuery[] = [{
     //     path: "usersID", 
@@ -86,7 +88,20 @@ const CompanyInner: FC = () => {
       // console.log(users)
     };
 
+    try {
+      if (isMounted) {
+        fetchData();
+      }
+    } catch (error) {
+      console.log(error)
+    }
+
     fetchData();
+
+    return () => {
+      isMounted = false;
+      controller.abort();
+    }
    
   }, []);
 

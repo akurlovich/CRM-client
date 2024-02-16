@@ -24,7 +24,7 @@ import updateLocale from 'dayjs/plugin/updateLocale';
 import { AddOrder } from './CompanyBlocks/OrderBlock/AddOrder/AddOrder';
 import { OrdersInCompany } from './CompanyBlocks/OrderBlock/OrdersInCompany/OrdersInCompany';
 import { EditOrder } from './CompanyBlocks/OrderBlock/EditOrder/EditOrder';
-import { setShowNewOrder } from '../../../store/reducers/OrderReducer/OrderSlice';
+import { setShowEditOrder, setShowNewOrder } from '../../../store/reducers/OrderReducer/OrderSlice';
 
 dayjs.extend(updateLocale);
 
@@ -132,6 +132,11 @@ const CompanyCardInner: FC = () => {
       }
     }; 
     fetchData();
+
+    return () => {
+      dispatch(setShowNewOrder(false));
+      dispatch(setShowEditOrder(false));;
+    }
   }, []);
   
   return (
@@ -160,7 +165,10 @@ const CompanyCardInner: FC = () => {
               // onClick={() => console.log(companyItem)}
               className="company-card__header__links">
               <span className="active">Клиент</span>
-              <span>+ Сделка</span>
+              <span
+                style={{'cursor': 'pointer'}}
+                onClick={showAddOrderSmallHandler}
+                >+ Сделка</span>
               <span>Процессы</span>
             </div>
           </header>
