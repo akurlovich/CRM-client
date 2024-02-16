@@ -35,7 +35,7 @@ const ContactsPhonesInner: FC = ({}) => {
       ...prev,
       phone : {
         ...prev.phone,
-        number: '',
+        number: '+',
         description: '',
       }
     }))
@@ -98,11 +98,15 @@ const ContactsPhonesInner: FC = ({}) => {
   const addOrUpdateInputsHandler = (e: React.FocusEvent<HTMLInputElement>) => {
     switch (e.target.name) {
       case 'phone.number':
+        const data = e.target.value.replace(/\-{2,}/, '-').replace(/[^\d\.+]|\b-/, '')
+
+        // (/\D/, '') ^\d+(\.?)\d*$//(/^\-?\d*?(\.\d+)?/,'')
+
         setAddPhoneAndUpdateContact(prev => ({
           ...prev,
           phone : {
             ...prev.phone,
-            number: e.target.value
+            number: data
           }
         }))
         break;
