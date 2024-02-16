@@ -5,7 +5,6 @@ import { getAllDeals, getAllDealsByUserQuery, getDealsWithQuery } from '../../st
 import { ICompaniesQuery } from '../../types/ICompany';
 import { IDeal, IDealsQuery } from '../../types/IDeal';
 import CalendarBig from '../UI/Calendar/CalendarBig';
-
 import DealForDay from './DealsForDay/DealForDay';
 import './dealsmain.scss';
 import dayjs from 'dayjs';
@@ -20,16 +19,16 @@ const DealsMainInner: FC = () => {
   const [choosenDate, setchoosenDate] = useState('');
   const [choosenShotDate, setchoosenShotDate] = useState('');
 
-  const dealsArr: string[] = [];
-  for (let item of deals) {
-    dealsArr.push(item.dateEnd)
-  }
+  // const dealsArr: string[] = [];
+  // for (let item of deals) {
+  //   dealsArr.push(item.dateEnd)
+  // }
 
   const dealsHandler = async (date: string, dateShot: string) => {
     setShowDayDeal(false)
     setchoosenDate(date)
     setchoosenShotDate(dateShot)
-    // console.log(dayjs().format('YYYY'))
+  
     const query: IDealsQuery = {
       query: [ 
         {
@@ -140,10 +139,10 @@ const DealsMainInner: FC = () => {
         // ))
         <>
           {/* <DealsOverdue items={dealsByUserQuery}/> */}
-          <DealForDay 
+          {/* <DealForDay 
             date={choosenDate} 
             dateShot={choosenShotDate} 
-            showCalendar={showDealsForDayHandler}/>
+            showCalendar={showDealsForDayHandler}/> */}
         </>
       }
 

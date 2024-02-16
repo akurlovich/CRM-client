@@ -8,6 +8,8 @@ interface IDealState {
   dealsWithQuery: IDeal[],
   dealsByUserQuery: IDeal[],
   dealTitles: IDealTitle[],
+  choosenDate: string,
+  choosenShotDate: string,
   isLoading: boolean,
   error: string,
 };
@@ -18,6 +20,8 @@ const initialState: IDealState = {
   dealsWithQuery: [] as IDeal[],
   dealsByUserQuery: [] as IDeal[],
   dealTitles: [] as IDealTitle[],
+  choosenDate: '',
+  choosenShotDate: '',
   isLoading: false,
   error: '',
 };
@@ -25,7 +29,14 @@ const initialState: IDealState = {
 const dealSlice = createSlice({
   name: 'DEAL',
   initialState,
-  reducers: {},
+  reducers: {
+    addDateForDay(state, action: PayloadAction<string>) {
+      state.choosenDate = action.payload;
+    },
+    addShotDateForDay(state, action: PayloadAction<string>) {
+      state.choosenShotDate = action.payload;
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(addDeal.pending, (state) => {
@@ -113,5 +124,7 @@ const dealSlice = createSlice({
       });
   },
 });
+
+export const { addDateForDay, addShotDateForDay } = dealSlice.actions;
 
 export default dealSlice.reducer;

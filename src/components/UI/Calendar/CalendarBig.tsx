@@ -4,14 +4,16 @@ import { BadgeProps, CalendarProps, ConfigProvider } from 'antd';
 import { Badge, Calendar } from 'antd';
 import dayjs from 'dayjs';
 import CalendarLocale from 'rc-picker/lib/locale/ru_RU';
-import { IDeal } from '../../../types/IDeal';
+import { IDeal, IDealsQuery } from '../../../types/IDeal';
 import { v4 as uuidv4 } from 'uuid';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
-import { getDealsWithQuery } from '../../../store/reducers/DealReducer/DealActionCreators';
+import { getAllDealsByUserQuery, getDealsWithQuery } from '../../../store/reducers/DealReducer/DealActionCreators';
 import { ICompaniesQuery } from '../../../types/ICompany';
 import weekYear from 'dayjs/plugin/weekYear';
 import weekOfYear from 'dayjs/plugin/weekOfYear';
 import weekday  from 'dayjs/plugin/weekday';
+import { addDateForDay, addShotDateForDay } from '../../../store/reducers/DealReducer/DealSlice';
+import { useNavigate } from 'react-router-dom';
 // import TimePickerLocale from '../../time-picker/locale/ru_RU';
 // import type { PickerLocale } from '../generatePicker';
 
@@ -51,6 +53,7 @@ const locale = {
 const CalendarBig: FC<IProps> = ({items, showDealsForDay}) => {
   const { user } = useAppSelector(state => state.authReducer);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const getListData = (value: Dayjs) => {
     let listData: any[] = [];
@@ -217,7 +220,50 @@ const CalendarBig: FC<IProps> = ({items, showDealsForDay}) => {
 
   const onSelect = async (newValue: Dayjs) => {
     // setValue(newValue);
-    showDealsForDay(newValue.format('DD MMMM YYYY'), newValue.format('DD-MM-YYYY'))
+    // showDealsForDay(newValue.format('DD MMMM YYYY'), newValue.format('DD-MM-YYYY'))
+    dispatch(addDateForDay(newValue.format('DD MMMM YYYY')));
+    dispatch(addShotDateForDay(newValue.format('DD-MM-YYYY')));
+    const query1: IDealsQuery = {
+      query: [ 
+        {
+          path: "companyID", 
+        },
+        {
+          path: "dealTitleID", 
+        },
+        {
+          path: "userID", 
+        }
+      ], 
+      find: (user.id === '65a112acc11882f036f9cf74') ? {
+        userID: user.id, 
+        monthEnd: { $lte: dayjs().format('MM') }, 
+        dayEnd: { $lt: dayjs().format('DD') }, 
+        yearEnd: { $lte: dayjs().format('YYYY') }
+      } : (user.isAdmin ? {
+//TODO ----  если все задачи, то вообще без usersID
+        // usersID: '', 
+        monthEnd: { $lte: dayjs().format('MM') }, 
+        dayEnd: { $lt: dayjs().format('DD') }, 
+        yearEnd: { $lte: dayjs().format('YYYY') }
+        // monthEnd: { $lte: '03'}, 
+        // dayEnd: { $lt: '14'}, 
+        // yearEnd: { $lte: '2024'}
+      } : {
+        userID: user.id, 
+        monthEnd: { $lte: dayjs().format('MM') }, 
+        dayEnd: { $lt: dayjs().format('DD') }, 
+        yearEnd: { $lte: dayjs().format('YYYY') }
+      })
+    }
+    await dispatch(getAllDealsByUserQuery(query1));
+
+//! не показывает просроченные и не верно текущия дата
+
+
+    navigate(`/deals/${newValue.format('DD-MM-YYYY')}`);
+
+
 
     const query: ICompaniesQuery = {
       query: 

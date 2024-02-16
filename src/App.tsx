@@ -2,6 +2,7 @@ import React, { FC, useEffect } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { Company } from './components/CompanyPage/Companies';
 import { CompanyCard } from './components/CompanyPage/CompanyCard/CompanyCard';
+import DealForDay from './components/DealsPage/DealsForDay/DealForDay';
 import { DealsMain } from './components/DealsPage/DealsMain';
 import { Home } from './components/Home/Home';
 import { OrdersMain } from './components/OrdersPage/OrdersMain';
@@ -56,7 +57,7 @@ const App: FC = () => {
           <Route path="companies/:id" element={<CompanyCard/>}/>
           <Route path="orders" element={<OrdersMain/>}/>
           <Route path="deals" element={<DealsMain/>}/>
-          {/* <Route path="deals/:date" element={<DealsMain/>}/> */}
+          <Route path="deals/:date" element={<DealForDay/>}/>
         </Route>
 
         {/* <Route path="orders" element={<OrdersMain/>}/>

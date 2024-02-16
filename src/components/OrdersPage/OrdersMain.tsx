@@ -85,7 +85,7 @@ const OrdersMainInner: FC = () => {
       {/* <AddCompany isVisible={isModal} onClose={() => setIsModal(false)}/> */}
       <section className='orders'>
         <div className="orders__filters">
-          filter
+          
         </div>
         <div className="orders__container">
           <div className="orders__header">
@@ -101,11 +101,11 @@ const OrdersMainInner: FC = () => {
                 <IoFilterOutline size={25}/>
               </div>
             </div>
-            <button 
+            {/* <button 
               onClick={() => setIsModal(true)}
               className="orders__header__btn">
               Добавить сделку
-            </button>
+            </button> */}
           </div>
           <div className="orders__main">
             <div className="orders__main__row first_row">
