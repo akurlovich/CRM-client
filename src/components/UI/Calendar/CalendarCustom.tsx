@@ -68,7 +68,8 @@ const CalendarCustom: FC<IProps> = ({onClickDate, title = true}) => {
           return (
             <div style={{ padding: 8 }}>
               {title ? 
-                <Typography.Title level={4}>Выберите дату и время</Typography.Title>
+                null
+                // <Typography.Title level={4}>Выберите дату и время</Typography.Title>
                 : null
               }
               <Row 

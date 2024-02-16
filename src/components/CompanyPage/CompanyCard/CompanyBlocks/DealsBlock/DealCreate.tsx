@@ -84,28 +84,36 @@ const DealCreate: FC<IProps> = ({onAction, position}) => {
 
   return (
     <div className={`calendar-block ${position}`}>
-      <div className="type">
-        <span>Тип:</span>
-        <SelectBlock onClickDate={dateTypeHandler}/>
+      <div className="calendar-block__title">
+        <span>Выберите дату и время:</span>
       </div>
-      <CalendarCustom onClickDate={dateHandler}/>
-      <div className="time">
-        <TimeBlock onClickDate={timeHandler}/>
-      </div>
-      <div className="confirm">
-        <button
-          onClick={addDealHandler}
-          >
-          Создать дело
-        </button>
-        <button
-          onClick={onAction}
-          >
-          Отмена
-        </button>
-        {/* <IoCheckmarkCircleSharp 
-          onClick={() => setCalendarData(prev => ({...prev, show: false}))}
-          size={30}/> */}
+      <div className="calendar-block__block">
+        <div className="calendar-block__block_left">
+          <CalendarCustom onClickDate={dateHandler}/>
+        </div>
+        <div className="calendar-block__block_right">
+          <div className="type">
+            <span>Время:</span>
+            <TimeBlock onClickDate={timeHandler}/>
+          </div>
+          <div className="type">
+            <span>Тип:</span>
+            <SelectBlock onClickDate={dateTypeHandler}/>
+          </div>
+          <div className="confirm">
+            <button
+              onClick={addDealHandler}
+              >
+              Создать дело
+            </button>
+            <button
+              onClick={onAction}
+              >
+              Отмена
+            </button>
+          </div>
+          
+        </div>
       </div>
     </div>
   )
