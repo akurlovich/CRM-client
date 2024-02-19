@@ -3,6 +3,7 @@ import { IoPencil } from '@react-icons/all-files/io5/IoPencil';
 import { IoTrashOutline } from '@react-icons/all-files/io5/IoTrashOutline';
 import React, { FC, useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../../../../hooks/redux';
+import { validPhone } from '../../../../../services/ClientServices/validPhone';
 import { getCompanyByIDQuery } from '../../../../../store/reducers/CompanyReducer/CompanyActionCreaters';
 import { deletePhoneFromContactByPhoneID } from '../../../../../store/reducers/ContactReducer/ContactActionCreators';
 import { addPhone, updatePhoneByID } from '../../../../../store/reducers/PhoneReducer/PhoneActionCreators';
@@ -183,7 +184,7 @@ const ContactsPhonesInner: FC = ({}) => {
             </div>
             :
             <div className="text">
-              <span className='span-number'>{item.number}</span>
+              <span className='span-number'>{validPhone(item.number)}</span>
               <span>{item.description}</span>
             </div>
           }
