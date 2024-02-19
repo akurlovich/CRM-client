@@ -12,6 +12,7 @@ import { getAllUsers, getUserByID } from '../../store/reducers/UserReducer/UserA
 import { Loader } from '../UI/Loader/Loader';
 import { CompanyItem } from './CompanyItem/CompanyItem';
 import { ICompaniesQuery } from '../../types/ICompany';
+import { UserErrorWarning } from '../UI/UserErrorWarning/UserErrorWarning';
 
 // interface ICompanyItem {
 //   title: string,
@@ -22,7 +23,7 @@ import { ICompaniesQuery } from '../../types/ICompany';
 // }
 
 const CompanyInner: FC = () => {
-  const { companies, isLoading } = useAppSelector(state => state.companyReducer);
+  const { companies, isLoading, error: errorCompany } = useAppSelector(state => state.companyReducer);
   const { user } = useAppSelector(state => state.authReducer);
 
   const dispatch = useAppDispatch();
@@ -112,65 +113,68 @@ const CompanyInner: FC = () => {
 
   return (
     <>
-      {isLoading && <Loader/>}
-      <AddCompany isVisible={showAddCompany} onClose={() => setShowAddCompany(false)}/>
-      <section className='company'>
-        <div className="company__filters">
-          
-        </div>
-        <div className="company__container">
-          <div className="company__header">
-            <div className="company__header__title">
-              <div className="title">
-                <span>Все клиенты</span>
-              </div>
-              <div className="icons">
-                <IoDocumentOutline size={25}/>
-                <IoExitOutline size={25}/>
-                <IoFilterOutline size={25}/>
-              </div>
+      {errorCompany ? <UserErrorWarning/> : null}
+      {isLoading ? <Loader/> : 
+        <>
+          <AddCompany isVisible={showAddCompany} onClose={() => setShowAddCompany(false)}/>
+          <section className='company'>
+            <div className="company__filters">
+              
             </div>
-            <button 
-              onClick={() => setShowAddCompany(true)}
-              className="company__header__btn">
-              Добавить клиента
-            </button>
-          </div>
-          {companies ? 
-            <div className="company__main">
-              <div className="company__main__row first_row">
-                <IoDuplicateOutline width={30}/>
-                <span className='cell'>Название</span>
-                <span className='cell'>Ответственный</span>
-                <span className='cell'>Дата следующей коммуникации</span>
-                <span className='cell'>Дата последней коммуникации</span>
-                <span className='cell'>Район</span>
-              </div>
-              {companies.map(item => (
-                <CompanyItem key={item._id} company={item}/>
-                )) 
-              }
-              {/* <div className="company__main__row">
-                <IoSquareOutline width={25}/>
-                <span className='cell data'>ОАО Строительный трест номер 212 Дрогичин</span>
-                <div className='cell data user'>
-                  <span>ВА</span>
-                  <span>Васьков Евгений</span>
+            <div className="company__container">
+              <div className="company__header">
+                <div className="company__header__title">
+                  <div className="title">
+                    <span>Все клиенты</span>
+                  </div>
+                  <div className="icons">
+                    <IoDocumentOutline size={25}/>
+                    <IoExitOutline size={25}/>
+                    <IoFilterOutline size={25}/>
+                  </div>
                 </div>
-                <span className='cell data'>05 сентября 2023г.</span>
-                <span className='cell data'>31 мая 2024г.</span>
-                <span className='cell data'>Малоритский</span>
-              </div> */}
-              <div className="company__main__items">
-
+                <button 
+                  onClick={() => setShowAddCompany(true)}
+                  className="company__header__btn">
+                  Добавить клиента
+                </button>
               </div>
-            </div>
-            :
-            <div className="">У Вас нет компаний, добавте!</div>
-          }
-        </div>
-      </section>
+              {companies ? 
+                <div className="company__main">
+                  <div className="company__main__row first_row">
+                    <IoDuplicateOutline width={30}/>
+                    <span className='cell'>Название</span>
+                    <span className='cell'>Ответственный</span>
+                    <span className='cell'>Дата следующей коммуникации</span>
+                    <span className='cell'>Дата последней коммуникации</span>
+                    <span className='cell'>Район</span>
+                  </div>
+                  {companies.map(item => (
+                    <CompanyItem key={item._id} company={item}/>
+                    )) 
+                  }
+                  {/* <div className="company__main__row">
+                    <IoSquareOutline width={25}/>
+                    <span className='cell data'>ОАО Строительный трест номер 212 Дрогичин</span>
+                    <div className='cell data user'>
+                      <span>ВА</span>
+                      <span>Васьков Евгений</span>
+                    </div>
+                    <span className='cell data'>05 сентября 2023г.</span>
+                    <span className='cell data'>31 мая 2024г.</span>
+                    <span className='cell data'>Малоритский</span>
+                  </div> */}
+                  <div className="company__main__items">
 
+                  </div>
+                </div>
+                :
+                <div className="">У Вас нет компаний, добавте!</div>
+              }
+            </div>
+          </section>
+        </>  
+      }
     </>
   )
 }

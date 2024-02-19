@@ -13,6 +13,7 @@ import type { Dayjs } from 'dayjs';
 import updateLocale from 'dayjs/plugin/updateLocale';
 import { Loader } from '../../../../UI/Loader/Loader';
 import { LoaderSmall } from '../../../../UI/LoaderSmall/LoaderSmall';
+import { UserErrorWarning } from '../../../../UI/UserErrorWarning/UserErrorWarning';
 
 dayjs.extend(updateLocale);
 
@@ -24,6 +25,7 @@ dayjs.updateLocale('en', {
 
 const CommentsBlockInner: FC = () => {
   const { company, companyFirstUser, query, companyComments } = useAppSelector(state => state.companyReducer);
+  const { error: errorComments } = useAppSelector(state => state.commentReducer);
   const { isLoading } = useAppSelector(state => state.commentReducer)
   const dispatch = useAppDispatch();
   const [newComment, setNewComment] = useState<string>('');
@@ -44,31 +46,34 @@ const CommentsBlockInner: FC = () => {
   }
 
   return (
-    <section className='comments-block'>
-      {isLoading && <LoaderSmall/>}
-      <div className="comments">
-        <div className="comments__inputblock">
-          <IoDocumentAttachOutline size={25} color={'#972f2f'}/>
-          <input 
-            className="comments__input" 
-            type="text" 
-            value={newComment} 
-            onChange={(e: React.FocusEvent<HTMLInputElement>) => setNewComment(e.target.value)}
-            placeholder='Оставить комментарий'/>
-          <IoSendSharp 
-            style={{'cursor': 'pointer'}}
-            onClick={addCommentHandler}
-            size={25} 
-            color={'#8598ff'}/>
-        </div>
-        {companyComments.length ? companyComments.map(item => (
-          <CommentItem key={item._id} item={item}/>
-          ))
-          : null
+    <>
+      {errorComments ? <UserErrorWarning/> : null}
+      <section className='comments-block'>
+        {isLoading && <LoaderSmall/>}
+        <div className="comments">
+          <div className="comments__inputblock">
+            <IoDocumentAttachOutline size={25} color={'#972f2f'}/>
+            <input 
+              className="comments__input" 
+              type="text" 
+              value={newComment} 
+              onChange={(e: React.FocusEvent<HTMLInputElement>) => setNewComment(e.target.value)}
+              placeholder='Оставить комментарий'/>
+            <IoSendSharp 
+              style={{'cursor': 'pointer'}}
+              onClick={addCommentHandler}
+              size={25} 
+              color={'#8598ff'}/>
+          </div>
+          {companyComments.length ? companyComments.map(item => (
+            <CommentItem key={item._id} item={item}/>
+            ))
+            : null
 
-        }
-      </div>
-    </section>
+          }
+        </div>
+      </section>
+    </>
   )
 }
 

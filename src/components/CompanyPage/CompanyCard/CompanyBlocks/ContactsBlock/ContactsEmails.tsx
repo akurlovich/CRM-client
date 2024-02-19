@@ -8,16 +8,12 @@ import { useAppDispatch, useAppSelector } from '../../../../../hooks/redux';
 import { getCompanyByIDQuery } from '../../../../../store/reducers/CompanyReducer/CompanyActionCreaters';
 import { deleteEmailFromContactByPhoneID } from '../../../../../store/reducers/ContactReducer/ContactActionCreators';
 import { addEmail, updateEmailByID, updateEmailIsActive } from '../../../../../store/reducers/EmailReducer/EmailActionCreators';
-import { ICompaniesQuery } from '../../../../../types/ICompany';
-import { IEmail, IEmailNewAddContacts } from '../../../../../types/IEmail';
-
-// interface IProps {
-//   items: IEmail[];
-//   query: ICompaniesQuery;
-// }
+import { IEmailNewAddContacts } from '../../../../../types/IEmail';
+import { UserErrorWarning } from '../../../../UI/UserErrorWarning/UserErrorWarning';
 
 const ContactsEmailsInner: FC = ({}) => {
   const { company, query } = useAppSelector(state => state.companyReducer);
+  const { error: errorEmail } = useAppSelector(state => state.emailReducer);
 
   const dispatch = useAppDispatch();
 
@@ -137,6 +133,7 @@ const ContactsEmailsInner: FC = ({}) => {
 
   return (
     <>
+      {errorEmail ? <UserErrorWarning/> : null}
       <div className="title">
         <span>Почта</span>
         <IoAddOutline 

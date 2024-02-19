@@ -21,6 +21,7 @@ import { Link } from 'react-router-dom';
 import { addItemProduct } from '../../../../../../store/reducers/OrderReducer/OrderSlice';
 import { v4 as uuidv4 } from 'uuid';
 import numberWithSpaces from '../../../../../../services/ClientServices/numberWithSpaces';
+import { UserErrorWarning } from '../../../../../UI/UserErrorWarning/UserErrorWarning';
 
 interface IProps {
   isVisible: boolean;
@@ -30,7 +31,7 @@ interface IProps {
 const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
   const { company, companyFirstUser, query } = useAppSelector(state => state.companyReducer)
   const { products } = useAppSelector(state => state.productReducer);
-  const { order } = useAppSelector(state => state.orderReducer);
+  const { order, error: errorOrder } = useAppSelector(state => state.orderReducer);
   const { totalPrice, totalCount, items: orderItemsAll } = useAppSelector(state => state.orderReducer);
   const dispatch = useAppDispatch();
   
@@ -126,6 +127,7 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
 
   return isVisible ? (
     <>
+      {errorOrder ? <UserErrorWarning/> : null}
       <AddProduct isVisible={showNewProduct} onClose={() => setShowNewProduct(false)}/>
       <section className='add-order'>
         <div className="add-order__container">

@@ -12,6 +12,7 @@ import { ICommentNew } from '../../../../../../types/IComment';
 import { addComment } from '../../../../../../store/reducers/CommentReducer/CommentActionCreater';
 
 import dayjs from 'dayjs';
+import { UserErrorWarning } from '../../../../../UI/UserErrorWarning/UserErrorWarning';
 // import type { Dayjs } from 'dayjs';
 // import updateLocale from 'dayjs/plugin/updateLocale';
 
@@ -31,6 +32,8 @@ interface IProps {
 
 const DealCompleteInner: FC<IProps> = ({isVisible = false, onClose, item}) => {
   const { company, companyFirstUser, query } = useAppSelector(state => state.companyReducer);
+  const { error: errorDeals } = useAppSelector(state => state.dealReducer);
+  const { error: errorComments } = useAppSelector(state => state.commentReducer);
   const dispatch = useAppDispatch();
 
   const [disabled, setDisabled] = useState(true);
@@ -82,42 +85,46 @@ const DealCompleteInner: FC<IProps> = ({isVisible = false, onClose, item}) => {
   }, []);
 
   return isVisible ? (
-    <div className="deal-complete">
-      <div className="deal-complete__dialog">
-        <div className="deal-complete__header">
-          <h3 className="deal-complete__title">Завершение дела</h3>
-        </div>
-        <div className="deal-complete__dealtitle">
-          <span>{item.dealTitleID?.title}</span>
-          {item.dealTitleID?.title == 'Звонок' && <IoCallSharp size={20} color={'#b4cb4c'}/>}
-          {item.dealTitleID?.title == 'Дело' && <IoBagSharp size={20} color={'grey'}/>}
-          {item.dealTitleID?.title == 'Встреча' && <IoPeople size={20} color={'#de6495'}/>}
-        </div>
-        <form className="deal-complete__body">
-          <div className="deal-complete__input">
-            <span className='required'>Комментарий</span>
-            <input 
-              value={dealComment}
-              onChange={commentInputHandler}
-              type="text"
-              autoFocus
-              placeholder='Введите комментарий к сделке...'/>
+    <>
+      {errorDeals ? <UserErrorWarning/> : null}
+      {errorComments ? <UserErrorWarning/> : null}
+      <div className="deal-complete">
+        <div className="deal-complete__dialog">
+          <div className="deal-complete__header">
+            <h3 className="deal-complete__title">Завершение дела</h3>
           </div>
-        
-        </form>
-        <div className="deal-complete__footer">
-          <button 
-            className={disabled ? 'disabled' : ''}
-            disabled={disabled}
-            onClick={completeDealHandler}
-            // type="submit"
-            >
-            Завершить дело
-          </button>
-          <button onClick={onClose}>Отмена</button>
+          <div className="deal-complete__dealtitle">
+            <span>{item.dealTitleID?.title}</span>
+            {item.dealTitleID?.title == 'Звонок' && <IoCallSharp size={20} color={'#b4cb4c'}/>}
+            {item.dealTitleID?.title == 'Дело' && <IoBagSharp size={20} color={'grey'}/>}
+            {item.dealTitleID?.title == 'Встреча' && <IoPeople size={20} color={'#de6495'}/>}
+          </div>
+          <form className="deal-complete__body">
+            <div className="deal-complete__input">
+              <span className='required'>Комментарий</span>
+              <input 
+                value={dealComment}
+                onChange={commentInputHandler}
+                type="text"
+                autoFocus
+                placeholder='Введите комментарий к сделке...'/>
+            </div>
+          
+          </form>
+          <div className="deal-complete__footer">
+            <button 
+              className={disabled ? 'disabled' : ''}
+              disabled={disabled}
+              onClick={completeDealHandler}
+              // type="submit"
+              >
+              Завершить дело
+            </button>
+            <button onClick={onClose}>Отмена</button>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   ) : null;
 }
 

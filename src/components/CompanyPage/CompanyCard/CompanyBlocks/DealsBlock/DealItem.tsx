@@ -2,13 +2,8 @@ import { IoBagSharp } from '@react-icons/all-files/io5/IoBagSharp'
 import { IoCallSharp } from '@react-icons/all-files/io5/IoCallSharp'
 import { IoCheckbox } from '@react-icons/all-files/io5/IoCheckbox'
 import { IoPeople } from '@react-icons/all-files/io5/IoPeople'
-import { IoPersonSharp } from '@react-icons/all-files/io5/IoPersonSharp'
 import { IoSquareOutline } from '@react-icons/all-files/io5/IoSquareOutline'
-import { IoStarOutline } from '@react-icons/all-files/io5/IoStarOutline'
 import React, { FC, useState } from 'react'
-import { useAppDispatch, useAppSelector } from '../../../../../hooks/redux'
-import { getCompanyByIDQuery } from '../../../../../store/reducers/CompanyReducer/CompanyActionCreaters'
-import { deleteDealByID } from '../../../../../store/reducers/DealReducer/DealActionCreators'
 import { IDeal } from '../../../../../types/IDeal'
 import { DealComplete } from './DealComplete/DealComplete'
 
@@ -18,8 +13,6 @@ interface IProps {
 }
 
 const DealItemInner: FC<IProps> = ({item, fromBlock}) => {
-  const { query } = useAppSelector(state => state.companyReducer);
-  const dispatch = useAppDispatch();
   const [showDeleteDeal, setShowDeleteDeal] = useState({
     show: false,
     itemID: '',

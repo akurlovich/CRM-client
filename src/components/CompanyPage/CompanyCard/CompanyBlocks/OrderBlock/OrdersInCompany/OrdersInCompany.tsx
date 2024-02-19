@@ -8,6 +8,7 @@ import { IoSquareOutline } from "@react-icons/all-files/io5/IoSquareOutline";
 import { useAppSelector } from '../../../../../../hooks/redux';
 import { IOrder } from '../../../../../../types/IOrder';
 import { OrderUnit } from './OrderUnit';
+import { UserErrorWarning } from '../../../../../UI/UserErrorWarning/UserErrorWarning';
 // import { IoDocumentOutline } from "@react-icons/all-files/io5/IoDocumentOutline";
 
 interface IProps {
@@ -16,6 +17,7 @@ interface IProps {
 
 const OrdersInCompanyInner: FC<IProps> = ({showAddOrder}) => {
   const { companyOrders } = useAppSelector(state => state.companyReducer);
+  const { error: errorOrder } = useAppSelector(state => state.orderReducer);
 
   const orderHandler = (item: IOrder) => {
 
@@ -30,6 +32,7 @@ const OrdersInCompanyInner: FC<IProps> = ({showAddOrder}) => {
   return (
     <>
       {/* <AddCompany isVisible={isModal} onClose={() => setIsModal(false)}/> */}
+      {errorOrder ? <UserErrorWarning/> : null}
       {companyOrders.length ? 
         <section className='orders-in-company'>
           <div className="orders-in-company__container">

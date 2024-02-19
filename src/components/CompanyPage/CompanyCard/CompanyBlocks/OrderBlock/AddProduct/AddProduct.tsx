@@ -5,6 +5,7 @@ import SelectDimensions from '../../../../../UI/Select/SelectDimentions';
 import { IProductNew } from '../../../../../../types/IProduct';
 import { addProduct } from '../../../../../../store/reducers/ProductReducer/ProducrActionCreater';
 import './addproduct.scss'
+import { UserErrorWarning } from '../../../../../UI/UserErrorWarning/UserErrorWarning';
 
 interface IProps {
   isVisible: boolean;
@@ -12,6 +13,7 @@ interface IProps {
 }
 
 const AddProductInner: FC<IProps> = ({isVisible = false, onClose }) => {
+  const { error: errorProduct } = useAppSelector(state => state.productReducer);
   const dispatch = useAppDispatch();
 
   const [ selectedDimenion, setSselectedDimenion] = useState('');
@@ -98,46 +100,49 @@ const AddProductInner: FC<IProps> = ({isVisible = false, onClose }) => {
   }, [isVisible]);
 
   return isVisible ? (
-    <div className="add-product">
-      <div className="add-product__dialog">
-        <div className="add-product__header">
-          <h3 className="add-product__title">Добавить новый товар</h3>
-        </div>
-        
-        <form className="add-product__body">
-          <div className="add-product__main">
-            <div className="add-product__main__row first_row">       
-              <span className='add-product__main__row_cell'>Наименование товара</span>
-              <span className='add-product__main__row_cell narrow'>Ед.изм</span>
-            </div>
-            <div className="add-product__main__row">
-              <input 
-                className='add-product__main__row_cell data'
-                value={productName}
-                onChange={productInputHandler}
-                type="text"
-                placeholder='Введите название нового товара...'
-                autoFocus/>
-              {/* <span className='add-product__main__row_cell data'>Сотовый поликарбонат "Мастер", прозрачный, размер 12000х6000х10мм</span> */}
-              {/* <span className='add-product__main__row_cell data narrow'>шт.</span> */}
-              <SelectDimensions onClickData={setSselectedDimenion}/>
-            </div>
+    <>
+      {errorProduct ? <UserErrorWarning/> : null}
+      <div className="add-product">
+        <div className="add-product__dialog">
+          <div className="add-product__header">
+            <h3 className="add-product__title">Добавить новый товар</h3>
           </div>
+          
+          <form className="add-product__body">
+            <div className="add-product__main">
+              <div className="add-product__main__row first_row">       
+                <span className='add-product__main__row_cell'>Наименование товара</span>
+                <span className='add-product__main__row_cell narrow'>Ед.изм</span>
+              </div>
+              <div className="add-product__main__row">
+                <input 
+                  className='add-product__main__row_cell data'
+                  value={productName}
+                  onChange={productInputHandler}
+                  type="text"
+                  placeholder='Введите название нового товара...'
+                  autoFocus/>
+                {/* <span className='add-product__main__row_cell data'>Сотовый поликарбонат "Мастер", прозрачный, размер 12000х6000х10мм</span> */}
+                {/* <span className='add-product__main__row_cell data narrow'>шт.</span> */}
+                <SelectDimensions onClickData={setSselectedDimenion}/>
+              </div>
+            </div>
 
-        </form>
-        <div className="add-product__footer">
-          <button 
-            className={disabled ? 'disabled' : ''}
-            disabled={disabled}
-            onClick={addProductHandler}
-            // type="submit"
-            >
-            Добавить в каталог
-          </button>
-          <button onClick={canselHandler}>Отмена</button>
+          </form>
+          <div className="add-product__footer">
+            <button 
+              className={disabled ? 'disabled' : ''}
+              disabled={disabled}
+              onClick={addProductHandler}
+              // type="submit"
+              >
+              Добавить в каталог
+            </button>
+            <button onClick={canselHandler}>Отмена</button>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   ) : null;
 }
 

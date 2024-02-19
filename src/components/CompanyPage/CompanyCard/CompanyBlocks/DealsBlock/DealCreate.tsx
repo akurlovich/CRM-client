@@ -7,6 +7,7 @@ import CalendarCustom from '../../../../UI/Calendar/CalendarCustom';
 import SelectBlock from '../../../../UI/Select/SelectBlock';
 import TimeBlock from '../../../../UI/TimePicker/TimePicker';
 import dayjs from 'dayjs';
+import { UserErrorWarning } from '../../../../UI/UserErrorWarning/UserErrorWarning';
 
 interface IProps {
   // options: IDealTitle[];
@@ -16,6 +17,7 @@ interface IProps {
 
 const DealCreate: FC<IProps> = ({onAction, position}) => {
   const { company, companyFirstUser, query } = useAppSelector(state => state.companyReducer);
+  const { error: errorDeals} = useAppSelector(state => state.dealReducer);
   const dispatch = useAppDispatch();
   const [calendarData, setCalendarData] = useState(
     {
@@ -83,39 +85,42 @@ const DealCreate: FC<IProps> = ({onAction, position}) => {
   };
 
   return (
-    <div className={`calendar-block ${position}`}>
-      <div className="calendar-block__title">
-        <span>Выберите дату и время:</span>
-      </div>
-      <div className="calendar-block__block">
-        <div className="calendar-block__block_left">
-          <CalendarCustom onClickDate={dateHandler}/>
+    <>
+      {errorDeals ? <UserErrorWarning/> : null}
+      <div className={`calendar-block ${position}`}>
+        <div className="calendar-block__title">
+          <span>Выберите дату и время:</span>
         </div>
-        <div className="calendar-block__block_right">
-          <div className="type">
-            <span>Время:</span>
-            <TimeBlock onClickDate={timeHandler}/>
+        <div className="calendar-block__block">
+          <div className="calendar-block__block_left">
+            <CalendarCustom onClickDate={dateHandler}/>
           </div>
-          <div className="type">
-            <span>Тип:</span>
-            <SelectBlock onClickDate={dateTypeHandler}/>
+          <div className="calendar-block__block_right">
+            <div className="type">
+              <span>Время:</span>
+              <TimeBlock onClickDate={timeHandler}/>
+            </div>
+            <div className="type">
+              <span>Тип:</span>
+              <SelectBlock onClickDate={dateTypeHandler}/>
+            </div>
+            <div className="confirm">
+              <button
+                onClick={addDealHandler}
+                >
+                Создать дело
+              </button>
+              <button
+                onClick={onAction}
+                >
+                Отмена
+              </button>
+            </div>
+            
           </div>
-          <div className="confirm">
-            <button
-              onClick={addDealHandler}
-              >
-              Создать дело
-            </button>
-            <button
-              onClick={onAction}
-              >
-              Отмена
-            </button>
-          </div>
-          
         </div>
       </div>
-    </div>
+    </>
   )
 }
 

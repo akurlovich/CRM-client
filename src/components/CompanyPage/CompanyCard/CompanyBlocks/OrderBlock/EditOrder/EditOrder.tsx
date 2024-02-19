@@ -16,6 +16,7 @@ import { addItemProduct, clearItemsProduct, setShowEditOrder } from '../../../..
 import { v4 as uuidv4 } from 'uuid';
 import { getCompanyByIDQuery } from '../../../../../../store/reducers/CompanyReducer/CompanyActionCreaters';
 import numberWithSpaces from '../../../../../../services/ClientServices/numberWithSpaces';
+import { UserErrorWarning } from '../../../../../UI/UserErrorWarning/UserErrorWarning';
 
 interface IProps {
   isVisible: boolean;
@@ -23,9 +24,9 @@ interface IProps {
 }
 //TODO ---------- добавить сохранение  текущих позиций в локалсторедж или indexedb, пока не создали счет
 const EditOrderInner: FC<IProps> = ({isVisible = false}) => {
-  const { company, companyFirstUser, query } = useAppSelector(state => state.companyReducer)
+  const { query } = useAppSelector(state => state.companyReducer)
   const { products } = useAppSelector(state => state.productReducer);
-  const { order } = useAppSelector(state => state.orderReducer);
+  const { order, error: errorOrder } = useAppSelector(state => state.orderReducer);
   const { totalPrice, totalCount, items: orderItemsAll } = useAppSelector(state => state.orderReducer);
   const dispatch = useAppDispatch();
   
@@ -118,6 +119,7 @@ const EditOrderInner: FC<IProps> = ({isVisible = false}) => {
 
   return isVisible ? (
     <>
+      {errorOrder ? <UserErrorWarning/> : null}
       <AddProduct isVisible={showNewProduct} onClose={() => setShowNewProduct(false)}/>
       <section className='edit-order'>
         <div className="edit-order__container">

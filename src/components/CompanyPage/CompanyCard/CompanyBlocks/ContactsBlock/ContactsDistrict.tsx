@@ -1,11 +1,12 @@
 import { IoAddOutline } from '@react-icons/all-files/io5/IoAddOutline';
 import { IoPencil } from '@react-icons/all-files/io5/IoPencil';
 import React, { FC, useEffect, useState } from 'react';
-import { useAppDispatch } from '../../../../../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../../../../hooks/redux';
 import { getCompanyByIDQuery } from '../../../../../store/reducers/CompanyReducer/CompanyActionCreaters';
 import { updateContactByAddress } from '../../../../../store/reducers/ContactReducer/ContactActionCreators';
 import { ICompaniesQuery } from '../../../../../types/ICompany';
 import { IContactUpdateByAddress } from '../../../../../types/IContact';
+import { UserErrorWarning } from '../../../../UI/UserErrorWarning/UserErrorWarning';
 
 interface IProps {
   // title: string;
@@ -16,7 +17,7 @@ interface IProps {
 }
 
 const ContactsDistrictInner: FC<IProps> = ({contactID, address, district, query}) => {
-  
+  const { error: errorContact } = useAppSelector(state => state.contactReducer);
   const dispatch = useAppDispatch();
 
   const [showUpdateInput, setShowUpdateInput] = useState(false);
@@ -111,6 +112,7 @@ const ContactsDistrictInner: FC<IProps> = ({contactID, address, district, query}
 
   return (
     <>
+      {errorContact ? <UserErrorWarning/> : null}
       <div className="title">
         <span>Район</span>
         {!district ? 
@@ -121,45 +123,43 @@ const ContactsDistrictInner: FC<IProps> = ({contactID, address, district, query}
           : null
         }
       </div>
-     
-        
-          {showUpdateInput ? 
-            <div className="contactsblock__contacts__inputs">
-              <input 
-                value={addDistrictAndUpdateContact.newAddress.address.district}
-                onChange={addOrUpdateInputsHandler}
-                className="address"
-                type="text" 
-                autoFocus
-                name="district.add" 
-                placeholder='Область, район, населенный пункт...'/>
-              <button
-                className='add-btn'
-                onClick={updateAddressHandler}>
-                Изменить
-              </button>
-              <button
-                className='cansel-btn'
-                onClick={() => setShowUpdateInput(false)}>
-                Отмена
-              </button>
+      {showUpdateInput ? 
+        <div className="contactsblock__contacts__inputs">
+          <input 
+            value={addDistrictAndUpdateContact.newAddress.address.district}
+            onChange={addOrUpdateInputsHandler}
+            className="address"
+            type="text" 
+            autoFocus
+            name="district.add" 
+            placeholder='Область, район, населенный пункт...'/>
+          <button
+            className='add-btn'
+            onClick={updateAddressHandler}>
+            Изменить
+          </button>
+          <button
+            className='cansel-btn'
+            onClick={() => setShowUpdateInput(false)}>
+            Отмена
+          </button>
+        </div>
+        : (district ? 
+          <div className="data last">
+            <div className="text">
+              <span className='span-address'>{district}</span>
             </div>
-           : (district ? 
-              <div className="data last">
-                <div className="text">
-                  <span className='span-address'>{district}</span>
-                </div>
-                <div className="icons">
-                  <IoPencil 
-                    onClick={updateShowAddressHandler}
-                    style={{cursor: 'pointer'}}
-                    size={20}
-                    color={'#b4cb4c'}/>
-                </div>
-              </div>
-              : null
-            )
-          }
+            <div className="icons">
+              <IoPencil 
+                onClick={updateShowAddressHandler}
+                style={{cursor: 'pointer'}}
+                size={20}
+                color={'#b4cb4c'}/>
+            </div>
+          </div>
+          : null
+        )
+      }
          
       {showAddInputs && 
         <div className="contactsblock__contacts__inputs">

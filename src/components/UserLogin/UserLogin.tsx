@@ -1,5 +1,4 @@
 import React, { FC, useEffect, useState } from 'react';
-import { AiOutlineCloseCircle } from 'react-icons/ai';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { loginUser } from '../../store/reducers/AuthReducer/AuthActionCreatores';
@@ -13,7 +12,7 @@ interface ILocationState {
 };
 
 const UserLoginInner: FC = () => {
-  const {isAuth, loginError} = useAppSelector(state => state.authReducer);
+  const {isAuth, loginError, error: errorAuth} = useAppSelector(state => state.authReducer);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showError, setShowError] = useState(false);
@@ -69,6 +68,7 @@ const UserLoginInner: FC = () => {
   
   return (
     <div className='registration'>
+      {errorAuth && <UserErrorWarning message={errorAuth}/>}
       {showError && <UserErrorWarning canselHandler={canselHandler} message={loginError}/>}
       <div className="registration__block login">
         <div className="registration__container">

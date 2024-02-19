@@ -1,19 +1,18 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import './contactsblock.scss';
-import { IoAddCircleOutline } from "@react-icons/all-files/io5/IoAddCircleOutline";
 import { ICompaniesQuery } from '../../../../../types/ICompany';
-import { useAppDispatch, useAppSelector } from '../../../../../hooks/redux';
+import { useAppSelector } from '../../../../../hooks/redux';
 import { ContactsPhones } from './ContactsPhones';
 import { ContactsEmails } from './ContactsEmails';
 import { ContactsAddress } from './ContactsAddress';
 import { ContactsDistrict } from './ContactsDistrict';
-
-// interface IProps {
-//   companyID: string;
-// }
+import { LoaderSmall } from '../../../../UI/LoaderSmall/LoaderSmall';
 
 const ContactsBlockInner: FC = ({}) => {
-  const { company, companies, isLoading } = useAppSelector(state => state.companyReducer);
+  const { company } = useAppSelector(state => state.companyReducer);
+  const { isLoading: contactLoading } = useAppSelector(state => state.contactReducer);
+  const { isLoading: phoneLoading } = useAppSelector(state => state.phoneReducer);
+  const { isLoading: emailLoading } = useAppSelector(state => state.emailReducer);
   
   const query: ICompaniesQuery = {
     query: 
@@ -48,10 +47,11 @@ const ContactsBlockInner: FC = ({}) => {
     find: {'_id': company._id}
   };
 
-  const dispatch = useAppDispatch();
-
   return (
     <section className='contactsblock'>
+      {contactLoading && <LoaderSmall/>}
+      {phoneLoading && <LoaderSmall/>}
+      {emailLoading && <LoaderSmall/>}
       <div className="baseblockSmall__newdeal">
         <div className="baseblockSmall__newdeal__title">
           <div className="text">

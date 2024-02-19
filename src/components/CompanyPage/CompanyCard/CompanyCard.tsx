@@ -25,6 +25,7 @@ import { AddOrder } from './CompanyBlocks/OrderBlock/AddOrder/AddOrder';
 import { OrdersInCompany } from './CompanyBlocks/OrderBlock/OrdersInCompany/OrdersInCompany';
 import { EditOrder } from './CompanyBlocks/OrderBlock/EditOrder/EditOrder';
 import { setShowEditOrder, setShowNewOrder } from '../../../store/reducers/OrderReducer/OrderSlice';
+import { UserErrorWarning } from '../../UI/UserErrorWarning/UserErrorWarning';
 
 dayjs.extend(updateLocale);
 
@@ -42,7 +43,7 @@ dayjs.updateLocale('en', {
 //TODO при нажатии Добавить сделку, очистить в orderReducer order, orderForEdit
 
 const CompanyCardInner: FC = () => {
-  const { company, companies, isLoading, companyFirstUser } = useAppSelector(state => state.companyReducer);
+  const { company, companies, isLoading, companyFirstUser, error: errorCompany  } = useAppSelector(state => state.companyReducer);
   const { isShowEditOrder, isShowNewOrder } = useAppSelector(state => state.orderReducer);
   const { user } = useAppSelector(state => state.authReducer);
   const params = useParams();
@@ -72,7 +73,8 @@ const CompanyCardInner: FC = () => {
   };
 
   useEffect(() => {
-    // console.log('param', params.id)
+    let isMounted = true;
+    const controller = new AbortController();
     const fetchData = async () => {
       if (params.id) {
         const query: ICompaniesQuery = {
@@ -131,16 +133,28 @@ const CompanyCardInner: FC = () => {
         // await dispatch(getCompanyByID(params.id));
       }
     }; 
+
+    try {
+      if (isMounted) {
+        fetchData();
+      }
+    } catch (error) {
+      console.log(error)
+    }
+
     fetchData();
 
     return () => {
+      isMounted = false;
+      controller.abort();
       dispatch(setShowNewOrder(false));
-      dispatch(setShowEditOrder(false));;
+      dispatch(setShowEditOrder(false));
     }
   }, []);
   
   return (
     <>
+      {errorCompany ? <UserErrorWarning/> : null}
       {isLoading ? <Loader/> : 
         <section className="company-card">
           <header className="company-card__header">
@@ -175,7 +189,7 @@ const CompanyCardInner: FC = () => {
           <div className="company-card__wrapper">
             <div className="left">
               <InfoBlock/>
-              {companyFirstUser._id === user.id ?
+              {companyFirstUser && (company.usersID?.some(item => item._id === user.id) ?
                 <>
                   <BaseBlockSmall deal="Добавить сделку" isVisible={showAddOrderSmall} showAddOrder={showAddOrderSmallHandler}/>
                   <AddOrder isVisible={isShowNewOrder} showAddOrder={showAddOrderHandler}/>
@@ -193,11 +207,11 @@ const CompanyCardInner: FC = () => {
                     <OrdersInCompany showAddOrder={(() => dispatch(setShowNewOrder(true)))}/>
                     <CommentsBlock/>
                   </>
-                  : null
+                  : null)
               }
             </div>
             <div className="right">
-              {companyFirstUser._id === user.id ?
+              {companyFirstUser && (company.usersID?.some(item => item._id === user.id) ?
                 <>
                   <DealsBlock/>
                   <ContactsBlock/>
@@ -207,7 +221,7 @@ const CompanyCardInner: FC = () => {
                   <DealsBlock/>
                   <ContactsBlock/>
                 </>
-                : null
+                : null)
               }
               
             </div>

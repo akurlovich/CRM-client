@@ -11,6 +11,7 @@ import orderReducer from './reducers/OrderReducer/OrderSlice';
 import orderItemsReducer from './reducers/OrderItemsReducer/OrderItemsSlice';
 import authReducer from './reducers/AuthReducer/AuthSlice';
 import searchReducer from './reducers/SearchReducer/SearchSlice';
+import emailReducer from './reducers/EmailReducer/EmailSlice';
 
 const rootReducer = combineReducers({
   dimensionReducer,
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   userReducer,
   contactReducer,
   phoneReducer,
+  emailReducer,
   dealReducer,
   commentReducer,
   productReducer,

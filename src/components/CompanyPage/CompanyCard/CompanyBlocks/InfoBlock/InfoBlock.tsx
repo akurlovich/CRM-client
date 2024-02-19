@@ -23,9 +23,9 @@ const InfoBlockInner: FC = () => {
     <section className='info-block'>
       <div className="info-block__title">
         <div className="info-block__title__user">
-          <div className="avatar">{companyFirstUser.lastname?.[0] + companyFirstUser.firstname?.[0]}</div>
+          <div className="avatar">{companyFirstUser?.lastname?.[0] + companyFirstUser?.firstname?.[0]}</div>
           <div className="name">
-            <span>{companyFirstUser.lastname + ' ' + companyFirstUser.firstname}</span>
+            <span>{companyFirstUser?.lastname + ' ' + companyFirstUser?.firstname}</span>
             <span>Ответственный</span>
           </div>
         </div>

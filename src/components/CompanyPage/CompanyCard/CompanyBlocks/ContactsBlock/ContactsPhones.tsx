@@ -11,6 +11,7 @@ import { deletePhoneFromContactByPhoneID } from '../../../../../store/reducers/C
 import { addPhone, updatePhoneByID, updatePhoneIsActive } from '../../../../../store/reducers/PhoneReducer/PhoneActionCreators';
 import { ICompaniesQuery } from '../../../../../types/ICompany';
 import { IPhone, IPhoneNewAddContacts } from '../../../../../types/IPhone';
+import { UserErrorWarning } from '../../../../UI/UserErrorWarning/UserErrorWarning';
 
 // interface IProps {
 //   items: IPhone[];
@@ -19,6 +20,7 @@ import { IPhone, IPhoneNewAddContacts } from '../../../../../types/IPhone';
 //TODO   сделать возможность изменять цвет иконок через css variables
 const ContactsPhonesInner: FC = ({}) => {
   const { company, query } = useAppSelector(state => state.companyReducer);
+  const { error: errorPhone } = useAppSelector(state => state.phoneReducer);
 
   const dispatch = useAppDispatch();
 
@@ -153,6 +155,7 @@ const ContactsPhonesInner: FC = ({}) => {
 
   return (
     <>
+      {errorPhone ? <UserErrorWarning/> : null}
       <div className="title">
         <span>Телефоны</span>
         <IoAddOutline 
