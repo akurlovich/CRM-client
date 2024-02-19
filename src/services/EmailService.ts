@@ -32,6 +32,10 @@ export default class EmailService {
     return serverApi.put<IEmail>(`/emails/${emailID}`, email);
   };
 
+  static async updateEmailIsActive(emailID: string, isActive: boolean): Promise<AxiosResponse<IEmail>> {
+    return serverApi.put<IEmail>(`/emails/${emailID}`, { isActive: isActive });
+  };
+
   // static async updateEmailByAddress(
   //   data: {emailID: string, newAddress: {address: {main: string, district: string}}}): Promise<AxiosResponse<IEmail>> {
   //   console.log('new address client', data);

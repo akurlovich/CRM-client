@@ -1,12 +1,14 @@
 import { IoAddOutline } from '@react-icons/all-files/io5/IoAddOutline';
 import { IoPencil } from '@react-icons/all-files/io5/IoPencil';
+import { IoStarOutline } from '@react-icons/all-files/io5/IoStarOutline';
+import { IoStarSharp } from '@react-icons/all-files/io5/IoStarSharp';
 import { IoTrashOutline } from '@react-icons/all-files/io5/IoTrashOutline';
 import React, { FC, useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../../../../hooks/redux';
 import { validPhone } from '../../../../../services/ClientServices/validPhone';
 import { getCompanyByIDQuery } from '../../../../../store/reducers/CompanyReducer/CompanyActionCreaters';
 import { deletePhoneFromContactByPhoneID } from '../../../../../store/reducers/ContactReducer/ContactActionCreators';
-import { addPhone, updatePhoneByID } from '../../../../../store/reducers/PhoneReducer/PhoneActionCreators';
+import { addPhone, updatePhoneByID, updatePhoneIsActive } from '../../../../../store/reducers/PhoneReducer/PhoneActionCreators';
 import { ICompaniesQuery } from '../../../../../types/ICompany';
 import { IPhone, IPhoneNewAddContacts } from '../../../../../types/IPhone';
 
@@ -78,6 +80,11 @@ const ContactsPhonesInner: FC = ({}) => {
       await dispatch(deletePhoneFromContactByPhoneID(id));
       await dispatch(getCompanyByIDQuery(query));
     }
+  };
+
+  const updateIsActiveHandler = async (id: string, isActive: boolean) => {
+    await dispatch(updatePhoneIsActive({phoneID: id, isActive: isActive}));
+    await dispatch(getCompanyByIDQuery(query));
   };
 
   const addPhoneHandler = async () => {
@@ -184,12 +191,26 @@ const ContactsPhonesInner: FC = ({}) => {
             </div>
             :
             <div className="text">
-              <span className='span-number'>{validPhone(item.number)}</span>
+              <span className={item.isActive ? 'span-number active' : 'span-number'}>{validPhone(item.number)}</span>
               <span>{item.description}</span>
             </div>
           }
           {showUpdateInput.itemID === item._id ? null :
             <div className="icons">
+              {item.isActive ? 
+                <IoStarSharp
+                onClick={() => updateIsActiveHandler(item._id, false)}
+                  style={{cursor: 'pointer'}}
+                  size={20}
+                  color={'#ffd451'}
+                />
+                :
+                <IoStarOutline
+                  onClick={() => updateIsActiveHandler(item._id, true)}
+                  style={{cursor: 'pointer'}}
+                  size={20}
+                />
+              }
               <IoPencil 
                 style={{cursor: 'pointer'}}
                 onClick={() => updateShowPhoneHandler(true, item._id, item.number, item.description)}
@@ -199,7 +220,8 @@ const ContactsPhonesInner: FC = ({}) => {
                 onClick={() => deletePhoneHandler(item._id)}
                 style={{cursor: 'pointer'}}
                 size={20}
-                color={'#c02525'}/>
+                // color={'#c02525'}
+                />
             </div>
           }
         </div>

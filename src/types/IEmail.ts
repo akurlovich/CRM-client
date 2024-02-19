@@ -3,6 +3,7 @@ export interface IEmail {
   companyID: string,
   email: string,
   description: string,
+  isActive: boolean,
 }
 
 export interface IEmailNew {

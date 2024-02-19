@@ -3,6 +3,7 @@ export interface IPhone {
   companyID: string,
   number: string,
   description: string,
+  isActive: boolean,
 }
 
 export interface IPhoneNew {

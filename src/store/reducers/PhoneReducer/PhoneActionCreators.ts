@@ -49,6 +49,18 @@ export const updatePhoneByID = createAsyncThunk(
   }
 );
 
+export const updatePhoneIsActive = createAsyncThunk(
+  'PHONE/updatePhoneIsActive',
+  async ( {phoneID, isActive}: {phoneID: string, isActive: boolean}, {rejectWithValue}) => {
+    try {
+      return await (await PhoneService.updatePhoneIsActive(phoneID, isActive)).data;
+      
+    } catch (error: any) {
+      return rejectWithValue(error.message)
+    }
+  }
+);
+
 export const deletePhoneByID = createAsyncThunk(
   'PHONE/deletePhoneByID',
   async (phoneID: string, {rejectWithValue}) => {

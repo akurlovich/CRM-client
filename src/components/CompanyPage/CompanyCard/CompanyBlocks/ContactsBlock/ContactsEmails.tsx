@@ -1,11 +1,13 @@
 import { IoAddOutline } from '@react-icons/all-files/io5/IoAddOutline';
 import { IoPencil } from '@react-icons/all-files/io5/IoPencil';
+import { IoStarOutline } from '@react-icons/all-files/io5/IoStarOutline';
+import { IoStarSharp } from '@react-icons/all-files/io5/IoStarSharp';
 import { IoTrashOutline } from '@react-icons/all-files/io5/IoTrashOutline';
 import React, { FC, useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../../../../hooks/redux';
 import { getCompanyByIDQuery } from '../../../../../store/reducers/CompanyReducer/CompanyActionCreaters';
 import { deleteEmailFromContactByPhoneID } from '../../../../../store/reducers/ContactReducer/ContactActionCreators';
-import { addEmail, updateEmailByID } from '../../../../../store/reducers/EmailReducer/EmailActionCreators';
+import { addEmail, updateEmailByID, updateEmailIsActive } from '../../../../../store/reducers/EmailReducer/EmailActionCreators';
 import { ICompaniesQuery } from '../../../../../types/ICompany';
 import { IEmail, IEmailNewAddContacts } from '../../../../../types/IEmail';
 
@@ -74,6 +76,11 @@ const ContactsEmailsInner: FC = ({}) => {
       await dispatch(deleteEmailFromContactByPhoneID(id));
       await dispatch(getCompanyByIDQuery(query));
     }
+  };
+
+  const updateIsActiveHandler = async (id: string, isActive: boolean) => {
+    await dispatch(updateEmailIsActive({emailID: id, isActive: isActive}));
+    await dispatch(getCompanyByIDQuery(query));
   };
 
   const addEmailHandler = async () => {
@@ -168,12 +175,26 @@ const ContactsEmailsInner: FC = ({}) => {
             </div>
             :
             <div className="text">
-              <span className='span-email'>{item.email}</span>
+              <span className={item.isActive ? 'span-email active' : 'span-email'}>{item.email}</span>
               <span>{item.description}</span>
             </div>
           }
           {showUpdateInput.itemID === item._id ? null :
             <div className="icons">
+              {item.isActive ? 
+                <IoStarSharp
+                onClick={() => updateIsActiveHandler(item._id, false)}
+                  style={{cursor: 'pointer'}}
+                  size={20}
+                  color={'#ffd451'}
+                />
+                :
+                <IoStarOutline
+                  onClick={() => updateIsActiveHandler(item._id, true)}
+                  style={{cursor: 'pointer'}}
+                  size={20}
+                />
+              }
               <IoPencil 
                 style={{cursor: 'pointer'}}
                 onClick={() => updateShowEmailHandler(true, item._id, item.email, item.description)}
@@ -183,7 +204,8 @@ const ContactsEmailsInner: FC = ({}) => {
                 onClick={() => deleteEmailHandler(item._id)}
                 style={{cursor: 'pointer'}}
                 size={20}
-                color={'#c02525'}/>
+                // color={'#c02525'}
+                />
             </div>
           }
         </div>

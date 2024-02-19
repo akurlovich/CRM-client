@@ -6,7 +6,7 @@
   margin-bottom: 8px;
   margin-right: 8px;
   // width: calc(100% - 8px);
-  background: #fff;
+  background: rgb(255, 255, 255);
   border-radius: 2px;
   padding: 18px;
   // margin: 20px;
@@ -42,12 +42,20 @@
 
         & > .span-number {
           color: var(--link-active-2);
-          flex: 0 130px
+          flex: 0 130px;
+
+          &.active {
+            font-weight: 700;
+          }
         }
 
         & > .span-email {
           color: var(--link-active-2);
-          flex: 0 150px
+          flex: 0 150px;
+
+          &.active {
+            font-weight: 700;
+          }
         }
 
         & span:nth-child(2) {

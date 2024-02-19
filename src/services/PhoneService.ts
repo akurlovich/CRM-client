@@ -32,6 +32,10 @@ export default class PhoneService {
     return serverApi.put<IPhone>(`/phones/${phoneID}`, phone);
   };
 
+  static async updatePhoneIsActive(phoneID: string, isActive: boolean): Promise<AxiosResponse<IPhone>> {
+    return serverApi.put<IPhone>(`/phones/${phoneID}`, { isActive: isActive });
+  };
+
   // static async updatePhoneByAddress(
   //   data: {phoneID: string, newAddress: {address: {main: string, district: string}}}): Promise<AxiosResponse<IPhone>> {
   //   console.log('new address client', data);

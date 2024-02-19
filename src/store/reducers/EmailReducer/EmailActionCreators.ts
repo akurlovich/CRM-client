@@ -49,6 +49,18 @@ export const updateEmailByID = createAsyncThunk(
   }
 );
 
+export const updateEmailIsActive = createAsyncThunk(
+  'EMAIL/updateEmailIsActive',
+  async ( {emailID, isActive}: {emailID: string, isActive: boolean}, {rejectWithValue}) => {
+    try {
+      return await (await EmailService.updateEmailIsActive(emailID, isActive)).data;
+      
+    } catch (error: any) {
+      return rejectWithValue(error.message)
+    }
+  }
+);
+
 export const deleteEmailByID = createAsyncThunk(
   'EMAIL/deleteEmailByID',
   async (emailID: string, {rejectWithValue}) => {
