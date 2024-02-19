@@ -68,7 +68,7 @@ const UserLoginInner: FC = () => {
   
   return (
     <div className='registration'>
-      {errorAuth && <UserErrorWarning message={errorAuth}/>}
+      {errorAuth === "Network Error" ? <UserErrorWarning message={errorAuth}/> : null}
       {showError && <UserErrorWarning canselHandler={canselHandler} message={loginError}/>}
       <div className="registration__block login">
         <div className="registration__container">
