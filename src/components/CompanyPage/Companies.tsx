@@ -13,6 +13,10 @@ import { Loader } from '../UI/Loader/Loader';
 import { CompanyItem } from './CompanyItem/CompanyItem';
 import { ICompaniesQuery } from '../../types/ICompany';
 import { UserErrorWarning } from '../UI/UserErrorWarning/UserErrorWarning';
+import { SelectUsers } from '../UI/Select/SelectUsers';
+
+import { USER_BG_COLORS } from '../../constants/user';
+import { randomBGColor } from '../../services/ClientServices/RandomBGColor';
 
 // interface ICompanyItem {
 //   title: string,
@@ -25,6 +29,7 @@ import { UserErrorWarning } from '../UI/UserErrorWarning/UserErrorWarning';
 const CompanyInner: FC = () => {
   const { companies, isLoading, error: errorCompany } = useAppSelector(state => state.companyReducer);
   const { user } = useAppSelector(state => state.authReducer);
+  const { users } = useAppSelector(state => state.userReducer);
 
   const dispatch = useAppDispatch();
   
@@ -84,7 +89,7 @@ const CompanyInner: FC = () => {
 
       await dispatch(getAllCompaniesQuery(query));
       // await dispatch(getAllCompanies());
-      // await dispatch(getAllUsers());
+      await dispatch(getAllUsers());
       // await dispatch(getUserByID(companies[0]?.usersID[0]));
       // console.log(users)
     };
@@ -119,7 +124,10 @@ const CompanyInner: FC = () => {
           <AddCompany isVisible={showAddCompany} onClose={() => setShowAddCompany(false)}/>
           <section className='company'>
             <div className="company__filters">
-              
+              <span
+                style={{'backgroundColor': `${USER_BG_COLORS[randomBGColor()]}`}}
+                >Сотрудники</span>
+              <SelectUsers items={users} />
             </div>
             <div className="company__container">
               <div className="company__header">

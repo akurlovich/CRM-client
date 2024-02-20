@@ -26,6 +26,7 @@ import { OrdersInCompany } from './CompanyBlocks/OrderBlock/OrdersInCompany/Orde
 import { EditOrder } from './CompanyBlocks/OrderBlock/EditOrder/EditOrder';
 import { setShowEditOrder, setShowNewOrder } from '../../../store/reducers/OrderReducer/OrderSlice';
 import { UserErrorWarning } from '../../UI/UserErrorWarning/UserErrorWarning';
+import { getAllUsers } from '../../../store/reducers/UserReducer/UserActionCreators';
 
 dayjs.extend(updateLocale);
 
@@ -128,6 +129,7 @@ const CompanyCardInner: FC = () => {
         };
         await dispatch(getCompanyByIDQuery(query));
         await dispatch(getAllDealTitles());
+        await dispatch(getAllUsers());
         dispatch(addQueryToState(query));
         // await dispatch(getAllPhones());
         // await dispatch(getCompanyByID(params.id));

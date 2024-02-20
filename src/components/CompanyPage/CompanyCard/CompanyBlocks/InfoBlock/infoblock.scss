@@ -20,31 +20,170 @@
     align-items: center;
 
     &__user {
+      position: relative;
       display: flex;
       gap: 10px;
+      align-self: flex-start;
 
-      & > .avatar {
-        width: 30px;
-        height: 30px;
-        border-radius: 100%;
-        background-color: rgb(95, 196, 95);
-        color: #fff;
-        display: flex;
-        align-items: center;
-        text-align: center;
-        justify-content: center;
-      }
-
-      & > .name {
+      &__list {
+        position: absolute;
+        top: 40px;
+        left: 0px;
+        background-color: #fff;
+        box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.5), 0 5px 10px 0 rgba(0, 0, 0, 0.3);
+        // padding: 15px;
+        width: max-content;
         display: flex;
         flex-direction: column;
-        // gap: 5px;
-        
-        & span:nth-child(2) {
-          color: var(--text-color-secondary-light);
-          font-size: 12px;
+        padding-top: 20px;
+        // gap: 10px;
+
+        & > .close {
+          position: absolute;
+          cursor: pointer;
+          top: 3px;
+          right: 3px;
         }
+
+        & > ul {
+          display: flex;
+          flex-direction: column;
+
+          & > li {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+            padding: 10px 15px;
+            // cursor: pointer;
+            justify-content: space-between;
+  
+            // &:hover {
+            //   background-color: #f8f8f6;
+            // }
+  
+            & > .avatar {
+              width: 30px;
+              height: 30px;
+              border-radius: 100%;
+              background-color: rgb(95, 196, 95);
+              color: #fff;
+              display: flex;
+              align-items: center;
+              text-align: center;
+              justify-content: center;
+            }
+  
+            & > .name {
+              display: flex;
+              flex-direction: column;
+              cursor: default;
+              // gap: 5px;
+              
+              & span:nth-child(2) {
+                color: var(--text-color-secondary-light);
+                font-size: 12px;
+              }
+            }
+          }
+        }
+
+        &__add {
+          position: relative;
+          display: flex;
+          gap: 10px;
+          padding: 15px;
+          align-items: flex-end;
+
+          & > span {
+            cursor: pointer;
+          }
+
+          &__users {
+            position: absolute;
+            top: 40px;
+            left: 45px;
+            background-color: #fff;
+            box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.5), 0 5px 10px 0 rgba(0, 0, 0, 0.3);
+            // padding: 15px;
+            width: max-content;
+            display: flex;
+            flex-direction: column;
+
+            & > li {
+              display: flex;
+              gap: 5px;
+              align-items: center;
+              padding: 10px 15px;
+              cursor: pointer;
+    
+              &:hover {
+                background-color: #f8f8f6;
+              }
+    
+              & > .avatar {
+                width: 30px;
+                height: 30px;
+                border-radius: 100%;
+                background-color: rgb(95, 196, 95);
+                color: #fff;
+                display: flex;
+                align-items: center;
+                text-align: center;
+                justify-content: center;
+              }
+    
+              & > .name {
+                display: flex;
+                flex-direction: column;
+                // gap: 5px;
+                
+                & span:nth-child(2) {
+                  color: var(--text-color-secondary-light);
+                  font-size: 12px;
+                }
+              }
+            }
+          }
+
+        }
+
       }
+
+      &__item {
+        display: flex;
+        gap: 10px;
+
+        & > .avatar {
+          width: 30px;
+          height: 30px;
+          border-radius: 100%;
+          background-color: rgb(95, 196, 95);
+          color: #fff;
+          display: flex;
+          align-items: center;
+          text-align: center;
+          justify-content: center;
+        }
+  
+        & > .name {
+          display: flex;
+          flex-direction: column;
+          cursor: pointer;
+          // gap: 5px;
+          
+          & span:nth-child(2) {
+            color: var(--text-color-secondary-light);
+            font-size: 12px;
+          }
+        }
+
+        & > span {
+           cursor: pointer;
+        }
+
+
+      }
+
 
     }
 
