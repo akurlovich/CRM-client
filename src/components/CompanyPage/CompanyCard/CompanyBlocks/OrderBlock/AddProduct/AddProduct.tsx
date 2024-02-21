@@ -102,8 +102,12 @@ const AddProductInner: FC<IProps> = ({isVisible = false, onClose }) => {
   return isVisible ? (
     <>
       {errorProduct ? <UserErrorWarning/> : null}
-      <div className="add-product">
-        <div className="add-product__dialog">
+      <div 
+        onClick={() => onClose()}
+        className="add-product">
+        <div 
+          onClick={(e:React.MouseEvent<HTMLDivElement>) => e.stopPropagation()}
+          className="add-product__dialog">
           <div className="add-product__header">
             <h3 className="add-product__title">Добавить новый товар</h3>
           </div>

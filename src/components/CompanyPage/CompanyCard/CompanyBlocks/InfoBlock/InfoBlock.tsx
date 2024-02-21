@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 import './infoblock.scss';
 import { IoPencil } from "@react-icons/all-files/io5/IoPencil";
 import { IoCloseOutline } from "@react-icons/all-files/io5/IoCloseOutline";
@@ -12,6 +12,10 @@ import { USER_BG_COLORS } from '../../../../../constants/user';
 import { randomBGColor } from '../../../../../services/ClientServices/RandomBGColor';
 import { IUser } from '../../../../../types/IUser';
 
+type PopupClick = MouseEvent & {
+  path: Node[];
+};
+
 const InfoBlockInner: FC = () => {
   const { company, companyFirstUser, companyDeals, query } = useAppSelector(state => state.companyReducer);
   const { users } = useAppSelector(state => state.userReducer);
@@ -24,6 +28,8 @@ const InfoBlockInner: FC = () => {
   const [usersFilter, setUsersFilter] = useState<IUser[]>([] as IUser[]);
   const [showUsersInfo, setShowUsersInfo] = useState(false);
 
+  const menuRef = useRef<HTMLDivElement>(null);
+
   const userHandler = async (user: IUser) => {
     // console.log(usersArray);
     setShowUsers(false);
@@ -31,6 +37,9 @@ const InfoBlockInner: FC = () => {
     const filtered = usersFilter.filter((item) => item._id !== user._id);
       // console.log('first', filtered)
     setUsersFilter([...filtered])
+    console.log(usersArray)
+    console.log(usersFilter)
+
   };
 
   const addOrUpdateDescription = async () => {
@@ -47,6 +56,11 @@ const InfoBlockInner: FC = () => {
   const closeHandler = () => {
     setShowUsers(false);
     setShowUsersInfo(false);
+  };
+
+  const clickHandler = (e:React.MouseEvent<HTMLDivElement>) => {
+    console.log(e.currentTarget)
+    console.log(e.target)
   };
 
   useEffect(() => {
@@ -99,13 +113,25 @@ const InfoBlockInner: FC = () => {
             <div 
               onClick={() => setShowUsersInfo(true)}
               className="info-block__title__user__item">
-                <span>Ответственных нет</span>
+                <div className="info-block__title__user__list__no-users">
+                  <IoPersonAdd 
+                    style={{'color': '#a3a3a3'}}
+                    size={20}/>
+                  <span>
+                    Добавить ответственного
+                  </span>
+                  
+                </div>
             </div>
             : null
           }
 
           {showUsersInfo ? 
-            <div className='info-block__title__user__list'>
+            <div
+              ref={menuRef}
+              // onClick={(e:React.MouseEvent<HTMLDivElement>) => (e.currentTarget === e.target) && closeHandler()}
+              onClick={clickHandler}
+              className='info-block__title__user__list'>
               <IoCloseOutline
                 className='close'
                 onClick={closeHandler}
@@ -121,8 +147,10 @@ const InfoBlockInner: FC = () => {
                       className="avatar">{item?.lastname?.[0] + item?.firstname?.[0]}</div>
                     <div className="name">
                       <span>{item?.lastname + ' ' + item?.firstname}</span>
+                      <span>{item.position}</span>
                     </div>
-                    <IoTrash 
+                    <IoTrash
+                      className='trash'
                       onClick={() => deleteUserHandler(item)}
                       style={{'cursor': 'pointer'}}
                       size={15}/>
@@ -132,7 +160,7 @@ const InfoBlockInner: FC = () => {
               </ul>
               <div className="info-block__title__user__list__add">
                 <IoPersonAdd 
-                  style={{'color': 'grey'}}
+                  style={{'color': '#a3a3a3'}}
                   size={20}/>
                 <span
                   onClick={() => setShowUsers(true)}
@@ -149,6 +177,7 @@ const InfoBlockInner: FC = () => {
                           className="avatar">{item?.lastname?.[0] + item?.firstname?.[0]}</div>
                         <div className="name">
                           <span>{item?.lastname + ' ' + item?.firstname}</span>
+                          <span>{item.position}</span>
                         </div>
                       </li>
                     )}

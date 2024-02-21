@@ -83,7 +83,7 @@ const CompanyCardInner: FC = () => {
             [
               {
                 path: "usersID", 
-                select: "lastname firstname"
+                // select: "lastname firstname"
               },
               {
                 path: "contactID", 
