@@ -7,17 +7,19 @@ import { IoTrash } from "@react-icons/all-files/io5/IoTrash";
 import { useAppDispatch, useAppSelector } from '../../../../../hooks/redux';
 import DealCreate from '../DealsBlock/DealCreate';
 import { DealItem } from '../DealsBlock/DealItem';
-import { getCompanyByIDQuery, updateCompanyDescription } from '../../../../../store/reducers/CompanyReducer/CompanyActionCreaters';
+import { getCompanyByIDQuery, updateCompanyDescription, updateCompanyUsers } from '../../../../../store/reducers/CompanyReducer/CompanyActionCreaters';
 import { USER_BG_COLORS } from '../../../../../constants/user';
 import { randomBGColor } from '../../../../../services/ClientServices/RandomBGColor';
 import { IUser } from '../../../../../types/IUser';
+import { LoaderSmall } from '../../../../UI/LoaderSmall/LoaderSmall';
+import { UserErrorWarning } from '../../../../UI/UserErrorWarning/UserErrorWarning';
 
 type PopupClick = MouseEvent & {
   path: Node[];
 };
 
 const InfoBlockInner: FC = () => {
-  const { company, companyFirstUser, companyDeals, query } = useAppSelector(state => state.companyReducer);
+  const { company, companyFirstUser, companyDeals, query, isLoading, error: errorCompany  } = useAppSelector(state => state.companyReducer);
   const { users } = useAppSelector(state => state.userReducer);
   const dispatch = useAppDispatch();
   const [showAddDeal, setShowAddDeal] = useState(false);
@@ -33,12 +35,20 @@ const InfoBlockInner: FC = () => {
   const userHandler = async (user: IUser) => {
     // console.log(usersArray);
     // setShowUsers(false);
+    const usersArr = [...usersArray, user];
+    const usersID = [];
+    for (let item of usersArr) {
+      usersID.push(item._id)
+    }
+    await dispatch(updateCompanyUsers({companyID: company._id, users: usersID}))
+
     setUsersArray(prev => [...prev, user])
     const filtered = usersFilter.filter((item) => item._id !== user._id);
       // console.log('first', filtered)
     setUsersFilter([...filtered])
     // console.log(usersArray)
     // console.log(usersFilter)
+    await dispatch(getCompanyByIDQuery(query));
 
   };
 
@@ -51,17 +61,15 @@ const InfoBlockInner: FC = () => {
   const deleteUserHandler = async (user: IUser) => {
     setUsersArray([...usersArray.filter((item) => item._id !== user._id)])
     setUsersFilter(prev => [...prev, user])
-  };
 
-  const closeHandler = () => {
-    setShowUsers(false);
-    setShowUsersInfo(false);
+    const usersArr = [...usersArray.filter((item) => item._id !== user._id)];
+    const usersID = [];
+    for (let item of usersArr) {
+      usersID.push(item._id)
+    }
+    await dispatch(updateCompanyUsers({companyID: company._id, users: usersID}))
+    await dispatch(getCompanyByIDQuery(query));
   };
-
-  // const clickHandler = (e:React.MouseEvent<HTMLDivElement>) => {
-  //   console.log(e.currentTarget)
-  //   console.log(e.target)
-  // };
 
   useEffect(() => {
     if (company.usersID?.length) {
@@ -69,6 +77,8 @@ const InfoBlockInner: FC = () => {
       const filtered = users.filter((item) => item._id !== companyFirstUser._id);
       // console.log('first', filtered)
       setUsersFilter([...filtered])
+    } else {
+      setUsersFilter([...users])
     }
   }, [company, users]);
 
@@ -91,6 +101,8 @@ const InfoBlockInner: FC = () => {
   
   return (
     <section className='info-block'>
+      {errorCompany && <UserErrorWarning/>}
+      {isLoading && <LoaderSmall/>}
       <div className="info-block__title">
         <div 
           ref={menuRef}

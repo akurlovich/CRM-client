@@ -124,10 +124,10 @@ const CompanyInner: FC = () => {
           <AddCompany isVisible={showAddCompany} onClose={() => setShowAddCompany(false)}/>
           <section className='company'>
             <div className="company__filters">
-              <span
+              {/* <span
                 style={{'backgroundColor': `${USER_BG_COLORS[randomBGColor()]}`}}
                 >Сотрудники</span>
-              <SelectUsers items={users} />
+              <SelectUsers items={users} /> */}
             </div>
             <div className="company__container">
               <div className="company__header">

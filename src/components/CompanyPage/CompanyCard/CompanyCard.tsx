@@ -191,7 +191,7 @@ const CompanyCardInner: FC = () => {
           <div className="company-card__wrapper">
             <div className="left">
               <InfoBlock/>
-              {companyFirstUser && (company.usersID?.some(item => item._id === user.id) ?
+              {companyFirstUser ? (company.usersID?.some(item => item._id === user.id) ?
                 <>
                   <BaseBlockSmall deal="Добавить сделку" isVisible={showAddOrderSmall} showAddOrder={showAddOrderSmallHandler}/>
                   <AddOrder isVisible={isShowNewOrder} showAddOrder={showAddOrderHandler}/>
@@ -210,10 +210,19 @@ const CompanyCardInner: FC = () => {
                     <CommentsBlock/>
                   </>
                   : null)
+                  : (user.isAdmin ?
+                    <>
+                      <BaseBlockSmall deal="Добавить сделку" isVisible={showAddOrderSmall} showAddOrder={showAddOrderSmallHandler}/>
+                      <AddOrder isVisible={isShowNewOrder} showAddOrder={showAddOrderHandler}/>
+                      <EditOrder isVisible={isShowEditOrder}/>
+                      {/* <AddOrder/> */}
+                      <OrdersInCompany showAddOrder={(() => dispatch(setShowNewOrder(true)))}/>
+                      <CommentsBlock/>
+                    </> : null)
               }
             </div>
             <div className="right">
-              {companyFirstUser && (company.usersID?.some(item => item._id === user.id) ?
+              {companyFirstUser ? (company.usersID?.some(item => item._id === user.id) ?
                 <>
                   <DealsBlock/>
                   <ContactsBlock/>
@@ -224,6 +233,14 @@ const CompanyCardInner: FC = () => {
                   <ContactsBlock/>
                 </>
                 : null)
+                : (
+                  user.isAdmin ?
+                  <>
+                    <DealsBlock/>
+                    <ContactsBlock/>
+                  </>
+                : null
+                )
               }
               
             </div>

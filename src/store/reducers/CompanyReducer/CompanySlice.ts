@@ -4,7 +4,7 @@ import { ICompaniesQuery, ICompany, ICompanyNew } from "../../../types/ICompany"
 import { IDeal } from "../../../types/IDeal";
 import { IOrder } from "../../../types/IOrder";
 import { IUser } from "../../../types/IUser";
-import { addCompany, getAllCompanies, getAllCompaniesQuery, getCompanyByID, getCompanyByIDQuery, updateCompanyDescription } from "./CompanyActionCreaters";
+import { addCompany, getAllCompanies, getAllCompaniesQuery, getCompanyByID, getCompanyByIDQuery, updateCompanyDescription, updateCompanyUsers } from "./CompanyActionCreaters";
 
 interface ICompanyState {
   company: ICompany,
@@ -144,6 +144,18 @@ const companySlice = createSlice({
         // state.company = action.payload;
       })
       .addCase(updateCompanyDescription.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload as string;
+      });
+    builder
+      .addCase(updateCompanyUsers.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateCompanyUsers.fulfilled, (state, action: PayloadAction<ICompany>) => {
+        state.isLoading = false;
+        // state.company = action.payload;
+      })
+      .addCase(updateCompanyUsers.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload as string;
       });

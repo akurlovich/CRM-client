@@ -40,6 +40,10 @@ export default class CompanyService {
     return serverApi.put<ICompany>(`/companies/${companyID}/description`, {description: description});
   };
 
+  static async updateCompanyUsers(companyID: string, users: string[]): Promise<AxiosResponse<ICompany>> {
+    return serverApi.put<ICompany>(`/companies/${companyID}/users`, users);
+  };
+
   static async deleteCompanyByID(companyID: string): Promise<AxiosResponse<ICompany>> {
     return serverApi.delete<ICompany>(`/companies/${companyID}`);
   };
