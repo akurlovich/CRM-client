@@ -35,7 +35,7 @@
         width: max-content;
         display: flex;
         flex-direction: column;
-        padding-top: 20px;
+        // padding-top: 20px;
         z-index: 10;
         // gap: 10px;
 
@@ -70,6 +70,36 @@
             padding: 10px 15px;
             // cursor: pointer;
             justify-content: space-between;
+
+            & > .user-block {
+              display: flex;
+              gap: 5px;
+              align-items: center;
+
+              & > .avatar {
+                width: 30px;
+                height: 30px;
+                border-radius: 100%;
+                background-color: rgb(95, 196, 95);
+                color: #fff;
+                display: flex;
+                align-items: center;
+                text-align: center;
+                justify-content: center;
+              }
+    
+              & > .name {
+                display: flex;
+                flex-direction: column;
+                cursor: default;
+                // gap: 5px;
+                
+                & span:nth-child(2) {
+                  color: var(--text-color-secondary-light);
+                  font-size: 12px;
+                }
+              }
+            }
 
             & > .trash {
               opacity: 0;

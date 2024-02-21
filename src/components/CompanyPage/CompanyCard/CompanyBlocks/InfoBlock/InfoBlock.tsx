@@ -58,10 +58,10 @@ const InfoBlockInner: FC = () => {
     setShowUsersInfo(false);
   };
 
-  const clickHandler = (e:React.MouseEvent<HTMLDivElement>) => {
-    console.log(e.currentTarget)
-    console.log(e.target)
-  };
+  // const clickHandler = (e:React.MouseEvent<HTMLDivElement>) => {
+  //   console.log(e.currentTarget)
+  //   console.log(e.target)
+  // };
 
   useEffect(() => {
     if (company.usersID?.length) {
@@ -71,11 +71,30 @@ const InfoBlockInner: FC = () => {
       setUsersFilter([...filtered])
     }
   }, [company, users]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const _event = event as PopupClick;
+
+      if (!menuRef.current?.contains(_event.target as Node)) {
+        // console.log(_event.target)
+        // console.log(menuRef.current)
+        setShowUsers(false);
+        setShowUsersInfo(false);
+      };
+    };
+
+    document.body.addEventListener('click', handleClickOutside);
+
+    return () => document.body.removeEventListener('click', handleClickOutside);
+  }, []);
   
   return (
     <section className='info-block'>
       <div className="info-block__title">
-        <div className="info-block__title__user">
+        <div 
+          ref={menuRef}
+          className="info-block__title__user">
           {(usersArray.length === 1) ? 
             (usersArray.map(item => 
             <div key={item._id} className="info-block__title__user__item">
@@ -96,10 +115,11 @@ const InfoBlockInner: FC = () => {
           {(usersArray.length > 1) ? 
             (usersArray.map(item => 
               <div 
-                onClick={() => setShowUsers(true)}
+                // onClick={() => setShowUsers(true)}
                 key={item._id} 
                 className="info-block__title__user__item">
                 <div 
+                  onClick={() => setShowUsersInfo(true)}
                   style={{'backgroundColor': `${USER_BG_COLORS[randomBGColor()]}`}}
                   className="avatar">
                     {item.lastname?.[0] + item.firstname?.[0]}
@@ -128,50 +148,26 @@ const InfoBlockInner: FC = () => {
 
           {showUsersInfo ? 
             <div
-              ref={menuRef}
-              // onClick={(e:React.MouseEvent<HTMLDivElement>) => (e.currentTarget === e.target) && closeHandler()}
-              onClick={clickHandler}
-              className='info-block__title__user__list'>
-              <IoCloseOutline
-                className='close'
-                onClick={closeHandler}
-                size={20}
-              />
-              <ul>
-                {usersArray.map(item => 
-                  <li key={item._id}
-                    // onClick={() => userHandler(item)}
-                    >
-                    <div 
-                      style={{'backgroundColor': `${USER_BG_COLORS[randomBGColor()]}`}}
-                      className="avatar">{item?.lastname?.[0] + item?.firstname?.[0]}</div>
-                    <div className="name">
-                      <span>{item?.lastname + ' ' + item?.firstname}</span>
-                      <span>{item.position}</span>
-                    </div>
-                    <IoTrash
-                      className='trash'
-                      onClick={() => deleteUserHandler(item)}
-                      style={{'cursor': 'pointer'}}
-                      size={15}/>
-                  </li>
-                )}
-
-              </ul>
-              <div className="info-block__title__user__list__add">
-                <IoPersonAdd 
-                  style={{'color': '#a3a3a3'}}
-                  size={20}/>
-                <span
-                  onClick={() => setShowUsers(true)}
-                  >
-                  Добавить ответственного</span>
-                {showUsers ? 
-                  <ul className='info-block__title__user__list__add__users'>
-                    {usersFilter.map(item => 
-                      <li key={item._id}
-                        onClick={() => userHandler(item)}
-                        >
+              // ref={menuRef}
+              // onClick={clickHandler}
+              className={'neponatno'}
+              >
+              <div
+                // ref={menuRef}
+                // onClick={(e:React.MouseEvent<HTMLDivElement>) => (e.currentTarget === e.target) && closeHandler()}
+                // onClick={clickHandler}
+                className='info-block__title__user__list'>
+                {/* <IoCloseOutline
+                  className='close'
+                  onClick={closeHandler}
+                  size={20}
+                /> */}
+                <ul>
+                  {usersArray.map(item => 
+                    <li key={item._id}
+                      // onClick={() => userHandler(item)}
+                      >
+                      <div className="user-block">
                         <div 
                           style={{'backgroundColor': `${USER_BG_COLORS[randomBGColor()]}`}}
                           className="avatar">{item?.lastname?.[0] + item?.firstname?.[0]}</div>
@@ -179,11 +175,43 @@ const InfoBlockInner: FC = () => {
                           <span>{item?.lastname + ' ' + item?.firstname}</span>
                           <span>{item.position}</span>
                         </div>
-                      </li>
-                    )}
-                  </ul>
-                  : null
-                }
+                      </div>
+                      <IoTrash
+                        className='trash'
+                        onClick={() => deleteUserHandler(item)}
+                        style={{'cursor': 'pointer'}}
+                        size={15}/>
+                    </li>
+                  )}
+
+                </ul>
+                <div className="info-block__title__user__list__add">
+                  <IoPersonAdd 
+                    style={{'color': '#a3a3a3'}}
+                    size={20}/>
+                  <span
+                    onClick={() => setShowUsers(true)}
+                    >
+                    Добавить ответственного</span>
+                  {showUsers ? 
+                    <ul className='info-block__title__user__list__add__users'>
+                      {usersFilter.map(item => 
+                        <li key={item._id}
+                          onClick={() => userHandler(item)}
+                          >
+                          <div 
+                            style={{'backgroundColor': `${USER_BG_COLORS[randomBGColor()]}`}}
+                            className="avatar">{item?.lastname?.[0] + item?.firstname?.[0]}</div>
+                          <div className="name">
+                            <span>{item?.lastname + ' ' + item?.firstname}</span>
+                            <span>{item.position}</span>
+                          </div>
+                        </li>
+                      )}
+                    </ul>
+                    : null
+                  }
+                </div>
               </div>
             </div>
             : null
