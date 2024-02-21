@@ -32,13 +32,13 @@ const InfoBlockInner: FC = () => {
 
   const userHandler = async (user: IUser) => {
     // console.log(usersArray);
-    setShowUsers(false);
+    // setShowUsers(false);
     setUsersArray(prev => [...prev, user])
     const filtered = usersFilter.filter((item) => item._id !== user._id);
       // console.log('first', filtered)
     setUsersFilter([...filtered])
-    console.log(usersArray)
-    console.log(usersFilter)
+    // console.log(usersArray)
+    // console.log(usersFilter)
 
   };
 
