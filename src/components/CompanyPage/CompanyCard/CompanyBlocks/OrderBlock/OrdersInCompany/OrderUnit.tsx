@@ -69,7 +69,9 @@ const OrderUnitInner: FC<IProps> = ({item, ordersPage = false}) => {
       }
       <span className='cell data total'>{`${numberWithSpaces(item.totalSum)} руб`}</span>
       <div className='cell data user tight'>
-        <span>{`${item.usersID.firstname[0]}${item.usersID.lastname[0]}`}</span>
+        <span
+          style={{'backgroundColor': `${item.usersID.avatar}`}}
+          >{`${item.usersID.firstname[0]}${item.usersID.lastname[0]}`}</span>
         <span>{`${item.usersID.firstname} ${item.usersID.lastname}`}</span>
       </div>
       <span className='cell data narrow'>{createDate}</span>

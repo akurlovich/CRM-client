@@ -53,8 +53,11 @@ export const Header: FC = () => {
           </ul> */}
         </nav> 
         {isAuth ? 
-          <div className="header__user">
-            <span>{user.lastname[0] + user.firstname[0]}</span>
+          <div 
+            className="header__user">
+            <span
+              style={{'backgroundColor': `${user.avatar}`}}
+              >{user.lastname[0] + user.firstname[0]}</span>
             <span>{user.lastname + ' ' + user.firstname}</span>
             <button
               onClick={() => dispatch(logoutUser())}>

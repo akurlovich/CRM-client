@@ -1,7 +1,7 @@
 import { IoBagSharp } from '@react-icons/all-files/io5/IoBagSharp';
 import { IoCallSharp } from '@react-icons/all-files/io5/IoCallSharp';
 import { IoPeople } from '@react-icons/all-files/io5/IoPeople';
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../../../../hooks/redux';
 import { getCompanyByIDQuery } from '../../../../../../store/reducers/CompanyReducer/CompanyActionCreaters';
 import { deleteDealByID } from '../../../../../../store/reducers/DealReducer/DealActionCreators';
@@ -40,7 +40,7 @@ const DealCompleteInner: FC<IProps> = ({isVisible = false, onClose, item}) => {
 
   const [dealComment, setDealComment] = useState('');
 
-  const commentInputHandler = (e: React.FocusEvent<HTMLInputElement>) => {
+  const commentInputHandler = (e: React.FocusEvent<HTMLTextAreaElement>) => {
     setDealComment(e.target.value)
     if (e.target.value) {
       setDisabled(false)
@@ -102,12 +102,18 @@ const DealCompleteInner: FC<IProps> = ({isVisible = false, onClose, item}) => {
           <form className="deal-complete__body">
             <div className="deal-complete__input">
               <span className='required'>Комментарий</span>
-              <input 
+              {/* <input 
                 value={dealComment}
                 onChange={commentInputHandler}
                 type="text"
                 autoFocus
-                placeholder='Введите комментарий к сделке...'/>
+                placeholder='Введите комментарий к сделке...'/> */}
+              <textarea 
+                value={dealComment}
+                onChange={commentInputHandler}
+                autoFocus
+                rows={3}
+                placeholder='Введите описание компании...'/>
             </div>
           
           </form>

@@ -52,7 +52,7 @@ const CompanyInner: FC = () => {
         query: 
           [{
             path: "usersID", 
-            select: "lastname firstname"
+            // select: "lastname firstname"
           },
           {
             path: "contactID", 

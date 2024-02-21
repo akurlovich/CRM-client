@@ -110,11 +110,12 @@
               width: 30px;
               height: 30px;
               border-radius: 100%;
-              background-color: lightgreen;
+              // background-color: lightgreen;
               display: flex;
               align-items: center;
               text-align: center;
               justify-content: center;
+              color: white;
             }
 
             & span:nth-child(2) {

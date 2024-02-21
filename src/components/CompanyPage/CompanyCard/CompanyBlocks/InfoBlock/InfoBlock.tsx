@@ -1,15 +1,12 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
 import './infoblock.scss';
 import { IoPencil } from "@react-icons/all-files/io5/IoPencil";
-import { IoCloseOutline } from "@react-icons/all-files/io5/IoCloseOutline";
 import { IoPersonAdd } from "@react-icons/all-files/io5/IoPersonAdd";
 import { IoTrash } from "@react-icons/all-files/io5/IoTrash";
 import { useAppDispatch, useAppSelector } from '../../../../../hooks/redux';
 import DealCreate from '../DealsBlock/DealCreate';
 import { DealItem } from '../DealsBlock/DealItem';
 import { getCompanyByIDQuery, updateCompanyDescription, updateCompanyUsers } from '../../../../../store/reducers/CompanyReducer/CompanyActionCreaters';
-import { USER_BG_COLORS } from '../../../../../constants/user';
-import { randomBGColor } from '../../../../../services/ClientServices/RandomBGColor';
 import { IUser } from '../../../../../types/IUser';
 import { LoaderSmall } from '../../../../UI/LoaderSmall/LoaderSmall';
 import { UserErrorWarning } from '../../../../UI/UserErrorWarning/UserErrorWarning';
@@ -111,7 +108,7 @@ const InfoBlockInner: FC = () => {
             (usersArray.map(item => 
             <div key={item._id} className="info-block__title__user__item">
               <div 
-                style={{'backgroundColor': `${USER_BG_COLORS[randomBGColor()]}`}}
+                style={{'backgroundColor': `${item.avatar}`}}
                 className="avatar">{item.lastname?.[0] + item.firstname?.[0]}</div>
               <div 
                 onClick={() => setShowUsersInfo(true)}
@@ -132,7 +129,7 @@ const InfoBlockInner: FC = () => {
                 className="info-block__title__user__item">
                 <div 
                   onClick={() => setShowUsersInfo(true)}
-                  style={{'backgroundColor': `${USER_BG_COLORS[randomBGColor()]}`}}
+                  style={{'backgroundColor': `${item.avatar}`}}
                   className="avatar">
                     {item.lastname?.[0] + item.firstname?.[0]}
                 </div>
@@ -181,7 +178,7 @@ const InfoBlockInner: FC = () => {
                       >
                       <div className="user-block">
                         <div 
-                          style={{'backgroundColor': `${USER_BG_COLORS[randomBGColor()]}`}}
+                          style={{'backgroundColor': `${item.avatar}`}}
                           className="avatar">{item?.lastname?.[0] + item?.firstname?.[0]}</div>
                         <div className="name">
                           <span>{item?.lastname + ' ' + item?.firstname}</span>
@@ -212,7 +209,7 @@ const InfoBlockInner: FC = () => {
                           onClick={() => userHandler(item)}
                           >
                           <div 
-                            style={{'backgroundColor': `${USER_BG_COLORS[randomBGColor()]}`}}
+                            style={{'backgroundColor': `${item.avatar}`}}
                             className="avatar">{item?.lastname?.[0] + item?.firstname?.[0]}</div>
                           <div className="name">
                             <span>{item?.lastname + ' ' + item?.firstname}</span>

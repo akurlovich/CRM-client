@@ -44,8 +44,6 @@ const CompanyItemInner: FC<IProps> = ({company}) => {
     
   }, [company])
   
-
-
   const onClickHandler = async () => {
     // console.log(company._id)
     // console.log(location)
@@ -85,7 +83,10 @@ const CompanyItemInner: FC<IProps> = ({company}) => {
       <IoSquareOutline width={25}/>
       <span className='cell data'>{company.title}</span>
       <div className='cell data user'>
-        <span>{`${company.usersID[0]?.lastname[0]}${company.usersID[0]?.firstname[0]}`}</span>
+        <span
+          style={{'backgroundColor': `${company.usersID[0]?.avatar}`}}
+          // style={{'backgroundColor': `red`}}
+          >{`${company.usersID[0]?.lastname[0]}${company.usersID[0]?.firstname[0]}`}</span>
         <span>{`${company.usersID[0]?.lastname} ${company.usersID[0]?.firstname}`}</span>
       </div>
       <span className='cell data'>{nextDate[0]?.dateEnd ? nextDate[0]?.dateEnd  : ''}</span>
