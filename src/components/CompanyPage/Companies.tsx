@@ -143,7 +143,7 @@ const CompanyInner: FC = () => {
             <div className="company__filters">
               <div className="company__filters__title">
                 <span>Фильтр</span>
-                <IoFilter size={30}/>
+                <IoFilter size={25}/>
               </div>
               <div className="company__filters__block">
                 <div className="company__filters__item">
