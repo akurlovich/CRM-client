@@ -4,7 +4,7 @@ import { IoDocumentOutline } from "@react-icons/all-files/io5/IoDocumentOutline"
 import { IoExitOutline } from "@react-icons/all-files/io5/IoExitOutline";
 import { IoFilterOutline } from "@react-icons/all-files/io5/IoFilterOutline";
 import { IoDuplicateOutline } from "@react-icons/all-files/io5/IoDuplicateOutline";
-import { IoSquareOutline } from "@react-icons/all-files/io5/IoSquareOutline";
+import { IoFilter } from "@react-icons/all-files/io5/IoFilter";
 import { AddCompany } from './AddCompany/AddCompany';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { getAllCompanies, getAllCompaniesQuery } from '../../store/reducers/CompanyReducer/CompanyActionCreaters';
@@ -34,66 +34,88 @@ const CompanyInner: FC = () => {
   const dispatch = useAppDispatch();
   
   const [showAddCompany, setShowAddCompany] = useState<boolean>(false);
-  // const [companiesArray, setCompaniesArray] = useState<ICompanyItem[]>([]);
+  const [sortAscDecs, setSortAscDecs] = useState(false);
+  const [sortBy, setSortBy] = useState('createdAt');
+  const [isFetching, setIsFetching] = useState(false);
+  
+  const query: ICompaniesQuery = {
+    query: 
+      [{
+        path: "usersID", 
+        // select: "lastname firstname"
+      },
+      {
+        path: "contactID", 
+        select: "address.district"
+      },
+      {
+        path: "commentsID", 
+        populate: { path: 'userID' }
+      },
+      {
+        path: "dealsID", 
+        // populate: { path: 'dealTitleID' }
+      },
+      // {
+      //   path: "dealsID", 
+      //   populate: { path: 'userID' }
+      // },
+      // {
+      //   path: "contactID", 
+      //   populate: { path: 'phonesID' }
+      // },
+      // {
+      //   path: "contactID", 
+      //   populate: { path: 'emailsID' }
+      // }
+
+      ], 
+    page: 1,
+    // sort: {'createdAt': 'asc'}, 
+    // sort: {'createdAt': 'desc'}, 
+    sort: { [`${sortBy}`]: `${sortAscDecs ? 'asc' : 'desc'}`},
+    limit: 1000,
+//TODO --  надо userID брать из reducer, когда пользователь будет залогинен, а также если он АДМИН, пустая строка (верунть все записи)
+    find: user.isAdmin ? {} : { usersID: user.id},
+    // find: { usersID: '65a4ed82f45087cf955a9bac'}
+  };
+
+  const titleSort = async () => {
+    setSortAscDecs(prev => !prev);
+    setSortBy('title')
+    setIsFetching(true)
+    // await dispatch(getAllCompaniesQuery(query));
+  }
 
   useEffect(() => {
     let isMounted = true;
     const controller = new AbortController();
     const fetchData = async () => {
-    //   const query: ICompaniesQuery[] = [{
-    //     path: "usersID", 
-    //     select: "lastname firstname"
-    // },
-    // {
-    //     path: "contactID", 
-    //     select: "address.district"
-    // }];
-      const query: ICompaniesQuery = {
-        query: 
-          [{
-            path: "usersID", 
-            // select: "lastname firstname"
-          },
-          {
-            path: "contactID", 
-            select: "address.district"
-          },
-          {
-            path: "commentsID", 
-            populate: { path: 'userID' }
-          },
-          {
-            path: "dealsID", 
-            // populate: { path: 'dealTitleID' }
-          },
-          // {
-          //   path: "dealsID", 
-          //   populate: { path: 'userID' }
-          // },
-          // {
-          //   path: "contactID", 
-          //   populate: { path: 'phonesID' }
-          // },
-          // {
-          //   path: "contactID", 
-          //   populate: { path: 'emailsID' }
-          // }
-
-          ], 
-        page: 1,
-        // sort: {'createdAt': 'asc'}, 
-        sort: {'createdAt': 'desc'}, 
-        limit: 1000,
-  //TODO --  надо userID брать из reducer, когда пользователь будет залогинен, а также если он АДМИН, пустая строка (верунть все записи)
-        find: user.isAdmin ? {} : { usersID: user.id},
-        // find: { usersID: '65a4ed82f45087cf955a9bac'}
-      };
-
       await dispatch(getAllCompaniesQuery(query));
-      // await dispatch(getAllCompanies());
+    };
+    try {
+      if (isMounted) {
+        if (isFetching) {
+          fetchData();
+        }
+      }
+    } catch (error) {
+      console.log(error)
+    }
+
+    return () => {
+      isMounted = false;
+      controller.abort();
+    }
+  }, [sortBy, sortAscDecs])
+  
+
+  useEffect(() => {
+    let isMounted = true;
+    const controller = new AbortController();
+    const fetchData = async () => {
+      await dispatch(getAllCompaniesQuery(query));
       await dispatch(getAllUsers());
-      // await dispatch(getUserByID(companies[0]?.usersID[0]));
-      // console.log(users)
     };
 
     try {
@@ -104,19 +126,12 @@ const CompanyInner: FC = () => {
       console.log(error)
     }
 
-    // fetchData();
-
     return () => {
       isMounted = false;
       controller.abort();
     }
    
   }, []);
-
-  // useEffect(() => {
-  //   dispatch(getUserByID(companies[0]?.users[0]?.userID));
-   
-  // }, [users]);
 
   return (
     <>
@@ -126,10 +141,16 @@ const CompanyInner: FC = () => {
           <AddCompany isVisible={showAddCompany} onClose={() => setShowAddCompany(false)}/>
           <section className='company'>
             <div className="company__filters">
-              {/* <span
-                style={{'backgroundColor': `${USER_BG_COLORS[randomBGColor()]}`}}
-                >Сотрудники</span>
-              <SelectUsers items={users} /> */}
+              <div className="company__filters__title">
+                <span>Фильтр</span>
+                <IoFilter size={30}/>
+              </div>
+              <div className="company__filters__block">
+                <div className="company__filters__item">
+                  <span>Сотрудники:</span>
+                  <SelectUsers items={users} />
+                </div>
+              </div>
             </div>
             <div className="company__container">
               <div className="company__header">
@@ -153,7 +174,9 @@ const CompanyInner: FC = () => {
                 <div className="company__main">
                   <div className="company__main__row first_row">
                     <IoDuplicateOutline width={30}/>
-                    <span className='cell'>Название</span>
+                    <span 
+                      onClick={titleSort}
+                      className='cell'>Название</span>
                     <span className='cell'>Ответственный</span>
                     <span className='cell'>Дата следующей коммуникации</span>
                     <span className='cell'>Дата последней коммуникации</span>

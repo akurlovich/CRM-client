@@ -134,7 +134,7 @@ export const checkAuth = createAsyncThunk(
     // catch (error) {
     //   return rejectWithValue(`Auth went wrong!`)
     catch (error: any) {
-      console.log(error)
+      // console.log(error)
       localStorage.removeItem('isauth');
       return rejectWithValue(error.message)
     }

@@ -8,11 +8,35 @@
   
 
   &__filters {
+    padding: 0 10px;
+    background-color: white;
     max-width: 100%;
     flex-basis: 15%;
     flex-grow: 1;
     flex-shrink: 0;
 
+    &__title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      & > span {
+        font-size: 32px;
+      }
+    }
+
+    &__block {
+      padding-top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    &__item {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
   }
 
   &__container {
@@ -20,6 +44,7 @@
     flex-basis: 80%;
     flex-grow: 1;
     flex-shrink: 0;
+    margin-left: 10px;
 
   }
 
