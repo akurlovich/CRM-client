@@ -1,12 +1,13 @@
 import { IoEllipsisVerticalOutline } from '@react-icons/all-files/io5/IoEllipsisVerticalOutline';
 import { IoNewspaper } from '@react-icons/all-files/io5/IoNewspaper';
+import { IoCreateOutline } from '@react-icons/all-files/io5/IoCreateOutline';
 import { IoTrashOutline } from '@react-icons/all-files/io5/IoTrashOutline';
 import { IoPricetagOutline } from '@react-icons/all-files/io5/IoPricetagOutline';
 import { IoStarOutline } from '@react-icons/all-files/io5/IoStarOutline';
 import React, { FC, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
-import { deleteCompanyByID, getAllCompaniesQuery, getCompanyByID, getCompanyByIDQuery } from '../../../store/reducers/CompanyReducer/CompanyActionCreaters';
+import { deleteCompanyByID, getAllCompaniesQuery, getCompanyByID, getCompanyByIDQuery, updateCompanyTitle } from '../../../store/reducers/CompanyReducer/CompanyActionCreaters';
 import { ICompaniesQuery, ICompany } from '../../../types/ICompany';
 import { BaseBlockSmall } from '../../BaseBlock/BaseBlockSmall';
 import { Loader } from '../../UI/Loader/Loader';
@@ -52,8 +53,8 @@ const CompanyCardInner: FC = () => {
   const navigate = useNavigate();
   // const [showAddOrder, setShowAddOrder] = useState<boolean>(false);
   const [showAddOrderSmall, setShowAddOrderSmall] = useState<boolean>(true);
-  // const [companyItem, setCompanyItem] = useState<ICompany>({} as ICompany);
-  // const [userItem, setUserItem] = useState({});
+  const [editTitle, setEditTitle] = useState(false);
+  const [title, setTitle] = useState(company.title)
 
   const showAddOrderHandler = () => {
     dispatch(setShowNewOrder(false))
@@ -64,6 +65,12 @@ const CompanyCardInner: FC = () => {
     dispatch(setShowNewOrder(true))
     setShowAddOrderSmall(false);
   };
+
+  const changeTitleHandler = async () => {
+    console.log(title)
+    setEditTitle(false)
+    await dispatch(updateCompanyTitle({companyID: company._id, title: title}))
+  }
 
   const deleteCompanyHandler = async () => {
     if (window.confirm(`Удалить компанию ${company.title}?`)) {
@@ -153,6 +160,13 @@ const CompanyCardInner: FC = () => {
       dispatch(setShowEditOrder(false));
     }
   }, []);
+
+  useEffect(() => {
+    if (company.title) {
+      setTitle(company.title)
+    }
+  }, [company])
+  
   
   return (
     <>
@@ -165,10 +179,38 @@ const CompanyCardInner: FC = () => {
                 <IoNewspaper size={25}/>
               </div>
               <div className="title">
-                {company.title}
+                {editTitle ? 
+                  <>
+                    <input 
+                    value={title}
+                    onChange={(e: React.FocusEvent<HTMLInputElement>) => setTitle(e.target.value)}
+                    type="text"
+                    autoFocus/>
+                    <button
+                      className='add-btn'
+                      onClick={changeTitleHandler}
+                      >
+                      Изменить
+                    </button>
+                    <button
+                      className='cansel-btn'
+                      onClick={() => setEditTitle(false)}>
+                      Отмена
+                    </button>
+                  </>
+                  : 
+                  <span>{company.title}</span>
+                }
+                
               </div>
+              {editTitle ? null :
+                <IoCreateOutline 
+                  onClick={() => setEditTitle(true)}
+                  style={{'cursor': 'pointer'}}
+                  size={20} color={'#3e425e'}/>
+              }
               <IoStarOutline size={20} color={'#3e425e'}/>
-              <IoPricetagOutline size={20} color={'#3e425e'}/>
+              {/* <IoPricetagOutline size={20} color={'#3e425e'}/> */}
               {user.isAdmin ? 
                 <IoTrashOutline
                   onClick={deleteCompanyHandler}

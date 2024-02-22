@@ -15,6 +15,11 @@ export interface ICompany {
   commentsID: IComment[],
 }
 
+export interface ICompaniesResponse {
+  count: number,
+  companies: ICompany[],
+}
+
 export interface ICompanyNew {
   title: string,
   usersID: string,
@@ -34,6 +39,7 @@ export interface ICompaniesQuery {
   sort: {
     [key: string]: 'asc' | 'desc',
   },
+  page?: number,
   limit: number,
   find?: {
     [key: string]: string,

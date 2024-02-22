@@ -1,6 +1,6 @@
 import { AxiosResponse } from "axios";
 import serverApi from "../http";
-import { ICompaniesQuery, ICompany, ICompanyNew } from "../types/ICompany";
+import { ICompaniesQuery, ICompaniesResponse, ICompany, ICompanyNew } from "../types/ICompany";
 import { IContactNew } from "../types/IContact";
 
 export default class CompanyService {
@@ -22,9 +22,9 @@ export default class CompanyService {
     return serverApi.get<ICompany[]>(`/companies`);
   };
 
-  static async getAllCompaniesQuery(query: ICompaniesQuery): Promise<AxiosResponse<ICompany[]>> {
+  static async getAllCompaniesQuery(query: ICompaniesQuery): Promise<AxiosResponse<ICompaniesResponse>> {
     // console.log('client query', query)
-    return serverApi.post<ICompany[]>(`/companies/filter`, query);
+    return serverApi.post<ICompaniesResponse>(`/companies/filter`, query);
   };
 
   static async getCompanyByIDQuery(query: ICompaniesQuery): Promise<AxiosResponse<ICompany>> {
@@ -38,6 +38,11 @@ export default class CompanyService {
 
   static async updateCompanyDescription(companyID: string, description: string): Promise<AxiosResponse<ICompany>> {
     return serverApi.put<ICompany>(`/companies/${companyID}/description`, {description: description});
+  };
+
+  static async updateCompanyTitle(companyID: string, title: string): Promise<AxiosResponse<ICompany>> {
+    console.log(companyID, title)
+    return serverApi.put<ICompany>(`/companies/${companyID}/title`, {title: title});
   };
 
   static async updateCompanyUsers(companyID: string, users: string[]): Promise<AxiosResponse<ICompany>> {

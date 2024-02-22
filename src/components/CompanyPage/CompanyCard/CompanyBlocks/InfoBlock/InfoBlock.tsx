@@ -10,6 +10,8 @@ import { getCompanyByIDQuery, updateCompanyDescription, updateCompanyUsers } fro
 import { IUser } from '../../../../../types/IUser';
 import { LoaderSmall } from '../../../../UI/LoaderSmall/LoaderSmall';
 import { UserErrorWarning } from '../../../../UI/UserErrorWarning/UserErrorWarning';
+import { IoCreate } from '@react-icons/all-files/io5/IoCreate';
+import { IoCreateOutline } from '@react-icons/all-files/io5/IoCreateOutline';
 
 type PopupClick = MouseEvent & {
   path: Node[];
@@ -243,7 +245,7 @@ const InfoBlockInner: FC = () => {
         {showAddDescription ? 
           <>
             <span>{company.description ? company.description : 'Введите описание компании'}</span>
-            <IoPencil 
+            <IoCreateOutline 
               style={{cursor: 'pointer'}}
               onClick={() => {
                 setShowAddDescription(false);
@@ -251,7 +253,8 @@ const InfoBlockInner: FC = () => {
                 }
               }
               size={20}
-              color={'#b4cb4c'}/>
+              // color={'#b4cb4c'}
+              />
           </>
           :
           <div className="contactsblock__contacts__inputs ">

@@ -82,6 +82,18 @@ export const updateCompanyDescription = createAsyncThunk(
   }
 );
 
+export const updateCompanyTitle = createAsyncThunk(
+  'COMPANY/updateCompanyDescription',
+  async ({companyID, title}: {companyID: string, title: string}, {rejectWithValue}) => {
+    try {
+      return await (await CompanyService.updateCompanyTitle(companyID, title)).data;
+      
+    } catch (error: any) {
+      return rejectWithValue(error.message)
+    }
+  }
+)
+
 export const updateCompanyUsers = createAsyncThunk(
   'COMPANY/updateCompanyUsers',
   async ({companyID, users}: {companyID: string, users: string[]}, {rejectWithValue}) => {

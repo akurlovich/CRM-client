@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IComment } from "../../../types/IComment";
-import { ICompaniesQuery, ICompany, ICompanyNew } from "../../../types/ICompany";
+import { ICompaniesQuery, ICompaniesResponse, ICompany, ICompanyNew } from "../../../types/ICompany";
 import { IDeal } from "../../../types/IDeal";
 import { IOrder } from "../../../types/IOrder";
 import { IUser } from "../../../types/IUser";
@@ -16,6 +16,7 @@ interface ICompanyState {
   companyFirstUser: IUser,
   companyComments: IComment[],
   companyOrders: IOrder[],
+  companiesCount: number,
   query: ICompaniesQuery,
   isLoading: boolean,
   error: string,
@@ -31,6 +32,7 @@ const initialState: ICompanyState = {
   companyFirstUser: {} as IUser,
   companyComments: [] as IComment[],
   companyOrders: [] as IOrder[],
+  companiesCount: 0,
   query: {} as ICompaniesQuery,
   isLoading: false,
   error: '',
@@ -73,9 +75,10 @@ const companySlice = createSlice({
       .addCase(getAllCompaniesQuery.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(getAllCompaniesQuery.fulfilled, (state, action: PayloadAction<ICompany[]>) => {
+      .addCase(getAllCompaniesQuery.fulfilled, (state, action: PayloadAction<ICompaniesResponse>) => {
         state.isLoading = false;
-        state.companies = action.payload;
+        state.companies = action.payload.companies;
+        state.companiesCount = action.payload.count;
       })
       .addCase(getAllCompaniesQuery.rejected, (state, action) => {
         state.isLoading = false;
