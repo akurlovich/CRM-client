@@ -101,11 +101,11 @@ const ContactsPhonesInner: FC = ({}) => {
     // const result = addPhoneAndUpdateContact.phone.number.replaceAll('-', '').replaceAll('(', '').replaceAll(')', '').replaceAll(' ', '')
     const result = addPhoneAndUpdateContact.phone.number.replace(/[^+\d]/g, '')
     
-    console.log(addPhoneAndUpdateContact)
-    // await dispatch(addPhone(addPhoneAndUpdateContact));
-    // await dispatch(getCompanyByIDQuery(query));
+    // console.log(addPhoneAndUpdateContact)
+    await dispatch(addPhone(addPhoneAndUpdateContact));
+    await dispatch(getCompanyByIDQuery(query));
     //  +375(sdfs)-sdf-555
-    // setShowAddInputs(false);
+    setShowAddInputs(false);
   };
 
   const onKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
