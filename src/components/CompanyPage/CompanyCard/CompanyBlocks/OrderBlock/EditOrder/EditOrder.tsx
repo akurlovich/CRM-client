@@ -1,6 +1,7 @@
 import React, { FC, useEffect, useState } from 'react';
 import './editorder.scss';
 import { IoDuplicateOutline } from "@react-icons/all-files/io5/IoDuplicateOutline";
+import { IoCopyOutline } from "@react-icons/all-files/io5/IoCopyOutline";
 import { AddProduct } from '../AddProduct/AddProduct';
 import { useAppDispatch, useAppSelector } from '../../../../../../hooks/redux';
 import { getAllProducts } from '../../../../../../store/reducers/ProductReducer/ProducrActionCreater';
@@ -8,11 +9,11 @@ import { IProduct } from '../../../../../../types/IProduct';
 import OrderItem from '../OrderItem/OrderItem';
 import { useDebounce } from '../../../../../../hooks/useDebounce';
 import { productsClearArray } from '../../../../../../store/reducers/ProductReducer/ProductSlice';
-import { IOrderNewWithItems, IOrderUpdateOrderItems } from '../../../../../../types/IOrder';
-import { addOrder, updateOrderItemsByOrderID } from '../../../../../../store/reducers/OrderReducer/OrderActionCreater';
+import { IOrderUpdateOrderItems } from '../../../../../../types/IOrder';
+import { updateOrderItemsByOrderID } from '../../../../../../store/reducers/OrderReducer/OrderActionCreater';
 import { SERVER_URL } from '../../../../../../constants/http';
 import { Link } from 'react-router-dom';
-import { addItemProduct, clearItemsProduct, setShowEditOrder } from '../../../../../../store/reducers/OrderReducer/OrderSlice';
+import { addItemProduct, clearItemsProduct, setOrderForCopy, setShowEditOrder, setShowNewOrder } from '../../../../../../store/reducers/OrderReducer/OrderSlice';
 import { v4 as uuidv4 } from 'uuid';
 import { getCompanyByIDQuery } from '../../../../../../store/reducers/CompanyReducer/CompanyActionCreaters';
 import numberWithSpaces from '../../../../../../services/ClientServices/numberWithSpaces';
@@ -78,7 +79,29 @@ const EditOrderInner: FC<IProps> = ({isVisible = false}) => {
   const canselOrderEdit = () => {
     dispatch(clearItemsProduct());
     dispatch(setShowEditOrder(false));
-  }
+  };
+
+  const copyHandler = async () => {
+    dispatch(clearItemsProduct());
+    dispatch(setOrderForCopy(order));
+    dispatch(setShowEditOrder(false));
+    dispatch(setShowNewOrder(true));
+
+    for (let data of order.orderItemID) {
+      const newID = uuidv4();
+      dispatch(addItemProduct({
+        itemID: newID,
+        productID: data.productID._id, 
+        price: data.price, 
+        count: data.count, 
+        sum: data.sum,
+        productTitle: data.productID.title,
+        productDimension: data.productID.dimension,
+        vatSum: 0,
+        totalSum: 0,
+      }))
+    }
+  };
 
   useEffect(() => {
     dispatch(productsClearArray());
@@ -127,6 +150,9 @@ const EditOrderInner: FC<IProps> = ({isVisible = false}) => {
             <div className="edit-order__header__title">
               <div className="title">
                 <span>{`Сделка №${order.orderNumber}`}</span>
+                <IoCopyOutline
+                  onClick={copyHandler} 
+                  size={20}/>
               </div>
               <div className="icons">
                 <button

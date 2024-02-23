@@ -1,10 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
 import './addorder.scss';
-import { IoDocumentOutline } from "@react-icons/all-files/io5/IoDocumentOutline";
-import { IoExitOutline } from "@react-icons/all-files/io5/IoExitOutline";
-import { IoFilterOutline } from "@react-icons/all-files/io5/IoFilterOutline";
 import { IoDuplicateOutline } from "@react-icons/all-files/io5/IoDuplicateOutline";
-import { IoSquareOutline } from "@react-icons/all-files/io5/IoSquareOutline";
 import { AddProduct } from '../AddProduct/AddProduct';
 import { useAppDispatch, useAppSelector } from '../../../../../../hooks/redux';
 import { getAllProducts } from '../../../../../../store/reducers/ProductReducer/ProducrActionCreater';
@@ -12,7 +8,6 @@ import { IProduct } from '../../../../../../types/IProduct';
 import OrderItem from '../OrderItem/OrderItem';
 import { useDebounce } from '../../../../../../hooks/useDebounce';
 import { productsClearArray } from '../../../../../../store/reducers/ProductReducer/ProductSlice';
-import { addOrderItem } from '../../../../../../store/reducers/OrderItemsReducer/OrderItemsActionCreater';
 import { IOrderNewWithItems, IOrderUpdateOrderItems } from '../../../../../../types/IOrder';
 import { addOrder, updateOrderItemsByOrderID } from '../../../../../../store/reducers/OrderReducer/OrderActionCreater';
 import { getCompanyByIDQuery } from '../../../../../../store/reducers/CompanyReducer/CompanyActionCreaters';
@@ -35,9 +30,9 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
   const { totalPrice, totalCount, items: orderItemsAll } = useAppSelector(state => state.orderReducer);
   const dispatch = useAppDispatch();
   
-  const [isModal, setIsModal] = useState<boolean>(false);
+  // const [isModal, setIsModal] = useState<boolean>(false);
   const [showNewProduct, setShowNewProduct] = useState(false);
-  const [orderProducts, setOrderProducts] = useState<IProduct[]>([] as IProduct[]);
+  // const [orderProducts, setOrderProducts] = useState<IProduct[]>([] as IProduct[]);
   const [searchValue, setSearchValue] = useState('');
   const debouncedSearch = useDebounce(searchValue);
   const [createDate, setCreateDate] = useState('');

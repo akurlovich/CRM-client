@@ -11,7 +11,9 @@ interface IOrderState {
   items: IOrderItemNew[];
   isShowEditOrder: boolean;
   isShowNewOrder: boolean;
+  //TODO убрать orderForEdit, вроде он нигде не использеутся
   orderForEdit: IOrder;
+  orderForCopy: IOrder;
   isLoading: boolean,
   error: string,
 };
@@ -25,6 +27,7 @@ const initialState: IOrderState = {
   isShowEditOrder: false,
   isShowNewOrder: false,
   orderForEdit: {} as IOrder,
+  orderForCopy: {} as IOrder,
   isLoading: false,
   error: '',
 };
@@ -78,6 +81,7 @@ const orderSlice = createSlice({
     clearItemsProduct(state) {
       state.items = [];
       state.orderForEdit = {} as IOrder;
+      state.orderForCopy = {} as IOrder;
       state.order = {} as IOrder;
       state.totalPrice = 0;
     },
@@ -90,6 +94,9 @@ const orderSlice = createSlice({
     },
     setOrderForEdit(state, action: PayloadAction<IOrder>) {
       state.order = action.payload;
+    },
+    setOrderForCopy(state, action: PayloadAction<IOrder>) {
+      state.orderForCopy = action.payload;
     },
 
   },
@@ -133,6 +140,6 @@ const orderSlice = createSlice({
   },
 });
 
-export const { addItemProduct, minusItemProduct, removeItemProduct, clearItemsProduct, setShowEditOrder, setOrderForEdit, setShowNewOrder } = orderSlice.actions;
+export const { addItemProduct, minusItemProduct, removeItemProduct, clearItemsProduct, setShowEditOrder, setOrderForEdit, setShowNewOrder, setOrderForCopy } = orderSlice.actions;
 
 export default orderSlice.reducer;
