@@ -6,6 +6,8 @@ import { useAppSelector } from '../../../hooks/redux';
 interface IProps {
   items?: IUser[];
   responsibleUsers?: IUser[];
+  selectedUserID: (id: string) => void;
+  value: string;
 }
 
 interface IOption {
@@ -13,12 +15,13 @@ interface IOption {
   label: string,
 }
 
-const SelectUsersInner: FC<IProps> = () => {
+const SelectUsersInner: FC<IProps> = ({selectedUserID, value}) => {
   const [optionArray, setOptionArray] = useState<IOption[]>([] as IOption[])
   const { users } = useAppSelector(state => state.userReducer);
 
   const handleChange = (value: string) => {
-    console.log(value);
+    // console.log(value);
+    selectedUserID(value)
   };
 
   useEffect(() => {
@@ -38,7 +41,7 @@ const SelectUsersInner: FC<IProps> = () => {
 
   return (
     <Select
-      defaultValue=""
+      defaultValue={value}
       style={{ width: '100%' }}
       onChange={handleChange}
       options={optionArray}

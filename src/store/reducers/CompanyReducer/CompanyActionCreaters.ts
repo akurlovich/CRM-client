@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import CompanyService from "../../../services/CompanyService";
 import ContactService from "../../../services/ContactService";
+import SearchService from "../../../services/SearchService";
 import { ICompaniesQuery, ICompanyNew } from "../../../types/ICompany";
 import { IContactNew } from "../../../types/IContact";
 
@@ -63,6 +64,30 @@ export const getAllCompaniesQuery = createAsyncThunk(
   async ( query: ICompaniesQuery, {rejectWithValue}) => {
     try {
       return await (await CompanyService.getAllCompaniesQuery(query)).data;
+      
+    } catch (error: any) {
+      return rejectWithValue(error.message)
+    }
+  }
+);
+
+export const getSearchResultUserCompanies = createAsyncThunk(
+  'COMPANY/getSearchResultUserCompanies',
+  async ( userID: string, {rejectWithValue}) => {
+    try {
+      return await (await SearchService.getSearchResultUserCompanies(userID)).data;
+      
+    } catch (error: any) {
+      return rejectWithValue(error.message)
+    }
+  }
+);
+
+export const getSearchResultDistrictCompanies = createAsyncThunk(
+  'COMPANY/getSearchResultDistrictCompanies',
+  async ( district: string, {rejectWithValue}) => {
+    try {
+      return await (await SearchService.getSearchResultDistrictCompanies(district)).data;
       
     } catch (error: any) {
       return rejectWithValue(error.message)

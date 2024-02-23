@@ -4,7 +4,7 @@ import { ICompaniesQuery, ICompaniesResponse, ICompany, ICompanyNew } from "../.
 import { IDeal } from "../../../types/IDeal";
 import { IOrder } from "../../../types/IOrder";
 import { IUser } from "../../../types/IUser";
-import { addCompany, getAllCompanies, getAllCompaniesQuery, getCompanyByID, getCompanyByIDQuery, updateCompanyDescription, updateCompanyUsers } from "./CompanyActionCreaters";
+import { addCompany, getAllCompanies, getAllCompaniesQuery, getCompanyByID, getCompanyByIDQuery, getSearchResultDistrictCompanies, getSearchResultUserCompanies, updateCompanyDescription, updateCompanyUsers } from "./CompanyActionCreaters";
 
 interface ICompanyState {
   company: ICompany,
@@ -68,6 +68,32 @@ const companySlice = createSlice({
         state.companies = action.payload;
       })
       .addCase(getAllCompanies.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload as string;
+      });
+    builder
+      .addCase(getSearchResultDistrictCompanies.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getSearchResultDistrictCompanies.fulfilled, (state, action: PayloadAction<ICompany[]>) => {
+        state.isLoading = false;
+        state.companies = action.payload;
+        // state.companiesCount = action.payload.count;
+      })
+      .addCase(getSearchResultDistrictCompanies.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload as string;
+      });
+    builder
+      .addCase(getSearchResultUserCompanies.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getSearchResultUserCompanies.fulfilled, (state, action: PayloadAction<ICompaniesResponse>) => {
+        state.isLoading = false;
+        state.companies = action.payload.companies;
+        state.companiesCount = action.payload.count;
+      })
+      .addCase(getSearchResultUserCompanies.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload as string;
       });

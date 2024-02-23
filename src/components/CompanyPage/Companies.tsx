@@ -7,7 +7,7 @@ import { IoDuplicateOutline } from "@react-icons/all-files/io5/IoDuplicateOutlin
 import { IoFilter } from "@react-icons/all-files/io5/IoFilter";
 import { AddCompany } from './AddCompany/AddCompany';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import { getAllCompanies, getAllCompaniesQuery } from '../../store/reducers/CompanyReducer/CompanyActionCreaters';
+import { getAllCompanies, getAllCompaniesQuery, getSearchResultDistrictCompanies, getSearchResultUserCompanies } from '../../store/reducers/CompanyReducer/CompanyActionCreaters';
 import { getAllUsers, getUserByID } from '../../store/reducers/UserReducer/UserActionCreators';
 import { Loader } from '../UI/Loader/Loader';
 import { CompanyItem } from './CompanyItem/CompanyItem';
@@ -17,6 +17,7 @@ import { SelectUsers } from '../UI/Select/SelectUsers';
 
 import { USER_BG_COLORS } from '../../constants/user';
 import { randomBGColor } from '../../services/ClientServices/RandomBGColor';
+import Search, { SearchProps } from 'antd/es/input/Search';
 
 // interface ICompanyItem {
 //   title: string,
@@ -27,7 +28,7 @@ import { randomBGColor } from '../../services/ClientServices/RandomBGColor';
 // }
 
 const CompanyInner: FC = () => {
-  const { companies, isLoading, error: errorCompany } = useAppSelector(state => state.companyReducer);
+  const { companies, isLoading, error: errorCompany, companiesCount } = useAppSelector(state => state.companyReducer);
   const { user } = useAppSelector(state => state.authReducer);
   const { users } = useAppSelector(state => state.userReducer);
 
@@ -37,6 +38,8 @@ const CompanyInner: FC = () => {
   const [sortAscDecs, setSortAscDecs] = useState(false);
   const [sortBy, setSortBy] = useState('createdAt');
   const [isFetching, setIsFetching] = useState(false);
+  const [selectedUserID, setSelectedUserID] = useState('');
+  const [district, setDistrict] = useState('');
   
   const query: ICompaniesQuery = {
     query: 
@@ -81,13 +84,35 @@ const CompanyInner: FC = () => {
   };
 
   const titleSort = async () => {
+    setIsFetching(true)
     setSortAscDecs(prev => !prev);
     setSortBy('title')
-    setIsFetching(true)
     // await dispatch(getAllCompaniesQuery(query));
-  }
+  };
+
+  const onSearch: SearchProps['onSearch'] = async (value) => {
+    // console.log(value)
+    setDistrict(value);
+    await dispatch(getSearchResultDistrictCompanies(value));
+    setSelectedUserID('')
+  };
+
+  const selectedUserHandler = async (id: string) => {
+    setSelectedUserID(id);
+    await dispatch(getSearchResultUserCompanies(id));
+    setDistrict('');
+  };
 
   useEffect(() => {
+    setSelectedUserID('')
+  }, [district])
+  
+  useEffect(() => {
+    setDistrict('')
+  }, [selectedUserID])
+
+  useEffect(() => {
+    // console.log('first')
     let isMounted = true;
     const controller = new AbortController();
     const fetchData = async () => {
@@ -96,6 +121,7 @@ const CompanyInner: FC = () => {
     try {
       if (isMounted) {
         if (isFetching) {
+          // console.log('first2')
           fetchData();
         }
       }
@@ -148,7 +174,23 @@ const CompanyInner: FC = () => {
               <div className="company__filters__block">
                 <div className="company__filters__item">
                   <span>Сотрудники:</span>
-                  <SelectUsers items={users} />
+                  <SelectUsers 
+                    items={users}
+                    selectedUserID={selectedUserHandler}
+                    value={selectedUserID}
+                    />
+                  {selectedUserID ? 
+                    <span>{`Всего: ${companiesCount}`}</span>
+                    : null
+                  }
+                </div>
+                <div className="company__filters__item">
+                  <span>Район:</span>
+                  <Search 
+                    defaultValue={district}
+                    placeholder="Район" 
+                    onSearch={onSearch} 
+                    style={{ width: '100%' }} />
                 </div>
               </div>
             </div>
