@@ -85,7 +85,8 @@ const AddCompanyInner: FC<IProps> = ({isVisible = false, onClose}) => {
         setNewContact(prev => ({...prev, phonesID: { number: newContact.phonesID.number, description: e.target.value }}));
         break;
       case 'contact.phone.number':
-        setNewContact(prev => ({...prev, phonesID: { number: e.target.value, description: newContact.phonesID.description }}));
+        const number = e.target.value.replace(/\-{2,}/, '-').replace(/[^\d\.+]|\b-/, '');
+        setNewContact(prev => ({...prev, phonesID: { number: number.replace(/[^+\d]/g, ''), description: newContact.phonesID.description }}));
         break;
       case 'contact.email.email':
         setNewContact(prev => ({...prev, emailsID: { email: e.target.value, description: newContact.emailsID.description }}));

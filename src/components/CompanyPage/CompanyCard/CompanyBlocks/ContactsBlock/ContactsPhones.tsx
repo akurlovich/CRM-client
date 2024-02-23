@@ -35,12 +35,14 @@ const ContactsPhonesInner: FC = ({}) => {
       description: ''
     }} as IPhoneNewAddContacts);
 
+  // const [phoneUpdateValue, setPhoneUpdateValue] = useState<number>(NaN)
+
   const showAddPhoneHandler = () => {
     setAddPhoneAndUpdateContact(prev => ({
       ...prev,
       phone : {
         ...prev.phone,
-        number: '+',
+        number: '',
         description: '',
       }
     }))
@@ -94,21 +96,39 @@ const ContactsPhonesInner: FC = ({}) => {
     // const reqex = /^((8|\+3)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{10,12}$/;
     // const reqex = /(?:\+375|80)\s?\(?\d\d\)?\s?\d\d(?:\d[\-\s]\d\d[\-\s]\d\d|[\-\s]\d\d[\-\s]\d\d\d|\d{5,6}$)/;
     const reqex = /^((8|\+375)[\- ]?)?\(?\d{3,5}\)?[\- ]?\d{1}[\- ]?\d{1}[\- ]?\d{1}[\- ]?\d{1}[\- ]?\d{1}(([\- ]?\d{1})?[\- ]?\d{1})?$/;
+    // const result = reqex.test(addPhoneAndUpdateContact.phone.number);
 
-    const result = reqex.test(addPhoneAndUpdateContact.phone.number);
-    // console.log(result)
-    // console.log(addPhoneAndUpdateContact)
-    await dispatch(addPhone(addPhoneAndUpdateContact));
-    await dispatch(getCompanyByIDQuery(query));
-    // await dispatch(getAllPhones());
+    // const result = addPhoneAndUpdateContact.phone.number.replaceAll('-', '').replaceAll('(', '').replaceAll(')', '').replaceAll(' ', '')
+    const result = addPhoneAndUpdateContact.phone.number.replace(/[^+\d]/g, '')
     
-    setShowAddInputs(false);
+    console.log(addPhoneAndUpdateContact)
+    // await dispatch(addPhone(addPhoneAndUpdateContact));
+    // await dispatch(getCompanyByIDQuery(query));
+    //  +375(sdfs)-sdf-555
+    // setShowAddInputs(false);
   };
+
+  const onKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if ( event.keyCode == 46 || event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 27 ||
+      // Разрешаем: Ctrl+A
+      (event.keyCode == 65 && event.ctrlKey === true) ||
+      // Разрешаем: home, end, влево, вправо
+      (event.keyCode >= 35 && event.keyCode <= 39)) {
+     
+      // Ничего не делаем
+     return;
+   } else {
+      // Запрещаем все, кроме цифр на основной клавиатуре, а так же Num-клавиатуре
+      if ((event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105 )) {
+       event.preventDefault();
+     }
+  }
+}
 
   const addOrUpdateInputsHandler = (e: React.FocusEvent<HTMLInputElement>) => {
     switch (e.target.name) {
       case 'phone.number':
-        const data = e.target.value.replace(/\-{2,}/, '-').replace(/[^\d\.+]|\b-/, '')
+        const number = e.target.value.replace(/\-{2,}/, '-').replace(/[^\d\.+]|\b-/, '');
 
         // (/\D/, '') ^\d+(\.?)\d*$//(/^\-?\d*?(\.\d+)?/,'')
 
@@ -116,7 +136,7 @@ const ContactsPhonesInner: FC = ({}) => {
           ...prev,
           phone : {
             ...prev.phone,
-            number: data
+            number: number.replace(/[^+\d]/g, '')
           }
         }))
         break;
@@ -130,11 +150,14 @@ const ContactsPhonesInner: FC = ({}) => {
         }))
         break;
       case 'phone.number.update':
+        const numberUpdate = e.target.value.replace(/\-{2,}/, '-').replace(/[^\d\.+]|\b-/, '');
+        // const numberUpdate = e.target.value.replace (/\D/, '');
+        console.log(numberUpdate)
         setAddPhoneAndUpdateContact(prev => ({
           ...prev,
           phone : {
             ...prev.phone,
-            number: e.target.value
+            number: numberUpdate.replace(/[^+\d]/g, '')
           }
         }))
         break;
@@ -171,6 +194,7 @@ const ContactsPhonesInner: FC = ({}) => {
               <input 
                 value={addPhoneAndUpdateContact.phone.number}
                 onChange={addOrUpdateInputsHandler}
+                // onKeyDown={onKeyDown}
                 type="text"
                 autoFocus 
                 name="phone.number.update" 
@@ -236,6 +260,7 @@ const ContactsPhonesInner: FC = ({}) => {
           <input 
             value={addPhoneAndUpdateContact.phone.number}
             onChange={addOrUpdateInputsHandler}
+            // onKeyDown={onKeyDown}
             type="text" 
             autoFocus
             name="phone.number" 
