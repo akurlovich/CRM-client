@@ -25,7 +25,7 @@ const SelectUsersInner: FC<IProps> = ({selectedUserID, value}) => {
   };
 
   useEffect(() => {
-
+    optionArray.length = 0;
     if (users.length) {
       for (let item of users) {
         const opt: IOption = {

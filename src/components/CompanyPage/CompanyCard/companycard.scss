@@ -29,7 +29,8 @@
         font-weight: 300;
         display: flex;
         gap: 5px;
-        // line-height: 1.4;
+        line-height: normal;
+        width: 100%;
 
         & > input {
           padding: 0px 5px 3px 5px;
