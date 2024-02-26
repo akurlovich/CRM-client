@@ -150,9 +150,13 @@ const EditOrderInner: FC<IProps> = ({isVisible = false}) => {
             <div className="edit-order__header__title">
               <div className="title">
                 <span>{`Сделка №${order.orderNumber}`}</span>
-                <IoCopyOutline
-                  onClick={copyHandler} 
-                  size={20}/>
+                <div className="edit-order__header__copy">
+                  <IoCopyOutline
+                    onClick={copyHandler} 
+                    style={{'cursor': 'pointer'}}
+                    size={20}/>
+                  <span className='tooltip'>Копировать сделку</span>
+                </div>
               </div>
               <div className="icons">
                 <button
