@@ -3,6 +3,12 @@ import dayjs from 'dayjs';
 import type { Dayjs } from 'dayjs';
 import updateLocale from 'dayjs/plugin/updateLocale';
 import { Calendar, Col, Row, Select, Typography, theme } from 'antd';
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
+import { addDateForDay, addShotDateForDay } from '../../../store/reducers/DealReducer/DealSlice';
+import { IDealsQuery } from '../../../types/IDeal';
+import { getAllDealsByUserQuery, getDealsWithQuery } from '../../../store/reducers/DealReducer/DealActionCreators';
+import { ICompaniesQuery } from '../../../types/ICompany';
+import { useNavigate } from 'react-router-dom';
 
 dayjs.extend(updateLocale);
 
@@ -18,6 +24,9 @@ interface IProps {
 }
 
 const CalendarCustom: FC<IProps> = ({onClickDate, title = true}) => {
+  const { user } = useAppSelector(state => state.authReducer);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const { token } = theme.useToken();
 
   const wrapperStyle: React.CSSProperties = {
@@ -26,12 +35,85 @@ const CalendarCustom: FC<IProps> = ({onClickDate, title = true}) => {
     borderRadius: token.borderRadiusLG,
   };
 
-  const getDataHandler = (value: Dayjs) => {
+  const getDataHandler = async (value: Dayjs) => {
     if (onClickDate) {
       onClickDate(value.format('DD MMMM YYYY'), value.format('DD-MM-YYYY'))
-
     }
-    // console.log(date)
+    if (!title) {
+      dispatch(addDateForDay(value.format('DD MMMM YYYY')));
+    dispatch(addShotDateForDay(value.format('DD-MM-YYYY')));
+    const query1: IDealsQuery = {
+      query: [ 
+        {
+          path: "companyID", 
+        },
+        {
+          path: "dealTitleID", 
+        },
+        {
+          path: "userID", 
+        }
+      ], 
+      find: (user.id === '65a112acc11882f036f9cf74') ? {
+        userID: user.id, 
+        monthEnd: { $lte: dayjs().format('MM') }, 
+        dayEnd: { $lt: dayjs().format('DD') }, 
+        yearEnd: { $lte: dayjs().format('YYYY') }
+      } : (user.isAdmin ? {
+//TODO ----  если все задачи, то вообще без usersID
+        // usersID: '', 
+        monthEnd: { $lte: dayjs().format('MM') }, 
+        dayEnd: { $lt: dayjs().format('DD') }, 
+        yearEnd: { $lte: dayjs().format('YYYY') }
+        // monthEnd: { $lte: '03'}, 
+        // dayEnd: { $lt: '14'}, 
+        // yearEnd: { $lte: '2024'}
+      } : {
+        userID: user.id, 
+        monthEnd: { $lte: dayjs().format('MM') }, 
+        dayEnd: { $lt: dayjs().format('DD') }, 
+        yearEnd: { $lte: dayjs().format('YYYY') }
+      })
+    }
+    await dispatch(getAllDealsByUserQuery(query1));
+
+//! не показывает просроченные и не верно текущия дата
+
+  navigate(`/deals/${value.format('DD-MM-YYYY')}`);
+
+    const query: ICompaniesQuery = {
+      query: 
+            [ 
+              {
+                path: "companyID", 
+              },
+              {
+                path: "dealTitleID", 
+              },
+              {
+                path: "userID", 
+              }
+            ], 
+          sort: {'contactID.address.district': 'asc'}, 
+          limit: 0,
+      
+          find: (user.id === '65a112acc11882f036f9cf74') ? {
+            userID: user.id,
+            monthEnd: value.format('MM'), 
+            dayEnd: value.format('DD'),
+          } : (user.isAdmin ? { 
+            monthEnd: value.format('MM'), 
+            dayEnd: value.format('DD'),
+          } : {
+            userID: user.id,
+            monthEnd: value.format('MM'), 
+            dayEnd: value.format('DD'),
+          })
+    }
+    
+    await dispatch(getDealsWithQuery(query))
+      
+    }
     // console.log(dayjs().format('DD.MM.YYYY'))
   };
 
@@ -116,3 +198,7 @@ const CalendarCustom: FC<IProps> = ({onClickDate, title = true}) => {
 };
 
 export default CalendarCustom;
+
+function dispatch(arg0: { payload: string; type: "DEAL/addDateForDay"; }) {
+  throw new Error('Function not implemented.');
+}

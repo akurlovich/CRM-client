@@ -151,7 +151,7 @@ const CompanyCardInner: FC = () => {
       console.log(error)
     }
 
-    fetchData();
+    // fetchData();
 
     return () => {
       isMounted = false;

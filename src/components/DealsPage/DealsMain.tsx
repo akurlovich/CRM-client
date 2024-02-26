@@ -1,14 +1,10 @@
 import React, { FC, useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import { getCompanyByIDQuery } from '../../store/reducers/CompanyReducer/CompanyActionCreaters';
-import { getAllDeals, getAllDealsByUserQuery, getDealsWithQuery } from '../../store/reducers/DealReducer/DealActionCreators';
-import { ICompaniesQuery } from '../../types/ICompany';
-import { IDeal, IDealsQuery } from '../../types/IDeal';
+import { getAllDealsByUserQuery, getDealsWithQuery } from '../../store/reducers/DealReducer/DealActionCreators';
+import { IDealsQuery } from '../../types/IDeal';
 import CalendarBig from '../UI/Calendar/CalendarBig';
-import DealForDay from './DealsForDay/DealForDay';
 import './dealsmain.scss';
 import dayjs from 'dayjs';
-import { DealsOverdue } from './DealsOverdue/DealsOverdue';
 
 const DealsMainInner: FC = () => {
   const { user } = useAppSelector(state => state.authReducer);
@@ -41,7 +37,8 @@ const DealsMainInner: FC = () => {
           path: "userID", 
         }
       ], 
-      find: (user.id === '65a112acc11882f036f9cf74') ? {
+      find: 
+        (user.id === '65a112acc11882f036f9cf74') ? {
         userID: user.id, 
         monthEnd: { $lte: dayjs().format('MM') }, 
         dayEnd: { $lt: dayjs().format('DD') }, 
@@ -86,10 +83,15 @@ const DealsMainInner: FC = () => {
       }
       
       await dispatch(getDealsWithQuery(query))
-  }
-
+  };
 
   useEffect(() => {
+    let isMounted = false;
+    if (user.id) {
+      isMounted = true;
+    }
+    // let isMounted = true;
+    const controller = new AbortController();
     const fetchData = async () => {
       // const query: IDealsQuery = {
       //   find: {
@@ -116,6 +118,8 @@ const DealsMainInner: FC = () => {
         limit: 0,
     
         find: (user.id === '65a112acc11882f036f9cf74') ? { userID: user.id } : (user.isAdmin ? {} : { userID: user.id })
+
+        // find:  { userID: user.id }
       }
       
       await dispatch(getDealsWithQuery(query))
@@ -126,24 +130,27 @@ const DealsMainInner: FC = () => {
       // await dispatch(getAllPhones());
       // await dispatch(getCompanyByID(params.id));
     }
-    fetchData();
-  }, []);
+    try {
+      if (isMounted) {
+        fetchData();
+      }
+    } catch (error) {
+      console.log(error)
+    }
+    // fetchData();
+
+    return () => {
+      isMounted = false;
+      controller.abort();
+    }
+  }, [user]);
+
 
   return (
     <section className='dealsmain'>
       {showDayDeal ? 
         <CalendarBig items={dealsWithQuery} showDealsForDay={dealsHandler}/>
-        :
-        // (dealsWithQuery.map(item => 
-        //   <span key={item._id}>{item.companyID.title}</span>  
-        // ))
-        <>
-          {/* <DealsOverdue items={dealsByUserQuery}/> */}
-          {/* <DealForDay 
-            date={choosenDate} 
-            dateShot={choosenShotDate} 
-            showCalendar={showDealsForDayHandler}/> */}
-        </>
+        : null
       }
 
     </section>

@@ -51,6 +51,7 @@ const locale = {
 // };
 
 const CalendarBig: FC<IProps> = ({items, showDealsForDay}) => {
+  // console.log(items)
   const { user } = useAppSelector(state => state.authReducer);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -73,6 +74,7 @@ const CalendarBig: FC<IProps> = ({items, showDealsForDay}) => {
 
           })
         }
+        // console.log('dayArr', dayArr)
     }
     switch (value.date()) {
       case 1:
@@ -151,7 +153,7 @@ const CalendarBig: FC<IProps> = ({items, showDealsForDay}) => {
         setData(25)
         break;
       case 26:
-        setData(66)
+        setData(26)
         break;
       case 27:
         setData(27)
@@ -172,20 +174,9 @@ const CalendarBig: FC<IProps> = ({items, showDealsForDay}) => {
       default:
         break;
     }
-    // console.log(listData)
+    // console.log("listData", listData)
     return listData || [];
   };
-
-
-  // const monthCellRender = (value: Dayjs) => {
-  //   const num = getMonthData(value);
-  //   return num ? (
-  //     <div className="notes-month">
-  //       <section>{num}</section>
-  //       <span>Backlog number</span>
-  //     </div>
-  //   ) : null;
-  // };
 
   const dateCellRender = (value: Dayjs) => {
     const listData = getListData(value);
@@ -214,9 +205,6 @@ const CalendarBig: FC<IProps> = ({items, showDealsForDay}) => {
     // if (info.type === 'month') return monthCellRender(current);
     return info.originNode;
   };
-
-  ////////////////-------------
-  // const [value, setValue] = useState(() => dayjs('2017-01-25'));
 
   const onSelect = async (newValue: Dayjs) => {
     // setValue(newValue);
@@ -299,11 +287,6 @@ const CalendarBig: FC<IProps> = ({items, showDealsForDay}) => {
 
     // console.log(dayjs().weekday())
   };
-
-  // const onPanelChange = (newValue: Dayjs) => {
-  //   console.log(newValue)
-  //   // setValue(newValue);
-  // };
 
   return (
   
