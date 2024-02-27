@@ -43,7 +43,8 @@ const DealsBlockInner: FC = () => {
             onClick={() => setShowAddDeal(true)}
             size={20}/>
           <span
-            style={{'cursor': 'default'}}>
+            onClick={() => setShowAddDeal(true)}
+            style={{'cursor': 'pointer'}}>
             Завтра в 12:00 звонок</span>
         </div>
       </div>

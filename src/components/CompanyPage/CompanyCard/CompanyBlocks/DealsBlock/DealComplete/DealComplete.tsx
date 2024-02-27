@@ -36,17 +36,17 @@ const DealCompleteInner: FC<IProps> = ({isVisible = false, onClose, item}) => {
   const { error: errorComments } = useAppSelector(state => state.commentReducer);
   const dispatch = useAppDispatch();
 
-  const [disabled, setDisabled] = useState(true);
+  // const [disabled, setDisabled] = useState(true);
 
   const [dealComment, setDealComment] = useState('');
 
   const commentInputHandler = (e: React.FocusEvent<HTMLTextAreaElement>) => {
     setDealComment(e.target.value)
-    if (e.target.value) {
-      setDisabled(false)
-    } else {
-      setDisabled(true)
-    }
+    // if (e.target.value) {
+    //   setDisabled(false)
+    // } else {
+    //   setDisabled(true)
+    // }
   };
 
   const completeDealHandler = async () => {
@@ -66,7 +66,10 @@ const DealCompleteInner: FC<IProps> = ({isVisible = false, onClose, item}) => {
       setDealComment('');
       onClose();
     } else {
-      
+      await dispatch(deleteDealByID(item._id));
+      await dispatch(getCompanyByIDQuery(query));
+      setDealComment('');
+      onClose();
     }
   }
 
@@ -119,8 +122,8 @@ const DealCompleteInner: FC<IProps> = ({isVisible = false, onClose, item}) => {
           </form>
           <div className="deal-complete__footer">
             <button 
-              className={disabled ? 'disabled' : ''}
-              disabled={disabled}
+              // className={disabled ? 'disabled' : ''}
+              // disabled={disabled}
               onClick={completeDealHandler}
               // type="submit"
               >

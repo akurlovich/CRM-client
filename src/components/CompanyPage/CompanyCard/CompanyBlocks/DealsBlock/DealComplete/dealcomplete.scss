@@ -73,11 +73,11 @@
       max-width: 100px;
       width: 100%;
 
-      &.required::after {
-        color: #f24949;
-        content: "*";
-        padding-left: 2px;
-      }
+      // &.required::after {
+      //   color: #f24949;
+      //   content: "*";
+      //   padding-left: 2px;
+      // }
     }
 
     & > textarea {
