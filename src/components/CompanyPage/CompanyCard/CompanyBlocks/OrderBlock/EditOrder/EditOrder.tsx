@@ -106,8 +106,8 @@ const EditOrderInner: FC<IProps> = ({isVisible = false}) => {
   };
 
   useEffect(() => {
-    dispatch(productsClearArray());
     // console.log(debouncedSearch)
+    dispatch(productsClearArray());
     if (debouncedSearch) {
       const fetchData = async () => {
         await dispatch(getAllProducts(debouncedSearch));

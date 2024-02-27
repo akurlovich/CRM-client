@@ -13,10 +13,11 @@ interface IProps {
   contactID: string;
   address: string;
   district: string;
-  query: ICompaniesQuery;
+  query?: ICompaniesQuery;
 }
 
-const ContactsDistrictInner: FC<IProps> = ({contactID, address, district, query}) => {
+const ContactsDistrictInner: FC<IProps> = ({contactID, address, district}) => {
+  const { query } = useAppSelector(state => state.companyReducer);
   const { error: errorContact } = useAppSelector(state => state.contactReducer);
   const dispatch = useAppDispatch();
 
@@ -38,7 +39,7 @@ const ContactsDistrictInner: FC<IProps> = ({contactID, address, district, query}
       ...prev,
       newAddress: {
         address: {
-          main: '',
+          main: address,
           district: district,
         }
       }
@@ -51,7 +52,7 @@ const ContactsDistrictInner: FC<IProps> = ({contactID, address, district, query}
 
   const addAddressHandler = async () => {
     
-    console.log(addDistrictAndUpdateContact)
+    // console.log(addDistrictAndUpdateContact)
     await dispatch(updateContactByAddress(addDistrictAndUpdateContact));
     await dispatch(getCompanyByIDQuery(query));
     
@@ -73,8 +74,9 @@ const ContactsDistrictInner: FC<IProps> = ({contactID, address, district, query}
   };
 
   const updateAddressHandler = async () => {
-    console.log(addDistrictAndUpdateContact)
+    // console.log(addDistrictAndUpdateContact)
     await dispatch(updateContactByAddress(addDistrictAndUpdateContact));
+    console.log(query)
     await dispatch(getCompanyByIDQuery(query));
     
     setShowUpdateInput(false);
@@ -83,6 +85,7 @@ const ContactsDistrictInner: FC<IProps> = ({contactID, address, district, query}
   const addOrUpdateInputsHandler = (e: React.FocusEvent<HTMLInputElement>) => {
     switch (e.target.name) {
       case 'district.add':
+        // console.log('from add')
         setAddDistrictAndUpdateContact(prev => ({
           ...prev,
           newAddress: {

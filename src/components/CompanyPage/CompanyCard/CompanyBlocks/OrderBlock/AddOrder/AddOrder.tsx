@@ -95,8 +95,8 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
   };
 
   useEffect(() => {
-    dispatch(productsClearArray());
     // console.log(debouncedSearch)
+    dispatch(productsClearArray());
     if (debouncedSearch) {
       const fetchData = async () => {
         await dispatch(getAllProducts(debouncedSearch));

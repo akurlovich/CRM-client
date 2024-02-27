@@ -125,6 +125,7 @@
           cursor: default;
           line-height: 21px;
           cursor: pointer;
+          overflow: hidden;
 
           &.user {
             display: flex;

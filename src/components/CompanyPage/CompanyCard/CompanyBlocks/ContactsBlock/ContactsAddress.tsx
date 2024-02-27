@@ -13,10 +13,11 @@ interface IProps {
   contactID: string;
   address: string;
   district: string;
-  query: ICompaniesQuery;
+  query?: ICompaniesQuery;
 }
 
-const ContactsAddressInner: FC<IProps> = ({contactID, address, district, query}) => {
+const ContactsAddressInner: FC<IProps> = ({contactID, address, district}) => {
+  const { query } = useAppSelector(state => state.companyReducer);
   const { error: errorContact } = useAppSelector(state => state.contactReducer);
   const dispatch = useAppDispatch();
 

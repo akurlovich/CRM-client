@@ -61,6 +61,7 @@ const ContactsPhonesInner: FC = ({}) => {
     // console.log(phone)
     
     await dispatch(updatePhoneByID(phone));
+    console.log(query)
     await dispatch(getCompanyByIDQuery(query));
     // await dispatch(getAllPhones());
     setShowUpdateInput({show: false, itemID: ''});
