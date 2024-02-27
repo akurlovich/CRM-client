@@ -159,12 +159,15 @@ const EditOrderInner: FC<IProps> = ({isVisible = false}) => {
                 </div>
               </div>
               <div className="icons">
-                <button
-                  className='add-btn'
-                  onClick={createOrderHandler}
-                  >
-                  Новый счёт
-                </button>
+                {totalPrice ? 
+                  <button
+                    className='add-btn'
+                    onClick={createOrderHandler}
+                    >
+                    Создать счёт
+                  </button>
+                  : null
+                }
                 <button
                   className='cansel-btn'
                   onClick={canselOrderEdit}

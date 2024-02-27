@@ -132,12 +132,15 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
                 <span>Новая сделка</span>
               </div>
               <div className="icons">
-                <button
-                  className='add-btn'
-                  onClick={createOrderHandler}
-                  >
-                  Создать счёт
-                </button>
+                {totalPrice ? 
+                  <button
+                    className='add-btn'
+                    onClick={createOrderHandler}
+                    >
+                    Создать счёт
+                  </button>
+                  : null
+                }
                 <button
                   className='cansel-btn'
                   onClick={showAddOrder}
