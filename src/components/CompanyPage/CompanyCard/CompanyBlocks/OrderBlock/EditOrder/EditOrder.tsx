@@ -234,6 +234,11 @@ const EditOrderInner: FC<IProps> = ({isVisible = false}) => {
                 ) : null
               }
             </div>
+            <button
+              className='add-btn'
+              onClick={() => setShowNewProduct(true)}
+              >Новый товар
+            </button>
           </div>
           {order.fileName?.length ? 
             fileArray.map(item => 
