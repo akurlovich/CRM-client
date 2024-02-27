@@ -4,7 +4,6 @@ import { Company } from './components/CompanyPage/Companies';
 import { CompanyCard } from './components/CompanyPage/CompanyCard/CompanyCard';
 import DealForDay from './components/DealsPage/DealsForDay/DealForDay';
 import { DealsMain } from './components/DealsPage/DealsMain';
-import { Home } from './components/Home/Home';
 import { OrdersMain } from './components/OrdersPage/OrdersMain';
 import { PageNotFound } from './components/PageNotFound/PageNotFound';
 import { AdminAuthRouter } from './components/RoutersComponents/AdminAuth/AdminAuthRouter';
@@ -13,8 +12,7 @@ import { UserLogin } from './components/UserLogin/UserLogin';
 import { UserRegistration } from './components/UserRegistration/UserRegistration';
 import { useAppDispatch } from './hooks/redux';
 import './scss/app.scss';
-import { checkAuth, loginUser, refreshUser } from './store/reducers/AuthReducer/AuthActionCreatores';
-import { getAllUsers } from './store/reducers/UserReducer/UserActionCreators';
+import { checkAuth } from './store/reducers/AuthReducer/AuthActionCreatores';
 
 const App: FC = () => {
 

@@ -14,6 +14,7 @@ interface IProps {
 //TODO ---  решить вопрос с нумерацией, особенно при удалении позиции
 
 const OrderItem: FC<IProps> = ({item, count}) => {
+  const { company } = useAppSelector(state => state.companyReducer);
   const dispatch = useAppDispatch();
 
   const [ countItem, setCountItem ] = useState(item.count ? item.count : '');
@@ -35,6 +36,7 @@ const OrderItem: FC<IProps> = ({item, count}) => {
       // console.log((+total * 1.2).toFixed(2))
       // totalSum(+total);
       dispatch(addItemProduct({
+        companyID: company._id,
         itemID: item.itemID,
         productID: item.productID, 
         price: +priceItem, 

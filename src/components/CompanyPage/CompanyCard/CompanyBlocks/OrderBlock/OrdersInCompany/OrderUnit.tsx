@@ -12,7 +12,7 @@ interface IProps {
 }
 
 const OrderUnitInner: FC<IProps> = ({item, ordersPage = false}) => {
-  // const { isShowEditOrder } = useAppSelector(state => state.orderReducer);
+  const { company } = useAppSelector(state => state.companyReducer);
   const dispatch = useAppDispatch();
   const [createDate, setCreateDate] = useState('');
 
@@ -22,13 +22,14 @@ const OrderUnitInner: FC<IProps> = ({item, ordersPage = false}) => {
     if (ordersPage) {
       navigate(`/companies/${item.companyID._id}`);
     } else {
-      dispatch(clearItemsProduct());
+      dispatch(clearItemsProduct(company._id));
       dispatch(setOrderForEdit(item));
       dispatch(setShowEditOrder(true));
       dispatch(setShowNewOrder(false));
       for (let data of item.orderItemID) {
         const newID = uuidv4();
         dispatch(addItemProduct({
+          companyID: company._id,
           itemID: newID,
           productID: data.productID._id, 
           price: data.price, 

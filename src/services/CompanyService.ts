@@ -41,7 +41,7 @@ export default class CompanyService {
   };
 
   static async updateCompanyTitle(companyID: string, title: string): Promise<AxiosResponse<ICompany>> {
-    console.log(companyID, title)
+    // console.log(companyID, title)
     return serverApi.put<ICompany>(`/companies/${companyID}/title`, {title: title});
   };
 

@@ -25,7 +25,7 @@ import updateLocale from 'dayjs/plugin/updateLocale';
 import { AddOrder } from './CompanyBlocks/OrderBlock/AddOrder/AddOrder';
 import { OrdersInCompany } from './CompanyBlocks/OrderBlock/OrdersInCompany/OrdersInCompany';
 import { EditOrder } from './CompanyBlocks/OrderBlock/EditOrder/EditOrder';
-import { setShowEditOrder, setShowNewOrder } from '../../../store/reducers/OrderReducer/OrderSlice';
+import { addItemProduct, clearItemsProduct, setShowEditOrder, setShowNewOrder } from '../../../store/reducers/OrderReducer/OrderSlice';
 import { UserErrorWarning } from '../../UI/UserErrorWarning/UserErrorWarning';
 import { getAllUsers } from '../../../store/reducers/UserReducer/UserActionCreators';
 
@@ -59,6 +59,8 @@ const CompanyCardInner: FC = () => {
   const showAddOrderHandler = () => {
     dispatch(setShowNewOrder(false))
     setShowAddOrderSmall(true);
+
+    dispatch(clearItemsProduct(company._id))
   };
 
   const showAddOrderSmallHandler = () => {
@@ -67,7 +69,7 @@ const CompanyCardInner: FC = () => {
   };
 
   const changeTitleHandler = async () => {
-    console.log(title)
+    // console.log(title)
     setEditTitle(false)
     await dispatch(updateCompanyTitle({companyID: company._id, title: title}))
   }
@@ -81,6 +83,12 @@ const CompanyCardInner: FC = () => {
   };
 
   useEffect(() => {
+    // const foundLocat = localStorage.getItem(company._id);
+    // if (foundLocat) {
+    //   const localItems = JSON.parse(foundLocat)
+    //   console.log('first', localItems)
+    // }
+
     let isMounted = true;
     const controller = new AbortController();
     const fetchData = async () => {
@@ -151,8 +159,6 @@ const CompanyCardInner: FC = () => {
       console.log(error)
     }
 
-    // fetchData();
-
     return () => {
       isMounted = false;
       controller.abort();
@@ -160,6 +166,38 @@ const CompanyCardInner: FC = () => {
       dispatch(setShowEditOrder(false));
     }
   }, []);
+
+  useEffect(() => {
+    if (params.id) {
+      // console.log(params.id)
+      const foundLocat = localStorage.getItem(params.id);
+      if (foundLocat) {
+        const localItems = JSON.parse(foundLocat)
+        // console.log(localItems)
+        dispatch(setShowEditOrder(false));
+        dispatch(setShowNewOrder(true));
+        setShowAddOrderSmall(false);
+  
+        for (let data of localItems.items) {
+          // const newID = uuidv4();
+          dispatch(addItemProduct({
+            companyID: data.companyID,
+            itemID: data.itemID,
+            productID: data.productID, 
+            price: data.price, 
+            count: data.count, 
+            sum: data.sum,
+            productTitle: data.productTitle,
+            productDimension: data.productDimension,
+            vatSum: 0,
+            totalSum: 0,
+          }))
+        }
+      }
+
+    }
+  }, [])
+  
 
   useEffect(() => {
     if (company.title) {

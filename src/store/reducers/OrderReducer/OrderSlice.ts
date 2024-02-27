@@ -49,15 +49,26 @@ const orderSlice = createSlice({
         // state.items.push({
         //   ...action.payload,
         // })
+        // console.log(action.payload)
         state.items.push(action.payload);
       }
       // console.log('totalSum', state.totalPrice)
       state.totalPrice = state.items.reduce((s, cur) => {
+        // console.log(cur.totalSum)
         return s + cur.totalSum
       }, 0);
       state.totalCount = state.items.reduce((s, cur) => {
         return s + cur.count
       }, 0);
+      // console.log('totalSum', state.totalPrice)
+      if (!state.order._id) {
+        const toStorage = {
+          items: state.items,
+          totalPrice: state.totalPrice,
+          totalCount: state.totalCount,
+        };
+        localStorage.setItem(action.payload.companyID, JSON.stringify(toStorage))
+      }
       
     },
     
@@ -68,6 +79,7 @@ const orderSlice = createSlice({
       }
       
     },
+
     removeItemProduct(state, action: PayloadAction<IOrderItemNew>) {
       state.items = state.items.filter((obj: IOrderItemNew) => obj.itemID !== action.payload.itemID);
       state.totalPrice = state.items.reduce((s, cur) => {
@@ -76,14 +88,23 @@ const orderSlice = createSlice({
       state.totalCount = state.items.reduce((s, cur) => {
         return s + cur.count
       }, 0);
+
+      const toStorage = {
+        items: state.items,
+        totalPrice: state.totalPrice,
+        totalCount: state.totalCount,
+      };
+      localStorage.setItem(action.payload.companyID, JSON.stringify(toStorage))
     },
 
-    clearItemsProduct(state) {
+    clearItemsProduct(state, action: PayloadAction<string>) {
       state.items = [];
       state.orderForEdit = {} as IOrder;
       state.orderForCopy = {} as IOrder;
       state.order = {} as IOrder;
       state.totalPrice = 0;
+
+      localStorage.removeItem(action.payload)
     },
 
     setShowEditOrder(state, action: PayloadAction<boolean>) {

@@ -25,7 +25,7 @@ interface IProps {
 }
 //TODO ---------- добавить сохранение  текущих позиций в локалсторедж или indexedb, пока не создали счет
 const EditOrderInner: FC<IProps> = ({isVisible = false}) => {
-  const { query } = useAppSelector(state => state.companyReducer)
+  const { query, company } = useAppSelector(state => state.companyReducer)
   const { products } = useAppSelector(state => state.productReducer);
   const { order, error: errorOrder } = useAppSelector(state => state.orderReducer);
   const { totalPrice, totalCount, items: orderItemsAll } = useAppSelector(state => state.orderReducer);
@@ -45,6 +45,7 @@ const EditOrderInner: FC<IProps> = ({isVisible = false}) => {
   const addProductToOrderHandler = (item: IProduct) => {
     const newID = uuidv4();
     dispatch(addItemProduct({
+      companyID: company._id,
       itemID: newID,
       productID: item._id, 
       price: 0, 
@@ -77,12 +78,12 @@ const EditOrderInner: FC<IProps> = ({isVisible = false}) => {
   };
 
   const canselOrderEdit = () => {
-    dispatch(clearItemsProduct());
+    dispatch(clearItemsProduct(company._id));
     dispatch(setShowEditOrder(false));
   };
 
   const copyHandler = async () => {
-    dispatch(clearItemsProduct());
+    dispatch(clearItemsProduct(company._id));
     dispatch(setOrderForCopy(order));
     dispatch(setShowEditOrder(false));
     dispatch(setShowNewOrder(true));
@@ -90,6 +91,7 @@ const EditOrderInner: FC<IProps> = ({isVisible = false}) => {
     for (let data of order.orderItemID) {
       const newID = uuidv4();
       dispatch(addItemProduct({
+        companyID: company._id,
         itemID: newID,
         productID: data.productID._id, 
         price: data.price, 
@@ -128,6 +130,7 @@ const EditOrderInner: FC<IProps> = ({isVisible = false}) => {
       const months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
       setCreateDate(`${day[today.getDate()]}.${months[today.getMonth()]}.${today.getFullYear()}`)
     }
+    
   }, [order]);
 
   // useEffect(() => {

@@ -50,6 +50,7 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
   const addProductToOrderHandler = (item: IProduct) => {
     const newID = uuidv4();
     dispatch(addItemProduct({
+      companyID: company._id,
       itemID: newID,
       productID: item._id, 
       price: 0, 
