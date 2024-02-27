@@ -21,6 +21,7 @@
         text-align: center;
         justify-content: center;
         color: var(--icon-light);
+        flex-shrink: 0;
         // margin-right: 6px;
       }
 
@@ -30,7 +31,7 @@
         display: flex;
         gap: 5px;
         line-height: normal;
-        width: 100%;
+        width: fit-content;
 
         & > input {
           padding: 0px 5px 3px 5px;
