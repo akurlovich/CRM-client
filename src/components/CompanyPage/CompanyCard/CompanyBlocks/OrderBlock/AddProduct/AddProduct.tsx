@@ -6,6 +6,9 @@ import { IProductNew } from '../../../../../../types/IProduct';
 import { addProduct } from '../../../../../../store/reducers/ProductReducer/ProducrActionCreater';
 import './addproduct.scss'
 import { UserErrorWarning } from '../../../../../UI/UserErrorWarning/UserErrorWarning';
+import { v4 as uuidv4 } from 'uuid';
+import { addItemProduct } from '../../../../../../store/reducers/OrderReducer/OrderSlice';
+import { productsClearArray } from '../../../../../../store/reducers/ProductReducer/ProductSlice';
 
 interface IProps {
   isVisible: boolean;
@@ -13,13 +16,16 @@ interface IProps {
 }
 
 const AddProductInner: FC<IProps> = ({isVisible = false, onClose }) => {
-  const { error: errorProduct } = useAppSelector(state => state.productReducer);
+  const { company } = useAppSelector(state => state.companyReducer);
+  const { product, error: errorProduct } = useAppSelector(state => state.productReducer);
   const dispatch = useAppDispatch();
 
   const [ selectedDimenion, setSselectedDimenion] = useState('');
   const [ productName, setProductName ] = useState('')
 
   const [disabled, setDisabled] = useState(true);
+
+  const [addToOrder, setAddToOrder] = useState(false);
 
   const addProductHandler = async () => {
     if (!selectedDimenion) {
@@ -38,8 +44,25 @@ const AddProductInner: FC<IProps> = ({isVisible = false, onClose }) => {
       // await dispatch(getCompanyByIDQuery(query));
       setSselectedDimenion('');
       setProductName('')
+      setAddToOrder(true);
       onClose();
       setDisabled(true);
+
+      // const newID = uuidv4();
+      // dispatch(addItemProduct({
+      //   companyID: company._id,
+      //   itemID: newID,
+      //   productID: product._id, 
+      //   price: 0, 
+      //   count: 0, 
+      //   sum: 0,
+      //   productTitle: product.title,
+      //   productDimension: product.dimension,
+      //   vatSum: 0,
+      //   totalSum: 0,
+      // }))
+      // dispatch(productsClearArray());
+
     } else {
       alert('Не заполнены все поля!')
     }
@@ -98,6 +121,29 @@ const AddProductInner: FC<IProps> = ({isVisible = false, onClose }) => {
       }
     }
   }, [isVisible]);
+
+  useEffect(() => {
+
+    if (product._id) {
+      const newID = uuidv4();
+        dispatch(addItemProduct({
+          companyID: company._id,
+          itemID: newID,
+          productID: product._id, 
+          price: 0, 
+          count: 0, 
+          sum: 0,
+          productTitle: product.title,
+          productDimension: product.dimension,
+          vatSum: 0,
+          totalSum: 0,
+        }))
+      dispatch(productsClearArray());
+    }
+
+  }, [product])
+  
+  
 
   return isVisible ? (
     <>

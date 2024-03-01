@@ -1,3 +1,14 @@
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+input[type=number] {
+    -moz-appearance:textfield; /* Firefox */
+}
+
 .add-order {
   // background-image: url('../../assets/main-bg.png') ;
   max-width: 100%;
@@ -89,6 +100,15 @@
       // margin-bottom: 5px;
       width: 100%;
       justify-content: space-between;
+
+      & > input::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+      & > input::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
       
       &.first_row {
         border-bottom: 1px solid var(--border-1);
@@ -129,15 +149,24 @@
           color: var(--text-color-default);
           cursor: default;
 
-          &.narrowest{
+          &.narrowest {
             max-width: 14px;
             padding: 0;
           }
 
-          &.narrow{
+          &.narrow {
             max-width: 70px;
             padding: 5px 0;
             text-align: center;
+
+            &:-webkit-outer-spin-button {
+              -webkit-appearance: none;
+              margin: 0;
+            }
+            &:-webkit-outer-spin-button {
+              -webkit-appearance: none;
+              margin: 0;
+            }
           }
 
           &.tight{

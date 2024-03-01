@@ -24,7 +24,7 @@ interface IProps {
 }
 //TODO ---------- добавить сохранение  текущих позиций в локалсторедж или indexedb, пока не создали счет
 const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
-  const { company, companyFirstUser, query } = useAppSelector(state => state.companyReducer)
+  const { company, companyFirstUser, query } = useAppSelector(state => state.companyReducer);
   const { products } = useAppSelector(state => state.productReducer);
   const { order, error: errorOrder } = useAppSelector(state => state.orderReducer);
   const { totalPrice, totalCount, items: orderItemsAll } = useAppSelector(state => state.orderReducer);
