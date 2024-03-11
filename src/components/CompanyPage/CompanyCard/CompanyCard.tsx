@@ -197,11 +197,15 @@ const CompanyCardInner: FC = () => {
 
     }
   }, [])
-  
 
   useEffect(() => {
     if (company.title) {
+      document.title = company.title;
       setTitle(company.title)
+    }
+
+    return () => {
+      document.title = 'CRM-Skrama-24';
     }
   }, [company])
   
