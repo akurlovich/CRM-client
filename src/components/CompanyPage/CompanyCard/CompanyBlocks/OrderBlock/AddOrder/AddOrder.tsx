@@ -39,6 +39,9 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
   const [fileArray, setFileArray] = useState<string[]>([]);
 
   const searchValueHandler = async (e: React.FocusEvent<HTMLInputElement>) => {
+    // const escapeRegex = (str: string) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    // console.log(escapeRegex(e.target.value))
+    // setSearchValue(escapeRegex(e.target.value));
     setSearchValue(e.target.value);
     // console.log(e.target.value);
     // setTimeout(async () => {
@@ -98,8 +101,11 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
     // console.log(debouncedSearch)
     dispatch(productsClearArray());
     if (debouncedSearch) {
+      const escapeRegex = (str: string) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      console.log(escapeRegex(debouncedSearch))
+      const search = escapeRegex(debouncedSearch);
       const fetchData = async () => {
-        await dispatch(getAllProducts(debouncedSearch));
+        await dispatch(getAllProducts(search));
       };
       fetchData();
 

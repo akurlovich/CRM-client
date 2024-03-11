@@ -246,7 +246,7 @@ const InfoBlockInner: FC = () => {
           <>
             <span>{company.description ? company.description : 'Введите описание компании'}</span>
             <IoCreateOutline 
-              style={{cursor: 'pointer'}}
+              style={{cursor: 'pointer', flexShrink: '0'}}
               onClick={() => {
                 setShowAddDescription(false);
                 setCompanyDescription(company.description)        
@@ -257,18 +257,19 @@ const InfoBlockInner: FC = () => {
               />
           </>
           :
-          <div className="contactsblock__contacts__inputs ">
+          <div className="info-block__description__inputs ">
             <textarea 
               value={companyDescription}
               onChange={(e: React.FocusEvent<HTMLTextAreaElement>) => setCompanyDescription(e.target.value)}
               autoFocus
+              rows={4}
               placeholder='Введите описание компании...'/>
             <div className="buttons">
               <button
                 className='add-btn'
                 onClick={addOrUpdateDescription}
                 >
-                Добавить
+                Сохранить
               </button>
               <button
                 className='cansel-btn'
