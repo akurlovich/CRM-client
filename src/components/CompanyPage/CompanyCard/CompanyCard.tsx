@@ -45,7 +45,7 @@ dayjs.updateLocale('en', {
 //TODO при нажатии Добавить сделку, очистить в orderReducer order, orderForEdit
 
 const CompanyCardInner: FC = () => {
-  const { company, companies, isLoading, companyFirstUser, error: errorCompany  } = useAppSelector(state => state.companyReducer);
+  const { company, companies, isLoading, companyFirstUser, error: errorCompany, query  } = useAppSelector(state => state.companyReducer);
   const { isShowEditOrder, isShowNewOrder } = useAppSelector(state => state.orderReducer);
   const { user } = useAppSelector(state => state.authReducer);
   const params = useParams();
@@ -72,6 +72,7 @@ const CompanyCardInner: FC = () => {
     // console.log(title)
     setEditTitle(false)
     await dispatch(updateCompanyTitle({companyID: company._id, title: title}))
+    await dispatch(getCompanyByIDQuery(query));
   }
 
   const deleteCompanyHandler = async () => {

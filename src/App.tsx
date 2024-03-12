@@ -42,6 +42,14 @@ const App: FC = () => {
 
   }, []);
 
+  useEffect(() => {
+    const keydownHandler = (event: MouseEvent) => {
+      console.log(event.target)
+    };
+    document.addEventListener('click', keydownHandler);
+    return () => document.removeEventListener('click', keydownHandler);
+  }, []);
+
   return (
     <Routes>
       <Route path="/" element={<MainLayout />}>
