@@ -25,7 +25,7 @@ interface IProps {
 //TODO ---------- добавить сохранение  текущих позиций в локалсторедж или indexedb, пока не создали счет
 const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
   const { company, companyFirstUser, query } = useAppSelector(state => state.companyReducer);
-  const { products } = useAppSelector(state => state.productReducer);
+  const { products, isLoading } = useAppSelector(state => state.productReducer);
   const { order, error: errorOrder } = useAppSelector(state => state.orderReducer);
   const { totalPrice, totalCount, items: orderItemsAll } = useAppSelector(state => state.orderReducer);
   const dispatch = useAppDispatch();
@@ -37,6 +37,8 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
   const debouncedSearch = useDebounce(searchValue);
   const [createDate, setCreateDate] = useState('');
   const [fileArray, setFileArray] = useState<string[]>([]);
+
+  const [isLoadProd, setIsLoadProd] = useState(true);
 
   const searchValueHandler = async (e: React.FocusEvent<HTMLInputElement>) => {
     // const escapeRegex = (str: string) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -79,6 +81,7 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
         },
         orderItems: orderItemsAll
       }
+      console.log('add order update', orderUpdate);
       await dispatch(updateOrderItemsByOrderID(orderUpdate));
       await dispatch(getCompanyByIDQuery(query));
     } else {
@@ -91,24 +94,30 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
         orderItems: orderItemsAll
       }
       // console.log(orderNew);
+      console.log('add order new', orderNew);
       await dispatch(addOrder(orderNew));
       await dispatch(getCompanyByIDQuery(query));
-
     }
   };
 
+  const showAddProduct = () => {
+    setSearchValue('');
+    setShowNewProduct(true);
+  }
+
   useEffect(() => {
+    setIsLoadProd(true);
     // console.log(debouncedSearch)
     dispatch(productsClearArray());
     if (debouncedSearch) {
       const escapeRegex = (str: string) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-      console.log(escapeRegex(debouncedSearch))
+      // console.log(escapeRegex(debouncedSearch))
       const search = escapeRegex(debouncedSearch);
       const fetchData = async () => {
         await dispatch(getAllProducts(search));
       };
       fetchData();
-
+      setIsLoadProd(false)
     }
   }, [debouncedSearch]);
 
@@ -130,7 +139,11 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
   return isVisible ? (
     <>
       {errorOrder ? <UserErrorWarning/> : null}
-      <AddProduct isVisible={showNewProduct} onClose={() => setShowNewProduct(false)}/>
+      <AddProduct 
+        isVisible={showNewProduct} 
+        onClose={() => setShowNewProduct(false)}
+        productTitle={searchValue}
+      />
       <section className='add-order'>
         <div className="add-order__container">
           <div className="add-order__header">
@@ -207,21 +220,40 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
               placeholder='Добавить позицию'/>
             <div className="add-order__search__result">
               {searchValue ? 
-                products.map(item => 
-                  <span
-                    key={item._id}
-                    onClick={() => addProductToOrderHandler(item)}
-                    >
-                    {`${item.title}, ${item.dimension}`}
-                  </span>
-                ) : null
+                <>
+                  {products.map(item => 
+                    <span
+                      key={item._id}
+                      onClick={() => addProductToOrderHandler(item)}
+                      >
+                      {`${item.title}, ${item.dimension}`}
+                    </span>
+                  )}
+                  {/* <span>HI all</span> */}
+                  {/* {products.length ? null : 
+                    (isLoading ? null : <span>HI all</span>)
+                  } */}
+                  {products.length ? null : 
+                    (isLoadProd ? null : 
+                      <div className="add-product-block">
+                        <span>Товар не найден.</span>
+                        <button
+                          className='add-btn'
+                          onClick={showAddProduct}
+                          >Добавить товар
+                        </button>
+                      </div>
+                    )
+                  }
+                </>
+                : null
               }
             </div>
-            <button
+            {/* <button
               className='add-btn'
               onClick={() => setShowNewProduct(true)}
               >Новый товар
-            </button>
+            </button> */}
           </div>
           {order.fileName?.length ? 
             fileArray.map(item => 

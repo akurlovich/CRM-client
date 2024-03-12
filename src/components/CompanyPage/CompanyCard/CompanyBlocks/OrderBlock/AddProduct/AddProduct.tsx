@@ -13,19 +13,21 @@ import { productsClearArray } from '../../../../../../store/reducers/ProductRedu
 interface IProps {
   isVisible: boolean;
   onClose: () => void;
+  productTitle: string;
 }
 
-const AddProductInner: FC<IProps> = ({isVisible = false, onClose }) => {
+const AddProductInner: FC<IProps> = ({isVisible = false, onClose, productTitle }) => {
+  // console.log('first', productTitle);
   const { company } = useAppSelector(state => state.companyReducer);
   const { product, error: errorProduct } = useAppSelector(state => state.productReducer);
   const dispatch = useAppDispatch();
 
   const [ selectedDimenion, setSselectedDimenion] = useState('');
-  const [ productName, setProductName ] = useState('')
+  const [ productName, setProductName ] = useState(productTitle);
 
   const [disabled, setDisabled] = useState(true);
 
-  const [addToOrder, setAddToOrder] = useState(false);
+  // const [addToOrder, setAddToOrder] = useState(false);
 
   const addProductHandler = async () => {
     if (!selectedDimenion) {
@@ -39,12 +41,13 @@ const AddProductInner: FC<IProps> = ({isVisible = false, onClose }) => {
         dimension: selectedDimenion,
         count: 1,
       }
+      console.log('add new product', newProduct)
       await dispatch(addProduct(newProduct));
 //TODO -----  добавить получение всех продуктов
       // await dispatch(getCompanyByIDQuery(query));
       setSselectedDimenion('');
       setProductName('')
-      setAddToOrder(true);
+      // setAddToOrder(true);
       onClose();
       setDisabled(true);
 
@@ -143,6 +146,12 @@ const AddProductInner: FC<IProps> = ({isVisible = false, onClose }) => {
 
   }, [product])
   
+  useEffect(() => {
+    if (productTitle) {
+      setDisabled(false);
+      setProductName(productTitle)
+    }
+  }, [productTitle])
   
 
   return isVisible ? (

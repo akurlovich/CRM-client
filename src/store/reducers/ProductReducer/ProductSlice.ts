@@ -60,7 +60,7 @@ const productSlice = createSlice({
       .addCase(getAllProducts.rejected, (state, action) => {
         state.isLoading = false;
   //TODO пишет ошибку, т.к. при вводе скобки ( ( ) , ошибка в reqex поиске
-        // state.error = action.payload as string;
+        state.error = action.payload as string;
       });
   },
 });

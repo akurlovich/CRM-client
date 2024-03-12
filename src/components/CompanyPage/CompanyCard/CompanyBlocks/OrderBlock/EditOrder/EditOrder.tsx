@@ -37,6 +37,8 @@ const EditOrderInner: FC<IProps> = ({isVisible = false}) => {
   const [createDate, setCreateDate] = useState('');
   const [fileArray, setFileArray] = useState<string[]>([]);
 
+  const [isLoadProd, setIsLoadProd] = useState(true);
+
   const searchValueHandler = async (e: React.FocusEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
    
@@ -105,15 +107,24 @@ const EditOrderInner: FC<IProps> = ({isVisible = false}) => {
     }
   };
 
+  const showAddProduct = () => {
+    setSearchValue('');
+    setShowNewProduct(true);
+  }
+
   useEffect(() => {
+    setIsLoadProd(true);
     // console.log(debouncedSearch)
     dispatch(productsClearArray());
     if (debouncedSearch) {
+      const escapeRegex = (str: string) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      // console.log(escapeRegex(debouncedSearch))
+      const search = escapeRegex(debouncedSearch);
       const fetchData = async () => {
-        await dispatch(getAllProducts(debouncedSearch));
+        await dispatch(getAllProducts(search));
       };
       fetchData();
-
+      setIsLoadProd(false)
     }
   }, [debouncedSearch]);
 
@@ -146,7 +157,11 @@ const EditOrderInner: FC<IProps> = ({isVisible = false}) => {
   return isVisible ? (
     <>
       {errorOrder ? <UserErrorWarning/> : null}
-      <AddProduct isVisible={showNewProduct} onClose={() => setShowNewProduct(false)}/>
+      <AddProduct 
+        isVisible={showNewProduct} 
+        onClose={() => setShowNewProduct(false)}
+        productTitle={searchValue}
+      />
       <section className='edit-order'>
         <div className="edit-order__container">
           <div className="edit-order__header">
@@ -229,22 +244,41 @@ const EditOrderInner: FC<IProps> = ({isVisible = false}) => {
               onChange={searchValueHandler}
               placeholder='Добавить позицию'/>
             <div className="edit-order__search__result">
-              {searchValue ? 
-                products.map(item => 
-                  <span
-                    key={item._id}
-                    onClick={() => addProductToOrderHandler(item)}
-                    >
-                    {`${item.title}, ${item.dimension}`}
-                  </span>
-                ) : null
+            {searchValue ? 
+                <>
+                  {products.map(item => 
+                    <span
+                      key={item._id}
+                      onClick={() => addProductToOrderHandler(item)}
+                      >
+                      {`${item.title}, ${item.dimension}`}
+                    </span>
+                  )}
+                  {/* <span>HI all</span> */}
+                  {/* {products.length ? null : 
+                    (isLoading ? null : <span>HI all</span>)
+                  } */}
+                  {products.length ? null : 
+                    (isLoadProd ? null : 
+                      <div className="add-product-block">
+                        <span>Товар не найден.</span>
+                        <button
+                          className='add-btn'
+                          onClick={showAddProduct}
+                          >Добавить товар
+                        </button>
+                      </div>
+                    )
+                  }
+                </>
+                : null
               }
             </div>
-            <button
+            {/* <button
               className='add-btn'
               onClick={() => setShowNewProduct(true)}
               >Новый товар
-            </button>
+            </button> */}
           </div>
           {order.fileName?.length ? 
             fileArray.map(item => 
