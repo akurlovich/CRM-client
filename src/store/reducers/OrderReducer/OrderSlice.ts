@@ -107,6 +107,10 @@ const orderSlice = createSlice({
       localStorage.removeItem(action.payload)
     },
 
+    clearItemsLocalStorage(state, action: PayloadAction<string>) {
+      localStorage.removeItem(action.payload)
+    },
+
     setShowEditOrder(state, action: PayloadAction<boolean>) {
       state.isShowEditOrder = action.payload;
     },
@@ -161,6 +165,6 @@ const orderSlice = createSlice({
   },
 });
 
-export const { addItemProduct, minusItemProduct, removeItemProduct, clearItemsProduct, setShowEditOrder, setOrderForEdit, setShowNewOrder, setOrderForCopy } = orderSlice.actions;
+export const { addItemProduct, minusItemProduct, removeItemProduct, clearItemsProduct, setShowEditOrder, setOrderForEdit, setShowNewOrder, setOrderForCopy, clearItemsLocalStorage } = orderSlice.actions;
 
 export default orderSlice.reducer;

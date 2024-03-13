@@ -13,7 +13,7 @@ import { addOrder, updateOrderItemsByOrderID } from '../../../../../../store/red
 import { getCompanyByIDQuery } from '../../../../../../store/reducers/CompanyReducer/CompanyActionCreaters';
 import { SERVER_URL } from '../../../../../../constants/http';
 import { Link } from 'react-router-dom';
-import { addItemProduct } from '../../../../../../store/reducers/OrderReducer/OrderSlice';
+import { addItemProduct, clearItemsLocalStorage, clearItemsProduct } from '../../../../../../store/reducers/OrderReducer/OrderSlice';
 import { v4 as uuidv4 } from 'uuid';
 import numberWithSpaces from '../../../../../../services/ClientServices/numberWithSpaces';
 import { UserErrorWarning } from '../../../../../UI/UserErrorWarning/UserErrorWarning';
@@ -97,6 +97,7 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
       console.log('add order new', orderNew);
       await dispatch(addOrder(orderNew));
       await dispatch(getCompanyByIDQuery(query));
+      dispatch(clearItemsLocalStorage(company._id))
     }
   };
 

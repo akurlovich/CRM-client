@@ -53,6 +53,8 @@
     &__result {
       max-width: 1200px;
       width: 100%;
+      // max-height: 500px;
+      // overflow-y: scroll;
       position: absolute;
       display: flex;
       flex-direction: column;
@@ -103,6 +105,10 @@
 
           & > .title-name {
             font-size: 14px;
+          }
+
+          & > .user {
+            color: #2d81f7;
           }
 
         }

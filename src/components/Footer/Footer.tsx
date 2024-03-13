@@ -67,7 +67,7 @@ const FooterInner: FC = () => {
                       </div>
                         <div className="footer__search__result__item__info">
                           <div className="footer__search__result__item__block">
-                            <span className='title'>Клиент:</span>
+                            <span className='title'>Клиент</span>
                             <span className='title-name'>{item.companyTitle}</span>
                           </div>            
                           {item.phoneNumber ? 
@@ -86,7 +86,7 @@ const FooterInner: FC = () => {
                             : null
                           }
                           <div className="footer__search__result__item__block">
-                            <span>Ответственынй:</span>
+                            <span className='user'>Ответственынй:</span>
                             <span>{item.userLastName + ' ' + item.userFirstName}</span>
                           </div>
                         </div>
