@@ -25,8 +25,11 @@ const FooterInner: FC = () => {
     dispatch(searchResultClearArray());
     // console.log(debouncedSearch)
     if (debouncedSearch) {
+      const escapeRegex = (str: string) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      // console.log(escapeRegex(debouncedSearch))
+      const search = escapeRegex(debouncedSearch);
       const fetchData = async () => {
-        await dispatch(getSearchResult(debouncedSearch));
+        await dispatch(getSearchResult(search));
       };
       fetchData();
 
@@ -86,8 +89,8 @@ const FooterInner: FC = () => {
                             : null
                           }
                           <div className="footer__search__result__item__block">
-                            <span className='user'>Ответственынй:</span>
-                            <span>{item.userLastName + ' ' + item.userFirstName}</span>
+                            <span>Ответственынй:</span>
+                            <span className='user'>{item.userLastName + ' ' + item.userFirstName}</span>
                           </div>
                         </div>
                     </div>

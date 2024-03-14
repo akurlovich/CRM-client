@@ -3,7 +3,7 @@ import './addorder.scss';
 import { IoDuplicateOutline } from "@react-icons/all-files/io5/IoDuplicateOutline";
 import { AddProduct } from '../AddProduct/AddProduct';
 import { useAppDispatch, useAppSelector } from '../../../../../../hooks/redux';
-import { getAllProducts } from '../../../../../../store/reducers/ProductReducer/ProducrActionCreater';
+import { getAllProducts } from '../../../../../../store/reducers/ProductReducer/ProductActionCreater';
 import { IProduct } from '../../../../../../types/IProduct';
 import OrderItem from '../OrderItem/OrderItem';
 import { useDebounce } from '../../../../../../hooks/useDebounce';
@@ -25,7 +25,7 @@ interface IProps {
 //TODO ---------- добавить сохранение  текущих позиций в локалсторедж или indexedb, пока не создали счет
 const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
   const { company, companyFirstUser, query } = useAppSelector(state => state.companyReducer);
-  const { products, isLoading } = useAppSelector(state => state.productReducer);
+  const { products, isLoading, error: errorProduct } = useAppSelector(state => state.productReducer);
   const { order, error: errorOrder } = useAppSelector(state => state.orderReducer);
   const { totalPrice, totalCount, items: orderItemsAll } = useAppSelector(state => state.orderReducer);
   const dispatch = useAppDispatch();
@@ -139,6 +139,7 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
 
   return isVisible ? (
     <>
+      {errorProduct ? <UserErrorWarning message={errorProduct}/> : null}
       {errorOrder ? <UserErrorWarning/> : null}
       <AddProduct 
         isVisible={showNewProduct} 

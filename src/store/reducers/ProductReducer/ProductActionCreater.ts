@@ -8,7 +8,9 @@ export const addProduct = createAsyncThunk(
     try {
       return await (await ProductService.addProduct(product)).data;
     } catch (error: any) {
-      return rejectWithValue(error.message)
+      // console.log('front error', error)
+      // return rejectWithValue(error.message)
+      return rejectWithValue(error.response.data.message)
     }
   }
 );

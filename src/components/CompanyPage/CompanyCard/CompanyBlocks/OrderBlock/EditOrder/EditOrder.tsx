@@ -4,7 +4,7 @@ import { IoDuplicateOutline } from "@react-icons/all-files/io5/IoDuplicateOutlin
 import { IoCopyOutline } from "@react-icons/all-files/io5/IoCopyOutline";
 import { AddProduct } from '../AddProduct/AddProduct';
 import { useAppDispatch, useAppSelector } from '../../../../../../hooks/redux';
-import { getAllProducts } from '../../../../../../store/reducers/ProductReducer/ProducrActionCreater';
+import { getAllProducts } from '../../../../../../store/reducers/ProductReducer/ProductActionCreater';
 import { IProduct } from '../../../../../../types/IProduct';
 import OrderItem from '../OrderItem/OrderItem';
 import { useDebounce } from '../../../../../../hooks/useDebounce';

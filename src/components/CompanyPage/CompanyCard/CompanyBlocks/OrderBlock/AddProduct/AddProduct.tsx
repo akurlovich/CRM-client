@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from '../../../../../../hooks/redux';
 import { getAllDimensions } from '../../../../../../store/reducers/DimensionReducer/DimensionActionCreaters';
 import SelectDimensions from '../../../../../UI/Select/SelectDimentions';
 import { IProductNew } from '../../../../../../types/IProduct';
-import { addProduct } from '../../../../../../store/reducers/ProductReducer/ProducrActionCreater';
+import { addProduct } from '../../../../../../store/reducers/ProductReducer/ProductActionCreater';
 import './addproduct.scss'
 import { UserErrorWarning } from '../../../../../UI/UserErrorWarning/UserErrorWarning';
 import { v4 as uuidv4 } from 'uuid';

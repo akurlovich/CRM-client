@@ -213,7 +213,7 @@ const CompanyCardInner: FC = () => {
   
   return (
     <>
-      {errorCompany ? <UserErrorWarning/> : null}
+      {errorCompany ? <UserErrorWarning /> : null}
       {isLoading ? <Loader/> : 
         <section className="company-card">
           <header className="company-card__header">

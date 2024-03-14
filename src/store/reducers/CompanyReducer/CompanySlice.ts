@@ -129,36 +129,43 @@ const companySlice = createSlice({
       .addCase(getCompanyByIDQuery.fulfilled, (state, action: PayloadAction<ICompany>) => {
         // console.log(action.payload)
         state.isLoading = false;
-        state.company = action.payload;
-  //TODO добавить сортироваку дел по endTime, первое в массие - первое на выполнение
-        state.companyDeals = action.payload.dealsID.sort((a, b) => {
-          let fa = a.monthEnd;
-          let fb = b.monthEnd;
-
-          if (fa < fb) {
-              return -1;
-          }
-          if (fa > fb) {
-              return 1;
-          }
-          return 0;
-        });
-        state.companyFirstDeal = action.payload.dealsID[0];
-        state.companyUsers = action.payload.usersID;
-        state.companyFirstUser = action.payload.usersID[0];
-        state.companyComments = action.payload.commentsID.reverse();
-        state.companyOrders = action.payload.ordersID.sort((a, b) => {
-          let fa = a.createdAt;
-          let fb = b.createdAt;
-
-          if (fa < fb) {
-              return 1;
-          }
-          if (fa > fb) {
-              return -1;
-          }
-          return 0;
-        });
+        if (action.payload) {
+          state.company = action.payload;
+    //TODO добавить сортироваку дел по endTime, первое в массие - первое на выполнение
+          console.log(action.payload)
+          
+          state.companyDeals = action.payload.dealsID.sort((a, b) => {
+            let fa = a.monthEnd;
+            let fb = b.monthEnd;
+  
+            if (fa < fb) {
+                return -1;
+            }
+            if (fa > fb) {
+                return 1;
+            }
+            return 0;
+          });
+          state.companyFirstDeal = action.payload.dealsID[0];
+          state.companyUsers = action.payload.usersID;
+          state.companyFirstUser = action.payload.usersID[0];
+          state.companyComments = action.payload.commentsID.reverse();
+          state.companyOrders = action.payload.ordersID.sort((a, b) => {
+            let fa = a.createdAt;
+            let fb = b.createdAt;
+  
+            if (fa < fb) {
+                return 1;
+            }
+            if (fa > fb) {
+                return -1;
+            }
+            return 0;
+          });
+        } else {
+          // state.company = action.payload;
+          state.error = 'Скорее всего компания с таким ID не найдена и вернулся null'
+        }
       })
       .addCase(getCompanyByIDQuery.rejected, (state, action) => {
         state.isLoading = false;
