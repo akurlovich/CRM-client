@@ -20,6 +20,7 @@ const AddProductInner: FC<IProps> = ({isVisible = false, onClose, productTitle }
   // console.log('first', productTitle);
   const { company } = useAppSelector(state => state.companyReducer);
   const { product, error: errorProduct } = useAppSelector(state => state.productReducer);
+  const { items } = useAppSelector(state => state.orderReducer);
   const dispatch = useAppDispatch();
 
   const [ selectedDimenion, setSselectedDimenion] = useState('');
@@ -128,20 +129,25 @@ const AddProductInner: FC<IProps> = ({isVisible = false, onClose, productTitle }
   useEffect(() => {
 
     if (product._id) {
-      const newID = uuidv4();
-        dispatch(addItemProduct({
-          companyID: company._id,
-          itemID: newID,
-          productID: product._id, 
-          price: 0, 
-          count: 0, 
-          sum: 0,
-          productTitle: product.title,
-          productDimension: product.dimension,
-          vatSum: 0,
-          totalSum: 0,
-        }))
-      dispatch(productsClearArray());
+      // console.log('from add product')
+      const found = items.find(item => item.productID == product._id)
+      if (!found) {
+        const newID = uuidv4();
+          dispatch(addItemProduct({
+            companyID: company._id,
+            itemID: newID,
+            productID: product._id, 
+            price: 0, 
+            count: 0, 
+            sum: 0,
+            productTitle: product.title,
+            productDimension: product.dimension,
+            vatSum: 0,
+            totalSum: 0,
+          }))
+        dispatch(productsClearArray());
+        
+      }
     }
 
   }, [product])

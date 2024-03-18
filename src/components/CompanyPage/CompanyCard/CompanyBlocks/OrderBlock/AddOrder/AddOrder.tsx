@@ -66,6 +66,7 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
       vatSum: 0,
       totalSum: 0,
     }))
+    console.log('from addProductToOrderHandler')
     // setOrderProducts(prev => ([...prev, item]));
     dispatch(productsClearArray());
     setSearchValue('');
@@ -95,9 +96,9 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
       }
       // console.log(orderNew);
       console.log('add order new', orderNew);
+      dispatch(clearItemsLocalStorage(company._id))
       await dispatch(addOrder(orderNew));
       await dispatch(getCompanyByIDQuery(query));
-      dispatch(clearItemsLocalStorage(company._id))
     }
   };
 

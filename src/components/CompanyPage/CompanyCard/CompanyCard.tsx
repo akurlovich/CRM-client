@@ -168,36 +168,36 @@ const CompanyCardInner: FC = () => {
     }
   }, []);
 
-  useEffect(() => {
-    if (params.id) {
-      // console.log(params.id)
-      const foundLocat = localStorage.getItem(params.id);
-      if (foundLocat) {
-        const localItems = JSON.parse(foundLocat)
-        // console.log(localItems)
-        dispatch(setShowEditOrder(false));
-        dispatch(setShowNewOrder(true));
-        setShowAddOrderSmall(false);
+  // useEffect(() => {
+  //   if (params.id) {
+  //     // console.log(params.id)
+  //     const foundLocat = localStorage.getItem(params.id);
+  //     if (foundLocat) {
+  //       const localItems = JSON.parse(foundLocat)
+  //       // console.log(localItems)
+  //       dispatch(setShowEditOrder(false));
+  //       dispatch(setShowNewOrder(true));
+  //       setShowAddOrderSmall(false);
   
-        for (let data of localItems.items) {
-          // const newID = uuidv4();
-          dispatch(addItemProduct({
-            companyID: data.companyID,
-            itemID: data.itemID,
-            productID: data.productID, 
-            price: data.price, 
-            count: data.count, 
-            sum: data.sum,
-            productTitle: data.productTitle,
-            productDimension: data.productDimension,
-            vatSum: 0,
-            totalSum: 0,
-          }))
-        }
-      }
+  //       for (let data of localItems.items) {
+  //         // const newID = uuidv4();
+  //         dispatch(addItemProduct({
+  //           companyID: data.companyID,
+  //           itemID: data.itemID,
+  //           productID: data.productID, 
+  //           price: data.price, 
+  //           count: data.count, 
+  //           sum: data.sum,
+  //           productTitle: data.productTitle,
+  //           productDimension: data.productDimension,
+  //           vatSum: 0,
+  //           totalSum: 0,
+  //         }))
+  //       }
+  //     }
 
-    }
-  }, [])
+  //   }
+  // }, [])
 
   useEffect(() => {
     if (company.title) {
