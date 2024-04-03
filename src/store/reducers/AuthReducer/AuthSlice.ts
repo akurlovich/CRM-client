@@ -33,6 +33,9 @@ export const authSlice = createSlice({
   reducers: {
     removeRigisterUserError(state) {
       state.error = '';
+    },
+    removeLoginrUserError(state) {
+      state.loginError = '';
     }
   },
   extraReducers: (builder) => {
@@ -119,7 +122,7 @@ export const authSlice = createSlice({
 });
 
 export const {
-  removeRigisterUserError,
+  removeRigisterUserError, removeLoginrUserError,
 } = authSlice.actions;
 
 export default authSlice.reducer;

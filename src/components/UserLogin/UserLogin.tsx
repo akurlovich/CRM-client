@@ -2,6 +2,7 @@ import React, { FC, useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { loginUser } from '../../store/reducers/AuthReducer/AuthActionCreatores';
+import { removeLoginrUserError } from '../../store/reducers/AuthReducer/AuthSlice';
 import { FormInput } from '../UI/FormInput/FormInput';
 import { UserErrorWarning } from '../UI/UserErrorWarning/UserErrorWarning';
 
@@ -15,7 +16,7 @@ const UserLoginInner: FC = () => {
   const {isAuth, loginError, error: errorAuth} = useAppSelector(state => state.authReducer);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [showError, setShowError] = useState(false);
+  // const [showError, setShowError] = useState(false);
   const [buttonSubmit, setButtonSubmit] = useState(false);
   const dispatch = useAppDispatch();
   const location = useLocation();
@@ -55,21 +56,22 @@ const UserLoginInner: FC = () => {
     }
   }, [password, email, isAuth]);
 
-  useEffect(() => {
-    if (loginError) {
-      setShowError(true);
-    }
+  // useEffect(() => {
+  //   if (loginError) {
+  //     setShowError(true);
+  //   }
   
-  }, [loginError]);
+  // }, [loginError]);
 
   const canselHandler = () => {
-    setShowError(false);
+    // setShowError(false);
+    dispatch(removeLoginrUserError());
   };
   
   return (
     <div className='registration'>
       {errorAuth === "Network Error" ? <UserErrorWarning message={errorAuth}/> : null}
-      {showError && <UserErrorWarning canselHandler={canselHandler} message={loginError}/>}
+      {loginError && <UserErrorWarning canselHandler={canselHandler} message={loginError}/>}
       <div className="registration__block login">
         <div className="registration__container">
           {/* <div onClick={() => navigate('/')} className="registration__close">

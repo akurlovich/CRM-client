@@ -11,7 +11,7 @@ import { getAllCompanies, getAllCompaniesQuery, getSearchResultDistrictCompanies
 import { getAllUsers, getUserByID } from '../../store/reducers/UserReducer/UserActionCreators';
 import { Loader } from '../UI/Loader/Loader';
 import { CompanyItem } from './CompanyItem/CompanyItem';
-import { ICompaniesQuery } from '../../types/ICompany';
+import { ICompaniesQuery, ICompany } from '../../types/ICompany';
 import { UserErrorWarning } from '../UI/UserErrorWarning/UserErrorWarning';
 import { SelectUsers } from '../UI/Select/SelectUsers';
 
@@ -37,9 +37,12 @@ const CompanyInner: FC = () => {
   const [showAddCompany, setShowAddCompany] = useState<boolean>(false);
   const [sortAscDecs, setSortAscDecs] = useState(false);
   const [sortBy, setSortBy] = useState('createdAt');
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [fetchingScroll, setFetchingScroll] = useState(true);
   const [isFetching, setIsFetching] = useState(false);
   const [selectedUserID, setSelectedUserID] = useState('');
   const [district, setDistrict] = useState('');
+  const [companiesFatching, setCompaniesFatching] = useState<ICompany[]>([]);
   
   const query: ICompaniesQuery = {
     query: 
@@ -77,7 +80,7 @@ const CompanyInner: FC = () => {
     // sort: {'createdAt': 'asc'}, 
     // sort: {'createdAt': 'desc'}, 
     sort: { [`${sortBy}`]: `${sortAscDecs ? 'asc' : 'desc'}`},
-    limit: 1000,
+    limit: 50 * currentPage,
 //TODO --  надо userID брать из reducer, когда пользователь будет залогинен, а также если он АДМИН, пустая строка (верунть все записи)
     find: user.isAdmin ? {} : { usersID: user.id},
     // find: { usersID: '65a4ed82f45087cf955a9bac'}
@@ -136,33 +139,119 @@ const CompanyInner: FC = () => {
   }, [sortBy, sortAscDecs])
   
 
-  useEffect(() => {
-    let isMounted = true;
-    const controller = new AbortController();
-    const fetchData = async () => {
-      await dispatch(getAllCompaniesQuery(query));
-      await dispatch(getAllUsers());
-    };
+  // useEffect(() => {
+  //   let isMounted = true;
+  //   const controller = new AbortController();
+  //   const fetchData = async () => {
+  //     await dispatch(getAllCompaniesQuery(query));
+  //     await dispatch(getAllUsers());
+  //   };
 
-    try {
-      if (isMounted) {
-        fetchData();
-      }
-    } catch (error) {
-      console.log(error)
+  //   try {
+  //     if (isMounted) {
+  //       fetchData();
+  //     }
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+
+  //   return () => {
+  //     isMounted = false;
+  //     controller.abort();
+  //   }
+   
+  // }, []);
+
+  const scrollHandler = (e: Event) => {
+    // console.log(e)
+    //@ts-ignore
+    if ((e.target.documentElement.scrollHeight - (e.target.documentElement.scrollTop + window.innerHeight)) < 300) {
+      setFetchingScroll(true)
+      console.log("scroll", fetchingScroll)
     }
+    // //@ts-ignore
+    // console.log(e.target.documentElement.scrollHeight)
+    // //@ts-ignore
+    // console.log(e.target.documentElement.scrollTop)
+    // console.log(window.innerHeight)
 
-    return () => {
-      isMounted = false;
-      controller.abort();
+    // console.log(e.target.)
+  };
+
+  useEffect(() => {
+    
+    if (fetchingScroll) {
+      console.log('fetching')
+      // const query: ICompaniesQuery = {
+      //   query: 
+      //     [{
+      //       path: "usersID", 
+      //       // select: "lastname firstname"
+      //     },
+      //     {
+      //       path: "contactID", 
+      //       select: "address.district"
+      //     },
+      //     {
+      //       path: "commentsID", 
+      //       populate: { path: 'userID' }
+      //     },
+      //     {
+      //       path: "dealsID", 
+      //       // populate: { path: 'dealTitleID' }
+      //     },
+    
+      //     ], 
+      //   page: 1,
+      //   // sort: {'createdAt': 'asc'}, 
+      //   // sort: {'createdAt': 'desc'}, 
+      //   sort: { [`${sortBy}`]: `${sortAscDecs ? 'asc' : 'desc'}`},
+      //   limit: 50 * currentPage,
+      //   find: user.isAdmin ? {} : { usersID: user.id},
+      //   // find: { usersID: '65a4ed82f45087cf955a9bac'}
+      // };
+      const fetchData = async () => {
+        await dispatch(getAllCompaniesQuery(query));
+        if (!users.length) {
+          await dispatch(getAllUsers());
+        }
+      };
+
+      try {
+       
+          fetchData()
+            .then(() => {
+              setCompaniesFatching([...companiesFatching, ...companies])
+              setCurrentPage(prev => prev + 1);
+            })
+            .finally(() => setFetchingScroll(false));
+
+        // fetchData();
+        // setCompaniesFatching([...companiesFatching, ...companies])
+        // setCurrentPage(prev => prev + 1);
+        // setFetchingScroll(false);
+      } catch (error) {
+        console.log(error)
+      }
+      
     }
    
-  }, []);
+  }, [fetchingScroll]);
+
+  useEffect(() => {
+    document.addEventListener('scroll', scrollHandler)
+  
+    return () => {
+      document.removeEventListener('scroll', scrollHandler)
+    }
+  }, [])
+  
 
   return (
     <>
       {errorCompany ? <UserErrorWarning/> : null}
-      {isLoading ? <Loader/> : 
+      {isLoading ? <Loader/> : null}
+      {false ? <Loader/> : 
         <>
           <AddCompany isVisible={showAddCompany} onClose={() => setShowAddCompany(false)}/>
           <section className='company'>

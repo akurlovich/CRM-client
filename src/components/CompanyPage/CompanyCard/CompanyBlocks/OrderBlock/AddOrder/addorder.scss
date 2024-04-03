@@ -237,6 +237,8 @@ input[type=number] {
     &__result {
       max-width: 600px;
       width: 100%;
+      max-height: 400px;
+      overflow-y: scroll;
       position: absolute;
       display: flex;
       flex-direction: column;

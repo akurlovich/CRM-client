@@ -69,8 +69,8 @@ export const loginUser = createAsyncThunk(
     } catch (error: any) {
       // console.log(error)
       // return rejectWithValue(`User with email ${data.email} not found!`)
-      // return rejectWithValue(error.response.data.message)
-      return rejectWithValue(error.message)
+      return rejectWithValue(error.response.data.message)
+      // return rejectWithValue(error.message)
     }
   }
 );
