@@ -19,11 +19,13 @@ export const Header: FC = () => {
           </div>
         </div>
         <nav className="header__nav">
-          <NavLink
-            to='/'
-            className={({ isActive }) => isActive ? 'header__nav__item active' : 'header__nav__item'}>
-            Сотрудники
-          </NavLink>
+          {user.isAdmin ? 
+            <NavLink
+              to='/settings'
+              className={({ isActive }) => isActive ? 'header__nav__item active' : 'header__nav__item'}>
+              Настройки
+            </NavLink>
+            : null}
           <NavLink
             to='/companies'
             className={({ isActive }) => isActive ? 'header__nav__item active' : 'header__nav__item'}>

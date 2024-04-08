@@ -8,13 +8,16 @@ import { OrdersMain } from './components/OrdersPage/OrdersMain';
 import { PageNotFound } from './components/PageNotFound/PageNotFound';
 import { AdminAuthRouter } from './components/RoutersComponents/AdminAuth/AdminAuthRouter';
 import MainLayout from './components/RoutersComponents/MainLayout/MainLayout';
+import { SettingsPage } from './components/SettingsPage/SettingsPage';
 import { UserLogin } from './components/UserLogin/UserLogin';
 import { UserRegistration } from './components/UserRegistration/UserRegistration';
-import { useAppDispatch } from './hooks/redux';
+import { useAppDispatch, useAppSelector } from './hooks/redux';
 import './scss/app.scss';
 import { checkAuth } from './store/reducers/AuthReducer/AuthActionCreatores';
 
 const App: FC = () => {
+  const { user } = useAppSelector(state => state.authReducer);
+  const auth = localStorage.getItem('isauth');
 
   const dispatch = useAppDispatch();
 
@@ -53,12 +56,13 @@ const App: FC = () => {
   return (
     <Routes>
       <Route path="/" element={<MainLayout />}>
-        <Route index element={<Navigate to="/companies"/>}/>
-        {/* <Route index element={<UserLogin/>}/> */}
+        <Route index element={auth == 'true' ? <Navigate to="/settings"/> : <Navigate to="/companies"/>}/>
+        {/* <Route index element={<Navigate to="/settings"/>}/> */}
         <Route path='login' element={<UserLogin/>}/>
         <Route path='registration' element={<UserRegistration/>}/>
         
         <Route element={<AdminAuthRouter/>}>
+          <Route path="settings" element={<SettingsPage/>}/>
           <Route path="companies" element={<Company/>}/>
           <Route path="companies/:id" element={<CompanyCard/>}/>
           <Route path="orders" element={<OrdersMain/>}/>

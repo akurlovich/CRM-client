@@ -97,6 +97,16 @@
       cursor: pointer;
     }
 
+    & > button {
+      background-color: transparent;
+      color: #3e425e;
+      border: 1px solid #cacaca;
+      text-transform: uppercase;
+      border-radius: 2px;
+      padding: 5px 7px;
+      font-size: 10px;
+    }
+
     // & > .logo {
     //   width: 20px;
     //   height: 20px;

@@ -18,6 +18,7 @@ interface ICompanyState {
   companyOrders: IOrder[],
   companiesCount: number,
   query: ICompaniesQuery,
+  // queryAllCompanies: ICompaniesQuery,
   isLoading: boolean,
   error: string,
 };
@@ -34,6 +35,30 @@ const initialState: ICompanyState = {
   companyOrders: [] as IOrder[],
   companiesCount: 0,
   query: {} as ICompaniesQuery,
+  // queryAllCompanies: 
+  //   {
+  //     query: 
+  //       [
+  //         {
+  //           path: "usersID", 
+  //         },
+  //         {
+  //           path: "contactID", 
+  //           select: "address.district"
+  //         },
+  //         {
+  //           path: "commentsID", 
+  //           populate: { path: 'userID' }
+  //         },
+  //         {
+  //           path: "dealsID", 
+  //         },
+  //       ], 
+  //     page: 1,
+  //     sort: { createdAt: 'desc' },
+  //     limit: 50,
+  //     find: {},
+  //   },
   isLoading: false,
   error: '',
 };
@@ -44,7 +69,17 @@ const companySlice = createSlice({
   reducers: {
     addQueryToState(state, action: PayloadAction<ICompaniesQuery>) {
       state.query = action.payload;
-    }
+    },
+    // setLimitQueryAllCompanies(state, action: PayloadAction<number>) {
+    //   state.queryAllCompanies.limit = 50 * action.payload;
+    //   // console.log(state.queryAllCompanies.limit)
+    // },
+    // setSortQueryAllCompanies(state, action: PayloadAction<{sortBy: string, sortAscDecs: boolean}>) {
+    //   // console.log(action.payload.sortAscDecs)
+    //   // console.log(action.payload.sortBy)
+    //   state.queryAllCompanies.sort = {[`${action.payload.sortBy}`]: `${action.payload.sortAscDecs ? 'asc' : 'desc'}`}
+    //   // console.log(state.queryAllCompanies.sort)
+    // },
   },
   extraReducers: (builder) => {
     builder

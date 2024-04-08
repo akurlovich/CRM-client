@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 import './companies.scss';
 import { IoDocumentOutline } from "@react-icons/all-files/io5/IoDocumentOutline";
 import { IoExitOutline } from "@react-icons/all-files/io5/IoExitOutline";
@@ -14,18 +14,7 @@ import { CompanyItem } from './CompanyItem/CompanyItem';
 import { ICompaniesQuery, ICompany } from '../../types/ICompany';
 import { UserErrorWarning } from '../UI/UserErrorWarning/UserErrorWarning';
 import { SelectUsers } from '../UI/Select/SelectUsers';
-
-import { USER_BG_COLORS } from '../../constants/user';
-import { randomBGColor } from '../../services/ClientServices/RandomBGColor';
 import Search, { SearchProps } from 'antd/es/input/Search';
-
-// interface ICompanyItem {
-//   title: string,
-//   user: string,
-//   district: string,
-//   lastCommentDate: string,
-//   nextCommentDate: string,
-// }
 
 const CompanyInner: FC = () => {
   const { companies, isLoading, error: errorCompany, companiesCount } = useAppSelector(state => state.companyReducer);
@@ -39,12 +28,41 @@ const CompanyInner: FC = () => {
   const [sortBy, setSortBy] = useState('createdAt');
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [fetchingScroll, setFetchingScroll] = useState(true);
+  // const [stopScroll, setStopScroll] = useState(true);
   const [isFetching, setIsFetching] = useState(false);
   const [selectedUserID, setSelectedUserID] = useState('');
   const [district, setDistrict] = useState('');
-  const [companiesFatching, setCompaniesFatching] = useState<ICompany[]>([]);
+  // const [companiesFatching, setCompaniesFatching] = useState<ICompany[]>([]);
+
+  const stopScroll = useRef(false);
+
+  const funQuery1 = (sortBy: string, sortAscDecs: boolean, currentPage: number, userIsAdmin: boolean, userID: string) : ICompaniesQuery => {
+    return {
+      query: 
+        [
+          {
+            path: "usersID", 
+          },
+          {
+            path: "contactID", 
+            select: "address.district"
+          },
+          {
+            path: "commentsID", 
+            populate: { path: 'userID' }
+          },
+          {
+            path: "dealsID", 
+          },
+        ], 
+      page: 1,
+      sort: { [`${sortBy}`]: `${sortAscDecs ? 'asc' : 'desc'}`},
+      limit: 50 * currentPage,
+      find: userIsAdmin ? {} : { usersID: userID },
+    }
+  };
   
-  const query: ICompaniesQuery = {
+  const query1: ICompaniesQuery = {
     query: 
       [{
         path: "usersID", 
@@ -89,18 +107,28 @@ const CompanyInner: FC = () => {
   const titleSort = async () => {
     setIsFetching(true)
     setSortAscDecs(prev => !prev);
-    setSortBy('title')
+
+    // dispatch(setSortQueryAllCompanies({sortBy: 'title', sortAscDecs: false}));
+    // console.log(queryAllCompanies);
+    // await dispatch(getAllCompaniesQuery(queryAllCompanies));
+
+    setSortBy('title');
+    setFetchingScroll(true);
     // await dispatch(getAllCompaniesQuery(query));
   };
 
   const onSearch: SearchProps['onSearch'] = async (value) => {
     // console.log(value)
+    // setStopScroll(false);
+    stopScroll.current = true;  
     setDistrict(value);
     await dispatch(getSearchResultDistrictCompanies(value));
     setSelectedUserID('')
   };
 
   const selectedUserHandler = async (id: string) => {
+    // console.log("sdkfjs")
+    stopScroll.current = true;
     setSelectedUserID(id);
     await dispatch(getSearchResultUserCompanies(id));
     setDistrict('');
@@ -114,29 +142,32 @@ const CompanyInner: FC = () => {
     setDistrict('')
   }, [selectedUserID])
 
-  useEffect(() => {
-    // console.log('first')
-    let isMounted = true;
-    const controller = new AbortController();
-    const fetchData = async () => {
-      await dispatch(getAllCompaniesQuery(query));
-    };
-    try {
-      if (isMounted) {
-        if (isFetching) {
-          // console.log('first2')
-          fetchData();
-        }
-      }
-    } catch (error) {
-      console.log(error)
-    }
+  // useEffect(() => {
+  //   // console.log('first')
+  //   let isMounted = true;
+  //   const controller = new AbortController();
+  //   const fetchData = async () => {
+  //     // dispatch(setSortQueryAllCompanies({sortBy, sortAscDecs}));
+  //     // console.log(queryAllCompanies);
+  //     // await dispatch(getAllCompaniesQuery(queryAllCompanies));
+  //     await dispatch(getAllCompaniesQuery(funQuery1(sortBy, sortAscDecs, currentPage, user.isAdmin, user.id)));
+  //   };
+  //   try {
+  //     if (isMounted) {
+  //       if (isFetching) {
+  //         console.log('first2')
+  //         fetchData();
+  //       }
+  //     }
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
 
-    return () => {
-      isMounted = false;
-      controller.abort();
-    }
-  }, [sortBy, sortAscDecs])
+  //   return () => {
+  //     isMounted = false;
+  //     controller.abort();
+  //   }
+  // }, [sortBy, sortAscDecs])
   
 
   // useEffect(() => {
@@ -163,11 +194,14 @@ const CompanyInner: FC = () => {
   // }, []);
 
   const scrollHandler = (e: Event) => {
-    // console.log(e)
+    // console.log("stopScroll", stopScroll)
+    if (stopScroll.current) {
+      return
+    }
     //@ts-ignore
     if ((e.target.documentElement.scrollHeight - (e.target.documentElement.scrollTop + window.innerHeight)) < 300) {
       setFetchingScroll(true)
-      console.log("scroll", fetchingScroll)
+      // console.log("scroll", fetchingScroll)
     }
     // //@ts-ignore
     // console.log(e.target.documentElement.scrollHeight)
@@ -181,62 +215,32 @@ const CompanyInner: FC = () => {
   useEffect(() => {
     
     if (fetchingScroll) {
-      console.log('fetching')
-      // const query: ICompaniesQuery = {
-      //   query: 
-      //     [{
-      //       path: "usersID", 
-      //       // select: "lastname firstname"
-      //     },
-      //     {
-      //       path: "contactID", 
-      //       select: "address.district"
-      //     },
-      //     {
-      //       path: "commentsID", 
-      //       populate: { path: 'userID' }
-      //     },
-      //     {
-      //       path: "dealsID", 
-      //       // populate: { path: 'dealTitleID' }
-      //     },
-    
-      //     ], 
-      //   page: 1,
-      //   // sort: {'createdAt': 'asc'}, 
-      //   // sort: {'createdAt': 'desc'}, 
-      //   sort: { [`${sortBy}`]: `${sortAscDecs ? 'asc' : 'desc'}`},
-      //   limit: 50 * currentPage,
-      //   find: user.isAdmin ? {} : { usersID: user.id},
-      //   // find: { usersID: '65a4ed82f45087cf955a9bac'}
-      // };
+  
       const fetchData = async () => {
-        await dispatch(getAllCompaniesQuery(query));
+        // dispatch(setSortQueryAllCompanies({sortBy, sortAscDecs}));
+        // dispatch(setLimitQueryAllCompanies(currentPage));
+        // console.log(queryAllCompanies);
+        // await dispatch(getAllCompaniesQuery(queryAllCompanies));
+        await dispatch(getAllCompaniesQuery(funQuery1(sortBy, sortAscDecs, currentPage, user.isAdmin, user.id)));
         if (!users.length) {
           await dispatch(getAllUsers());
         }
       };
 
       try {
-       
-          fetchData()
-            .then(() => {
-              setCompaniesFatching([...companiesFatching, ...companies])
-              setCurrentPage(prev => prev + 1);
-            })
-            .finally(() => setFetchingScroll(false));
+        fetchData()
+          .then(() => {
+            // setCompaniesFatching([...companies])
+            setCurrentPage(prev => prev + 1);
+          })
+          .finally(() => setFetchingScroll(false));
 
-        // fetchData();
-        // setCompaniesFatching([...companiesFatching, ...companies])
-        // setCurrentPage(prev => prev + 1);
-        // setFetchingScroll(false);
       } catch (error) {
         console.log(error)
       }
-      
     }
    
-  }, [fetchingScroll]);
+  }, [fetchingScroll, sortBy, sortAscDecs]);
 
   useEffect(() => {
     document.addEventListener('scroll', scrollHandler)
