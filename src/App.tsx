@@ -56,7 +56,7 @@ const App: FC = () => {
   return (
     <Routes>
       <Route path="/" element={<MainLayout />}>
-        <Route index element={auth == 'true' ? <Navigate to="/settings"/> : <Navigate to="/companies"/>}/>
+        <Route index element={user.isAdmin ? <Navigate to="/settings"/> : <Navigate to="/companies"/>}/>
         {/* <Route index element={<Navigate to="/settings"/>}/> */}
         <Route path='login' element={<UserLogin/>}/>
         <Route path='registration' element={<UserRegistration/>}/>
