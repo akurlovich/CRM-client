@@ -1,0 +1,52 @@
+.products-tab {
+	display: flex;
+	width: 100%;
+	flex-direction: column;
+	gap: 10px;
+
+	&__item {
+		display: flex;
+		width: 100;
+		justify-content: space-between;
+
+		&__icons {
+			display: flex;
+			gap: 5px;
+		}
+	}
+
+	& > .table {
+		display: flex;
+		flex-direction: column;
+
+		& > .row {
+			display: flex;
+			flex-wrap: wrap;
+
+			& > .cell {
+				// min-width: 50px;
+				flex: 1;
+				padding: 8px;
+				border: 1px solid #ccc;
+				text-align: center;
+
+				display: flex;
+				text-align: center;
+				justify-content: center;
+				align-items: center;
+
+				&.first {
+					justify-content: start;
+				}
+
+				&.middle {
+					max-width: 150px;
+				}
+
+				&.small {
+					max-width: 50px;
+				}
+			}
+		}
+	}
+}

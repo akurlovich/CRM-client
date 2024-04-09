@@ -60,10 +60,7 @@ const FooterInner: FC = () => {
                   href={`/companies/${item.companyID}`}
                   onClick={() => dispatch(searchResultClearArray())}
                   target="_blank">
-                    {/* <b>
-                      {`${item.title}, ${item.contactID.address.district}`}
-                      
-                    </b> */}
+                    
                     <div className="footer__search__result__item">
                       <div className="footer__search__result__item__icon">
                         <IoPeopleOutline size={30}/>
@@ -96,12 +93,6 @@ const FooterInner: FC = () => {
                     </div>
                 </a>
 
-                // <span
-                //   key={item._id}
-                //   // onClick={() => addProductToOrderHandler(item)}
-                //   >
-                //   {`${item.title}, ${item.usersID}`}
-                // </span>
               ) : null
             }
           </div>

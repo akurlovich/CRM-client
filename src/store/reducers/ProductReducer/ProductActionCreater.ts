@@ -1,12 +1,26 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import ProductService from "../../../services/ProductService";
-import { IProductNew } from "../../../types/IProduct";
+import { IProduct, IProductNew } from "../../../types/IProduct";
 
 export const addProduct = createAsyncThunk(
   'PRODUCT/addProduct',
   async (product: IProductNew, {rejectWithValue}) => {
     try {
       return await (await ProductService.addProduct(product)).data;
+    } catch (error: any) {
+      // console.log('front error', error)
+      // return rejectWithValue(error.message)
+      return rejectWithValue(error.response.data.message)
+    }
+  }
+);
+
+export const updateProduct = createAsyncThunk(
+  'PRODUCT/updateProduct',
+  async (product: IProduct, {rejectWithValue}) => {
+    try {
+      console.log('update action')
+      return await (await ProductService.updateProduct(product)).data;
     } catch (error: any) {
       // console.log('front error', error)
       // return rejectWithValue(error.message)

@@ -17,7 +17,7 @@ import { checkAuth } from './store/reducers/AuthReducer/AuthActionCreatores';
 
 const App: FC = () => {
   const { user } = useAppSelector(state => state.authReducer);
-  const auth = localStorage.getItem('isauth');
+  // const auth = localStorage.getItem('isauth');
 
   const dispatch = useAppDispatch();
 

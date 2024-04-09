@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IProduct } from "../../../types/IProduct";
-import { addProduct, getAllProducts, getProductByID } from "./ProductActionCreater";
+import { addProduct, getAllProducts, getProductByID, updateProduct } from "./ProductActionCreater";
 
 interface IProductState {
   product: IProduct,
@@ -37,6 +37,18 @@ const productSlice = createSlice({
         state.isLoading = false;
         state.error = action.payload as string;
       });
+    builder
+      .addCase(updateProduct.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateProduct.fulfilled, (state, action: PayloadAction<IProduct>) => {
+        state.isLoading = false;
+        state.product = action.payload;
+      })
+      .addCase(updateProduct.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload as string;
+    });
     builder
       .addCase(getProductByID.pending, (state) => {
         state.isLoading = true;

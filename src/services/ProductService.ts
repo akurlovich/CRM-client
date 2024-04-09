@@ -7,6 +7,12 @@ export default class ProductService {
     return serverApi.post<IProduct>('/products', product);
   };
 
+  static async updateProduct(product: IProduct): Promise<AxiosResponse<IProduct>> {
+    console.log('update from client')
+    return serverApi.put<IProduct>('/products', product);
+  };
+
+
   static async getProductByID(productID: string): Promise<AxiosResponse<IProduct>> {
     return serverApi.get<IProduct>(`/products/${productID}`);
   };
