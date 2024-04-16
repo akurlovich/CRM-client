@@ -280,7 +280,8 @@ const CompanyCardInner: FC = () => {
                 <>
                   <BaseBlockSmall deal="Добавить сделку" isVisible={showAddOrderSmall} showAddOrder={showAddOrderSmallHandler}/>
                   <AddOrder isVisible={isShowNewOrder} showAddOrder={showAddOrderHandler}/>
-                  <EditOrder isVisible={isShowEditOrder}/>
+                  {isShowEditOrder && <EditOrder/>}
+                  {/* <EditOrder isVisible={isShowEditOrder}/> */}
                   {/* <AddOrder/> */}
                   <OrdersInCompany showAddOrder={(() => dispatch(setShowNewOrder(true)))}/>
                   <CommentsBlock/>
@@ -289,7 +290,8 @@ const CompanyCardInner: FC = () => {
                   <>
                     <BaseBlockSmall deal="Добавить сделку" isVisible={showAddOrderSmall} showAddOrder={showAddOrderSmallHandler}/>
                     <AddOrder isVisible={isShowNewOrder} showAddOrder={showAddOrderHandler}/>
-                    <EditOrder isVisible={isShowEditOrder}/>
+                    {/* <EditOrder isVisible={isShowEditOrder}/> */}
+                    {isShowEditOrder && <EditOrder/>}
                     {/* <AddOrder/> */}
                     <OrdersInCompany showAddOrder={(() => dispatch(setShowNewOrder(true)))}/>
                     <CommentsBlock/>
@@ -299,7 +301,8 @@ const CompanyCardInner: FC = () => {
                     <>
                       <BaseBlockSmall deal="Добавить сделку" isVisible={showAddOrderSmall} showAddOrder={showAddOrderSmallHandler}/>
                       <AddOrder isVisible={isShowNewOrder} showAddOrder={showAddOrderHandler}/>
-                      <EditOrder isVisible={isShowEditOrder}/>
+                      {/* <EditOrder isVisible={isShowEditOrder}/> */}
+                      {isShowEditOrder && <EditOrder/>}
                       {/* <AddOrder/> */}
                       <OrdersInCompany showAddOrder={(() => dispatch(setShowNewOrder(true)))}/>
                       <CommentsBlock/>

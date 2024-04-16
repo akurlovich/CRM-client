@@ -10,7 +10,7 @@ import OrderItem from '../OrderItem/OrderItem';
 import { useDebounce } from '../../../../../../hooks/useDebounce';
 import { productsClearArray } from '../../../../../../store/reducers/ProductReducer/ProductSlice';
 import { IOrderUpdateOrderItems } from '../../../../../../types/IOrder';
-import { updateOrderItemsByOrderID } from '../../../../../../store/reducers/OrderReducer/OrderActionCreater';
+import { updateOrderItemsByOrderID, updateOrderStatus } from '../../../../../../store/reducers/OrderReducer/OrderActionCreater';
 import { SERVER_URL } from '../../../../../../constants/http';
 import { Link } from 'react-router-dom';
 import { addItemProduct, clearItemsProduct, setOrderForCopy, setShowEditOrder, setShowNewOrder } from '../../../../../../store/reducers/OrderReducer/OrderSlice';
@@ -20,7 +20,7 @@ import numberWithSpaces from '../../../../../../services/ClientServices/numberWi
 import { UserErrorWarning } from '../../../../../UI/UserErrorWarning/UserErrorWarning';
 
 interface IProps {
-  isVisible: boolean;
+  isVisible?: boolean;
   showAddOrder?: () => void;
 }
 //TODO ---------- добавить сохранение  текущих позиций в локалсторедж или indexedb, пока не создали счет
@@ -38,6 +38,9 @@ const EditOrderInner: FC<IProps> = ({isVisible = false}) => {
   const [fileArray, setFileArray] = useState<string[]>([]);
 
   const [isLoadProd, setIsLoadProd] = useState(true);
+
+  const [statusSelected, setStatusSelected] = useState(order.status);
+  // const [statusSelected, setStatusSelected] = useState('processing');
 
   const searchValueHandler = async (e: React.FocusEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
@@ -110,6 +113,13 @@ const EditOrderInner: FC<IProps> = ({isVisible = false}) => {
   const showAddProduct = () => {
     setSearchValue('');
     setShowNewProduct(true);
+  };
+
+  const statusHandler = async (e: React.ChangeEvent<HTMLSelectElement>) => {
+    // console.log(e.target.value)
+    // @ts-ignore
+    setStatusSelected(e.target.value);
+    await dispatch(updateOrderStatus({ orderID: order._id, status: e.target.value}))
   }
 
   useEffect(() => {
@@ -154,7 +164,7 @@ const EditOrderInner: FC<IProps> = ({isVisible = false}) => {
   // }, [orderForEdit])
   
 
-  return isVisible ? (
+  return (
     <>
       {errorOrder ? <UserErrorWarning/> : null}
       <AddProduct 
@@ -166,15 +176,37 @@ const EditOrderInner: FC<IProps> = ({isVisible = false}) => {
         <div className="edit-order__container">
           <div className="edit-order__header">
             <div className="edit-order__header__title">
-              <div className="title">
-                <span>{`Сделка №${order.orderNumber}`}</span>
-                <div className="edit-order__header__copy">
-                  <IoCopyOutline
-                    onClick={copyHandler} 
-                    style={{'cursor': 'pointer'}}
-                    size={20}/>
-                  <span className='tooltip'>Копировать сделку</span>
+              <div className="title-block">
+                <div className="title">
+                  <span>{`Сделка №${order.orderNumber}`}</span>
+                  <div className="edit-order__header__copy">
+                    <IoCopyOutline
+                      onClick={copyHandler} 
+                      style={{'cursor': 'pointer'}}
+                      size={20}/>
+                    <span className='tooltip'>Копировать сделку</span>
+                  </div>
                 </div>
+                <div className="edit-order__header__status">
+                  <span>Статус:</span>
+                  <select
+                    style={{'color': `${(statusSelected === 'done') ? 'green' : (statusSelected === 'processing') ? 'blue' : (statusSelected === 'cansel') ? 'red' : 'black'}`}}
+                    // value={statusSelected}
+                    // defaultValue={statusSelected}
+                    onChange={statusHandler}
+                    >
+                    <option 
+                      style={{'color': 'blue'}}
+                      value="processing">выствлен счёт</option>
+                    <option 
+                      style={{'color': 'green'}}
+                      value="done">завершена</option>
+                    <option 
+                      style={{'color': 'red'}}
+                      value="cansel">отказ</option>
+                  </select>
+
+              </div>
               </div>
               <div className="icons">
                 {totalPrice ? 
@@ -299,7 +331,7 @@ const EditOrderInner: FC<IProps> = ({isVisible = false}) => {
       </section>
 
     </>
-  ) : null;
+  );
 }
 
 export const EditOrder = React.memo(EditOrderInner);

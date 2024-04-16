@@ -42,12 +42,18 @@ input[type=number] {
       justify-content: space-between;
       gap: 20px;
 
-      & > .title {
-        font-size: 18px;
+      & > .title-block {
         display: flex;
-        gap: 20px;
-
+        flex-direction: column;
+        
+        & > .title {
+          font-size: 18px;
+          display: flex;
+          gap: 20px;
+  
+        }
       }
+
 
       & > .icons {
         display: flex;
@@ -80,6 +86,27 @@ input[type=number] {
           &:hover {
             background-color: #f0f0f3;
           }
+        }
+      }
+    }
+
+    &__status {
+      display: flex;
+      gap: 5px;
+      align-items: center;
+      text-align: center;
+
+      & > select {
+        cursor: pointer;
+        align-self: flex-start;
+        padding: 5px;
+        font-family: 'Roboto', sans-serif;
+        font-size: 14px;
+        // color: #00b028;
+
+        & > option {
+          // color: red
+          padding: 5px;
         }
       }
     }

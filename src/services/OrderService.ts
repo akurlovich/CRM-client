@@ -19,6 +19,10 @@ export default class OrderService {
     return serverApi.put<IOrder>(`/orders/${data.order.orderID}/items`, data);
   };
 
+  static async updateOrderStatus(orderID: string, status: string): Promise<AxiosResponse<IOrder>> {
+    return serverApi.put<IOrder>(`/orders/${orderID}/status`, {status: status});
+  };
+
   static async deleteOrderByID(orderID: string): Promise<AxiosResponse<IOrder>> {
     return serverApi.delete<IOrder>(`/orders/${orderID}`);
   };
