@@ -1,22 +1,43 @@
-import React, { FC } from 'react'
+import React, { FC, useState } from 'react'
+import { useAppSelector } from '../../../hooks/redux'
+import { IUser } from '../../../types/IUser';
 import './employeestab.scss'
 
 const EmployeesTabInner: FC = () => {
+	const { users } = useAppSelector(state => state.userReducer);
+	const [showInfo, setShowInfo] = useState(false);
+	const [selectedUser, setSelectedUser] = useState<IUser>({} as IUser);
+
+	const userHandler = (user: IUser) => {
+		setShowInfo(true);
+		setSelectedUser(user)
+	}
 	return (
 		<div className='employees-tab'>
 			<div className="employees-tab__nav">
+				<div className="employees-tab__nav__title">
+					Все сотрудники:
+				</div>
 				<ul>
-					<li>
-						Иванов Пертовия Дерунчтик
-					</li>
-					<li>
-						Шаповарович Импинуил Витольдович
-					</li>
+					{users.map(item => 
+						<li 
+							key={item._id}
+							onClick={() => userHandler(item)}
+							>
+							{item.lastname + ' ' + item.firstname}
+						</li>
+					)}
 				</ul>
 			</div>
-			<div className="employees-tab__main">
-				Сменить пароль
-			</div>
+			{showInfo ? 
+				<div className="employees-tab__main">
+					{selectedUser.lastname + ' ' + selectedUser.firstname}
+				</div>
+				: 
+				<div className="employees-tab__main">
+					Выберите пользователя
+				</div>
+			}
 		</div>
 	)
 }

@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { useDebounce } from '../../hooks/useDebounce';
 import { getSearchResult } from '../../store/reducers/SearchReducer/SearchActionCreater';
@@ -6,6 +6,10 @@ import './footer.scss';
 import { IoSearchOutline } from "@react-icons/all-files/io5/IoSearchOutline";
 import { IoPeopleOutline } from "@react-icons/all-files/io5/IoPeopleOutline";
 import { searchResultClearArray } from '../../store/reducers/SearchReducer/SearchSlice';
+
+type PopupClick = MouseEvent & {
+  path: Node[];
+};
 
 const FooterInner: FC = () => {
   const { searchResult } = useAppSelector(state => state.searchReducer);
@@ -16,10 +20,26 @@ const FooterInner: FC = () => {
 
   const debouncedSearch = useDebounce(searchValue);
 
+  const searchRef = useRef<HTMLDivElement>(null);
+
   const searchValueHandler = async (e: React.FocusEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
     // console.log(searchResult)
   };
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const _event = event as PopupClick;
+
+      if (!searchRef.current?.contains(_event.target as Node)) {
+        dispatch(searchResultClearArray());
+      };
+    };
+
+    document.body.addEventListener('click', handleClickOutside);
+
+    return () => document.body.removeEventListener('click', handleClickOutside);
+  }, []);
 
   useEffect(() => {
     dispatch(searchResultClearArray());
@@ -51,7 +71,9 @@ const FooterInner: FC = () => {
             value={searchValue} 
             onChange={searchValueHandler}
             placeholder='Найти...'/>
-          <div className="footer__search__result">
+          <div 
+            ref={searchRef}
+            className="footer__search__result">
             
             {searchValue ? 
               searchResult.map(item => 

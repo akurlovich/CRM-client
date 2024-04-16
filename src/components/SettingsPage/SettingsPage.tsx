@@ -2,6 +2,7 @@ import { Tabs, TabsProps } from 'antd';
 import React, { FC, useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { getAllProducts } from '../../store/reducers/ProductReducer/ProductActionCreater';
+import { getAllUsers } from '../../store/reducers/UserReducer/UserActionCreators';
 import { EmployeesTab } from './EmployeesTab/EmployeesTab';
 import { ProductsTab } from './ProductsTab/ProductsTab';
 import './settingspage.scss'
@@ -34,6 +35,7 @@ const SettingsPageInner: FC = () => {
     const controller = new AbortController();
     const fetchData = async () => {
       await dispatch(getAllProducts(''))
+			await dispatch(getAllUsers());
     }
 
     try {
