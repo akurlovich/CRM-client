@@ -242,7 +242,8 @@ const CalendarBig: FC<IProps> = ({items, showDealsForDay}) => {
         monthEnd: { $lte: dayjs().format('MM') }, 
         dayEnd: { $lt: dayjs().format('DD') }, 
         yearEnd: { $lte: dayjs().format('YYYY') }
-      })
+      }),
+      overdue: true,
     }
     await dispatch(getAllDealsByUserQuery(query1));
 

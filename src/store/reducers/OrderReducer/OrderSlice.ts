@@ -156,7 +156,7 @@ const orderSlice = createSlice({
       })
       .addCase(updateOrderStatus.fulfilled, (state, action: PayloadAction<IOrder>) => {
         state.isLoading = false;
-        state.order = action.payload;
+        state.orderForEdit = action.payload;
       })
       .addCase(updateOrderStatus.rejected, (state, action) => {
         state.isLoading = false;

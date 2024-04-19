@@ -73,7 +73,8 @@ const CalendarCustom: FC<IProps> = ({onClickDate, title = true}) => {
         monthEnd: { $lte: dayjs().format('MM') }, 
         dayEnd: { $lt: dayjs().format('DD') }, 
         yearEnd: { $lte: dayjs().format('YYYY') }
-      })
+      }),
+      overdue: true,
     }
     await dispatch(getAllDealsByUserQuery(query1));
 

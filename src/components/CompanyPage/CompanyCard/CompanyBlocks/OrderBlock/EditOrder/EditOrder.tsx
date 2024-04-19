@@ -191,8 +191,8 @@ const EditOrderInner: FC<IProps> = ({isVisible = false}) => {
                   <span>Статус:</span>
                   <select
                     style={{'color': `${(statusSelected === 'done') ? 'green' : (statusSelected === 'processing') ? 'blue' : (statusSelected === 'cansel') ? 'red' : 'black'}`}}
-                    // value={statusSelected}
-                    // defaultValue={statusSelected}
+                    value={statusSelected}
+                    defaultValue={statusSelected}
                     onChange={statusHandler}
                     >
                     <option 

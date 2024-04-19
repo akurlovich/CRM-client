@@ -64,7 +64,8 @@ export interface IDealsQuery {
     [key: string]: {
       [key: string]: string,
     } | string
-  }
+  },
+  overdue?: boolean,
 }
 
 // { userID: userid, monthEnd: { $lte: '03'}, dayEnd: { $lt: '14'}, yearEnd: { $lte: '2024' }}

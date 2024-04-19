@@ -57,33 +57,34 @@ const DealsMainInner: FC = () => {
         monthEnd: { $lte: dayjs().format('MM') }, 
         dayEnd: { $lt: dayjs().format('DD') }, 
         yearEnd: { $lte: dayjs().format('YYYY') }
-      })
+      }),
+      overdue: true,
     }
     await dispatch(getAllDealsByUserQuery(query));
   }
 
-  const showDealsForDayHandler = async () => {
-    setShowDayDeal(true);
-    const query: IDealsQuery = {
-        query: [ 
-          {
-            path: "companyID", 
-          },
-          {
-            path: "dealTitleID", 
-          },
-          {
-            path: "userID", 
-          }
-        ], 
-        sort: {'contactID.address.district': 'asc'}, 
-        limit: 0,
+  // const showDealsForDayHandler = async () => {
+  //   setShowDayDeal(true);
+  //   const query: IDealsQuery = {
+  //       query: [ 
+  //         {
+  //           path: "companyID", 
+  //         },
+  //         {
+  //           path: "dealTitleID", 
+  //         },
+  //         {
+  //           path: "userID", 
+  //         }
+  //       ], 
+  //       sort: {'contactID.address.district': 'asc'}, 
+  //       limit: 0,
     
-        find: (user.id === '65a112acc11882f036f9cf74') ? { userID: user.id } : (user.isAdmin ? {} : { userID: user.id })
-      }
+  //       find: (user.id === '65a112acc11882f036f9cf74') ? { userID: user.id } : (user.isAdmin ? {} : { userID: user.id })
+  //     }
       
-      await dispatch(getDealsWithQuery(query))
-  };
+  //     await dispatch(getDealsWithQuery(query))
+  // };
 
   useEffect(() => {
     let isMounted = false;
