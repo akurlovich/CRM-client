@@ -82,9 +82,10 @@ const EditOrderInner: FC<IProps> = ({isVisible = false}) => {
   
   };
 
-  const canselOrderEdit = () => {
+  const canselOrderEdit = async () => {
     dispatch(clearItemsProduct(company._id));
     dispatch(setShowEditOrder(false));
+    await dispatch(getCompanyByIDQuery(query));
   };
 
   const copyHandler = async () => {

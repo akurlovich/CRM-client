@@ -217,6 +217,7 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
             <input 
               // onClick={() => setShowNewProduct(true)}
               // className="comments__input" 
+              autoFocus
               type="text" 
               value={searchValue} 
               onChange={searchValueHandler}
