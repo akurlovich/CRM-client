@@ -102,7 +102,11 @@ input[type=number] {
         padding: 5px;
         font-family: 'Roboto', sans-serif;
         font-size: 14px;
-        // color: #00b028;
+        font-weight: 500;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        -o-appearance: none;
+        appearance: none;
 
         & > option {
           // color: red

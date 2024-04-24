@@ -190,19 +190,19 @@ const EditOrderInner: FC<IProps> = ({isVisible = false}) => {
                 <div className="edit-order__header__status">
                   <span>Статус:</span>
                   <select
-                    style={{'color': `${(statusSelected === 'done') ? 'green' : (statusSelected === 'processing') ? 'blue' : (statusSelected === 'cansel') ? 'red' : 'black'}`}}
+                    style={{'color': `${(statusSelected === 'done') ? '#008000' : (statusSelected === 'processing') ? '#e3db47' : (statusSelected === 'cansel') ? '#D43222' : '#e3db47'}`}}
                     value={statusSelected}
-                    defaultValue={statusSelected}
+                    // defaultValue={statusSelected}
                     onChange={statusHandler}
                     >
                     <option 
-                      style={{'color': 'blue'}}
+                      style={{'color': '#e3db47'}}
                       value="processing">выствлен счёт</option>
                     <option 
-                      style={{'color': 'green'}}
+                      style={{'color': '#008000'}}
                       value="done">завершена</option>
                     <option 
-                      style={{'color': 'red'}}
+                      style={{'color': '#D43222'}}
                       value="cansel">отказ</option>
                   </select>
 

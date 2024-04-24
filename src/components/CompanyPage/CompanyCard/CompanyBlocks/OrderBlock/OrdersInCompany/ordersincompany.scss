@@ -156,7 +156,17 @@
           }
 
           &.count {
-            color: rgb(227, 219, 71);
+            color: #e3db47;
+            font-weight: 500;
+          }
+
+          &.done {
+            color: #008000;
+            font-weight: 500;
+          }
+
+          &.cansel {
+            color: #D43222;
             font-weight: 500;
           }
 

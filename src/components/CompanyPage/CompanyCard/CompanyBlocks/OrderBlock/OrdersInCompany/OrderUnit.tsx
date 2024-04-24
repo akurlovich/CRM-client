@@ -62,7 +62,18 @@ const OrderUnitInner: FC<IProps> = ({item, ordersPage = false}) => {
       className="orders-in-company__main__row units"
       >
       {/* <IoSquareOutline width={25}/> */}
-      <span className='cell data count first'>{item.orderNumber}</span>
+      {item.status === 'processing' ? 
+        <span className='cell data count first'>{item.orderNumber}</span> 
+        : null
+        }
+      {item.status === 'done' ? 
+        <span className='cell data count first done'>{item.orderNumber}</span> 
+        : null}
+      {item.status === 'cansel' ? 
+        <span className='cell data count first cansel'>{item.orderNumber}</span> 
+        : null
+        }
+      {/* <span className='cell data count first'>{item.orderNumber}</span> */}
       {ordersPage ? 
         <span className='cell data'>{item.companyID.title}</span>
         : 
