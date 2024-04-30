@@ -55,12 +55,12 @@ const SettingsPageInner: FC = () => {
 
 	return (
 		<div className='settings-page'>
-			<div className="settings-page__nav">
+			{/* <div className="settings-page__nav">
 				<ul>
 					<li>Сотрудники</li>
 					<li>Товары</li>
 				</ul>
-			</div>
+			</div> */}
 			<div className="settings-page__main">
 				<Tabs 
 					defaultActiveKey="1" 

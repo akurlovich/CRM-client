@@ -9,10 +9,12 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { ICompaniesQuery } from '../../types/ICompany';
 import { getAllOrders } from '../../store/reducers/OrderReducer/OrderActionCreater';
 import { OrderUnit } from '../CompanyPage/CompanyCard/CompanyBlocks/OrderBlock/OrdersInCompany/OrderUnit';
+import { Loader } from '../UI/Loader/Loader';
+import { UserErrorWarning } from '../UI/UserErrorWarning/UserErrorWarning';
 // import { IoDocumentOutline } from "@react-icons/all-files/io5/IoDocumentOutline";
 
 const OrdersMainInner: FC = () => {
-  const { ordersAll } = useAppSelector(state => state.orderReducer);
+  const { ordersAll, isLoading, error } = useAppSelector(state => state.orderReducer);
 
   const dispatch = useAppDispatch();
 
@@ -23,54 +25,22 @@ const OrdersMainInner: FC = () => {
         query: 
           [
             {
+              path: "companyID", 
+            },
+            {
+              path: "orderItemID", 
+            },
+            {
               path: "usersID", 
-              select: "lastname firstname"
-            },
-            {
-              path: "contactID", 
-              // select: "address.district"
-            },
-            {
-              path: "contactID", 
-              populate: { path: 'phonesID' }
-            },
-            {
-              path: "contactID", 
-              populate: { path: 'emailsID' }
-            },
-            {
-              path: "dealsID", 
-              populate: { path: 'dealTitleID' }
-            },
-            {
-              path: "dealsID", 
-              populate: { path: 'userID' }
-            },
-            {
-              path: "commentsID", 
-              populate: { path: 'userID' }
-            },
-            {
-              path: "ordersID", 
-              populate: { path: 'usersID' }
-            },
-            {
-              path: "ordersID", 
-              populate: { path: 'companyID' }
-            },
-            {
-              path: "ordersID", 
-              //@ts-ignore
-              populate: { path: 'orderItemID', populate: { path: "productID"} }
-            },
+            }
           ], 
-        sort: {'contactID.address.district': 'asc'}, 
-        limit: 0,
+        sort: {'createdAt': 'desc'}, 
+        limit: 1000,
         find: {'_id': ''}
       };
       // await dispatch(getCompanyByIDQuery(query));
   //TODO --  надо userID брать из reducer, когда пользователь будет залогинен, а также если он АДМИН, пустая строка (верунть все записи)
-      await dispatch(getAllOrders(''));
+      await dispatch(getAllOrders({userID: '', query}));
       // await dispatch(getAllDealTitles());
       // dispatch(addQueryToState(query));
       // await dispatch(getAllPhones());
@@ -79,9 +49,11 @@ const OrdersMainInner: FC = () => {
     fetchData();
   }, []);
 
-  const [isModal, setIsModal] = useState<boolean>(false);
+  // const [isModal, setIsModal] = useState<boolean>(false);
   return (
     <>
+      {error ? <UserErrorWarning message={error}/> : null}
+      {isLoading ? <Loader/> : null}
       {/* <AddCompany isVisible={isModal} onClose={() => setIsModal(false)}/> */}
       <section className='orders'>
         <div className="orders__filters">

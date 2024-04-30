@@ -7,7 +7,9 @@ body {
   font-family: 'Roboto', sans-serif;
   -webkit-font-smoothing: antialiased;
   // font-smoothing: antialiased;
-  
+  padding: 0 calc(18px - (100vw - 100%)) 0 0;
+  // margin-right: calc(-1 * (100vw - 100%));
+  // overflow-x:hidden;
 }
 
 body {

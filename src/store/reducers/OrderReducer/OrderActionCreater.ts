@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import OrderService from "../../../services/OrderService";
+import { ICompaniesQuery } from "../../../types/ICompany";
 import { IOrderNew, IOrderNewWithItems, IOrderUpdateOrderItems } from "../../../types/IOrder";
 
 export const addOrder = createAsyncThunk(
@@ -27,9 +28,9 @@ export const getOrderByID = createAsyncThunk(
 
 export const getAllOrders = createAsyncThunk(
   'ORDER/getAllOrders',
-  async (userID: string, {rejectWithValue}) => {
+  async ({userID, query}: {userID: string, query: ICompaniesQuery}, {rejectWithValue}) => {
     try {
-      return await (await OrderService.getAllOrders(userID)).data;
+      return await (await OrderService.getAllOrders(userID, query)).data;
       
     } catch (error: any) {
       return rejectWithValue(error.message)

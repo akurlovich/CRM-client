@@ -1,5 +1,6 @@
 import { AxiosResponse } from "axios";
 import serverApi from "../http";
+import { ICompaniesQuery } from "../types/ICompany";
 import { IOrder, IOrderNew, IOrderNewWithItems, IOrderUpdateOrderItems } from "../types/IOrder";
 
 export default class OrderService {
@@ -11,8 +12,8 @@ export default class OrderService {
     return serverApi.get<IOrder>(`/orders/${orderID}`);
   };
 
-  static async getAllOrders(userID: string): Promise<AxiosResponse<IOrder[]>> {
-    return serverApi.get<IOrder[]>(`/orders?userid=${userID}`);
+  static async getAllOrders(userID: string, query: ICompaniesQuery): Promise<AxiosResponse<IOrder[]>> {
+    return serverApi.post<IOrder[]>(`/orders/query?userid=${userID}`, query);
   };
 
   static async updateOrderItemsByOrderID(data: IOrderUpdateOrderItems): Promise<AxiosResponse<IOrder>> {
