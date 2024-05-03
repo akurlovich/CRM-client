@@ -18,36 +18,102 @@ const OrdersMainInner: FC = () => {
 
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    const fetchData = async () => {
-     
-      const query: ICompaniesQuery = {
-        query: 
-          [
-            {
-              path: "companyID", 
-            },
-            {
-              path: "orderItemID", 
-            },
-            {
-              path: "usersID", 
-            }
-          ], 
-        sort: {'createdAt': 'desc'}, 
-        limit: 1000,
-        find: {'_id': ''}
-      };
-      // await dispatch(getCompanyByIDQuery(query));
-  //TODO --  надо userID брать из reducer, когда пользователь будет залогинен, а также если он АДМИН, пустая строка (верунть все записи)
-      await dispatch(getAllOrders({userID: '', query}));
-      // await dispatch(getAllDealTitles());
-      // dispatch(addQueryToState(query));
-      // await dispatch(getAllPhones());
-      // await dispatch(getCompanyByID(params.id));
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [fetchingScroll, setFetchingScroll] = useState(true);
+
+  const orderQuery = (currentPage: number) : ICompaniesQuery => {
+    return {
+      query: 
+        [
+          {
+            path: "companyID", 
+          },
+          {
+            path: "orderItemID", 
+          },
+          {
+            path: "usersID", 
+          }
+        ], 
+      sort: {'createdAt': 'desc'}, 
+      limit: 70 * currentPage,
+      page: 1,
+      find: {'_id': ''}
     }
-    fetchData();
-  }, []);
+  }
+
+  // const query: ICompaniesQuery = {
+  //   query: 
+  //     [
+  //       {
+  //         path: "companyID", 
+  //       },
+  //       {
+  //         path: "orderItemID", 
+  //       },
+  //       {
+  //         path: "usersID", 
+  //       }
+  //     ], 
+  //   sort: {'createdAt': 'desc'}, 
+  //   limit: 70,
+  //   page: currentPage,
+  //   find: {'_id': ''}
+  // };
+
+  const scrollHandler = (e: Event) => {
+    //@ts-ignore
+    if ((e.target.documentElement.scrollHeight - (e.target.documentElement.scrollTop + window.innerHeight)) < 300) {
+      setFetchingScroll(true)
+    }
+
+  };
+
+  useEffect(() => {
+    document.addEventListener('scroll', scrollHandler)
+  
+    return () => {
+      document.removeEventListener('scroll', scrollHandler)
+    }
+  }, [])
+
+  useEffect(() => {
+
+    if (fetchingScroll) {
+  
+      const fetchData = async () => {
+        await dispatch(getAllOrders({userID: '', query: orderQuery(currentPage)}));
+       
+      };
+
+      try {
+        fetchData()
+          .then(() => {
+            // setCompaniesFatching([...companies])
+            setCurrentPage(prev => prev + 1);
+          })
+          .finally(() => setFetchingScroll(false));
+
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
+
+
+
+  //   const fetchData = async () => {
+     
+  //     // await dispatch(getCompanyByIDQuery(query));
+  // //TODO --  надо userID брать из reducer, когда пользователь будет залогинен, а также если он АДМИН, пустая строка (верунть все записи)
+  //     await dispatch(getAllOrders({userID: '', query}));
+  //     // await dispatch(getAllDealTitles());
+  //     // dispatch(addQueryToState(query));
+  //     // await dispatch(getAllPhones());
+  //     // await dispatch(getCompanyByID(params.id));
+  //   }
+  //   fetchData();
+  }, [fetchingScroll]);
 
   // const [isModal, setIsModal] = useState<boolean>(false);
   return (
