@@ -28,6 +28,7 @@ import { EditOrder } from './CompanyBlocks/OrderBlock/EditOrder/EditOrder';
 import { addItemProduct, clearItemsProduct, setShowEditOrder, setShowNewOrder } from '../../../store/reducers/OrderReducer/OrderSlice';
 import { UserErrorWarning } from '../../UI/UserErrorWarning/UserErrorWarning';
 import { getAllUsers } from '../../../store/reducers/UserReducer/UserActionCreators';
+import { productRemove } from '../../../store/reducers/ProductReducer/ProductSlice';
 
 dayjs.extend(updateLocale);
 
@@ -64,8 +65,9 @@ const CompanyCardInner: FC = () => {
   };
 
   const showAddOrderSmallHandler = () => {
-    dispatch(setShowNewOrder(true))
+    dispatch(setShowNewOrder(true));
     setShowAddOrderSmall(false);
+    dispatch(productRemove());
   };
 
   const changeTitleHandler = async () => {

@@ -22,6 +22,9 @@ const productSlice = createSlice({
   reducers: {
     productsClearArray(state) {
       state.products.length = 0;
+    }, 
+    productRemove(state) {
+      state.product = {} as IProduct;
     }
   },
   extraReducers: (builder) => {
@@ -77,6 +80,6 @@ const productSlice = createSlice({
   },
 });
 
-export const { productsClearArray } = productSlice.actions;
+export const { productsClearArray, productRemove } = productSlice.actions;
 
 export default productSlice.reducer;

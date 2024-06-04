@@ -256,7 +256,7 @@ const EditOrderInner: FC<IProps> = ({isVisible = false}) => {
                 <span className='cell data narrowest'> </span>
                 <span className='cell data'></span>
                 <span className='cell data narrow'>ИТОГО:</span>
-                <span className='cell data narrow'>{`${totalCount}`}</span>
+                <span className='cell data narrow'>{`${totalCount.toFixed(3)}`}</span>
                 <span className='cell data tight'></span>
                 <span className='cell data total medium'>{`${numberWithSpaces(totalPrice)} руб`}</span>
                 <span className='cell data narrow'></span>
