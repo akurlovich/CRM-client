@@ -279,6 +279,7 @@
 
     & > span {
       color: var(--text-color-default);
+      white-space: pre-wrap;
     }
 
     &__inputs {
