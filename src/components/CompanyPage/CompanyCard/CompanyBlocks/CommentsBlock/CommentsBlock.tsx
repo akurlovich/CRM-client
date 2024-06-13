@@ -53,11 +53,11 @@ const CommentsBlockInner: FC = () => {
         <div className="comments">
           <div className="comments__inputblock">
             <IoDocumentAttachOutline size={25} color={'#972f2f'}/>
-            <input 
+            <textarea 
               className="comments__input" 
-              type="text" 
+              // type="text" 
               value={newComment} 
-              onChange={(e: React.FocusEvent<HTMLInputElement>) => setNewComment(e.target.value)}
+              onChange={(e: React.FocusEvent<HTMLTextAreaElement>) => setNewComment(e.target.value)}
               placeholder='Оставить комментарий'/>
             <IoSendSharp 
               style={{'cursor': 'pointer'}}
