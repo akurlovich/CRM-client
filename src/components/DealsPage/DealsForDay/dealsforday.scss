@@ -73,9 +73,11 @@
       &__info {
         display: flex;
         flex-wrap: wrap;
+        flex-direction: column;
         gap: 5px;
 
         & > a {
+          width: fit-content;
           padding: 2px 5px;
           border-radius: 5px;
           background: #fff7e9;
