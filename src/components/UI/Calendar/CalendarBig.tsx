@@ -206,7 +206,15 @@ const CalendarBig: FC<IProps> = ({items, showDealsForDay}) => {
     return info.originNode;
   };
 
-  const onSelect = async (newValue: Dayjs) => {
+  const onSelect = async (newValue: Dayjs, info: { source: 'year' | 'month' | 'date' | 'customize' }) => {
+    console.log('newValue', newValue)
+    console.log('info', info)
+
+    if (info.source === 'month') {
+      return
+    }
+
+
     // setValue(newValue);
     // showDealsForDay(newValue.format('DD MMMM YYYY'), newValue.format('DD-MM-YYYY'))
     dispatch(addDateForDay(newValue.format('DD MMMM YYYY')));
