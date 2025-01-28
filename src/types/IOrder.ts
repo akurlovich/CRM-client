@@ -26,12 +26,13 @@ export interface IOrderNew {
 export interface IOrderNewWithItems {
   order: IOrderNew,
   orderItems: IOrderItemNew[],
+  isRetail: boolean,
 }
 
-export interface IOrderNewWithItems {
-  order: IOrderNew,
-  orderItems: IOrderItemNew[],
-}
+// export interface IOrderNewWithItems {
+//   order: IOrderNew,
+//   orderItems: IOrderItemNew[],
+// }
 
 export interface IOrderUpdateOrderItems {
   order: {
@@ -39,4 +40,5 @@ export interface IOrderUpdateOrderItems {
     totalSum: number,
   },
   orderItems: IOrderItemNew[],
+  isRetail: boolean,
 }

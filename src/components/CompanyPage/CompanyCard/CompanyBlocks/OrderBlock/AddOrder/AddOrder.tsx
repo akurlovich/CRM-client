@@ -24,6 +24,7 @@ interface IProps {
 }
 //TODO ---------- добавить сохранение  текущих позиций в локалсторедж или indexedb, пока не создали счет
 const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
+  const { user } = useAppSelector(state => state.authReducer);
   const { company, companyFirstUser, query } = useAppSelector(state => state.companyReducer);
   const { products, isLoading, error: errorProduct } = useAppSelector(state => state.productReducer);
   const { order, error: errorOrder } = useAppSelector(state => state.orderReducer);
@@ -66,13 +67,13 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
       vatSum: 0,
       totalSum: 0,
     }))
-    console.log('from addProductToOrderHandler')
+    // console.log('from addProductToOrderHandler')
     // setOrderProducts(prev => ([...prev, item]));
     dispatch(productsClearArray());
     setSearchValue('');
   };
 
-  const createOrderHandler = async () => {
+  const createOrderHandler = async (isRetail = false) => {
     if (order._id) {
       // console.log('first')
       const orderUpdate: IOrderUpdateOrderItems = {
@@ -80,9 +81,10 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
           orderID: order._id,
           totalSum: totalPrice,
         },
-        orderItems: orderItemsAll
+        orderItems: orderItemsAll,
+        isRetail: isRetail,
       }
-      console.log('add order update', orderUpdate);
+      // console.log('add order update', orderUpdate);
       await dispatch(updateOrderItemsByOrderID(orderUpdate));
       await dispatch(getCompanyByIDQuery(query));
     } else {
@@ -92,10 +94,11 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
           usersID: companyFirstUser._id,
           totalSum: totalPrice,
         },
-        orderItems: orderItemsAll
+        orderItems: orderItemsAll,
+        isRetail: isRetail,
       }
       // console.log(orderNew);
-      console.log('add order new', orderNew);
+      // console.log('add order new', orderNew);
       dispatch(clearItemsLocalStorage(company._id))
       await dispatch(addOrder(orderNew));
       await dispatch(getCompanyByIDQuery(query));
@@ -156,12 +159,29 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
               </div>
               <div className="icons">
                 {totalPrice ? 
-                  <button
-                    className='add-btn'
-                    onClick={createOrderHandler}
-                    >
-                    Создать счёт
-                  </button>
+                  (user.isAdmin ? 
+                    (<>
+                      <button
+                        className='add-btn'
+                        onClick={() => createOrderHandler()}
+                        >
+                        Создать счёт
+                      </button>
+                      <button
+                        className='cansel-btn'
+                        onClick={() => createOrderHandler(true)}
+                        >
+                        Счёт розница
+                      </button>
+                    </>)
+                    : 
+                    <button
+                      className='add-btn'
+                      onClick={() => createOrderHandler()}
+                      >
+                      Создать счёт
+                    </button>
+                    )
                   : null
                 }
                 <button

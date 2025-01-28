@@ -25,6 +25,7 @@ interface IProps {
 }
 //TODO ---------- добавить сохранение  текущих позиций в локалсторедж или indexedb, пока не создали счет
 const EditOrderInner: FC<IProps> = ({isVisible = false}) => {
+  const { user } = useAppSelector(state => state.authReducer);
   const { query, company } = useAppSelector(state => state.companyReducer)
   const { products } = useAppSelector(state => state.productReducer);
   const { order, error: errorOrder } = useAppSelector(state => state.orderReducer);
@@ -66,14 +67,15 @@ const EditOrderInner: FC<IProps> = ({isVisible = false}) => {
     setSearchValue('');
   };
 
-  const createOrderHandler = async () => {
+  const createOrderHandler = async (isRetail = false) => {
    
       const orderUpdate: IOrderUpdateOrderItems = {
         order: {
           orderID: order._id,
           totalSum: totalPrice,
         },
-        orderItems: orderItemsAll
+        orderItems: orderItemsAll,
+        isRetail: isRetail
       }
 
       console.log(orderUpdate)
@@ -210,13 +212,30 @@ const EditOrderInner: FC<IProps> = ({isVisible = false}) => {
               </div>
               </div>
               <div className="icons">
-                {totalPrice ? 
-                  <button
-                    className='add-btn'
-                    onClick={createOrderHandler}
-                    >
-                    Создать счёт
-                  </button>
+              {totalPrice ? 
+                  (user.isAdmin ? 
+                    (<>
+                      <button
+                        className='add-btn'
+                        onClick={() => createOrderHandler()}
+                        >
+                        Создать счёт
+                      </button>
+                      <button
+                        className='cansel-btn'
+                        onClick={() => createOrderHandler(true)}
+                        >
+                        Счёт розница
+                      </button>
+                    </>)
+                    : 
+                    <button
+                      className='add-btn'
+                      onClick={() => createOrderHandler()}
+                      >
+                      Создать счёт
+                    </button>
+                    )
                   : null
                 }
                 <button
