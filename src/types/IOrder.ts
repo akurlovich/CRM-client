@@ -17,6 +17,8 @@ export interface IOrder {
   createdAt: string,
 }
 
+export type IOrderBillType = 'invoice' | 'retail' | 'check';
+
 export interface IOrderNew {
   companyID: string,
   usersID: string,
@@ -26,7 +28,7 @@ export interface IOrderNew {
 export interface IOrderNewWithItems {
   order: IOrderNew,
   orderItems: IOrderItemNew[],
-  isRetail: boolean,
+  type: IOrderBillType
 }
 
 // export interface IOrderNewWithItems {
@@ -40,5 +42,5 @@ export interface IOrderUpdateOrderItems {
     totalSum: number,
   },
   orderItems: IOrderItemNew[],
-  isRetail: boolean,
+  type: IOrderBillType
 }

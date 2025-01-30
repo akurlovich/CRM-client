@@ -9,7 +9,7 @@ import { IProduct } from '../../../../../../types/IProduct';
 import OrderItem from '../OrderItem/OrderItem';
 import { useDebounce } from '../../../../../../hooks/useDebounce';
 import { productsClearArray } from '../../../../../../store/reducers/ProductReducer/ProductSlice';
-import { IOrderUpdateOrderItems } from '../../../../../../types/IOrder';
+import { IOrderBillType, IOrderUpdateOrderItems } from '../../../../../../types/IOrder';
 import { updateOrderItemsByOrderID, updateOrderStatus } from '../../../../../../store/reducers/OrderReducer/OrderActionCreater';
 import { SERVER_URL } from '../../../../../../constants/http';
 import { Link } from 'react-router-dom';
@@ -67,7 +67,7 @@ const EditOrderInner: FC<IProps> = ({isVisible = false}) => {
     setSearchValue('');
   };
 
-  const createOrderHandler = async (isRetail = false) => {
+  const createOrderHandler = async (type: IOrderBillType) => {
    
       const orderUpdate: IOrderUpdateOrderItems = {
         order: {
@@ -75,7 +75,7 @@ const EditOrderInner: FC<IProps> = ({isVisible = false}) => {
           totalSum: totalPrice,
         },
         orderItems: orderItemsAll,
-        isRetail: isRetail
+        type: type,
       }
 
       console.log(orderUpdate)
@@ -217,21 +217,27 @@ const EditOrderInner: FC<IProps> = ({isVisible = false}) => {
                     (<>
                       <button
                         className='add-btn'
-                        onClick={() => createOrderHandler()}
+                        onClick={() => createOrderHandler('invoice')}
                         >
                         Создать счёт
                       </button>
                       <button
                         className='cansel-btn'
-                        onClick={() => createOrderHandler(true)}
+                        onClick={() => createOrderHandler('retail')}
                         >
                         Счёт розница
+                      </button>
+                      <button
+                        className='cansel-btn'
+                        onClick={() => createOrderHandler('check')}
+                        >
+                        Товарный чек
                       </button>
                     </>)
                     : 
                     <button
                       className='add-btn'
-                      onClick={() => createOrderHandler()}
+                      onClick={() => createOrderHandler('invoice')}
                       >
                       Создать счёт
                     </button>

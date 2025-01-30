@@ -8,7 +8,7 @@ import { IProduct } from '../../../../../../types/IProduct';
 import OrderItem from '../OrderItem/OrderItem';
 import { useDebounce } from '../../../../../../hooks/useDebounce';
 import { productsClearArray } from '../../../../../../store/reducers/ProductReducer/ProductSlice';
-import { IOrderNewWithItems, IOrderUpdateOrderItems } from '../../../../../../types/IOrder';
+import { IOrderBillType, IOrderNewWithItems, IOrderUpdateOrderItems } from '../../../../../../types/IOrder';
 import { addOrder, updateOrderItemsByOrderID } from '../../../../../../store/reducers/OrderReducer/OrderActionCreater';
 import { getCompanyByIDQuery } from '../../../../../../store/reducers/CompanyReducer/CompanyActionCreaters';
 import { SERVER_URL } from '../../../../../../constants/http';
@@ -73,7 +73,7 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
     setSearchValue('');
   };
 
-  const createOrderHandler = async (isRetail = false) => {
+  const createOrderHandler = async (type: IOrderBillType) => {
     if (order._id) {
       // console.log('first')
       const orderUpdate: IOrderUpdateOrderItems = {
@@ -82,7 +82,7 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
           totalSum: totalPrice,
         },
         orderItems: orderItemsAll,
-        isRetail: isRetail,
+        type: type,
       }
       // console.log('add order update', orderUpdate);
       await dispatch(updateOrderItemsByOrderID(orderUpdate));
@@ -95,7 +95,7 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
           totalSum: totalPrice,
         },
         orderItems: orderItemsAll,
-        isRetail: isRetail,
+        type: type,
       }
       // console.log(orderNew);
       // console.log('add order new', orderNew);
@@ -163,21 +163,27 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
                     (<>
                       <button
                         className='add-btn'
-                        onClick={() => createOrderHandler()}
+                        onClick={() => createOrderHandler('invoice')}
                         >
                         Создать счёт
                       </button>
                       <button
                         className='cansel-btn'
-                        onClick={() => createOrderHandler(true)}
+                        onClick={() => createOrderHandler('retail')}
                         >
                         Счёт розница
+                      </button>
+                      <button
+                        className='cansel-btn'
+                        onClick={() => createOrderHandler('check')}
+                        >
+                        Товарный чек
                       </button>
                     </>)
                     : 
                     <button
                       className='add-btn'
-                      onClick={() => createOrderHandler()}
+                      onClick={() => createOrderHandler('invoice')}
                       >
                       Создать счёт
                     </button>
