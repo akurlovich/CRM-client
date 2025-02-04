@@ -5,6 +5,7 @@ import { IProduct } from '../../../../../../types/IProduct'
 import { IoTrashOutline } from "@react-icons/all-files/io5/IoTrashOutline";
 import { IOrderItemNew } from '../../../../../../types/IOrderItem';
 import numberWithSpaces from '../../../../../../services/ClientServices/numberWithSpaces';
+import { Reorder } from 'framer-motion'
 
 interface IProps {
   item: IOrderItemNew;
@@ -52,31 +53,34 @@ const OrderItem: FC<IProps> = ({item, count}) => {
   
 
   return (
-    <div className="add-order__main__row">
-      <span className='cell data narrowest'>{count}</span>
-      <span className='cell data'>{item.productTitle}</span>
-      <span className='cell data narrow'>{item.productDimension}</span>
-      <input 
-        value={countItem}
-        onChange={(e:React.FocusEvent<HTMLInputElement>) => setCountItem(e.target.value)}
-        className='cell data narrow' 
-        type="number" 
-        name="count"/>
-      <input 
-        value={priceItem}
-        onChange={(e:React.FocusEvent<HTMLInputElement>) => setPriceItem(e.target.value)}
-        className='cell data tight' 
-        type="number" 
-        name="price"/>
-      <span className='cell data medium'>{`${numberWithSpaces(+totalItem)} руб`}</span>
-      <span 
-        className='cell data narrow trash'>
-        <IoTrashOutline 
-          onClick={deleteItemHandler}
-          style={{"cursor": "pointer"}}
-          size={18}/>
-      </span>
-    </div>
+    <Reorder.Item as='div' value={item}>
+      <div className="add-order__main__row">
+        <span className='cell data narrowest'>{count}</span>
+        <span className='cell data'>{item.productTitle}</span>
+        <span className='cell data narrow'>{item.productDimension}</span>
+        <input 
+          value={countItem}
+          onChange={(e:React.FocusEvent<HTMLInputElement>) => setCountItem(e.target.value)}
+          className='cell data narrow' 
+          type="number" 
+          name="count"/>
+        <input 
+          value={priceItem}
+          onChange={(e:React.FocusEvent<HTMLInputElement>) => setPriceItem(e.target.value)}
+          className='cell data tight' 
+          type="number" 
+          name="price"/>
+        <span className='cell data medium'>{`${numberWithSpaces(+totalItem)} руб`}</span>
+        <span 
+          className='cell data narrow trash'>
+          <IoTrashOutline 
+            onClick={deleteItemHandler}
+            style={{"cursor": "pointer"}}
+            size={18}/>
+        </span>
+      </div>
+
+    </Reorder.Item>
   )
 }
 

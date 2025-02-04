@@ -36,6 +36,10 @@ const orderSlice = createSlice({
   name: 'ORDER',
   initialState,
   reducers: {
+    reorderItemsProduct(state, action: PayloadAction<IOrderItemNew[]>) {
+      state.items = action.payload
+    },
+
     addItemProduct(state, action: PayloadAction<IOrderItemNew>) {
       // console.log("action.payload", action.payload)
       let foundItem = state.items.find((obj: IOrderItemNew) => obj.itemID === action.payload.itemID);
@@ -177,6 +181,6 @@ const orderSlice = createSlice({
   },
 });
 
-export const { addItemProduct, minusItemProduct, removeItemProduct, clearItemsProduct, setShowEditOrder, setOrderForEdit, setShowNewOrder, setOrderForCopy, clearItemsLocalStorage } = orderSlice.actions;
+export const { reorderItemsProduct, addItemProduct, minusItemProduct, removeItemProduct, clearItemsProduct, setShowEditOrder, setOrderForEdit, setShowNewOrder, setOrderForCopy, clearItemsLocalStorage } = orderSlice.actions;
 
 export default orderSlice.reducer;

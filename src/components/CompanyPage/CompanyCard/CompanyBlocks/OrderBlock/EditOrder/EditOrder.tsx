@@ -13,11 +13,13 @@ import { IOrderBillType, IOrderUpdateOrderItems } from '../../../../../../types/
 import { updateOrderItemsByOrderID, updateOrderStatus } from '../../../../../../store/reducers/OrderReducer/OrderActionCreater';
 import { SERVER_URL } from '../../../../../../constants/http';
 import { Link } from 'react-router-dom';
-import { addItemProduct, clearItemsProduct, setOrderForCopy, setShowEditOrder, setShowNewOrder } from '../../../../../../store/reducers/OrderReducer/OrderSlice';
+import { addItemProduct, clearItemsProduct, reorderItemsProduct, setOrderForCopy, setShowEditOrder, setShowNewOrder } from '../../../../../../store/reducers/OrderReducer/OrderSlice';
 import { v4 as uuidv4 } from 'uuid';
 import { getCompanyByIDQuery } from '../../../../../../store/reducers/CompanyReducer/CompanyActionCreaters';
 import numberWithSpaces from '../../../../../../services/ClientServices/numberWithSpaces';
 import { UserErrorWarning } from '../../../../../UI/UserErrorWarning/UserErrorWarning';
+import { Reorder } from 'framer-motion'
+import { IOrderItemNew } from '../../../../../../types/IOrderItem';
 
 interface IProps {
   isVisible?: boolean;
@@ -43,10 +45,17 @@ const EditOrderInner: FC<IProps> = ({isVisible = false}) => {
   const [statusSelected, setStatusSelected] = useState(order.status);
   // const [statusSelected, setStatusSelected] = useState('processing');
 
+  // const [orderItemsAll, setOrderItemsAll] = useState(orderItems);
+
+  const reorderItems = (items: IOrderItemNew[]) => {
+    // setOrderItemsAll(items)
+    dispatch(reorderItemsProduct(items))
+  };
+
   const searchValueHandler = async (e: React.FocusEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
    
-  }
+  };
 
   const addProductToOrderHandler = (item: IProduct) => {
     const newID = uuidv4();
@@ -165,6 +174,12 @@ const EditOrderInner: FC<IProps> = ({isVisible = false}) => {
   //     setCreateDate(`${day[today.getDate()]}.${months[today.getMonth()]}.${today.getFullYear()}`)
   //   }
   // }, [orderForEdit])
+
+  // useEffect(() => {
+  //   setOrderItemsAll(orderItems)
+  
+    
+  // }, [orderItems])
   
 
   return (
@@ -267,13 +282,16 @@ const EditOrderInner: FC<IProps> = ({isVisible = false}) => {
               <span className='cell narrow'></span>
             </div>
             {orderItemsAll.length ? 
-              orderItemsAll.map((item, index) => 
-                <OrderItem 
-                  key={item.itemID}
-                  item={item} 
-                  count={index + 1}
-                  />
-              )
+              <Reorder.Group as='div' axis='y' values={orderItemsAll} onReorder={reorderItems}>
+                {orderItemsAll.map((item, index) => 
+                  <OrderItem 
+                    key={item.itemID}
+                    item={item} 
+                    count={index + 1}
+                    />
+                )}
+
+              </Reorder.Group>
               : null
             }
             {orderItemsAll.length ? 

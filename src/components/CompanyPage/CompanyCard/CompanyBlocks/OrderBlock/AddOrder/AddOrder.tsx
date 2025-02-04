@@ -13,10 +13,12 @@ import { addOrder, updateOrderItemsByOrderID } from '../../../../../../store/red
 import { getCompanyByIDQuery } from '../../../../../../store/reducers/CompanyReducer/CompanyActionCreaters';
 import { SERVER_URL } from '../../../../../../constants/http';
 import { Link } from 'react-router-dom';
-import { addItemProduct, clearItemsLocalStorage, clearItemsProduct } from '../../../../../../store/reducers/OrderReducer/OrderSlice';
+import { addItemProduct, clearItemsLocalStorage, clearItemsProduct, reorderItemsProduct } from '../../../../../../store/reducers/OrderReducer/OrderSlice';
 import { v4 as uuidv4 } from 'uuid';
 import numberWithSpaces from '../../../../../../services/ClientServices/numberWithSpaces';
 import { UserErrorWarning } from '../../../../../UI/UserErrorWarning/UserErrorWarning';
+import { Reorder } from 'framer-motion'
+import { IOrderItemNew } from '../../../../../../types/IOrderItem';
 
 interface IProps {
   isVisible: boolean;
@@ -40,6 +42,13 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
   const [fileArray, setFileArray] = useState<string[]>([]);
 
   const [isLoadProd, setIsLoadProd] = useState(true);
+
+  // const [orderItemsAll, setOrderItemsAll] = useState(orderItems);
+
+  const reorderItems = (items: IOrderItemNew[]) => {
+    // setOrderItemsAll(items)
+    dispatch(reorderItemsProduct(items))
+  }
 
   const searchValueHandler = async (e: React.FocusEvent<HTMLInputElement>) => {
     // const escapeRegex = (str: string) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -139,6 +148,13 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
       setCreateDate(`${day[today.getDate()]}.${months[today.getMonth()]}.${today.getFullYear()}`)
     }
   }, [order])
+
+  // useEffect(() => {
+  //   setOrderItemsAll(orderItems)
+  
+    
+  // }, [orderItems])
+  
   
 
   return isVisible ? (
@@ -213,13 +229,16 @@ const AddOrderInner: FC<IProps> = ({isVisible = false, showAddOrder}) => {
               <span className='cell narrow'></span>
             </div>
             {orderItemsAll.length ? 
-              orderItemsAll.map((item, index) => 
-                <OrderItem 
-                  key={item.itemID}
-                  item={item} 
-                  count={index + 1}
-                  />
-              )
+              <Reorder.Group as='div' axis='y' values={orderItemsAll} onReorder={reorderItems}>
+                {orderItemsAll.map((item, index) => 
+                  <OrderItem 
+                    key={item.itemID}
+                    item={item} 
+                    count={index + 1}
+                    />
+                )}
+
+              </Reorder.Group>
               : null
             }
             {orderItemsAll.length ? 
