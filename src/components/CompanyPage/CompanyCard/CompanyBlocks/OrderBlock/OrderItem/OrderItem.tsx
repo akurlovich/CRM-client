@@ -53,7 +53,18 @@ const OrderItem: FC<IProps> = ({item, count}) => {
   
 
   return (
-    <Reorder.Item as='div' value={item}>
+    <Reorder.Item as='div' 
+      initial={{opacity: 0}}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      whileDrag={{
+        scale: 1.015,
+        boxShadow: "0px 5px 10px 2px rgba(34, 60, 80, 0.2)",
+        border: '1px solid lightgray',
+        borderRadius: '5px',
+        backgroundColor: 'white'
+      }}
+      value={item}>
       <div className="add-order__main__row">
         <span className='cell data narrowest'>{count}</span>
         <span className='cell data'>{item.productTitle}</span>

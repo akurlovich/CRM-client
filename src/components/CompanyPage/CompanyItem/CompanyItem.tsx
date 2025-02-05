@@ -76,8 +76,10 @@ const CompanyItemInner: FC<IProps> = ({company}) => {
   }
 
   return (
-    <div 
-      onClick={onClickHandler}
+    <a 
+      href={`/companies/${company._id}`} 
+      target="_blank"
+      // onClick={onClickHandler}
       // onClick={() => console.log(company.dealsID)}
       className="company__main__row">
       <IoSquareOutline width={25}/>
@@ -92,7 +94,7 @@ const CompanyItemInner: FC<IProps> = ({company}) => {
       <span className='cell data'>{nextDate[0]?.dateEnd ? nextDate[0]?.dateEnd  : ''}</span>
       <span className='cell data'>{company.commentsID[company.commentsID.length -1]?.date}</span>
       <span className='cell data'>{`${company.contactID.address.district ? company.contactID.address.district : 'нет'}`}</span>
-    </div>    
+    </a>    
   )
 }
 
