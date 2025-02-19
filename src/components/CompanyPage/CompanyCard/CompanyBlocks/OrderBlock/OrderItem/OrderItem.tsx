@@ -6,6 +6,7 @@ import { IoTrashOutline } from "@react-icons/all-files/io5/IoTrashOutline";
 import { IOrderItemNew } from '../../../../../../types/IOrderItem';
 import numberWithSpaces from '../../../../../../services/ClientServices/numberWithSpaces';
 import { Reorder } from 'framer-motion'
+import { IoCopyOutline } from '@react-icons/all-files/io5/IoCopyOutline';
 
 interface IProps {
   item: IOrderItemNew;
@@ -24,6 +25,10 @@ const OrderItem: FC<IProps> = ({item, count}) => {
 
   const deleteItemHandler = () => {
     dispatch(removeItemProduct(item))
+  }
+
+  const copyTextHandler = async (title: string) =>  {
+    await navigator.clipboard.writeText(title.trim())
   }
 
   //! ----   убрать возможно useEffect
@@ -67,7 +72,19 @@ const OrderItem: FC<IProps> = ({item, count}) => {
       value={item}>
       <div className="add-order__main__row">
         <span className='cell data narrowest'>{count}</span>
-        <span className='cell data'>{item.productTitle}</span>
+        <div className='cell data copyBlock'>
+          <span
+            className='copyText'>{item.productTitle}</span> 
+          <div className='copyIconBlock'>
+
+            <IoCopyOutline
+              onClick={() => copyTextHandler(item.productTitle)} 
+              className='copyIcon'
+              // style={{'cursor': 'pointer'}}
+              size={16}/>
+            <span className='tooltip'>Копировать наименование</span>
+          </div>
+        </div>
         <span className='cell data narrow'>{item.productDimension}</span>
         <input 
           value={countItem}

@@ -37,7 +37,7 @@ const AddProductInner: FC<IProps> = ({isVisible = false, onClose, productTitle }
     }
     if (selectedDimenion && productName ) {
       const newProduct: IProductNew = {
-        title: productName,
+        title: productName.trim(),
         price: 1,
         dimension: selectedDimenion,
         count: 1,
