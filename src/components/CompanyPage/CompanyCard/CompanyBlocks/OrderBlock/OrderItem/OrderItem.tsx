@@ -29,7 +29,12 @@ const OrderItem: FC<IProps> = ({item, count}) => {
 
   const copyTextHandler = async (title: string) =>  {
     console.log('for copy', title)
-    await navigator.clipboard.writeText(title.trim())
+    try {
+      await navigator.clipboard.writeText(title.trim())
+      
+    } catch (error: any) {
+      console.error(error.message);
+    }
   }
 
   //! ----   убрать возможно useEffect
