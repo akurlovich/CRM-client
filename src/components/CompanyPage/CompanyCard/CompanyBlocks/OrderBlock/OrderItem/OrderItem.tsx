@@ -29,8 +29,27 @@ const OrderItem: FC<IProps> = ({item, count}) => {
 
   const copyTextHandler = async (title: string) =>  {
     console.log('for copy', title)
+    const unsecuredCopyToClipboard = (title: string) => { 
+      const textArea = document.createElement("textarea"); 
+      textArea.value = title; 
+      document.body.appendChild(textArea); 
+      textArea.focus();
+      textArea.select(); 
+      try
+        {document.execCommand('copy')}
+      catch (err) { 
+        console.error('Unable to copy to clipboard',err)
+      }
+      document.body.removeChild(textArea)
+    };
+
     try {
-      await navigator.clipboard.writeText(title.trim())
+      if (window.isSecureContext && navigator.clipboard) {
+        await navigator.clipboard.writeText(title.trim())
+      } else {
+        unsecuredCopyToClipboard(title.trim());
+      }
+      // await navigator.clipboard.writeText(title.trim())
       
     } catch (error: any) {
       console.error(error.message);
