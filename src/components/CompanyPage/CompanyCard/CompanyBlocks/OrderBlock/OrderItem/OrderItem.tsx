@@ -28,6 +28,7 @@ const OrderItem: FC<IProps> = ({item, count}) => {
   }
 
   const copyTextHandler = async (title: string) =>  {
+    console.log('for copy', title)
     await navigator.clipboard.writeText(title.trim())
   }
 
