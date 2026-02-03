@@ -37,7 +37,7 @@ const DealsBlockInner: FC<IProps> = ({isCarrier = false}) => {
               onClick={() => setShowAddDeal(true)}
               size={20}/>
             {showAddDeal && 
-              <DealCreate onAction={() => setShowAddDeal(false)} isCarrier={true}/>
+              <DealCreate onAction={() => setShowAddDeal(false)} isCarrier={isCarrier}/>
             }
           </div>
         </div>
@@ -55,7 +55,7 @@ const DealsBlockInner: FC<IProps> = ({isCarrier = false}) => {
       <div className="deals-block__deals">
       {isCarrier ? 
         (carrierDeals.length ? carrierDeals.map(item => (
-          <DealItem key={item._id} item={item}/>
+          <DealItem key={item._id} item={item} isCarrier={true}/>
       
           )) 
           :

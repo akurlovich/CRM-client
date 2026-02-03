@@ -10,9 +10,10 @@ import { DealComplete } from './DealComplete/DealComplete'
 interface IProps {
   item: IDeal,
   fromBlock?: boolean,
+  isCarrier?: boolean,
 }
 
-const DealItemInner: FC<IProps> = ({item, fromBlock}) => {
+const DealItemInner: FC<IProps> = ({item, fromBlock, isCarrier=false}) => {
   const [showDeleteDeal, setShowDeleteDeal] = useState({
     show: false,
     itemID: '',
@@ -49,7 +50,7 @@ const DealItemInner: FC<IProps> = ({item, fromBlock}) => {
             isVisible={showDealComplete}
             item={item} 
             onClose={canselDealComplete}
-            isCarrier={true}/>
+            isCarrier={isCarrier}/>
           }
           <div key={item._id} className="deals-block__deals__item">
             {!fromBlock ? 

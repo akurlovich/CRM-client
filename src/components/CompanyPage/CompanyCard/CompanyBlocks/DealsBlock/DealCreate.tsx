@@ -87,6 +87,12 @@ const DealCreate: FC<IProps> = ({onAction, position, isCarrier = false}) => {
 
     const entity: IEntity = isCarrier ? 'carrier' : 'company';
 
+    console.log('isCarried', isCarrier)
+
+    console.log('companyID', newDeal.companyID)
+
+    console.log('newDeal', newDeal)
+
     await dispatch(addDeal({ deal: newDeal, entity: entity }));
 
     if (isCarrier) {

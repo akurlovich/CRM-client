@@ -54,6 +54,7 @@ const DealCompleteInner: FC<IProps> = ({isVisible = false, onClose, item, isCarr
   };
 
   const completeDealHandler = async () => {
+    // console.log('from complete', dealComment)
     const entity: IEntity = isCarrier ? 'carrier' : 'company';
     // console.log('delete deal entity', entity)
     if (dealComment) {
