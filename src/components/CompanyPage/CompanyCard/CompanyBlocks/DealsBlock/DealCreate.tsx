@@ -8,14 +8,21 @@ import SelectBlock from '../../../../UI/Select/SelectBlock';
 import TimeBlock from '../../../../UI/TimePicker/TimePicker';
 import dayjs from 'dayjs';
 import { UserErrorWarning } from '../../../../UI/UserErrorWarning/UserErrorWarning';
+import { getCarrierByIDQuery } from '../../../../../store/reducers/CarrierReducer/CarrierActionCreaters';
+import { queryForCarrierCard } from '../../../../../services/ClientServices/CarrierServices/queryForCarrierCard';
+import { IEntity } from '../../../../../types/IComment';
 
 interface IProps {
   // options: IDealTitle[];
   onAction: () => void; 
   position?: string;
+  isCarrier?: boolean;
+
 }
 
-const DealCreate: FC<IProps> = ({onAction, position}) => {
+const DealCreate: FC<IProps> = ({onAction, position, isCarrier = false}) => {
+  const { user } = useAppSelector(state => state.authReducer);
+  const { carrier } = useAppSelector(state => state.carrierReducer);
   const { company, companyFirstUser, query } = useAppSelector(state => state.companyReducer);
   const { error: errorDeals} = useAppSelector(state => state.dealReducer);
   const dispatch = useAppDispatch();
@@ -64,8 +71,8 @@ const DealCreate: FC<IProps> = ({onAction, position}) => {
     // setCalendarData(prev => ({...prev, show: false}));
     // console.log(calendarData);
     const newDeal: IDealNew = {
-      companyID: company._id,
-      userID: companyFirstUser._id,
+      companyID: isCarrier ? carrier._id : company._id,
+      userID: isCarrier ? user.id : companyFirstUser._id,
       dealTitleID: calendarData.dealType,
       description: '',
       dateEnd: calendarData.date,
@@ -77,9 +84,17 @@ const DealCreate: FC<IProps> = ({onAction, position}) => {
       hourEnd: calendarData.timeShort[0],
       isDone: false,
     };
-    
-    await dispatch(addDeal(newDeal));
-    await dispatch(getCompanyByIDQuery(query));
+
+    const entity: IEntity = isCarrier ? 'carrier' : 'company';
+
+    await dispatch(addDeal({ deal: newDeal, entity: entity }));
+
+    if (isCarrier) {
+      // console.log(newDeal)
+      await dispatch(getCarrierByIDQuery(queryForCarrierCard(carrier._id)));
+    } else {      
+      await dispatch(getCompanyByIDQuery(query));
+    }
     
     onAction();
   };

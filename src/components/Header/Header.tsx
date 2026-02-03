@@ -37,6 +37,11 @@ export const Header: FC = () => {
             Дела
           </NavLink>
           <NavLink
+            to='/carriers'
+            className={({ isActive }) => isActive ? 'header__nav__item active' : 'header__nav__item'}>
+            Перевозчики
+          </NavLink>
+          <NavLink
             to='/orders'
             className={({ isActive }) => isActive ? 'header__nav__item active' : 'header__nav__item'}>
             Сделки

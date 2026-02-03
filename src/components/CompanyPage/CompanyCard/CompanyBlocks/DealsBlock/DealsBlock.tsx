@@ -7,9 +7,13 @@ import { useAppSelector } from '../../../../../hooks/redux';
 import DealCreate from './DealCreate';
 import { DealItem } from './DealItem';
 
+interface IProps {
+  isCarrier?: boolean;
+}
 
-const DealsBlockInner: FC = () => {
+const DealsBlockInner: FC<IProps> = ({isCarrier = false}) => {
   const { companyDeals } = useAppSelector(state => state.companyReducer);
+  const { carrierDeals } = useAppSelector(state => state.carrierReducer);
 
   const [showAddDeal, setShowAddDeal] = useState(false);
 
@@ -33,7 +37,7 @@ const DealsBlockInner: FC = () => {
               onClick={() => setShowAddDeal(true)}
               size={20}/>
             {showAddDeal && 
-              <DealCreate onAction={() => setShowAddDeal(false)}/>
+              <DealCreate onAction={() => setShowAddDeal(false)} isCarrier={true}/>
             }
           </div>
         </div>
@@ -49,16 +53,30 @@ const DealsBlockInner: FC = () => {
         </div>
       </div>
       <div className="deals-block__deals">
-      {companyDeals.length ? companyDeals.map(item => (
-        <DealItem key={item._id} item={item}/>
-     
-        )) 
-        :
-        <div className="deals-block__deals__empty">
-          <IoCalendarOutline size={40} color='#aebbcb'/>
-          <span>Активных дел нет</span>
-        </div>
-      }
+      {isCarrier ? 
+        (carrierDeals.length ? carrierDeals.map(item => (
+          <DealItem key={item._id} item={item}/>
+      
+          )) 
+          :
+          <div className="deals-block__deals__empty">
+            <IoCalendarOutline size={40} color='#aebbcb'/>
+            <span>Активных дел нет</span>
+          </div>
+        )
+      :
+        (companyDeals.length ? companyDeals.map(item => (
+          <DealItem key={item._id} item={item}/>
+      
+          )) 
+          :
+          <div className="deals-block__deals__empty">
+            <IoCalendarOutline size={40} color='#aebbcb'/>
+            <span>Активных дел нет</span>
+          </div>
+        )
+
+      }  
       </div>
     </section>
   )

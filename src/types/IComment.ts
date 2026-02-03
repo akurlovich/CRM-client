@@ -10,6 +10,8 @@ export interface IComment {
   time: string,
 }
 
+export type IEntity = 'company' | 'carrier';
+
 export interface ICommentNew {
   companyID: string,
   userID: string,

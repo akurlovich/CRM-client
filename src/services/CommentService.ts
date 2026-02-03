@@ -1,10 +1,11 @@
 import { AxiosResponse } from "axios";
 import serverApi from "../http";
-import { IComment, ICommentNew } from "../types/IComment";
+import { IComment, IEntity, ICommentNew } from "../types/IComment";
 
 export default class CommentService {
-  static async addComment(comment: ICommentNew): Promise<AxiosResponse<IComment>> {
-    return serverApi.post<IComment>('/comments', comment);
+  static async addComment(data: {comment: ICommentNew, entity: IEntity}): Promise<AxiosResponse<IComment>> {
+    console.log('comment from client', data)
+    return serverApi.post<IComment>('/comments', data);
   };
 
   static async getCommentByID(commentID: string): Promise<AxiosResponse<IComment>> {

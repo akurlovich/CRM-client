@@ -8,7 +8,13 @@ import { ContactsAddress } from './ContactsAddress';
 import { ContactsDistrict } from './ContactsDistrict';
 import { LoaderSmall } from '../../../../UI/LoaderSmall/LoaderSmall';
 
-const ContactsBlockInner: FC = ({}) => {
+interface IProps {
+  isCarrier?: boolean;
+}
+
+const ContactsBlockInner: FC<IProps> = ({isCarrier = false}) => {
+  const { user } = useAppSelector(state => state.authReducer);
+  const { carrier } = useAppSelector(state => state.carrierReducer);
   const { company } = useAppSelector(state => state.companyReducer);
   const { isLoading: contactLoading } = useAppSelector(state => state.contactReducer);
   const { isLoading: phoneLoading } = useAppSelector(state => state.phoneReducer);
@@ -68,8 +74,23 @@ const ContactsBlockInner: FC = ({}) => {
       <div className="baseblockSmall__deals">
         <div className="baseblockSmall__deals__item">
           <div className="contactsblock__contacts">
-            <ContactsPhones />
-            <ContactsEmails />
+            <ContactsPhones isCarrier={isCarrier ? true : false}/>
+            <ContactsEmails isCarrier={isCarrier ? true : false}/>
+            {isCarrier ?
+            <>
+            <ContactsAddress 
+              address={carrier?.contactID?.address?.main ? carrier?.contactID?.address?.main : ''}
+              district={carrier?.contactID?.address?.district ? carrier?.contactID?.address?.district : ''} 
+              contactID={carrier.contactID?._id} 
+              query={query}/>
+            <ContactsDistrict 
+              address={carrier?.contactID?.address?.main ? carrier?.contactID?.address?.main : ''}
+              district={carrier?.contactID?.address?.district ? carrier?.contactID?.address?.district : ''} 
+              contactID={carrier.contactID?._id} 
+              query={query}/>
+            </>
+            :
+            <>
             <ContactsAddress 
               address={company?.contactID?.address?.main ? company?.contactID?.address?.main : ''}
               district={company?.contactID?.address?.district ? company?.contactID?.address?.district : ''} 
@@ -80,6 +101,8 @@ const ContactsBlockInner: FC = ({}) => {
               district={company?.contactID?.address?.district ? company?.contactID?.address?.district : ''} 
               contactID={company.contactID?._id} 
               query={query}/>
+            </>
+            }
 
           </div>
         </div>

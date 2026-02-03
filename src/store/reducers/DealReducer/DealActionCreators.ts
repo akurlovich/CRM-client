@@ -2,12 +2,13 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import DealService from "../../../services/DealService";
 import { ICompaniesQuery } from "../../../types/ICompany";
 import { IDealNew, IDealsQuery, IDealUpdate } from "../../../types/IDeal";
+import { IEntity } from "../../../types/IComment";
 
 export const addDeal = createAsyncThunk(
   'DEAL/addDeal',
-  async (deal: IDealNew, {rejectWithValue}) => {
+  async (data: {deal: IDealNew, entity: IEntity}, {rejectWithValue}) => {
     try {
-      return await (await DealService.addDeal(deal)).data;
+      return await (await DealService.addDeal(data)).data;
     } catch (error: any) {
       return rejectWithValue(error.message)
     }
@@ -67,6 +68,7 @@ export const getAllDealsByUserQuery = createAsyncThunk(
   'DEAL/getAllDealsByUserQuery',
   async ( query: IDealsQuery, {rejectWithValue}) => {
     try {
+      console.log('query', query)
       return await (await DealService.getAllDealsByUserQuery(query)).data;
       
     } catch (error: any) {
@@ -89,7 +91,7 @@ export const updateDealByID = createAsyncThunk(
 
 export const deleteDealByID = createAsyncThunk(
   'DEAL/deleteDealByID',
-  async (dealID: string, {rejectWithValue}) => {
+  async ( dealID: string, {rejectWithValue}) => {
     try {
       return await (await DealService.deleteDealByID(dealID)).data;
       

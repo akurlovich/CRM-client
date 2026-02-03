@@ -1,12 +1,12 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import CommentService from "../../../services/CommentService";
-import { ICommentNew } from "../../../types/IComment";
+import { IEntity, ICommentNew } from "../../../types/IComment";
 
 export const addComment = createAsyncThunk(
   'COMMENT/addComment',
-  async (comment: ICommentNew, {rejectWithValue}) => {
+  async (data: {comment: ICommentNew, entity: IEntity}, {rejectWithValue}) => {
     try {
-      return await (await CommentService.addComment(comment)).data;
+      return await (await CommentService.addComment(data)).data;
     } catch (error: any) {
       return rejectWithValue(error.message)
     }

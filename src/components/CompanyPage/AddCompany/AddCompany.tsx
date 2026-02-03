@@ -5,13 +5,15 @@ import { ICompaniesQuery, ICompanyNew } from '../../../types/ICompany';
 import { IContactNew } from '../../../types/IContact';
 import { UserErrorWarning } from '../../UI/UserErrorWarning/UserErrorWarning';
 import './addcompany.scss';
+import { addCarrier } from '../../../store/reducers/CarrierReducer/CarrierActionCreaters';
 
 interface IProps {
   isVisible: boolean;
   onClose: () => void;
+  isCarrier?: boolean;
 }
 
-const AddCompanyInner: FC<IProps> = ({isVisible = false, onClose}) => {
+const AddCompanyInner: FC<IProps> = ({isVisible = false, onClose, isCarrier = false}) => {
   //!----берет данные из компанента Company------
   const { error: errorCompany } = useAppSelector(state => state.companyReducer);
   const { user } = useAppSelector(state => state.authReducer);
@@ -37,7 +39,12 @@ const AddCompanyInner: FC<IProps> = ({isVisible = false, onClose}) => {
       onClose();
       // alert('отключена отправка')
       // await dispatch(addContact(newContact));
-      await dispatch(addCompany({company: newCompany, contact: newContact}));
+      if (isCarrier) {
+        // console.log('user', newCompany)
+        await dispatch(addCarrier({carrier: newCompany, contact: newContact}));
+      } else {
+        await dispatch(addCompany({company: newCompany, contact: newContact}));
+      }
       const query: ICompaniesQuery = {
         query: 
           [{
@@ -69,7 +76,8 @@ const AddCompanyInner: FC<IProps> = ({isVisible = false, onClose}) => {
   const contactHandler = (e: React.FocusEvent<HTMLInputElement>) => {
     switch (e.target.name) {
       case 'company.title':
-        setNewCompany(prev => ({...prev, title: e.target.value}));
+        // setNewCompany(prev => ({...prev, title: e.target.value}));
+        setNewCompany(prev => ({...prev, title: e.target.value, usersID: user.id}));
         if (e.target.value) {
           setDisabled(false)
         } else {
@@ -123,7 +131,7 @@ const AddCompanyInner: FC<IProps> = ({isVisible = false, onClose}) => {
       <div className="add-company">
         <div className="add-company__dialog">
           <div className="add-company__header">
-            <h3 className="add-company__title">Новый клиент</h3>
+            <h3 className="add-company__title">{isCarrier ? "Новый перевозчик" : "Новый клиент"}</h3>
           </div>
           <form className="add-company__body">
             <div className="add-company__input">
@@ -133,7 +141,7 @@ const AddCompanyInner: FC<IProps> = ({isVisible = false, onClose}) => {
                 onChange={contactHandler}
                 name="company.title" 
                 type="text"
-                placeholder='ООО "Моя компания'/>
+                placeholder='ООО "Моя компания"'/>
             </div>
             <div className="add-company__input">
               <span>Телефон</span>
@@ -166,13 +174,13 @@ const AddCompanyInner: FC<IProps> = ({isVisible = false, onClose}) => {
                 placeholder='комментарий'/>
             </div>
             <div className="add-company__input">
-              <span>Адрес</span>
+              <span>{isCarrier ? "Область" : "Адрес"}</span>
               <input 
                 value={newContact.address.main}
                 onChange={contactHandler}
                 type='text'
                 name='contact.address.main' 
-                placeholder='Область, город и тд.'/>
+                placeholder={isCarrier ? "Область..." : "Область, город и тд."}/>
             </div>
             <div className="add-company__input">
               <span>Район</span>

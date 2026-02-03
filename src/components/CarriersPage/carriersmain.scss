@@ -1,0 +1,57 @@
+.carriersmain {
+	// background-color: red;
+	&__header {
+		display: flex;
+		justify-content: end;
+		padding: 20px;
+	}
+
+	&__table {
+		border-radius: 5px;
+    font-weight: normal;
+    border: none;
+    border-collapse: collapse;
+    width: 100%;
+    max-width: 100%;
+
+		th, td {
+			padding: 10px 20px;
+			font-size: 13px;
+			border: none;
+			// font-family: Verdana, sans-serif;    
+			// border: 1px solid #337AB7;
+			vertical-align: top;
+		}
+
+		th {
+			color: var(--text-color-secondary-light);
+			// color: #FFF;
+			// background: rgb(97, 117, 225);
+			font-weight: bold;
+			// border: 1px solid #1a4a73;    
+			text-transform: uppercase;    
+			text-align: center;    
+			border-bottom: 1px solid var(--border-1);
+		}
+
+		tr:nth-child(even) {
+    	background: #edf7ff;
+		}
+
+		tr {
+			// cursor: pointer;
+		}
+
+		td {
+			
+		}
+
+		&__row {
+			cursor: pointer;
+			// background-color: antiquewhite;
+		}
+
+
+		
+	}
+}

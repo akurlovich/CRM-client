@@ -48,7 +48,9 @@ const DealItemInner: FC<IProps> = ({item, fromBlock}) => {
           {<DealComplete 
             isVisible={showDealComplete}
             item={item} 
-            onClose={canselDealComplete}/>}
+            onClose={canselDealComplete}
+            isCarrier={true}/>
+          }
           <div key={item._id} className="deals-block__deals__item">
             {!fromBlock ? 
               <div className="deals-block__deals__item__title">
@@ -109,7 +111,7 @@ const DealItemInner: FC<IProps> = ({item, fromBlock}) => {
       }
     
     </>
-)
+  )
 }
 
 export const DealItem = React.memo(DealItemInner)

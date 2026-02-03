@@ -1,10 +1,11 @@
 import { AxiosResponse } from "axios";
 import serverApi from "../http";
 import { IPhone, IPhoneNewAddContacts, IPhoneUpdate } from "../types/IPhone";
+import { IEntity } from "../types/IComment";
 
 export default class PhoneService {
-  static async addPhone(phone: IPhoneNewAddContacts): Promise<AxiosResponse<IPhone>> {
-    return serverApi.post<IPhone>('/phones', phone);
+  static async addPhone( data: {phone: IPhoneNewAddContacts, entity: IEntity}): Promise<AxiosResponse<IPhone>> {
+    return serverApi.post<IPhone>('/phones', data);
   };
 
   static async getPhoneByID(phoneID: string): Promise<AxiosResponse<IPhone>> {
@@ -28,8 +29,8 @@ export default class PhoneService {
     return serverApi.delete<IPhone>(`/phones/${phoneID}`);
   };
 
-  static async updatePhoneByID(phoneID: string, phone: IPhoneUpdate): Promise<AxiosResponse<IPhone>> {
-    return serverApi.put<IPhone>(`/phones/${phoneID}`, phone);
+  static async updatePhoneByID(data: {phoneID: string, phone: IPhoneUpdate, entity: IEntity}): Promise<AxiosResponse<IPhone>> {
+    return serverApi.put<IPhone>(`/phones/${data.phoneID}`, data);
   };
 
   static async updatePhoneIsActive(phoneID: string, isActive: boolean): Promise<AxiosResponse<IPhone>> {

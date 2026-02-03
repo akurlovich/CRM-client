@@ -2,10 +2,11 @@ import { AxiosResponse } from "axios";
 import serverApi from "../http";
 import { ICompaniesQuery } from "../types/ICompany";
 import { IDeal, IDealNew, IDealsQuery, IDealTitle, IDealUpdate } from "../types/IDeal";
+import { IEntity } from "../types/IComment";
 
 export default class DealService {
-  static async addDeal(deal: IDealNew): Promise<AxiosResponse<IDeal>> {
-    return serverApi.post<IDeal>('/deals', deal);
+  static async addDeal(data: {deal: IDealNew, entity: IEntity}): Promise<AxiosResponse<IDeal>> {
+    return serverApi.post<IDeal>('/deals', data);
   };
 
   static async getDealByID(dealID: string): Promise<AxiosResponse<IDeal>> {

@@ -11,7 +11,13 @@ import { addEmail, updateEmailByID, updateEmailIsActive } from '../../../../../s
 import { IEmailNewAddContacts } from '../../../../../types/IEmail';
 import { UserErrorWarning } from '../../../../UI/UserErrorWarning/UserErrorWarning';
 
-const ContactsEmailsInner: FC = ({}) => {
+
+interface IProps {
+  isCarrier?: boolean;
+};
+
+const ContactsEmailsInner: FC<IProps> = ({isCarrier = false}) => {
+  const { carrier } = useAppSelector(state => state.carrierReducer);
   const { company, query } = useAppSelector(state => state.companyReducer);
   const { error: errorEmail } = useAppSelector(state => state.emailReducer);
 
@@ -142,72 +148,143 @@ const ContactsEmailsInner: FC = ({}) => {
           size={20}/>
       </div>
 
-      {company.contactID ? company.contactID.emailsID.map(item => (
-        <div key={item._id} className="data">
-          {showUpdateInput.itemID === item._id ? 
-            <div className="contactsblock__contacts__inputs update">
-              <input 
-                value={addEmailAndUpdateContact.email.email}
-                onChange={addOrUpdateInputsHandler}
-                autoFocus
-                type="text" 
-                name="email.email.update" 
-                placeholder='example@tut.by'/>
-              <input
-                value={addEmailAndUpdateContact.email.description}
-                onChange={addOrUpdateInputsHandler}
-                type="text" 
-                name="email.description.update" 
-                placeholder='комментарий'/>
-              <button
-                className='add-btn'
-                onClick={updateEmailHandler}>
-                Изменить
-              </button>
-              <button
-                className='cansel-btn'
-                onClick={() => setShowUpdateInput({show: false, itemID: ''})}>
-                Отмена
-              </button>
-            </div>
-            :
-            <div className="text">
-              <span className={item.isActive ? 'span-email active' : 'span-email'}>{item.email}</span>
-              <span>{item.description}</span>
-            </div>
-          }
-          {showUpdateInput.itemID === item._id ? null :
-            <div className="icons">
-              {item.isActive ? 
-                <IoStarSharp
-                onClick={() => updateIsActiveHandler(item._id, false)}
+      {isCarrier ? 
+        (company.contactID ? company.contactID.emailsID.map(item => (
+          <div key={item._id} className="data">
+            {showUpdateInput.itemID === item._id ? 
+              <div className="contactsblock__contacts__inputs update">
+                <input 
+                  value={addEmailAndUpdateContact.email.email}
+                  onChange={addOrUpdateInputsHandler}
+                  autoFocus
+                  type="text" 
+                  name="email.email.update" 
+                  placeholder='example@tut.by'/>
+                <input
+                  value={addEmailAndUpdateContact.email.description}
+                  onChange={addOrUpdateInputsHandler}
+                  type="text" 
+                  name="email.description.update" 
+                  placeholder='комментарий'/>
+                <button
+                  className='add-btn'
+                  onClick={updateEmailHandler}>
+                  Изменить
+                </button>
+                <button
+                  className='cansel-btn'
+                  onClick={() => setShowUpdateInput({show: false, itemID: ''})}>
+                  Отмена
+                </button>
+              </div>
+              :
+              <div className="text">
+                <span className={item.isActive ? 'span-email active' : 'span-email'}>{item.email}</span>
+                <span>{item.description}</span>
+              </div>
+            }
+            {showUpdateInput.itemID === item._id ? null :
+              <div className="icons">
+                {item.isActive ? 
+                  <IoStarSharp
+                  onClick={() => updateIsActiveHandler(item._id, false)}
+                    style={{cursor: 'pointer'}}
+                    size={20}
+                    color={'#ffd451'}
+                  />
+                  :
+                  <IoStarOutline
+                    onClick={() => updateIsActiveHandler(item._id, true)}
+                    style={{cursor: 'pointer'}}
+                    size={20}
+                  />
+                }
+                <IoPencil 
+                  style={{cursor: 'pointer'}}
+                  onClick={() => updateShowEmailHandler(true, item._id, item.email, item.description)}
+                  size={20}
+                  color={'#b4cb4c'}/>
+                <IoTrashOutline
+                  onClick={() => deleteEmailHandler(item._id)}
                   style={{cursor: 'pointer'}}
                   size={20}
-                  color={'#ffd451'}
-                />
-                :
-                <IoStarOutline
-                  onClick={() => updateIsActiveHandler(item._id, true)}
+                  // color={'#c02525'}
+                  />
+              </div>
+            }
+          </div>
+          )) : null
+        )
+      :
+        (company.contactID ? company.contactID.emailsID.map(item => (
+          <div key={item._id} className="data">
+            {showUpdateInput.itemID === item._id ? 
+              <div className="contactsblock__contacts__inputs update">
+                <input 
+                  value={addEmailAndUpdateContact.email.email}
+                  onChange={addOrUpdateInputsHandler}
+                  autoFocus
+                  type="text" 
+                  name="email.email.update" 
+                  placeholder='example@tut.by'/>
+                <input
+                  value={addEmailAndUpdateContact.email.description}
+                  onChange={addOrUpdateInputsHandler}
+                  type="text" 
+                  name="email.description.update" 
+                  placeholder='комментарий'/>
+                <button
+                  className='add-btn'
+                  onClick={updateEmailHandler}>
+                  Изменить
+                </button>
+                <button
+                  className='cansel-btn'
+                  onClick={() => setShowUpdateInput({show: false, itemID: ''})}>
+                  Отмена
+                </button>
+              </div>
+              :
+              <div className="text">
+                <span className={item.isActive ? 'span-email active' : 'span-email'}>{item.email}</span>
+                <span>{item.description}</span>
+              </div>
+            }
+            {showUpdateInput.itemID === item._id ? null :
+              <div className="icons">
+                {item.isActive ? 
+                  <IoStarSharp
+                  onClick={() => updateIsActiveHandler(item._id, false)}
+                    style={{cursor: 'pointer'}}
+                    size={20}
+                    color={'#ffd451'}
+                  />
+                  :
+                  <IoStarOutline
+                    onClick={() => updateIsActiveHandler(item._id, true)}
+                    style={{cursor: 'pointer'}}
+                    size={20}
+                  />
+                }
+                <IoPencil 
+                  style={{cursor: 'pointer'}}
+                  onClick={() => updateShowEmailHandler(true, item._id, item.email, item.description)}
+                  size={20}
+                  color={'#b4cb4c'}/>
+                <IoTrashOutline
+                  onClick={() => deleteEmailHandler(item._id)}
                   style={{cursor: 'pointer'}}
                   size={20}
-                />
-              }
-              <IoPencil 
-                style={{cursor: 'pointer'}}
-                onClick={() => updateShowEmailHandler(true, item._id, item.email, item.description)}
-                size={20}
-                color={'#b4cb4c'}/>
-              <IoTrashOutline
-                onClick={() => deleteEmailHandler(item._id)}
-                style={{cursor: 'pointer'}}
-                size={20}
-                // color={'#c02525'}
-                />
-            </div>
-          }
-        </div>
-        )) : null
+                  // color={'#c02525'}
+                  />
+              </div>
+            }
+          </div>
+          )) : null
+        )
+      
       }
+
 
       {showAddInputs && 
         <div className="contactsblock__contacts__inputs">

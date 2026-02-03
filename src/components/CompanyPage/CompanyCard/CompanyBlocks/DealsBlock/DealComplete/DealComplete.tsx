@@ -8,11 +8,13 @@ import { deleteDealByID } from '../../../../../../store/reducers/DealReducer/Dea
 import { IDeal } from '../../../../../../types/IDeal';
 import './dealcomplete.scss';
 
-import { ICommentNew } from '../../../../../../types/IComment';
+import { IEntity, ICommentNew } from '../../../../../../types/IComment';
 import { addComment } from '../../../../../../store/reducers/CommentReducer/CommentActionCreater';
 
 import dayjs from 'dayjs';
 import { UserErrorWarning } from '../../../../../UI/UserErrorWarning/UserErrorWarning';
+import { getCarrierByIDQuery } from '../../../../../../store/reducers/CarrierReducer/CarrierActionCreaters';
+import { queryForCarrierCard } from '../../../../../../services/ClientServices/CarrierServices/queryForCarrierCard';
 // import type { Dayjs } from 'dayjs';
 // import updateLocale from 'dayjs/plugin/updateLocale';
 
@@ -25,13 +27,15 @@ import { UserErrorWarning } from '../../../../../UI/UserErrorWarning/UserErrorWa
 // });
 
 interface IProps {
-  item: IDeal,
+  item: IDeal;
   isVisible: boolean;
   onClose: () => void;
+  isCarrier?: boolean;
 }
 
-const DealCompleteInner: FC<IProps> = ({isVisible = false, onClose, item}) => {
+const DealCompleteInner: FC<IProps> = ({isVisible = false, onClose, item, isCarrier = false }) => {
   const { company, companyFirstUser, query } = useAppSelector(state => state.companyReducer);
+  const { carrier } = useAppSelector(state => state.carrierReducer);
   const { error: errorDeals } = useAppSelector(state => state.dealReducer);
   const { error: errorComments } = useAppSelector(state => state.commentReducer);
   const dispatch = useAppDispatch();
@@ -50,6 +54,8 @@ const DealCompleteInner: FC<IProps> = ({isVisible = false, onClose, item}) => {
   };
 
   const completeDealHandler = async () => {
+    const entity: IEntity = isCarrier ? 'carrier' : 'company';
+    // console.log('delete deal entity', entity)
     if (dealComment) {
 
       const addNewComment: ICommentNew = {
@@ -60,17 +66,22 @@ const DealCompleteInner: FC<IProps> = ({isVisible = false, onClose, item}) => {
         date: dayjs().format('DD MMMM YYYY'),
         time: dayjs().format('HH:mm'),
       }
-      await dispatch(addComment(addNewComment));
-      await dispatch(deleteDealByID(item._id));
-      await dispatch(getCompanyByIDQuery(query));
-      setDealComment('');
-      onClose();
+      await dispatch(addComment({ comment: addNewComment, entity: entity }));
+      // await dispatch(deleteDealByID(item._id));
+      // await dispatch(getCompanyByIDQuery(query));
+      // setDealComment('');
+      // onClose();
+    } 
+    await dispatch(deleteDealByID(item._id));
+    if (isCarrier) {
+      // console.log('isCarrier')
+      await dispatch(getCarrierByIDQuery(queryForCarrierCard(carrier._id)));
     } else {
-      await dispatch(deleteDealByID(item._id));
       await dispatch(getCompanyByIDQuery(query));
-      setDealComment('');
-      onClose();
     }
+    setDealComment('');
+    onClose();
+    
   }
 
   const keydownHandler = ({ key }: {key: string}) => {

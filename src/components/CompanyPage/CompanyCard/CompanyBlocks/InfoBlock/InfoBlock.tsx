@@ -12,18 +12,25 @@ import { LoaderSmall } from '../../../../UI/LoaderSmall/LoaderSmall';
 import { UserErrorWarning } from '../../../../UI/UserErrorWarning/UserErrorWarning';
 import { IoCreate } from '@react-icons/all-files/io5/IoCreate';
 import { IoCreateOutline } from '@react-icons/all-files/io5/IoCreateOutline';
+import { getCarrierByIDQuery, updateCarrierDescription } from '../../../../../store/reducers/CarrierReducer/CarrierActionCreaters';
+import { queryForCarrierCard } from '../../../../../services/ClientServices/CarrierServices/queryForCarrierCard';
 
 type PopupClick = MouseEvent & {
   path: Node[];
 };
 
-const InfoBlockInner: FC = () => {
+interface IProps {
+  isCarrier?: boolean;
+}
+
+const InfoBlockInner: FC<IProps> = ({isCarrier = false}) => {
+  const { carrier } = useAppSelector(state => state.carrierReducer);
   const { company, companyFirstUser, companyDeals, query, isLoading, error: errorCompany  } = useAppSelector(state => state.companyReducer);
   const { users } = useAppSelector(state => state.userReducer);
   const dispatch = useAppDispatch();
   const [showAddDeal, setShowAddDeal] = useState(false);
   const [showAddDescription, setShowAddDescription] = useState(true);
-  const [companyDescription, setCompanyDescription] = useState<string>(company.description);
+  const [companyDescription, setCompanyDescription] = useState<string>(isCarrier ? carrier.description : company.description);
   const [showUsers, setShowUsers] = useState(false);
   const [usersArray, setUsersArray] = useState<IUser[]>([] as IUser[]);
   const [usersFilter, setUsersFilter] = useState<IUser[]>([] as IUser[]);
@@ -52,9 +59,14 @@ const InfoBlockInner: FC = () => {
   };
 
   const addOrUpdateDescription = async () => {
-    await dispatch(updateCompanyDescription({companyID: company._id, description: companyDescription}));
-    await dispatch(getCompanyByIDQuery(query));
-    setShowAddDescription(true);
+    if (isCarrier) {
+      await dispatch(updateCarrierDescription({carrierID: carrier._id, description: companyDescription}));
+      await dispatch(getCarrierByIDQuery(queryForCarrierCard(carrier._id)));
+    } else {
+      await dispatch(updateCompanyDescription({companyID: company._id, description: companyDescription}));
+      await dispatch(getCompanyByIDQuery(query));
+      setShowAddDescription(true);
+    }
   };
 
   const deleteUserHandler = async (user: IUser) => {
@@ -71,13 +83,16 @@ const InfoBlockInner: FC = () => {
   };
 
   useEffect(() => {
-    if (company.usersID?.length) {
-      setUsersArray([...company.usersID]);
-      const filtered = users.filter((item) => item._id !== companyFirstUser._id);
-      // console.log('first', filtered)
-      setUsersFilter([...filtered])
-    } else {
-      setUsersFilter([...users])
+    if (!isCarrier) {
+      if (company.usersID?.length) {
+        setUsersArray([...company.usersID]);
+        const filtered = users.filter((item) => item._id !== companyFirstUser._id);
+        // console.log('first', filtered)
+        setUsersFilter([...filtered])
+      } else {
+        setUsersFilter([...users])
+      }
+
     }
   }, [company, users]);
 
@@ -102,114 +117,86 @@ const InfoBlockInner: FC = () => {
     <section className='info-block'>
       {errorCompany && <UserErrorWarning/>}
       {isLoading && <LoaderSmall/>}
-      <div className="info-block__title">
-        <div 
-          ref={menuRef}
-          className="info-block__title__user">
-          {(usersArray.length === 1) ? 
-            (usersArray.map(item => 
-            <div key={item._id} className="info-block__title__user__item">
-              <div 
-                style={{'backgroundColor': `${item.avatar}`}}
-                className="avatar">{item.lastname?.[0] + item.firstname?.[0]}</div>
-              <div 
-                onClick={() => setShowUsersInfo(true)}
-                className="name">
-                <span>{item.lastname + ' ' + item.firstname}</span>
-                <span>Ответственный</span>
-              </div>
-              
-            </div>
-            ))
-            : null
-          }
-          {(usersArray.length > 1) ? 
-            (usersArray.map(item => 
-              <div 
-                // onClick={() => setShowUsers(true)}
-                key={item._id} 
-                className="info-block__title__user__item">
+        {isCarrier ? 
+          null
+          :
+          <div className="info-block__title">
+            <div 
+            ref={menuRef}
+            className="info-block__title__user">
+            {(usersArray.length === 1) ? 
+              (usersArray.map(item => 
+              <div key={item._id} className="info-block__title__user__item">
+                <div 
+                  style={{'backgroundColor': `${item.avatar}`}}
+                  className="avatar">{item.lastname?.[0] + item.firstname?.[0]}</div>
                 <div 
                   onClick={() => setShowUsersInfo(true)}
-                  style={{'backgroundColor': `${item.avatar}`}}
-                  className="avatar">
-                    {item.lastname?.[0] + item.firstname?.[0]}
+                  className="name">
+                  <span>{item.lastname + ' ' + item.firstname}</span>
+                  <span>Ответственный</span>
                 </div>
+                
               </div>
-            ))
-            : null
-          }
-
-          {(usersArray.length === 0) ? 
-            <div 
-              onClick={() => setShowUsersInfo(true)}
-              className="info-block__title__user__item">
-                <div className="info-block__title__user__list__no-users">
-                  <IoPersonAdd 
-                    style={{'color': '#a3a3a3'}}
-                    size={20}/>
-                  <span>
-                    Добавить ответственного
-                  </span>
-                  
+              ))
+              : null
+            }
+            {(usersArray.length > 1) ? 
+              (usersArray.map(item => 
+                <div 
+                  // onClick={() => setShowUsers(true)}
+                  key={item._id} 
+                  className="info-block__title__user__item">
+                  <div 
+                    onClick={() => setShowUsersInfo(true)}
+                    style={{'backgroundColor': `${item.avatar}`}}
+                    className="avatar">
+                      {item.lastname?.[0] + item.firstname?.[0]}
+                  </div>
                 </div>
-            </div>
-            : null
-          }
+              ))
+              : null
+            }
 
-          {showUsersInfo ? 
-            <div
-              // ref={menuRef}
-              // onClick={clickHandler}
-              className={'neponatno'}
-              >
+            {(usersArray.length === 0) ? 
+              <div 
+                onClick={() => setShowUsersInfo(true)}
+                className="info-block__title__user__item">
+                  <div className="info-block__title__user__list__no-users">
+                    <IoPersonAdd 
+                      style={{'color': '#a3a3a3'}}
+                      size={20}/>
+                    <span>
+                      Добавить ответственного
+                    </span>
+                    
+                  </div>
+              </div>
+              : null
+            }
+
+            {showUsersInfo ? 
               <div
                 // ref={menuRef}
-                // onClick={(e:React.MouseEvent<HTMLDivElement>) => (e.currentTarget === e.target) && closeHandler()}
                 // onClick={clickHandler}
-                className='info-block__title__user__list'>
-                {/* <IoCloseOutline
-                  className='close'
-                  onClick={closeHandler}
-                  size={20}
-                /> */}
-                <ul>
-                  {usersArray.map(item => 
-                    <li key={item._id}
-                      // onClick={() => userHandler(item)}
-                      >
-                      <div className="user-block">
-                        <div 
-                          style={{'backgroundColor': `${item.avatar}`}}
-                          className="avatar">{item?.lastname?.[0] + item?.firstname?.[0]}</div>
-                        <div className="name">
-                          <span>{item?.lastname + ' ' + item?.firstname}</span>
-                          <span>{item.position}</span>
-                        </div>
-                      </div>
-                      <IoTrash
-                        className='trash'
-                        onClick={() => deleteUserHandler(item)}
-                        style={{'cursor': 'pointer'}}
-                        size={15}/>
-                    </li>
-                  )}
-
-                </ul>
-                <div className="info-block__title__user__list__add">
-                  <IoPersonAdd 
-                    style={{'color': '#a3a3a3'}}
-                    size={20}/>
-                  <span
-                    onClick={() => setShowUsers(true)}
-                    >
-                    Добавить ответственного</span>
-                  {showUsers ? 
-                    <ul className='info-block__title__user__list__add__users'>
-                      {usersFilter.map(item => 
-                        <li key={item._id}
-                          onClick={() => userHandler(item)}
-                          >
+                className={'neponatno'}
+                >
+                <div
+                  // ref={menuRef}
+                  // onClick={(e:React.MouseEvent<HTMLDivElement>) => (e.currentTarget === e.target) && closeHandler()}
+                  // onClick={clickHandler}
+                  className='info-block__title__user__list'>
+                  {/* <IoCloseOutline
+                    className='close'
+                    onClick={closeHandler}
+                    size={20}
+                  /> */}
+                  <ul>
+                    {usersArray.map(item => 
+                      <li key={item._id}
+                        // onClick={() => userHandler(item)}
+                        >
+                        <div className="user-block">
                           <div 
                             style={{'backgroundColor': `${item.avatar}`}}
                             className="avatar">{item?.lastname?.[0] + item?.firstname?.[0]}</div>
@@ -217,34 +204,76 @@ const InfoBlockInner: FC = () => {
                             <span>{item?.lastname + ' ' + item?.firstname}</span>
                             <span>{item.position}</span>
                           </div>
-                        </li>
-                      )}
-                    </ul>
-                    : null
-                  }
+                        </div>
+                        <IoTrash
+                          className='trash'
+                          onClick={() => deleteUserHandler(item)}
+                          style={{'cursor': 'pointer'}}
+                          size={15}/>
+                      </li>
+                    )}
+
+                  </ul>
+                  <div className="info-block__title__user__list__add">
+                    <IoPersonAdd 
+                      style={{'color': '#a3a3a3'}}
+                      size={20}/>
+                    <span
+                      onClick={() => setShowUsers(true)}
+                      >
+                      Добавить ответственного</span>
+                    {showUsers ? 
+                      <ul className='info-block__title__user__list__add__users'>
+                        {usersFilter.map(item => 
+                          <li key={item._id}
+                            onClick={() => userHandler(item)}
+                            >
+                            <div 
+                              style={{'backgroundColor': `${item.avatar}`}}
+                              className="avatar">{item?.lastname?.[0] + item?.firstname?.[0]}</div>
+                            <div className="name">
+                              <span>{item?.lastname + ' ' + item?.firstname}</span>
+                              <span>{item.position}</span>
+                            </div>
+                          </li>
+                        )}
+                      </ul>
+                      : null
+                    }
+                  </div>
                 </div>
               </div>
-            </div>
-            : null
-          }
+              : null
+            }
 
-          {/* <SelectUsers items={users} responsibleUsers={company.usersID}/> */}
-        </div>
-        <DealItem item={companyDeals[0]} fromBlock={true}/>
-        <div className="info-block__title__nitification">
-          {showAddDeal && 
-            <DealCreate onAction={() => setShowAddDeal(false)} position='infoblock'/>
+            {/* <SelectUsers items={users} responsibleUsers={company.usersID}/> */}
+          </div>
+          
+          <DealItem item={companyDeals[0]} fromBlock={true}/>
+          {isCarrier ? 
+            null
+            :
+            <div className="info-block__title__nitification">
+              {showAddDeal && 
+                <DealCreate onAction={() => setShowAddDeal(false)} position='infoblock'/>
+              }
+              <span
+                style={{'cursor': 'pointer'}}
+                onClick={() => setShowAddDeal(true)}>
+                + Дело</span>
+            </div>
           }
-          <span
-            style={{'cursor': 'pointer'}}
-            onClick={() => setShowAddDeal(true)}>
-            + Дело</span>
         </div>
-      </div>
+      }
+      
       <div className="info-block__description">
         {showAddDescription ? 
           <>
-            <span>{company.description ? company.description : 'Введите описание компании'}</span>
+            {isCarrier ? 
+              <span>{carrier.description ? carrier.description : 'Введите описание компании'}</span>
+              :
+              <span>{company.description ? company.description : 'Введите описание компании'}</span>
+            }
             <IoCreateOutline 
               style={{cursor: 'pointer', flexShrink: '0'}}
               onClick={() => {

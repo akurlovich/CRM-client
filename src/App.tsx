@@ -1,5 +1,6 @@
 import React, { FC, useEffect } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
+import { CarriersMain } from './components/CarriersPage/CarriersMain';
 import { Company } from './components/CompanyPage/Companies';
 import { CompanyCard } from './components/CompanyPage/CompanyCard/CompanyCard';
 import DealForDay from './components/DealsPage/DealsForDay/DealForDay';
@@ -14,6 +15,7 @@ import { UserRegistration } from './components/UserRegistration/UserRegistration
 import { useAppDispatch, useAppSelector } from './hooks/redux';
 import './scss/app.scss';
 import { checkAuth } from './store/reducers/AuthReducer/AuthActionCreatores';
+import { CarrierCard } from './components/CarriersPage/CarrierCard/CarrierCard';
 
 const App: FC = () => {
   const { user } = useAppSelector(state => state.authReducer);
@@ -66,6 +68,8 @@ const App: FC = () => {
           <Route path="companies" element={<Company/>}/>
           <Route path="companies/:id" element={<CompanyCard/>}/>
           <Route path="orders" element={<OrdersMain/>}/>
+          <Route path="carriers" element={<CarriersMain/>}/>
+          <Route path="carriers/:id" element={<CarrierCard/>}/>
           <Route path="deals" element={<DealsMain/>}/>
           <Route path="deals/:date" element={<DealForDay/>}/>
         </Route>

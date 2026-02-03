@@ -36,11 +36,11 @@ interface IQuery {
 
 export interface ICompaniesQuery {
   query: IQuery[],
-  sort: {
+  sort?: {
     [key: string]: 'asc' | 'desc',
   },
   page?: number,
-  limit: number,
+  limit?: number,
   find?: {
     [key: string]: string,
     // key: any

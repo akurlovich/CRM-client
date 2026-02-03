@@ -68,6 +68,7 @@ const dealSlice = createSlice({
       })
       .addCase(getDealsWithQuery.fulfilled, (state, action: PayloadAction<IDeal[]>) => {
         state.isLoading = false;
+        // console.log(action.payload)
         state.dealsWithQuery = action.payload;
       })
       .addCase(getDealsWithQuery.rejected, (state, action) => {
@@ -80,6 +81,7 @@ const dealSlice = createSlice({
       })
       .addCase(getAllDealsByUserQuery.fulfilled, (state, action: PayloadAction<IDeal[]>) => {
         state.isLoading = false;
+        // console.log(action.payload)
         state.dealsByUserQuery = action.payload;
       })
       .addCase(getAllDealsByUserQuery.rejected, (state, action) => {

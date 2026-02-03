@@ -167,7 +167,7 @@ const companySlice = createSlice({
         if (action.payload) {
           state.company = action.payload;
     //TODO добавить сортироваку дел по endTime, первое в массие - первое на выполнение
-          console.log(action.payload)
+          // console.log(action.payload)
           
           state.companyDeals = action.payload.dealsID.sort((a, b) => {
             let fa = a.monthEnd;
@@ -185,6 +185,7 @@ const companySlice = createSlice({
           state.companyUsers = action.payload.usersID;
           state.companyFirstUser = action.payload.usersID[0];
           state.companyComments = action.payload.commentsID.reverse();
+          // console.log('comments', action.payload.commentsID.reverse())
           state.companyOrders = action.payload.ordersID.sort((a, b) => {
             let fa = a.createdAt;
             let fb = b.createdAt;

@@ -1,12 +1,13 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import PhoneService from "../../../services/PhoneService";
 import { IPhoneNewAddContacts, IPhoneUpdate } from "../../../types/IPhone";
+import { IEntity } from "../../../types/IComment";
 
 export const addPhone = createAsyncThunk(
   'PHONE/addPhone',
-  async (phone: IPhoneNewAddContacts, {rejectWithValue}) => {
+  async (data: { phone: IPhoneNewAddContacts, entity: IEntity}, {rejectWithValue}) => {
     try {
-      return await (await PhoneService.addPhone(phone)).data;
+      return await (await PhoneService.addPhone(data)).data;
     } catch (error: any) {
       return rejectWithValue(error.message)
     }
@@ -39,9 +40,9 @@ export const getAllPhones = createAsyncThunk(
 
 export const updatePhoneByID = createAsyncThunk(
   'PHONE/updatePhoneByID',
-  async ( data: {phoneID: string, phone: IPhoneUpdate}, {rejectWithValue}) => {
+  async ( data: {phoneID: string, phone: IPhoneUpdate, entity: IEntity}, {rejectWithValue}) => {
     try {
-      return await (await PhoneService.updatePhoneByID(data.phoneID, data.phone)).data;
+      return await (await PhoneService.updatePhoneByID(data)).data;
       
     } catch (error: any) {
       return rejectWithValue(error.message)

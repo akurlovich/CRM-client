@@ -10,15 +10,20 @@ import { getCompanyByIDQuery } from '../../../../../store/reducers/CompanyReduce
 import { deletePhoneFromContactByPhoneID } from '../../../../../store/reducers/ContactReducer/ContactActionCreators';
 import { addPhone, updatePhoneByID, updatePhoneIsActive } from '../../../../../store/reducers/PhoneReducer/PhoneActionCreators';
 import { ICompaniesQuery } from '../../../../../types/ICompany';
-import { IPhone, IPhoneNewAddContacts } from '../../../../../types/IPhone';
+import { IPhone, IPhoneNewAddContacts, IPhoneUpdate } from '../../../../../types/IPhone';
 import { UserErrorWarning } from '../../../../UI/UserErrorWarning/UserErrorWarning';
+import { IEntity } from '../../../../../types/IComment';
+import { getCarrierByIDQuery } from '../../../../../store/reducers/CarrierReducer/CarrierActionCreaters';
+import { queryForCarrierCard } from '../../../../../services/ClientServices/CarrierServices/queryForCarrierCard';
 
-// interface IProps {
-//   items: IPhone[];
-//   query: ICompaniesQuery;
-// }
+interface IProps {
+  isCarrier?: boolean;
+};
+
 //TODO   сделать возможность изменять цвет иконок через css variables
-const ContactsPhonesInner: FC = ({}) => {
+const ContactsPhonesInner: FC<IProps> = ({isCarrier = false}) => {
+  // const { user } = useAppSelector(state => state.authReducer);
+  const { carrier } = useAppSelector(state => state.carrierReducer);
   const { company, query } = useAppSelector(state => state.companyReducer);
   const { error: errorPhone } = useAppSelector(state => state.phoneReducer);
 
@@ -28,9 +33,9 @@ const ContactsPhonesInner: FC = ({}) => {
 
   const [showAddInputs, setShowAddInputs] = useState(false);
 
-  const [addPhoneAndUpdateContact, setAddPhoneAndUpdateContact] = useState<IPhoneNewAddContacts>({ contactID: company.contactID?._id, 
+  const [addPhoneAndUpdateContact, setAddPhoneAndUpdateContact] = useState<IPhoneNewAddContacts>({ contactID: isCarrier ? carrier.contactID?._id : company.contactID?._id, 
     phone: { 
-      companyID: company._id, 
+      companyID: isCarrier ? carrier._id : company._id, 
       number: '', 
       description: ''
     }} as IPhoneNewAddContacts);
@@ -51,18 +56,25 @@ const ContactsPhonesInner: FC = ({}) => {
   };
 
   const updatePhoneHandler = async () => {
+    const entity: IEntity = isCarrier ? 'carrier' : 'company';
     const phone = {
       phoneID: showUpdateInput.itemID, 
       phone: {
         number: addPhoneAndUpdateContact.phone.number, 
         description: addPhoneAndUpdateContact.phone.description
-    }};
+      },
+      entity: entity,
+    };
 
     // console.log(phone)
     
     await dispatch(updatePhoneByID(phone));
-    console.log(query)
-    await dispatch(getCompanyByIDQuery(query));
+    // console.log(query)
+    if (isCarrier) {
+      await dispatch(getCarrierByIDQuery(queryForCarrierCard(carrier._id)));
+    } else {
+      await dispatch(getCompanyByIDQuery(query));
+    }
     // await dispatch(getAllPhones());
     setShowUpdateInput({show: false, itemID: ''});
   };
@@ -81,9 +93,14 @@ const ContactsPhonesInner: FC = ({}) => {
   };
 
   const deletePhoneHandler = async (id: string) => {
+    const entity: IEntity = isCarrier ? 'carrier' : 'company';
     if (window.confirm("Удалить контакт?")) {
       await dispatch(deletePhoneFromContactByPhoneID(id));
-      await dispatch(getCompanyByIDQuery(query));
+      if (isCarrier) {
+        await dispatch(getCarrierByIDQuery(queryForCarrierCard(carrier._id)));
+      } else {
+        await dispatch(getCompanyByIDQuery(query));
+      }
     }
   };
 
@@ -103,8 +120,15 @@ const ContactsPhonesInner: FC = ({}) => {
     const result = addPhoneAndUpdateContact.phone.number.replace(/[^+\d]/g, '')
     
     // console.log(addPhoneAndUpdateContact)
-    await dispatch(addPhone(addPhoneAndUpdateContact));
-    await dispatch(getCompanyByIDQuery(query));
+    const entity: IEntity = isCarrier ? 'carrier' : 'company';
+
+    await dispatch(addPhone({phone: addPhoneAndUpdateContact, entity: entity}));
+
+    if (isCarrier) {
+      await dispatch(getCarrierByIDQuery(queryForCarrierCard(carrier._id)));
+    } else {
+      await dispatch(getCompanyByIDQuery(query));
+    }
     //  +375(sdfs)-sdf-555
     setShowAddInputs(false);
   };
@@ -188,7 +212,9 @@ const ContactsPhonesInner: FC = ({}) => {
           size={20}/>
       </div>
 
-      {company.contactID ? company.contactID.phonesID.map(item => (
+      {isCarrier ? 
+      
+      (carrier.contactID ? carrier.contactID.phonesID.map(item => (
         <div key={item._id} className="data">
           {showUpdateInput.itemID === item._id ? 
             <div className="contactsblock__contacts__inputs update">
@@ -254,7 +280,77 @@ const ContactsPhonesInner: FC = ({}) => {
           }
         </div>
         )) : null
+      )
+      :
+      (company.contactID ? company.contactID.phonesID.map(item => (
+        <div key={item._id} className="data">
+          {showUpdateInput.itemID === item._id ? 
+            <div className="contactsblock__contacts__inputs update">
+              <input 
+                value={addPhoneAndUpdateContact.phone.number}
+                onChange={addOrUpdateInputsHandler}
+                // onKeyDown={onKeyDown}
+                type="text"
+                autoFocus 
+                name="phone.number.update" 
+                placeholder='+37544-254-56-87'/>
+              <input
+                value={addPhoneAndUpdateContact.phone.description}
+                onChange={addOrUpdateInputsHandler}
+                type="text" 
+                name="phone.description.update" 
+                placeholder='комментарий'/>
+              <button
+                className='add-btn'
+                onClick={updatePhoneHandler}>
+                Изменить
+              </button>
+              <button
+                className='cansel-btn'
+                onClick={() => setShowUpdateInput({show: false, itemID: ''})}>
+                Отмена
+              </button>
+            </div>
+            :
+            <div className="text">
+              <span className={item.isActive ? 'span-number active' : 'span-number'}>{validPhone(item.number)}</span>
+              <span>{item.description}</span>
+            </div>
+          }
+          {showUpdateInput.itemID === item._id ? null :
+            <div className="icons">
+              {item.isActive ? 
+                <IoStarSharp
+                onClick={() => updateIsActiveHandler(item._id, false)}
+                  style={{cursor: 'pointer'}}
+                  size={20}
+                  color={'#ffd451'}
+                />
+                :
+                <IoStarOutline
+                  onClick={() => updateIsActiveHandler(item._id, true)}
+                  style={{cursor: 'pointer'}}
+                  size={20}
+                />
+              }
+              <IoPencil 
+                style={{cursor: 'pointer'}}
+                onClick={() => updateShowPhoneHandler(true, item._id, item.number, item.description)}
+                size={20}
+                color={'#b4cb4c'}/>
+              <IoTrashOutline
+                onClick={() => deletePhoneHandler(item._id)}
+                style={{cursor: 'pointer'}}
+                size={20}
+                // color={'#c02525'}
+                />
+            </div>
+          }
+        </div>
+        )) : null
+      )
       }
+
 
       {showAddInputs && 
         <div className="contactsblock__contacts__inputs">
